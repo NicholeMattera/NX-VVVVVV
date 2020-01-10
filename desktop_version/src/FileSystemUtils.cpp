@@ -14,7 +14,7 @@
 #include <shlobj.h>
 #define mkdir(a, b) CreateDirectory(a, NULL)
 #define VNEEDS_MIGRATION (mkdirResult != 0)
-#elif defined(__linux__) || defined(__APPLE__)
+#elif defined(__linux__) || defined(__APPLE__) || defined(__SWITCH__)
 #include <sys/stat.h>
 #include <limits.h>
 #define VNEEDS_MIGRATION (mkdirResult == 0)
@@ -159,6 +159,8 @@ void PLATFORM_getOSDirectory(char* output)
 #elif defined(_WIN32)
 	SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, output);
 	strcat(output, "\\VVVVVV\\");
+#elif defined(__SWITCH__)
+	strcat(output, "sdmc:/switch/VVVVVV/");
 #else
 #error See PLATFORM_getOSDirectory
 #endif
@@ -166,9 +168,12 @@ void PLATFORM_getOSDirectory(char* output)
 
 void PLATFORM_migrateSaveData(char* output)
 {
+#if !defined(__SWITCH__)
 	char oldLocation[MAX_PATH];
 	char newLocation[MAX_PATH];
 	char oldDirectory[MAX_PATH];
+#endif
+
 #if defined(__linux__) || defined(__APPLE__)
 	DIR *dir = NULL;
 	struct dirent *de = NULL;
@@ -322,6 +327,8 @@ void PLATFORM_migrateSaveData(char* output)
 			PLATFORM_copyFile(oldLocation, newLocation);
 		}
 	} while (FindNextFile(hFind, &findHandle));
+#elif defined(__SWITCH__)
+	/* No Migration needed. */
 #else
 #error See PLATFORM_migrateSaveData
 #endif
