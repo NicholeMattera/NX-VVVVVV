@@ -44,8 +44,8 @@ DATA		:=	data
 INCLUDES	:=	tinyxml physfs lodepng
 
 APP_TITLE	:= VVVVVV
-APP_AUTHOR	:= Terry Cavanagh
-APP_VERSION	:= 2.2.0
+APP_AUTHOR	:= Terry Cavanagh (Ported By Nichole Mattera)
+APP_VERSION	:= 2.2 (1.0.0)
 
 #---------------------------------------------------------------------------------
 # options for code generation
