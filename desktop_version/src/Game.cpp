@@ -6784,17 +6784,17 @@ void Game::createmenu( std::string t )
             menuoptionsactive[3] = true;
             nummenuoptions = 4;
         #else
-        menuoptions[0] = "toggle fullscreen";
-        menuoptionsactive[0] = true;
-        menuoptions[1] = "toggle letterbox";
-        menuoptionsactive[1] = true;
-        menuoptions[2] = "toggle filter";
-        menuoptionsactive[2] = true;
-        menuoptions[3] = "toggle analogue";
-        menuoptionsactive[3] = true;
-        menuoptions[4] = "return";
-        menuoptionsactive[4] = true;
-        nummenuoptions = 5;
+            menuoptions[0] = "toggle fullscreen";
+            menuoptionsactive[0] = true;
+            menuoptions[1] = "toggle letterbox";
+            menuoptionsactive[1] = true;
+            menuoptions[2] = "toggle filter";
+            menuoptionsactive[2] = true;
+            menuoptions[3] = "toggle analogue";
+            menuoptionsactive[3] = true;
+            menuoptions[4] = "return";
+            menuoptionsactive[4] = true;
+            nummenuoptions = 5;
         #endif
         menuxoff = -50;
         menuyoff = 8;
@@ -7059,6 +7059,16 @@ void Game::createmenu( std::string t )
         menuyoff = 64;
     }
     else if (t == "credits25")
+    {
+        menuoptions[0] = "next page";
+        menuoptionsactive[0] = true;
+        menuoptions[1] = "return";
+        menuoptionsactive[1] = true;
+        nummenuoptions = 2;
+        menuxoff = 20;
+        menuyoff = 64;
+    }
+    else if (t == "credits275")
     {
         menuoptions[0] = "next page";
         menuoptionsactive[0] = true;

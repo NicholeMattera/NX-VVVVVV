@@ -428,45 +428,45 @@ SDL_assert(0 && "Remove open level dir");
                     #if defined(__SWITCH__)
                         if (game.currentmenuoption == 0)
                         {
-                    music.playef(11, 10);
-                    dwgfx.screenbuffer->toggleStretchMode();
-                    music.playef(11, 10);
-                    game.stretchMode = (game.stretchMode + 1) % 3;
-                    updategraphicsmode(game, dwgfx);
-                    game.savestats(map, dwgfx);
-                    game.createmenu("graphicoptions");
+                            music.playef(11, 10);
+                            dwgfx.screenbuffer->toggleStretchMode();
+                            music.playef(11, 10);
+                            game.stretchMode = (game.stretchMode + 1) % 3;
+                            updategraphicsmode(game, dwgfx);
+                            game.savestats(map, dwgfx);
+                            game.createmenu("graphicoptions");
                             game.currentmenuoption = 0;
                         }
                         else if (game.currentmenuoption == 1)
                         {
-                    music.playef(11, 10);
-                    dwgfx.screenbuffer->toggleLinearFilter();
-                    music.playef(11, 10);
-                    game.useLinearFilter = !game.useLinearFilter;
-                    updategraphicsmode(game, dwgfx);
-                    game.savestats(map, dwgfx);
-                    game.createmenu("graphicoptions");
+                            music.playef(11, 10);
+                            dwgfx.screenbuffer->toggleLinearFilter();
+                            music.playef(11, 10);
+                            game.useLinearFilter = !game.useLinearFilter;
+                            updategraphicsmode(game, dwgfx);
+                            game.savestats(map, dwgfx);
+                            game.createmenu("graphicoptions");
                             game.currentmenuoption = 1;
                         }
                         else if (game.currentmenuoption == 2)
                         {
-                      //change smoothing
-                      music.playef(11, 10);
-                      game.fullScreenEffect_badSignal = !game.fullScreenEffect_badSignal;
-                      //Hook the analogue thing in here: ABCDEFG
-                      updategraphicsmode(game, dwgfx);
-					  dwgfx.screenbuffer->badSignalEffect= !dwgfx.screenbuffer->badSignalEffect;
-                      game.savestats(map, dwgfx);
-                      game.createmenu("graphicoptions");
+                            //change smoothing
+                            music.playef(11, 10);
+                            game.fullScreenEffect_badSignal = !game.fullScreenEffect_badSignal;
+                            //Hook the analogue thing in here: ABCDEFG
+                            updategraphicsmode(game, dwgfx);
+                            dwgfx.screenbuffer->badSignalEffect= !dwgfx.screenbuffer->badSignalEffect;
+                            game.savestats(map, dwgfx);
+                            game.createmenu("graphicoptions");
                             game.currentmenuoption = 2;
-                  }
-                  else
-                  {
-                      //back
-                      music.playef(11, 10);
-                      game.createmenu("mainmenu");
-                      map.nexttowercolour();
-                  }
+                        }
+                        else
+                        {
+                            //back
+                            music.playef(11, 10);
+                            game.createmenu("mainmenu");
+                            map.nexttowercolour();
+                        }
                     #else
                         if (game.currentmenuoption == 0)
                         {
@@ -521,7 +521,7 @@ SDL_assert(0 && "Remove open level dir");
                             map.nexttowercolour();
                         }
                     #endif
-                    }
+                }
                 else if (game.currentmenuname == "youwannaquit")
                 {
                     if (game.currentmenuoption == 0)
@@ -989,6 +989,29 @@ SDL_assert(0 && "Remove open level dir");
                     }
                 }
                 else if (game.currentmenuname == "credits25")
+                {
+                    if (game.currentmenuoption == 0)
+                    {
+                        //next page
+                        music.playef(11, 10);
+
+                        #if defined(__SWITCH__)
+                            game.createmenu("credits275");
+                        #else
+                            game.createmenu("credits3");
+                        #endif
+                        
+                        map.nexttowercolour();
+                    }
+                    else
+                    {
+                        //back
+                        music.playef(11, 10);
+                        game.createmenu("mainmenu");
+                        map.nexttowercolour();
+                    }
+                }
+                else if (game.currentmenuname == "credits275")
                 {
                     if (game.currentmenuoption == 0)
                     {
@@ -2405,19 +2428,35 @@ void gamecompleteinput(KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map,
     if (key.isDown(KEYBOARD_z) || key.isDown(KEYBOARD_SPACE) || key.isDown(KEYBOARD_v) || key.isDown(game.controllerButton_flip))
     {
         game.creditposition -= 6;
-        if (game.creditposition <= -1650)
-        {
-            if(dwgfx.fademode==0)
+        #if defined(__SWITCH__)
+            if (game.creditposition <= -1690)
             {
-                dwgfx.fademode = 2;
+                if(dwgfx.fademode==0)
+                {
+                    dwgfx.fademode = 2;
+                }
+                game.creditposition = -1690;
             }
-            game.creditposition = -1650;
-        }
-        else
-        {
-            map.bypos += 6;
-            map.bscroll = +6;
-        }
+            else
+            {
+                map.bypos += 6;
+                map.bscroll = +6;
+            }
+        #else
+            if (game.creditposition <= -1650)
+            {
+                if(dwgfx.fademode==0)
+                {
+                    dwgfx.fademode = 2;
+                }
+                game.creditposition = -1650;
+            }
+            else
+            {
+                map.bypos += 6;
+                map.bscroll = +6;
+            }
+        #endif
         game.press_action = true;
     }
     if (key.isDown(KEYBOARD_ENTER)|| key.isDown(game.controllerButton_map)) game.press_map = true;

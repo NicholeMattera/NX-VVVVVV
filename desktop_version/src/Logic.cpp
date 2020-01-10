@@ -53,16 +53,29 @@ void gamecompletelogic(Graphics& dwgfx, Game& game, entityclass& obj,  musicclas
     map.tdrawback = true;
 
     game.creditposition--;
-    if (game.creditposition <= -1650)
-    {
-        game.creditposition = -1650;
-        map.bscroll = 0;
-    }
-    else
-    {
-        map.bypos += 1;
-        map.bscroll = +1;
-    }
+    #if defined(__SWITCH__)
+        if (game.creditposition <= -1690)
+        {
+            game.creditposition = -1690;
+            map.bscroll = 0;
+        }
+        else
+        {
+            map.bypos += 1;
+            map.bscroll = +1;
+        }
+    #else
+        if (game.creditposition <= -1650)
+        {
+            game.creditposition = -1650;
+            map.bscroll = 0;
+        }
+        else
+        {
+            map.bypos += 1;
+            map.bscroll = +1;
+        }
+    #endif
 
     if (dwgfx.fademode == 1)
     {
