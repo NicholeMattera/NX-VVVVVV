@@ -1288,7 +1288,27 @@ SDL_assert(0 && "Remove open level dir");
 						}
 					}
 
-					if (game.currentmenuoption == 4)
+                    if (game.currentmenuoption == 4)
+                    {
+                        game.controllerButton_flip.clear();
+                        #if defined(__SWITCH__)
+                            game.controllerButton_flip.push_back(SDL_CONTROLLER_BUTTON_B);
+                        #else
+                            game.controllerButton_flip.push_back(SDL_CONTROLLER_BUTTON_A);
+                        #endif
+
+                        game.controllerButton_map.clear();
+                        game.controllerButton_map.push_back(SDL_CONTROLLER_BUTTON_Y);
+
+                        game.controllerButton_esc.clear();
+                        #if defined(__SWITCH__)
+                            game.controllerButton_esc.push_back(SDL_CONTROLLER_BUTTON_START);
+                        #else
+                            game.controllerButton_esc.push_back(SDL_CONTROLLER_BUTTON_B);
+                        #endif
+                    }
+
+					if (game.currentmenuoption == 5)
 					{
 						game.createmenu("options");
 
@@ -1640,6 +1660,7 @@ SDL_assert(0 && "Remove open level dir");
                 }
             }
         }
+
         if (    game.currentmenuname == "controller" &&
                 game.currentmenuoption > 0 &&
                 game.currentmenuoption < 4 &&
@@ -1647,7 +1668,6 @@ SDL_assert(0 && "Remove open level dir");
         {
             updatebuttonmappings(game, key, music, game.currentmenuoption);
         }
-
     }
 
     if (dwgfx.fademode == 1)

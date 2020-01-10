@@ -4403,7 +4403,11 @@ void Game::loadstats( mapclass& map, Graphics& dwgfx )
 
     if (controllerButton_flip.size() < 1)
     {
-        controllerButton_flip.push_back(SDL_CONTROLLER_BUTTON_A);
+        #if defined(__SWITCH__)
+            controllerButton_flip.push_back(SDL_CONTROLLER_BUTTON_B);
+        #else
+            controllerButton_flip.push_back(SDL_CONTROLLER_BUTTON_A);
+        #endif
     }
     if (controllerButton_map.size() < 1)
     {
@@ -4411,7 +4415,11 @@ void Game::loadstats( mapclass& map, Graphics& dwgfx )
     }
     if (controllerButton_esc.size() < 1)
     {
-        controllerButton_esc.push_back(SDL_CONTROLLER_BUTTON_B);
+        #if defined(__SWITCH__)
+            controllerButton_esc.push_back(SDL_CONTROLLER_BUTTON_START);
+        #else
+            controllerButton_esc.push_back(SDL_CONTROLLER_BUTTON_B);
+        #endif
     }
 }
 
@@ -6968,11 +6976,13 @@ void Game::createmenu( std::string t )
 		menuoptionsactive[2] = true;
 		menuoptions[3] = "bind menu";
 		menuoptionsactive[3] = true;
-		menuoptions[4] = "return";
+		menuoptions[4] = "reset bindings";
 		menuoptionsactive[4] = true;
-		nummenuoptions = 5;
+		menuoptions[5] = "return";
+		menuoptionsactive[5] = true;
+		nummenuoptions = 6;
 		menuxoff = -40;
-		menuyoff = 10;
+		menuyoff = 0;
 	}
     else if (t == "cleardatamenu")
     {
@@ -7616,7 +7626,7 @@ void Game::deletequick()
         }
     #else
         if(remove("qsave.vvv") != 0) {
-        printf("Error deleting file\n");
+            printf("Error deleting file\n");
         }
     #endif
 
@@ -7632,7 +7642,7 @@ void Game::deletetele()
         }
     #else
         if(remove("tsave.vvv") != 0) {
-        printf("Error deleting file\n");
+            printf("Error deleting file\n");
         }
     #endif
 

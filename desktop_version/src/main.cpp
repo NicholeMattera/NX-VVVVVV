@@ -1,7 +1,7 @@
 #if defined(__SWITCH__)
-#include <SDL2/SDL.h>
+    #include <SDL2/SDL.h>
 #else
-#include <SDL.h>
+    #include <SDL.h>
 #endif
 #include "SoundSystem.h"
 
@@ -241,7 +241,7 @@ int main(int argc, char *argv[])
     volatile Uint32 time, timePrev = 0;
     game.infocus = true;
     key.isActive = true;
-
+    
     while(!key.quitProgram)
     {
 		//gameScreen.ClearScreen(0x00);
