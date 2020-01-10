@@ -7610,8 +7610,15 @@ void Game::createmenu( std::string t )
 
 void Game::deletequick()
 {
-    if( remove( "qsave.vvv" ) != 0 )
+    #if defined(__SWITCH__)
+        if(remove("sdmc:/switch/VVVVVV/saves/qsave.vvv") != 0) {
+            printf("Error deleting file\n");
+        }
+    #else
+        if(remove("qsave.vvv") != 0) {
         printf("Error deleting file\n");
+        }
+    #endif
 
     quicksummary = "";
     quickcookieexists = false;
@@ -7619,8 +7626,15 @@ void Game::deletequick()
 
 void Game::deletetele()
 {
-    if( remove( "tsave.vvv" ) != 0 )
+    #if defined(__SWITCH__)
+        if(remove("sdmc:/switch/VVVVVV/saves/tsave.vvv") != 0) {
+            printf("Error deleting file\n");
+        }
+    #else
+        if(remove("tsave.vvv") != 0) {
         printf("Error deleting file\n");
+        }
+    #endif
 
     telesummary = "";
     telecookieexists = false;
