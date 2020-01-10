@@ -36,8 +36,8 @@ Screen::Screen()
 	// SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, "software", SDL_HINT_OVERRIDE);
 	#if defined(__SWITCH__)
 		SDL_CreateWindowAndRenderer(
-			1280,
-			720,
+			1920,
+			1080,
 			SDL_WINDOW_FULLSCREEN,
 			&m_window,
 			&m_renderer
@@ -101,18 +101,18 @@ Screen::Screen()
 
 void Screen::ResizeScreen(int x , int y)
 {
-	static int resX = 320;
-	static int resY = 240;
-	if (x != -1 && y != -1)
-	{
-		// This is a user resize!
-		resX = x;
-		resY = y;
-	}
-
 	#if defined(__SWITCH__)
 		SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
 	#else
+		static int resX = 320;
+		static int resY = 240;
+		if (x != -1 && y != -1)
+		{
+			// This is a user resize!
+			resX = x;
+			resY = y;
+		}
+
 		if(!isWindowed)
 		{
 			SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
