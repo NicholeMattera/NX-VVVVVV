@@ -425,16 +425,9 @@ SDL_assert(0 && "Remove open level dir");
                 }
                 else if (game.currentmenuname == "graphicoptions")
                 {
-                  if (game.currentmenuoption == 0){
-                    music.playef(11, 10);
-                    dwgfx.screenbuffer->toggleFullScreen();
-                    music.playef(11, 10);
-                    game.fullscreen = !game.fullscreen;
-                    updategraphicsmode(game, dwgfx);
-                    game.savestats(map, dwgfx);
-                    game.createmenu("graphicoptions");
-                    game.currentmenuoption = 0;
-                  }else if (game.currentmenuoption == 1){
+                    #if defined(__SWITCH__)
+                        if (game.currentmenuoption == 0)
+                        {
                     music.playef(11, 10);
                     dwgfx.screenbuffer->toggleStretchMode();
                     music.playef(11, 10);
@@ -442,8 +435,10 @@ SDL_assert(0 && "Remove open level dir");
                     updategraphicsmode(game, dwgfx);
                     game.savestats(map, dwgfx);
                     game.createmenu("graphicoptions");
-                    game.currentmenuoption = 1;
-                  }else if (game.currentmenuoption == 2){
+                            game.currentmenuoption = 0;
+                        }
+                        else if (game.currentmenuoption == 1)
+                        {
                     music.playef(11, 10);
                     dwgfx.screenbuffer->toggleLinearFilter();
                     music.playef(11, 10);
@@ -451,8 +446,10 @@ SDL_assert(0 && "Remove open level dir");
                     updategraphicsmode(game, dwgfx);
                     game.savestats(map, dwgfx);
                     game.createmenu("graphicoptions");
-                    game.currentmenuoption = 2;
-                  }else if (game.currentmenuoption == 3){
+                            game.currentmenuoption = 1;
+                        }
+                        else if (game.currentmenuoption == 2)
+                        {
                       //change smoothing
                       music.playef(11, 10);
                       game.fullScreenEffect_badSignal = !game.fullScreenEffect_badSignal;
@@ -461,7 +458,7 @@ SDL_assert(0 && "Remove open level dir");
 					  dwgfx.screenbuffer->badSignalEffect= !dwgfx.screenbuffer->badSignalEffect;
                       game.savestats(map, dwgfx);
                       game.createmenu("graphicoptions");
-                      game.currentmenuoption = 3;
+                            game.currentmenuoption = 2;
                   }
                   else
                   {
@@ -470,53 +467,36 @@ SDL_assert(0 && "Remove open level dir");
                       game.createmenu("mainmenu");
                       map.nexttowercolour();
                   }
-
-                  /* //Old stuff
-                    if (game.advanced_mode)
-                    {
+                    #else
                         if (game.currentmenuoption == 0)
                         {
-                            //toggle fullscreen
+                            music.playef(11, 10);
                             dwgfx.screenbuffer->toggleFullScreen();
                             music.playef(11, 10);
-                            if (game.fullscreen)
-                            {
-                                game.fullscreen = false;
-                            }
-                            else
-                            {
-                                game.fullscreen = true;
-                            }
+                            game.fullscreen = !game.fullscreen;
                             updategraphicsmode(game, dwgfx);
                             game.savestats(map, dwgfx);
                             game.createmenu("graphicoptions");
+                            game.currentmenuoption = 0;
                         }
                         else if (game.currentmenuoption == 1)
                         {
-                            //enable acceleration: if in fullscreen, go back to window first
                             music.playef(11, 10);
-                            game.advanced_mode = false;
-                            if (game.fullscreen)
-                            {
-                                game.fullscreen = false;
-                                updategraphicsmode(game, dwgfx);
-                                game.fullscreen = true;
-                            }
+                            dwgfx.screenbuffer->toggleStretchMode();
+                            music.playef(11, 10);
+                            game.stretchMode = (game.stretchMode + 1) % 3;
                             updategraphicsmode(game, dwgfx);
-
                             game.savestats(map, dwgfx);
                             game.createmenu("graphicoptions");
                             game.currentmenuoption = 1;
                         }
                         else if (game.currentmenuoption == 2)
                         {
-                            //change scaling mode
                             music.playef(11, 10);
-                            game.advanced_scaling = (game.advanced_scaling + 1) % 5;
-                            dwgfx.screenbuffer->ResizeScreen(320 *game.advanced_scaling,240*game.advanced_scaling );
-                            dwgfx.screenbuffer->SetScale(game.advanced_scaling);
+                            dwgfx.screenbuffer->toggleLinearFilter();
+                            music.playef(11, 10);
+                            game.useLinearFilter = !game.useLinearFilter;
                             updategraphicsmode(game, dwgfx);
-
                             game.savestats(map, dwgfx);
                             game.createmenu("graphicoptions");
                             game.currentmenuoption = 2;
@@ -525,9 +505,10 @@ SDL_assert(0 && "Remove open level dir");
                         {
                             //change smoothing
                             music.playef(11, 10);
-                            game.advanced_smoothing = !game.advanced_smoothing;
+                            game.fullScreenEffect_badSignal = !game.fullScreenEffect_badSignal;
+                            //Hook the analogue thing in here: ABCDEFG
                             updategraphicsmode(game, dwgfx);
-
+                            dwgfx.screenbuffer->badSignalEffect= !dwgfx.screenbuffer->badSignalEffect;
                             game.savestats(map, dwgfx);
                             game.createmenu("graphicoptions");
                             game.currentmenuoption = 3;
@@ -539,54 +520,8 @@ SDL_assert(0 && "Remove open level dir");
                             game.createmenu("mainmenu");
                             map.nexttowercolour();
                         }
+                    #endif
                     }
-                    else
-                    {
-                        if (game.currentmenuoption == 0)
-                        {
-                            dwgfx.screenbuffer->toggleFullScreen();
-                            //toggle fullscreen
-                            music.playef(11, 10);
-                            if (game.fullscreen)
-                            {
-                                game.fullscreen = false;
-                            }
-                            else
-                            {
-                                game.fullscreen = true;
-                            }
-                            updategraphicsmode(game, dwgfx);
-
-                            game.savestats(map, dwgfx);
-                            game.createmenu("graphicoptions");
-                        }
-                        else if (game.currentmenuoption == 1)
-                        {
-                            //disable acceleration: if in fullscreen, go back to window first
-                            music.playef(11, 10);
-                            game.advanced_mode = true;
-                            if (game.fullscreen)
-                            {
-                                game.fullscreen = false;
-                                updategraphicsmode(game, dwgfx);
-                                game.fullscreen = true;
-                            }
-                            updategraphicsmode(game, dwgfx);
-
-                            game.savestats(map, dwgfx);
-                            game.createmenu("graphicoptions");
-                            game.currentmenuoption = 1;
-                        }
-                        else
-                        {
-                            //back
-                            music.playef(11, 10);
-                            game.createmenu("mainmenu");
-                            map.nexttowercolour();
-                        }
-                    }
-                    */
-                }
                 else if (game.currentmenuname == "youwannaquit")
                 {
                     if (game.currentmenuoption == 0)

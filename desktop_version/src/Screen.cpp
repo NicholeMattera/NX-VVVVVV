@@ -34,36 +34,46 @@ Screen::Screen()
 
 	// Uncomment this next line when you need to debug -flibit
 	// SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, "software", SDL_HINT_OVERRIDE);
-	SDL_CreateWindowAndRenderer(
-		640,
-		480,
-		SDL_WINDOW_HIDDEN | SDL_WINDOW_RESIZABLE,
-		&m_window,
-		&m_renderer
-	);
-	SDL_SetWindowTitle(m_window, "VVVVVV");
+	#if defined(__SWITCH__)
+		SDL_CreateWindowAndRenderer(
+			1280,
+			720,
+			SDL_WINDOW_FULLSCREEN,
+			&m_window,
+			&m_renderer
+		);
+	#else
+		SDL_CreateWindowAndRenderer(
+			640,
+			480,
+			SDL_WINDOW_HIDDEN | SDL_WINDOW_RESIZABLE,
+			&m_window,
+			&m_renderer
+		);
+		SDL_SetWindowTitle(m_window, "VVVVVV");
 
-	unsigned char *fileIn = NULL;
-	size_t length = 0;
-	unsigned char *data;
-	unsigned int width, height;
-	FILESYSTEM_loadFileToMemory("VVVVVV.png", &fileIn, &length);
-	lodepng_decode24(&data, &width, &height, fileIn, length);
-	FILESYSTEM_freeMemory(&fileIn);
-	SDL_Surface *icon = SDL_CreateRGBSurfaceFrom(
-		data,
-		width,
-		height,
-		24,
-		width * 3,
-		0x000000FF,
-		0x0000FF00,
-		0x00FF0000,
-		0x00000000
-	);
-	SDL_SetWindowIcon(m_window, icon);
-	SDL_FreeSurface(icon);
-	free(data);
+		unsigned char *fileIn = NULL;
+		size_t length = 0;
+		unsigned char *data;
+		unsigned int width, height;
+		FILESYSTEM_loadFileToMemory("VVVVVV.png", &fileIn, &length);
+		lodepng_decode24(&data, &width, &height, fileIn, length);
+		FILESYSTEM_freeMemory(&fileIn);
+		SDL_Surface *icon = SDL_CreateRGBSurfaceFrom(
+			data,
+			width,
+			height,
+			24,
+			width * 3,
+			0x000000FF,
+			0x0000FF00,
+			0x00FF0000,
+			0x00000000
+		);
+		SDL_SetWindowIcon(m_window, icon);
+		SDL_FreeSurface(icon);
+		free(data);
+	#endif
 
 	// FIXME: This surface should be the actual backbuffer! -flibit
 	m_screen = SDL_CreateRGBSurface(
@@ -100,19 +110,24 @@ void Screen::ResizeScreen(int x , int y)
 		resY = y;
 	}
 
-	if(!isWindowed)
-	{
+	#if defined(__SWITCH__)
 		SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
-	}
-	else
-	{
-		SDL_SetWindowFullscreen(m_window, 0);
-		if (x != -1 && y != -1)
+	#else
+		if(!isWindowed)
 		{
-			SDL_SetWindowSize(m_window, resX, resY);
-			SDL_SetWindowPosition(m_window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+			SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
 		}
-	}
+		else
+		{
+			SDL_SetWindowFullscreen(m_window, 0);
+			if (x != -1 && y != -1)
+			{
+				SDL_SetWindowSize(m_window, resX, resY);
+				SDL_SetWindowPosition(m_window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+			}
+		}
+	#endif
+
 	if (stretchMode == 1)
 	{
 		int winX, winY;

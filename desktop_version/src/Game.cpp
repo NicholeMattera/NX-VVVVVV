@@ -6773,6 +6773,17 @@ void Game::createmenu( std::string t )
     }
     else if (t == "graphicoptions")
     {
+        #if defined(__SWITCH__)
+            menuoptions[0] = "toggle letterbox";
+            menuoptionsactive[0] = true;
+            menuoptions[1] = "toggle filter";
+            menuoptionsactive[1] = true;
+            menuoptions[2] = "toggle analogue";
+            menuoptionsactive[2] = true;
+            menuoptions[3] = "return";
+            menuoptionsactive[3] = true;
+            nummenuoptions = 4;
+        #else
         menuoptions[0] = "toggle fullscreen";
         menuoptionsactive[0] = true;
         menuoptions[1] = "toggle letterbox";
@@ -6784,6 +6795,7 @@ void Game::createmenu( std::string t )
         menuoptions[4] = "return";
         menuoptionsactive[4] = true;
         nummenuoptions = 5;
+        #endif
         menuxoff = -50;
         menuyoff = 8;
         /* Old stuff, not used anymore
