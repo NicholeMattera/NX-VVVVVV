@@ -1,0 +1,6 @@
+Contributors
+------------
+
+* Christoph Böhmwalder (@chrboe)
+* Elijah Stone
+* Emmanuel Vadot (@evadot)

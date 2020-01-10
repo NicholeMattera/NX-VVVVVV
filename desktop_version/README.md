@@ -6,10 +6,11 @@ VVVVVV's official desktop versions are built with the following environments:
 - macOS: Xcode CLT, currently targeting 10.9 SDK
 - GNU/Linux: CentOS 7
 
-The engine depends solely on SDL2 and SDL2_mixer. All other dependencies are
-statically linked into the engine. The libs for Windows are in this repository,
-all other platforms should install them either from the OS package manager or
-from self-compiled source.
+The engine depends solely on [SDL2](https://libsdl.org/) and
+[SDL2_mixer](https://www.libsdl.org/projects/SDL_mixer/). All other dependencies
+are statically linked into the engine. The development libraries for Windows can
+be downloaded from their respective websites, Linux and macOS developers should
+compile and install from source.
 
 Steamworks support is included and the DLL is loaded dynamically, you do not
 need the SDK headers and there is no special Steam or non-Steam version. The
@@ -33,6 +34,20 @@ cmake ..
 macOS may be fussy about the SDK version. How to fix this is up to the whims of
 however Apple wants to make CMAKE_OSX_SYSROOT annoying to configure and retain
 each time Xcode updates.
+
+Including data.zip
+------------
+You'll need the data.zip file from VVVVVV to actually run the game! It's
+available to download seperately for free in the
+[Make and Play](http://distractionware.com/blog/category/vvvvvv-make-and-play/)
+edition of the game. Put this file next to your executable and the game should
+run.
+
+This is intended for personal use only - our license doesn't allow you to
+actually distribute this data.zip file with your own forks without getting
+permission from us first. See [LICENSE.md](../LICENSE.md) for more details. (If
+you've got a project in mind that requires distributing this
+file, [get in touch](http://distractionware.com/email/)!)
 
 A Word About Compiler Quirks
 ----------------------------

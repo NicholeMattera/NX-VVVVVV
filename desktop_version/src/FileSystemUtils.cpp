@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <SDL.h>
 #include <physfs.h>
 
 #if defined(_WIN32)
@@ -14,7 +15,7 @@
 #include <shlobj.h>
 #define mkdir(a, b) CreateDirectory(a, NULL)
 #define VNEEDS_MIGRATION (mkdirResult != 0)
-#elif defined(__linux__) || defined(__APPLE__) || defined(__SWITCH__)
+#elif defined(__linux__) || defined(__APPLE__) || defined(__FreeBSD__) || defined(__SWITCH__)
 #include <sys/stat.h>
 #include <limits.h>
 #define VNEEDS_MIGRATION (mkdirResult == 0)
@@ -31,7 +32,7 @@ void PLATFORM_getOSDirectory(char* output);
 void PLATFORM_migrateSaveData(char* output);
 void PLATFORM_copyFile(const char *oldLocation, const char *newLocation);
 
-void FILESYSTEM_init(char *argvZero)
+int FILESYSTEM_init(char *argvZero)
 {
 	char output[MAX_PATH];
 	int mkdirResult;
@@ -75,7 +76,24 @@ void FILESYSTEM_init(char *argvZero)
 #else
 	strcpy(output, "data.zip");
 #endif
-	PHYSFS_mount(output, NULL, 1);
+	if (!PHYSFS_mount(output, NULL, 1))
+	{
+		puts("Error: data.zip missing!");
+		puts("You do not have data.zip!");
+		puts("Grab it from your purchased copy of the game,");
+		puts("or get it from the free Make and Play Edition.");
+
+		SDL_ShowSimpleMessageBox(
+			SDL_MESSAGEBOX_ERROR,
+			"data.zip missing!",
+			"You do not have data.zip!"
+			"\n\nGrab it from your purchased copy of the game,"
+			"\nor get it from the free Make and Play Edition.",
+			NULL
+		);
+		return 0;
+	}
+	return 1;
 }
 
 void FILESYSTEM_deinit()
@@ -141,7 +159,7 @@ std::vector<std::string> FILESYSTEM_getLevelDirFileNames()
 
 void PLATFORM_getOSDirectory(char* output)
 {
-#if defined(__linux__)
+#if defined(__linux__) || defined(__FreeBSD__)
 	const char *homeDir = getenv("XDG_DATA_HOME");
 	if (homeDir == NULL)
 	{
@@ -174,7 +192,7 @@ void PLATFORM_migrateSaveData(char* output)
 	char oldDirectory[MAX_PATH];
 #endif
 
-#if defined(__linux__) || defined(__APPLE__)
+#if defined(__linux__) || defined(__APPLE__) || defined(__FreeBSD__)
 	DIR *dir = NULL;
 	struct dirent *de = NULL;
 	DIR *subDir = NULL;
@@ -187,7 +205,7 @@ void PLATFORM_migrateSaveData(char* output)
 		return;
 	}
 	strcpy(oldDirectory, homeDir);
-#if defined(__linux__)
+#if defined(__linux__) || defined(__FreeBSD__)
 	strcat(oldDirectory, "/.vvvvvv/");
 #elif defined(__APPLE__)
 	strcat(oldDirectory, "/Documents/VVVVVV/");
