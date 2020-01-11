@@ -1,5 +1,4 @@
-#ifndef TEXTBOX_H
-#define TEXTBOX_H
+#pragma once
 
 #if defined(__SWITCH__)
     #include <SDL2/SDL.h>
@@ -54,5 +53,3 @@ public:
     int max;
 
 };
-
-#endif /* TEXTBOX_H */

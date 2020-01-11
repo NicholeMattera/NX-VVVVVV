@@ -1,5 +1,4 @@
-#ifndef ENTITY_H
-#define ENTITY_H
+#pragma once
 
 #include "Maths.h"
 #include "Ent.h"
@@ -241,5 +240,3 @@ public:
     std::string customscript;
     int customcrewmoods[6];
 };
-
-#endif /* ENTITY_H */

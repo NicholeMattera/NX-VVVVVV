@@ -1,5 +1,4 @@
-#ifndef MUSIC_H
-#define MUSIC_H
+#pragma once
 
 #include "SoundSystem.h"
 
@@ -60,6 +59,3 @@ public:
 	bool mmmmmm;
 	bool usingmmmmmm;
 };
-
-
-#endif /* MUSIC_H */

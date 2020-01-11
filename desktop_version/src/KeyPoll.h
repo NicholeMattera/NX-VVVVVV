@@ -1,5 +1,4 @@
-#ifndef KEYPOLL_H
-#define KEYPOLL_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -82,6 +81,3 @@ private:
 	bool useFullscreenSpaces;
 	Uint32 wasFullscreen;
 };
-
-
-#endif /* KEYPOLL_H */

@@ -1,5 +1,4 @@
-#ifndef GRAPHICS_H
-#define GRAPHICS_H
+#pragma once
 
 #include "GraphicsResources.h"
 #include <vector>
@@ -276,5 +275,3 @@ public:
 	int warpskip, warpfcol, warpbcol;
 
 };
-
-#endif /* GRAPHICS_H */

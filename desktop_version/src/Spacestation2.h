@@ -1,5 +1,4 @@
-#ifndef SPACESTATION2_H
-#define SPACESTATION2_H
+#pragma once
 
 #include "Game.h"
 #include "Entity.h"
@@ -13,5 +12,3 @@ public:
 	std::vector<std::string> loadlevel(int rx, int ry, Game& game, EntityClass& obj);
 	std::string roomname;
 };
-
-#endif /* SPACESTATION2_H */

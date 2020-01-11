@@ -1,5 +1,4 @@
-#ifndef TITLERENDERER_H
-#define TITLERENDERER_H
+#pragma once
 
 #include "Graphics.h"
 #include "UtilityClass.h"
@@ -31,5 +30,3 @@ void teleporterrender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& o
 void gamecompleterender(Graphics& dwgfx, Game& game, EntityClass& obj, UtilityClass& help, MapClass& map);
 
 void gamecompleterender2(Graphics& dwgfx, Game& game, EntityClass& obj, UtilityClass& help);
-
-#endif /* TITLERENDERER_H */

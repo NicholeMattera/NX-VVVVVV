@@ -1,5 +1,4 @@
-#ifndef BLOCKV_H
-#define BLOCKV_H
+#pragma once
 
 #if defined(__SWITCH__)
     #include <SDL2/SDL.h>
@@ -31,5 +30,3 @@ public:
     float y;
 
 };
-
-#endif /* BLOCKV_H */

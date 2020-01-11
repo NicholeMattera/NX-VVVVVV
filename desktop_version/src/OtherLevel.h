@@ -1,5 +1,4 @@
-#ifndef OTHERLEVEL_H
-#define OTHERLEVEL_H
+#pragma once
 
 #include "Game.h"
 #include "Entity.h"
@@ -34,5 +33,3 @@ public:
     int roomtextx, roomtexty, roomtextnumlines;
     std::vector<std::string> roomtext;
 };
-
-#endif /* OTHERLEVEL_H */

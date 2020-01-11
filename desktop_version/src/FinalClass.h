@@ -1,5 +1,4 @@
-#ifndef FINALCLASS_H
-#define FINALCLASS_H
+#pragma once
 
 #include "Game.h"
 #include "Entity.h"
@@ -16,5 +15,3 @@ public:
     int coin, rcol;
     bool warpx, warpy;
 };
-
-#endif /* FINALCLASS_H */

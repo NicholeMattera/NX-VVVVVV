@@ -1,5 +1,4 @@
-#ifndef LOGIC_H
-#define LOGIC_H
+#pragma once
 
 #include "Graphics.h"
 #include "Game.h"
@@ -19,5 +18,3 @@ void gamecompletelogic2(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicCla
 void towerlogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music, MapClass& map, UtilityClass& help);
 
 void gamelogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music, MapClass& map, UtilityClass& help);
-
-#endif /* LOGIC_H */

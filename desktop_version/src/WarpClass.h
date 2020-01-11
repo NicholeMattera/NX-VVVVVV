@@ -1,5 +1,4 @@
-#ifndef WARPCLASS_H
-#define WARPCLASS_H
+#pragma once
 
 #include "Game.h"
 #include "Entity.h"
@@ -15,5 +14,3 @@ public:
 	int coin, rcol;
 	bool warpx, warpy;
 };
-
-#endif /* WARPCLASS_H */

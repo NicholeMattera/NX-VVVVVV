@@ -1,5 +1,4 @@
-#ifndef TOWER_H
-#define TOWER_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -43,9 +42,3 @@ public:
     int i;
     int k;
 };
-
-
-
-
-
-#endif /* TOWER_H */

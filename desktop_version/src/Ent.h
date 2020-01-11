@@ -1,5 +1,4 @@
-#ifndef ENT_H
-#define ENT_H
+#pragma once
 
 class entclass
 {
@@ -40,5 +39,3 @@ public:
     int framedelay, drawframe, walkingframe, dir, actionframe;
     int yp;int xp;
 };
-
-#endif /* ENT_H */

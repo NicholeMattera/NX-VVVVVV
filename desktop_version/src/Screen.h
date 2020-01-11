@@ -1,5 +1,4 @@
-#ifndef SCREEN_H
-#define SCREEN_H
+#pragma once
 
 #if defined(__SWITCH__)
 	#include <SDL2/SDL.h>
@@ -38,7 +37,3 @@ public:
 
 	SDL_Rect filterSubrect;
 };
-
-
-
-#endif /* SCREEN_H */

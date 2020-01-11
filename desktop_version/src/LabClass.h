@@ -1,5 +1,4 @@
-#ifndef LABCLASS_H
-#define LABCLASS_H
+#pragma once
 
 #include "Game.h"
 #include "Entity.h"
@@ -15,4 +14,3 @@ public:
     std::string roomname;
     int coin, rcol;
 };
-#endif /* LABCLASS_H */

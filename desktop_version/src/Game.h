@@ -1,5 +1,4 @@
-#ifndef GAME_H
-#define GAME_H
+#pragma once
 
 #include <vector>
 #include <string>
@@ -359,5 +358,3 @@ public:
 	std::vector<SDL_GameControllerButton> controllerButton_esc;
 
 };
-
-#endif /* GAME_H */

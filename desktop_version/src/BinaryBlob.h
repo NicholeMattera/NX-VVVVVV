@@ -1,5 +1,4 @@
-#ifndef BINARYBLOB_H
-#define BINARYBLOB_H
+#pragma once
 
 /* Laaaazyyyyyyy -flibit */
 // #define VVV_COMPILEMUSIC
@@ -36,6 +35,3 @@ private:
 	resourceheader m_headers[128];
 	char* m_memblocks[128];
 };
-
-
-#endif /* BINARYBLOB_H */

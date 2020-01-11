@@ -1,5 +1,4 @@
-#ifndef FILESYSTEMUTILS_H
-#define FILESYSTEMUTILS_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -14,5 +13,3 @@ void FILESYSTEM_loadFileToMemory(const char *name, unsigned char **mem, size_t *
 void FILESYSTEM_freeMemory(unsigned char **mem);
 
 std::vector<std::string> FILESYSTEM_getLevelDirFileNames();
-
-#endif /* FILESYSTEMUTILS_H */

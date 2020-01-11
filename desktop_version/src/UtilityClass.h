@@ -1,5 +1,4 @@
-#ifndef UTILITYCLASS_H
-#define UTILITYCLASS_H
+#pragma once
 
 #if defined(__SWITCH__)
     #include <SDL2/SDL.h>
@@ -46,5 +45,3 @@ public:
     std::string tempstring;
     std::vector<int> splitseconds;
 };
-
-#endif /* UTILITYCLASS_H */
