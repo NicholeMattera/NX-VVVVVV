@@ -430,7 +430,6 @@ SDL_assert(0 && "Remove open level dir");
                         {
                             music.playef(11, 10);
                             dwgfx.screenbuffer->toggleStretchMode();
-                            music.playef(11, 10);
                             game.stretchMode = (game.stretchMode + 1) % 3;
                             updategraphicsmode(game, dwgfx);
                             game.savestats(map, dwgfx);
@@ -441,7 +440,6 @@ SDL_assert(0 && "Remove open level dir");
                         {
                             music.playef(11, 10);
                             dwgfx.screenbuffer->toggleLinearFilter();
-                            music.playef(11, 10);
                             game.useLinearFilter = !game.useLinearFilter;
                             updategraphicsmode(game, dwgfx);
                             game.savestats(map, dwgfx);
@@ -472,7 +470,6 @@ SDL_assert(0 && "Remove open level dir");
                         {
                             music.playef(11, 10);
                             dwgfx.screenbuffer->toggleFullScreen();
-                            music.playef(11, 10);
                             game.fullscreen = !game.fullscreen;
                             updategraphicsmode(game, dwgfx);
                             game.savestats(map, dwgfx);
@@ -483,7 +480,6 @@ SDL_assert(0 && "Remove open level dir");
                         {
                             music.playef(11, 10);
                             dwgfx.screenbuffer->toggleStretchMode();
-                            music.playef(11, 10);
                             game.stretchMode = (game.stretchMode + 1) % 3;
                             updategraphicsmode(game, dwgfx);
                             game.savestats(map, dwgfx);
@@ -494,7 +490,6 @@ SDL_assert(0 && "Remove open level dir");
                         {
                             music.playef(11, 10);
                             dwgfx.screenbuffer->toggleLinearFilter();
-                            music.playef(11, 10);
                             game.useLinearFilter = !game.useLinearFilter;
                             updategraphicsmode(game, dwgfx);
                             game.savestats(map, dwgfx);
@@ -644,6 +639,8 @@ SDL_assert(0 && "Remove open level dir");
                             music.playef(18, 10);
                             game.screenshake = 10;
                             game.flashlight = 5;
+                        }else{
+                            music.playef(11, 10);
                         }
                     }
                     else if (game.currentmenuoption == 2)
@@ -950,7 +947,7 @@ SDL_assert(0 && "Remove open level dir");
                     {
                         //back
                         music.playef(11, 10);
-                        game.createmenu("mainmenu");
+                        game.createmenu("options");
                         map.nexttowercolour();
                     }
                 }
@@ -1310,6 +1307,7 @@ SDL_assert(0 && "Remove open level dir");
 
 					if (game.currentmenuoption == 5)
 					{
+                        music.playef(11, 10);
 						game.createmenu("options");
 
 						//Add extra menu for mmmmmm mod
