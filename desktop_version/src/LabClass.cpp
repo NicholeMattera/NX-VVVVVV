@@ -23,7 +23,7 @@ std::vector<std::string> LabClass::loadlevel(int rx, int ry , Game& game, Entity
 	std::vector<std::string> tmap;
 	coin = 0;
 	rcol = 0;
-	roomname = "Untitled room ["+Utility::toString(rx) + "," + Utility::toString(ry)+"]";
+	roomname = "Untitled room ["+vvvvvv::Utility::toString(rx) + "," + vvvvvv::Utility::toString(ry)+"]";
 
 	switch(t)
 	{

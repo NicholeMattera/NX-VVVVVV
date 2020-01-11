@@ -4476,7 +4476,7 @@ bool EntityClass::entitycollide( int a, int b )
     temph = entities[b].h;
     rect2set(tempx, tempy, tempw, temph);
 
-    if (Utility::intersects(temprect, temprect2)) return true;
+    if (vvvvvv::Utility::intersects(temprect, temprect2)) return true;
     return false;
 }
 
@@ -4497,7 +4497,7 @@ bool EntityClass::checkdirectional( int t )
             {
                 if (blocks[j].type == DIRECTIONAL && blocks[j].active)
                 {
-                    if(Utility::intersects(blocks[j].rect,temprect))
+                    if(vvvvvv::Utility::intersects(blocks[j].rect,temprect))
                     {
                         return true;
                     }
@@ -4525,7 +4525,7 @@ bool EntityClass::checkdamage()
             {
                 if (blocks[j].type == DAMAGE && blocks[j].active)
                 {
-                    if(Utility::intersects(blocks[j].rect, temprect))
+                    if(vvvvvv::Utility::intersects(blocks[j].rect, temprect))
                     {
                         return true;
                     }
@@ -4553,7 +4553,7 @@ bool EntityClass::scmcheckdamage()
             {
                 if (blocks[j].type == DAMAGE && blocks[j].active)
                 {
-                    if(Utility::intersects(blocks[j].rect, temprect))
+                    if(vvvvvv::Utility::intersects(blocks[j].rect, temprect))
                     {
                         return true;
                     }
@@ -4591,7 +4591,7 @@ int EntityClass::checktrigger()
             {
                 if (blocks[j].type == TRIGGER && blocks[j].active)
                 {
-                    if (Utility::intersects(blocks[j].rect, temprect))
+                    if (vvvvvv::Utility::intersects(blocks[j].rect, temprect))
                     {
                         activetrigger = blocks[j].trigger;
                         return blocks[j].trigger;
@@ -4620,7 +4620,7 @@ int EntityClass::checkactivity()
             {
                 if (blocks[j].type == ACTIVITY && blocks[j].active)
                 {
-                    if (Utility::intersects(blocks[j].rect, temprect))
+                    if (vvvvvv::Utility::intersects(blocks[j].rect, temprect))
                     {
                         return j;
                     }
@@ -4657,7 +4657,7 @@ bool EntityClass::checkplatform()
         {
             if (blocks[i].type == BLOCK)
             {
-                if (Utility::intersects(blocks[i].rect, temprect))
+                if (vvvvvv::Utility::intersects(blocks[i].rect, temprect))
                 {
                     px = blocks[i].xp;
                     py = blocks[i].yp;
@@ -4679,15 +4679,15 @@ bool EntityClass::checkblocks()
             {
                 if (blocks[i].type == DIRECTIONAL)
                 {
-                    if (dy > 0 && blocks[i].trigger == 0) if (Utility::intersects(blocks[i].rect, temprect)) return true;
-                    if (dy <= 0 && blocks[i].trigger == 1) if (Utility::intersects(blocks[i].rect, temprect)) return true;
-                    if (dx > 0 && blocks[i].trigger == 2) if (Utility::intersects(blocks[i].rect, temprect)) return true;
-                    if (dx <= 0 && blocks[i].trigger == 3) if (Utility::intersects(blocks[i].rect, temprect)) return true;
+                    if (dy > 0 && blocks[i].trigger == 0) if (vvvvvv::Utility::intersects(blocks[i].rect, temprect)) return true;
+                    if (dy <= 0 && blocks[i].trigger == 1) if (vvvvvv::Utility::intersects(blocks[i].rect, temprect)) return true;
+                    if (dx > 0 && blocks[i].trigger == 2) if (vvvvvv::Utility::intersects(blocks[i].rect, temprect)) return true;
+                    if (dx <= 0 && blocks[i].trigger == 3) if (vvvvvv::Utility::intersects(blocks[i].rect, temprect)) return true;
                 }
             }
             if (blocks[i].type == BLOCK)
             {
-                if (Utility::intersects(blocks[i].rect, temprect))
+                if (vvvvvv::Utility::intersects(blocks[i].rect, temprect))
                 {
                     return true;
                 }
@@ -4696,7 +4696,7 @@ bool EntityClass::checkblocks()
             {
                 if( (dr)==1)
                 {
-                    if (Utility::intersects(blocks[i].rect, temprect))
+                    if (vvvvvv::Utility::intersects(blocks[i].rect, temprect))
                     {
                         return true;
                     }

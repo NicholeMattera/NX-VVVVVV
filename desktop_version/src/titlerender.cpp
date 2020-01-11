@@ -34,9 +34,9 @@ void titlerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, M
 
     if (!game.menustart)
     {
-        tr = (int)(164 - (Utility::glow / 2) - int(fRandom() * 4));
-        tg = 164 - (Utility::glow / 2) - int(fRandom() * 4);
-        tb = 164 - (Utility::glow / 2) - int(fRandom() * 4);
+        tr = (int)(164 - (vvvvvv::Utility::glow / 2) - int(fRandom() * 4));
+        tg = 164 - (vvvvvv::Utility::glow / 2) - int(fRandom() * 4);
+        tb = 164 - (vvvvvv::Utility::glow / 2) - int(fRandom() * 4);
 
         temp = 50;
         dwgfx.drawsprite((160 - 96) + 0 * 32, temp, 23, tr, tg, tb);
@@ -67,9 +67,9 @@ void titlerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, M
     {
         if(!game.colourblindmode) dwgfx.drawtowerbackgroundsolo(map);
 
-        tr = map.r - (Utility::glow / 4) - int(fRandom() * 4);
-        tg = map.g - (Utility::glow / 4) - int(fRandom() * 4);
-        tb = map.b - (Utility::glow / 4) - int(fRandom() * 4);
+        tr = map.r - (vvvvvv::Utility::glow / 4) - int(fRandom() * 4);
+        tg = map.g - (vvvvvv::Utility::glow / 4) - int(fRandom() * 4);
+        tb = map.b - (vvvvvv::Utility::glow / 4) - int(fRandom() * 4);
         if (tr < 0) tr = 0;
         if(tr>255) tr=255;
         if (tg < 0) tg = 0;
@@ -521,9 +521,9 @@ void titlerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, M
 
 			if (game.currentmenuoption > 0 && game.currentmenuoption < 5)
 			{
-				dwgfx.Print( -1, 85, "Flip is bound to: " + std::string(Utility::toString(game.controllerButton_flip)) , tr, tg, tb, true);
-				dwgfx.Print( -1, 95, "Enter is bound to: "  + std::string(Utility::toString(game.controllerButton_map)), tr, tg, tb, true);
-				dwgfx.Print( -1, 105, "Menu is bound to: " + std::string(Utility::toString(game.controllerButton_esc)) , tr, tg, tb, true);
+				dwgfx.Print( -1, 85, "Flip is bound to: " + std::string(vvvvvv::Utility::toString(game.controllerButton_flip)) , tr, tg, tb, true);
+				dwgfx.Print( -1, 95, "Enter is bound to: "  + std::string(vvvvvv::Utility::toString(game.controllerButton_map)), tr, tg, tb, true);
+				dwgfx.Print( -1, 105, "Menu is bound to: " + std::string(vvvvvv::Utility::toString(game.controllerButton_esc)) , tr, tg, tb, true);
 			}
 		}
         else if (game.currentmenuname == "accessibility")
@@ -678,13 +678,13 @@ void titlerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, M
                 dwgfx.drawpixeltextbox(25, 65-20, 270, 90, 34,12, 65, 185, 207,0,4);
 
                 dwgfx.bigprint(-1, 20, "Tele Save", tr, tg, tb, true);
-                dwgfx.Print(0, 80-20, game.tele_currentarea, 25, 255 - (Utility::glow / 2), 255 - (Utility::glow / 2), true);
+                dwgfx.Print(0, 80-20, game.tele_currentarea, 25, 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2), true);
                 for (int i = 0; i < 6; i++)
                 {
                     dwgfx.drawcrewman(169-(3*42)+(i*42), 95-20, i, game.tele_crewstats[i], true);
                 }
-                dwgfx.Print(160 - 84, 132-20, game.tele_gametime, 255 - (Utility::glow / 2), 255 - (Utility::glow / 2), 255 - (Utility::glow / 2));
-                dwgfx.Print(160 + 40, 132-20, Utility::toWord(game.tele_trinkets), 255 - (Utility::glow / 2), 255 - (Utility::glow / 2), 255 - (Utility::glow / 2));
+                dwgfx.Print(160 - 84, 132-20, game.tele_gametime, 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2));
+                dwgfx.Print(160 + 40, 132-20, vvvvvv::Utility::toWord(game.tele_trinkets), 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2));
 
                 dwgfx.drawspritesetcol(50, 126-20, 50, 18);
                 dwgfx.drawspritesetcol(175, 126-20, 22, 18);
@@ -695,13 +695,13 @@ void titlerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, M
                 dwgfx.drawpixeltextbox(25, 65-20, 270, 90, 34,12, 65, 185, 207,0,4);
 
                 dwgfx.bigprint(-1, 20, "Quick Save", tr, tg, tb, true);
-                dwgfx.Print(0, 80-20, game.quick_currentarea, 25, 255 - (Utility::glow / 2), 255 - (Utility::glow / 2), true);
+                dwgfx.Print(0, 80-20, game.quick_currentarea, 25, 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2), true);
                 for (int i = 0; i < 6; i++)
                 {
                     dwgfx.drawcrewman(169-(3*42)+(i*42), 95-20, i, game.quick_crewstats[i], true);
                 }
-                dwgfx.Print(160 - 84, 132-20, game.quick_gametime, 255 - (Utility::glow / 2), 255 - (Utility::glow / 2), 255 - (Utility::glow / 2));
-                dwgfx.Print(160 + 40, 132-20, Utility::toWord(game.quick_trinkets), 255 - (Utility::glow / 2), 255 - (Utility::glow / 2), 255 - (Utility::glow / 2));
+                dwgfx.Print(160 - 84, 132-20, game.quick_gametime, 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2));
+                dwgfx.Print(160 + 40, 132-20, vvvvvv::Utility::toWord(game.quick_trinkets), 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2));
 
                 dwgfx.drawspritesetcol(50, 126-20, 50, 18);
                 dwgfx.drawspritesetcol(175, 126-20, 22, 18);
@@ -721,10 +721,10 @@ void titlerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, M
             {
                 dwgfx.drawcrewman(169-(3*42)+(i*42), 68, i, game.crewstats[i], true);
             }
-            tempstring = "You rescued " + Utility::toWord(game.crewrescued()) + " crewmates";
+            tempstring = "You rescued " + vvvvvv::Utility::toWord(game.crewrescued()) + " crewmates";
             dwgfx.Print(0, 100, tempstring, tr, tg, tb, true);
 
-            tempstring = "and found " + Utility::toWord(game.trinkets) + " trinkets.";
+            tempstring = "and found " + vvvvvv::Utility::toWord(game.trinkets) + " trinkets.";
             dwgfx.Print(0, 110, tempstring, tr, tg, tb, true);
 
             tempstring = "You managed to reach:";
@@ -775,7 +775,7 @@ void titlerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, M
             tempstring = "You rescued all the crewmates!";
             dwgfx.Print(0, 100, tempstring, tr, tg, tb, true);
 
-            tempstring = "And you found " + Utility::toWord(game.trinkets) + " trinkets.";
+            tempstring = "And you found " + vvvvvv::Utility::toWord(game.trinkets) + " trinkets.";
             dwgfx.Print(0, 110, tempstring, tr, tg, tb, true);
 
             dwgfx.Print(0, 160, "A new trophy has been awarded and", tr, tg, tb, true);
@@ -797,7 +797,7 @@ void titlerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, M
                 dwgfx.Print(220, 85-15, "+1 Rank!", 255, 255, 255);
             }
 
-            tempstring = Utility::toString(game.deathcounts);
+            tempstring = vvvvvv::Utility::toString(game.deathcounts);
             dwgfx.drawspritesetcol(30-4, 80+20-4, 12, 22);
             dwgfx.Print(65, 80+20, "NUMBER OF DEATHS:", 255, 255, 255);
             dwgfx.Print(65, 90+20, tempstring, tr, tg, tb);
@@ -806,7 +806,7 @@ void titlerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, M
                 dwgfx.Print(220, 85+20, "+1 Rank!", 255, 255, 255);
             }
 
-            tempstring = Utility::toString(game.trinkets) + " of " + Utility::toString(game.timetrialshinytarget);
+            tempstring = vvvvvv::Utility::toString(game.trinkets) + " of " + vvvvvv::Utility::toString(game.timetrialshinytarget);
             dwgfx.drawspritesetcol(30, 80+55, 22, 22);
             dwgfx.Print(65, 80+55, "SHINY TRINKETS:", 255, 255, 255);
             dwgfx.Print(65, 90+55, tempstring, tr, tg, tb);
@@ -862,8 +862,8 @@ void titlerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, M
                         dwgfx.Print( 16, 75, "BEST SHINY ", tr, tg, tb);
                         dwgfx.Print( 16, 85, "BEST LIVES ", tr, tg, tb);
                         dwgfx.Print( 110, 65, game.timetstring(game.besttimes[0]), tr, tg, tb);
-                        dwgfx.Print( 110, 75, Utility::toString(game.besttrinkets[0])+"/2", tr, tg, tb);
-                        dwgfx.Print( 110, 85,Utility::toString(game.bestlives[0]), tr, tg, tb);
+                        dwgfx.Print( 110, 75, vvvvvv::Utility::toString(game.besttrinkets[0])+"/2", tr, tg, tb);
+                        dwgfx.Print( 110, 85,vvvvvv::Utility::toString(game.bestlives[0]), tr, tg, tb);
 
 
                         dwgfx.Print( 170, 65, "PAR TIME    1:15", tr, tg, tb);
@@ -909,8 +909,8 @@ void titlerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, M
                         dwgfx.Print( 16, 75, "BEST SHINY ", tr, tg, tb);
                         dwgfx.Print( 16, 85, "BEST LIVES ", tr, tg, tb);
                         dwgfx.Print( 110, 65, game.timetstring(game.besttimes[1]), tr, tg, tb);
-                        dwgfx.Print( 110, 75, Utility::toString(game.besttrinkets[1])+"/4", tr, tg, tb);
-                        dwgfx.Print( 110, 85, Utility::toString(game.bestlives[1]), tr, tg, tb);
+                        dwgfx.Print( 110, 75, vvvvvv::Utility::toString(game.besttrinkets[1])+"/4", tr, tg, tb);
+                        dwgfx.Print( 110, 85, vvvvvv::Utility::toString(game.bestlives[1]), tr, tg, tb);
 
 
                         dwgfx.Print( 170, 65, "PAR TIME    2:45", tr, tg, tb);
@@ -956,8 +956,8 @@ void titlerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, M
                         dwgfx.Print( 16, 75, "BEST SHINY ", tr, tg, tb);
                         dwgfx.Print( 16, 85, "BEST LIVES ", tr, tg, tb);
                         dwgfx.Print( 110, 65, game.timetstring(game.besttimes[2]), tr, tg, tb);
-                        dwgfx.Print( 110, 75, Utility::toString(game.besttrinkets[2])+"/2", tr, tg, tb);
-                        dwgfx.Print( 110, 85, Utility::toString(game.bestlives[2]), tr, tg, tb);
+                        dwgfx.Print( 110, 75, vvvvvv::Utility::toString(game.besttrinkets[2])+"/2", tr, tg, tb);
+                        dwgfx.Print( 110, 85, vvvvvv::Utility::toString(game.bestlives[2]), tr, tg, tb);
 
 
                         dwgfx.Print( 170, 65, "PAR TIME    1:45", tr, tg, tb);
@@ -1003,8 +1003,8 @@ void titlerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, M
                         dwgfx.Print( 16, 75, "BEST SHINY ", tr, tg, tb);
                         dwgfx.Print( 16, 85, "BEST LIVES ", tr, tg, tb);
                         dwgfx.Print( 110, 65, game.timetstring(game.besttimes[3]), tr, tg, tb);
-                        dwgfx.Print( 110, 75, Utility::toString(game.besttrinkets[3])+"/5", tr, tg, tb);
-                        dwgfx.Print( 110, 85, Utility::toString(game.bestlives[3]), tr, tg, tb);
+                        dwgfx.Print( 110, 75, vvvvvv::Utility::toString(game.besttrinkets[3])+"/5", tr, tg, tb);
+                        dwgfx.Print( 110, 85, vvvvvv::Utility::toString(game.bestlives[3]), tr, tg, tb);
 
 
                         dwgfx.Print( 170, 65, "PAR TIME    3:20", tr, tg, tb);
@@ -1050,8 +1050,8 @@ void titlerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, M
                         dwgfx.Print( 16, 75, "BEST SHINY ", tr, tg, tb);
                         dwgfx.Print( 16, 85, "BEST LIVES ", tr, tg, tb);
                         dwgfx.Print( 110, 65, game.timetstring(game.besttimes[4]), tr, tg, tb);
-                        dwgfx.Print( 110, 75, Utility::toString(game.besttrinkets[4])+"/1", tr, tg, tb);
-                        dwgfx.Print( 110, 85, Utility::toString(game.bestlives[4]), tr, tg, tb);
+                        dwgfx.Print( 110, 75, vvvvvv::Utility::toString(game.besttrinkets[4])+"/1", tr, tg, tb);
+                        dwgfx.Print( 110, 85, vvvvvv::Utility::toString(game.bestlives[4]), tr, tg, tb);
 
 
                         dwgfx.Print( 170, 65, "PAR TIME    2:00", tr, tg, tb);
@@ -1097,8 +1097,8 @@ void titlerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, M
                         dwgfx.Print( 16, 75, "BEST SHINY ", tr, tg, tb);
                         dwgfx.Print( 16, 85, "BEST LIVES ", tr, tg, tb);
                         dwgfx.Print( 110, 65, game.timetstring(game.besttimes[5]), tr, tg, tb);
-                        dwgfx.Print( 110, 75, Utility::toString(game.besttrinkets[5])+"/1", tr, tg, tb);
-                        dwgfx.Print( 110, 85, Utility::toString(game.bestlives[5]), tr, tg, tb);
+                        dwgfx.Print( 110, 75, vvvvvv::Utility::toString(game.besttrinkets[5])+"/1", tr, tg, tb);
+                        dwgfx.Print( 110, 85, vvvvvv::Utility::toString(game.bestlives[5]), tr, tg, tb);
 
 
                         dwgfx.Print( 170, 65, "PAR TIME    2:15", tr, tg, tb);
@@ -1301,15 +1301,15 @@ void gamecompleterender(Graphics& dwgfx, Game& game, EntityClass& obj, MapClass&
         dwgfx.drawtowerbackgroundsolo(map);
     }
 
-    tr = map.r - (Utility::glow / 4) - fRandom() * 4;
+    tr = map.r - (vvvvvv::Utility::glow / 4) - fRandom() * 4;
     if (tr < 0) tr = 0;
     else if (tr > 255) tr = 255;
 
-    tg = map.g - (Utility::glow / 4) - fRandom() * 4;
+    tg = map.g - (vvvvvv::Utility::glow / 4) - fRandom() * 4;
     if (tg < 0) tg = 0;
     else if (tg > 255) tg = 255;
 
-    tb = map.b - (Utility::glow / 4) - fRandom() * 4;
+    tb = map.b - (vvvvvv::Utility::glow / 4) - fRandom() * 4;
     if (tb < 0) tb = 0;
     else if (tb > 255) tb = 255;
 
@@ -1678,9 +1678,9 @@ void gamerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj)
         if (map.finalmode)
         {
         	map.glitchname = map.getglitchname(game.roomx, game.roomy);
-          dwgfx.Print(5, 231, map.glitchname, 196, 196, 255 - Utility::glow, true);
+          dwgfx.Print(5, 231, map.glitchname, 196, 196, 255 - vvvvvv::Utility::glow, true);
         }else{
-          dwgfx.Print(5, 231, map.roomname, 196, 196, 255 - Utility::glow, true);
+          dwgfx.Print(5, 231, map.roomname, 196, 196, 255 - vvvvvv::Utility::glow, true);
         }
     }
 
@@ -1689,13 +1689,13 @@ void gamerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj)
         //Draw room text!
         for (int i = 0; i < map.roomtextnumlines; i++)
         {
-            dwgfx.Print(map.roomtextx[i]*8, (map.roomtexty[i]*8), map.roomtext[i], 196, 196, 255 - Utility::glow);
+            dwgfx.Print(map.roomtextx[i]*8, (map.roomtexty[i]*8), map.roomtext[i], 196, 196, 255 - vvvvvv::Utility::glow);
         }
     }
 
      if(map.custommode && !map.custommodeforreal){
         //Return to level editor
-        dwgfx.bprint(5, 5, "[Press ENTER to return to editor]", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), false);
+        dwgfx.bprint(5, 5, "[Press ENTER to return to editor]", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), false);
       }
 
 
@@ -1706,22 +1706,22 @@ void gamerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj)
     dwgfx.drawgui();
     if (dwgfx.flipmode)
     {
-        if (game.advancetext) dwgfx.bprint(5, 228, "- Press ACTION to advance text -", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true);
+        if (game.advancetext) dwgfx.bprint(5, 228, "- Press ACTION to advance text -", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true);
     }
     else
     {
-        if (game.advancetext) dwgfx.bprint(5, 5, "- Press ACTION to advance text -", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true);
+        if (game.advancetext) dwgfx.bprint(5, 5, "- Press ACTION to advance text -", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true);
     }
 
     if (game.readytotele > 100 && !game.advancetext && game.hascontrol && !script.running && !game.intimetrial)
     {
         if(dwgfx.flipmode)
         {
-            dwgfx.bprint(5, 20, "- Press ENTER to Teleport -", game.readytotele - 20 - (Utility::glow / 2), game.readytotele - 20 - (Utility::glow / 2), game.readytotele, true);
+            dwgfx.bprint(5, 20, "- Press ENTER to Teleport -", game.readytotele - 20 - (vvvvvv::Utility::glow / 2), game.readytotele - 20 - (vvvvvv::Utility::glow / 2), game.readytotele, true);
         }
         else
         {
-            dwgfx.bprint(5, 210, "- Press ENTER to Teleport -", game.readytotele - 20 - (Utility::glow / 2), game.readytotele - 20 - (Utility::glow / 2), game.readytotele, true);
+            dwgfx.bprint(5, 210, "- Press ENTER to Teleport -", game.readytotele - 20 - (vvvvvv::Utility::glow / 2), game.readytotele - 20 - (vvvvvv::Utility::glow / 2), game.readytotele, true);
         }
     }
 
@@ -1729,77 +1729,77 @@ void gamerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj)
     {
         if (game.swngame == 0)
         {
-            tempstring = Utility::timeString(game.swntimer);
-            dwgfx.bigprint( -1, 20, tempstring, 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true, 2);
+            tempstring = vvvvvv::Utility::timeString(game.swntimer);
+            dwgfx.bigprint( -1, 20, tempstring, 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true, 2);
         }
         else if (game.swngame == 1)
         {
             if (game.swnmessage == 0)
             {
-                tempstring = Utility::timeString(game.swntimer);
-                dwgfx.Print( 10, 10, "Current Time", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), false);
-                dwgfx.bigprint( 25, 24, tempstring, 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), false, 2);
-                tempstring = Utility::timeString(game.swnrecord);
-                dwgfx.Print( 240, 10, "Best Time", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), false);
-                dwgfx.bigrprint( 300, 24, tempstring, 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), false, 2);
+                tempstring = vvvvvv::Utility::timeString(game.swntimer);
+                dwgfx.Print( 10, 10, "Current Time", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), false);
+                dwgfx.bigprint( 25, 24, tempstring, 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), false, 2);
+                tempstring = vvvvvv::Utility::timeString(game.swnrecord);
+                dwgfx.Print( 240, 10, "Best Time", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), false);
+                dwgfx.bigrprint( 300, 24, tempstring, 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), false, 2);
 
                 switch(game.swnbestrank)
                 {
                 case 0:
-                    dwgfx.Print( -1, 204, "Next Trophy at 5 seconds", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true);
+                    dwgfx.Print( -1, 204, "Next Trophy at 5 seconds", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true);
                     break;
                 case 1:
-                    dwgfx.Print( -1, 204, "Next Trophy at 10 seconds", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true);
+                    dwgfx.Print( -1, 204, "Next Trophy at 10 seconds", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true);
                     break;
                 case 2:
-                    dwgfx.Print( -1, 204, "Next Trophy at 15 seconds", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true);
+                    dwgfx.Print( -1, 204, "Next Trophy at 15 seconds", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true);
                     break;
                 case 3:
-                    dwgfx.Print( -1, 204, "Next Trophy at 20 seconds", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true);
+                    dwgfx.Print( -1, 204, "Next Trophy at 20 seconds", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true);
                     break;
                 case 4:
-                    dwgfx.Print( -1, 204, "Next Trophy at 30 seconds", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true);
+                    dwgfx.Print( -1, 204, "Next Trophy at 30 seconds", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true);
                     break;
                 case 5:
-                    dwgfx.Print( -1, 204, "Next Trophy at 1 minute", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true);
+                    dwgfx.Print( -1, 204, "Next Trophy at 1 minute", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true);
                     break;
                 case 6:
-                    dwgfx.Print( -1, 204, "All Trophies collected!", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true);
+                    dwgfx.Print( -1, 204, "All Trophies collected!", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true);
                     break;
                 }
             }
             else if (game.swnmessage == 1)
             {
-                tempstring = Utility::timeString(game.swntimer);
-                dwgfx.Print( 10, 10, "Current Time", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), false);
-                dwgfx.bigprint( 25, 24, tempstring, 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), false, 2);
-                tempstring = Utility::timeString(game.swnrecord);
+                tempstring = vvvvvv::Utility::timeString(game.swntimer);
+                dwgfx.Print( 10, 10, "Current Time", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), false);
+                dwgfx.bigprint( 25, 24, tempstring, 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), false, 2);
+                tempstring = vvvvvv::Utility::timeString(game.swnrecord);
                 if (int(game.deathseq / 5) % 2 == 1)
                 {
-                    dwgfx.Print( 240, 10, "Best Time", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), false);
-                    dwgfx.bigrprint( 300, 24, tempstring, 128 - (Utility::glow), 220 - (Utility::glow), 128 - (Utility::glow / 2), false, 2);
+                    dwgfx.Print( 240, 10, "Best Time", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), false);
+                    dwgfx.bigrprint( 300, 24, tempstring, 128 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 128 - (vvvvvv::Utility::glow / 2), false, 2);
 
-                    dwgfx.bigprint( -1, 200, "New Record!", 128 - (Utility::glow), 220 - (Utility::glow), 128 - (Utility::glow / 2), true, 2);
+                    dwgfx.bigprint( -1, 200, "New Record!", 128 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 128 - (vvvvvv::Utility::glow / 2), true, 2);
                 }
             }
             else if (game.swnmessage >= 2)
             {
                 game.swnmessage--;
                 if (game.swnmessage == 2) game.swnmessage = 0;
-                tempstring = Utility::timeString(game.swntimer);
-                dwgfx.Print( 10, 10, "Current Time", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), false);
-                dwgfx.bigprint( 25, 24, tempstring, 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), false, 2);
-                tempstring = Utility::timeString(game.swnrecord);
-                dwgfx.Print( 240, 10, "Best Time", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), false);
-                dwgfx.bigrprint( 300, 24, tempstring, 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), false, 2);
+                tempstring = vvvvvv::Utility::timeString(game.swntimer);
+                dwgfx.Print( 10, 10, "Current Time", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), false);
+                dwgfx.bigprint( 25, 24, tempstring, 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), false, 2);
+                tempstring = vvvvvv::Utility::timeString(game.swnrecord);
+                dwgfx.Print( 240, 10, "Best Time", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), false);
+                dwgfx.bigrprint( 300, 24, tempstring, 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), false, 2);
 
                 if (int(game.swnmessage / 5) % 2 == 1)
                 {
-                    dwgfx.bigprint( -1, 200, "New Trophy!", 220 - (Utility::glow), 128 - (Utility::glow), 128 - (Utility::glow / 2), true, 2);
+                    dwgfx.bigprint( -1, 200, "New Trophy!", 220 - (vvvvvv::Utility::glow), 128 - (vvvvvv::Utility::glow), 128 - (vvvvvv::Utility::glow / 2), true, 2);
                 }
             }
 
-            dwgfx.Print( 20, 228, "[Press ENTER to stop]", 160 - (Utility::glow/2), 160 - (Utility::glow/2), 160 - (Utility::glow/2), true);
+            dwgfx.Print( 20, 228, "[Press ENTER to stop]", 160 - (vvvvvv::Utility::glow/2), 160 - (vvvvvv::Utility::glow/2), 160 - (vvvvvv::Utility::glow/2), true);
         }
         else if(game.swngame==2)
         {
@@ -1807,13 +1807,13 @@ void gamerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj)
             {
                 if (dwgfx.flipmode)
                 {
-                    dwgfx.bigprint( -1, 30, "Survive for", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true, 2);
-                    dwgfx.bigprint( -1, 10, "60 seconds!", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true, 2);
+                    dwgfx.bigprint( -1, 30, "Survive for", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true, 2);
+                    dwgfx.bigprint( -1, 10, "60 seconds!", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true, 2);
                 }
                 else
                 {
-                    dwgfx.bigprint( -1, 10, "Survive for", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true, 2);
-                    dwgfx.bigprint( -1, 30, "60 seconds!", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true, 2);
+                    dwgfx.bigprint( -1, 10, "Survive for", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true, 2);
+                    dwgfx.bigprint( -1, 30, "60 seconds!", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true, 2);
                 }
             }
         }
@@ -1821,16 +1821,16 @@ void gamerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj)
         {
             if (game.swndelay >= 60)
             {
-                dwgfx.bigprint( -1, 20, "SUPER GRAVITRON", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true, 2);
+                dwgfx.bigprint( -1, 20, "SUPER GRAVITRON", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true, 2);
 
-                tempstring = Utility::timeString(game.swnrecord);
-                dwgfx.Print( 240, 190, "Best Time", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true);
-                dwgfx.bigrprint( 300, 205, tempstring, 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true, 2);
+                tempstring = vvvvvv::Utility::timeString(game.swnrecord);
+                dwgfx.Print( 240, 190, "Best Time", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true);
+                dwgfx.bigrprint( 300, 205, tempstring, 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true, 2);
             }
             else	if (int(game.swndelay / 10) % 2 == 1)
             {
-                dwgfx.bigprint( -1, 20, "SUPER GRAVITRON", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true, 2);
-                dwgfx.bigprint( -1, 200, "GO!", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true, 3);
+                dwgfx.bigprint( -1, 20, "SUPER GRAVITRON", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true, 2);
+                dwgfx.bigprint( -1, 200, "GO!", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true, 3);
             }
         }
     }
@@ -1843,19 +1843,19 @@ void gamerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj)
             if (game.timetrialcountdown < 30)
             {
                 game.resetgameclock();
-                if (int(game.timetrialcountdown / 4) % 2 == 0) dwgfx.bigprint( -1, 100, "Go!", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true, 4);
+                if (int(game.timetrialcountdown / 4) % 2 == 0) dwgfx.bigprint( -1, 100, "Go!", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true, 4);
             }
             else if (game.timetrialcountdown < 60)
             {
-                dwgfx.bigprint( -1, 100, "1", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true, 4);
+                dwgfx.bigprint( -1, 100, "1", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true, 4);
             }
             else if (game.timetrialcountdown < 90)
             {
-                dwgfx.bigprint( -1, 100, "2", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true, 4);
+                dwgfx.bigprint( -1, 100, "2", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true, 4);
             }
             else if (game.timetrialcountdown < 120)
             {
-                dwgfx.bigprint( -1, 100, "3", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true, 4);
+                dwgfx.bigprint( -1, 100, "3", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true, 4);
             }
         }
         else
@@ -1875,19 +1875,19 @@ void gamerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj)
             }
             if(game.deathcounts>0)
             {
-                dwgfx.bprint(56, 30,Utility::toString(game.deathcounts),  196, 80, 80);
+                dwgfx.bprint(56, 30,vvvvvv::Utility::toString(game.deathcounts),  196, 80, 80);
             }
             else
             {
-                dwgfx.bprint(56, 30,Utility::toString(game.deathcounts),  196, 196, 196);
+                dwgfx.bprint(56, 30,vvvvvv::Utility::toString(game.deathcounts),  196, 196, 196);
             }
             if(game.trinkets<game.timetrialshinytarget)
             {
-                dwgfx.bprint(56, 42,Utility::toString(game.trinkets) + " of " +Utility::toString(game.timetrialshinytarget),  196, 80, 80);
+                dwgfx.bprint(56, 42,vvvvvv::Utility::toString(game.trinkets) + " of " +vvvvvv::Utility::toString(game.timetrialshinytarget),  196, 80, 80);
             }
             else
             {
-                dwgfx.bprint(56, 42,Utility::toString(game.trinkets) + " of " +Utility::toString(game.timetrialshinytarget),  196, 196, 196);
+                dwgfx.bprint(56, 42,vvvvvv::Utility::toString(game.trinkets) + " of " +vvvvvv::Utility::toString(game.timetrialshinytarget),  196, 196, 196);
             }
 
             if(game.timetrialparlost)
@@ -1934,7 +1934,7 @@ void gamerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj)
         obj.trophytext--;
     }
 
-    //dwgfx.rprint(5, 231,Utility::toString(game.coins), 255 - Utility::glow/2, 255 - Utility::glow/2, 196, true);
+    //dwgfx.rprint(5, 231,vvvvvv::Utility::toString(game.coins), 255 - vvvvvv::Utility::glow/2, 255 - vvvvvv::Utility::glow/2, 196, true);
     //dwgfx.drawhuetile(311, 230, 48, 1);
 
     //Level complete image
@@ -1946,14 +1946,14 @@ void gamerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj)
 
     /*
     game.test = true;
-    if (game.teststring !=Utility::toString(game.state)) trace(game.state);
-    game.teststring =Utility::toString(game.state);
+    if (game.teststring !=vvvvvv::Utility::toString(game.state)) trace(game.state);
+    game.teststring =vvvvvv::Utility::toString(game.state);
     */
 
     //Detail entity info for debuging
     /*
     for (int i = 0; i < obj.nentity; i++) {
-    	game.tempstring =Utility::toString(obj.entities[i].type) +", (" +Utility::toString(obj.entities[i].xp) + "," +Utility::toString(obj.entities[i].yp) + ")";
+    	game.tempstring =vvvvvv::Utility::toString(obj.entities[i].type) +", (" +vvvvvv::Utility::toString(obj.entities[i].xp) + "," +vvvvvv::Utility::toString(obj.entities[i].yp) + ")";
     	game.tempstring += " state:" +obj.entities[i].state + ", delay:" + obj.entities[i].statedelay;
     	dwgfx.Print(5, 5 + i * 8, game.tempstring, 255, 255, 255);
     }
@@ -1961,18 +1961,18 @@ void gamerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj)
 
     /*
     game.test = true;
-    game.teststring =Utility::toString(int(obj.entities[obj.getplayer()].xp)) + "," +Utility::toString(int(obj.entities[obj.getplayer()].yp));
-    game.teststring += "   [" +Utility::toString(game.roomx) + "," +Utility::toString(game.roomy) + "]";
+    game.teststring =vvvvvv::Utility::toString(int(obj.entities[obj.getplayer()].xp)) + "," +vvvvvv::Utility::toString(int(obj.entities[obj.getplayer()].yp));
+    game.teststring += "   [" +vvvvvv::Utility::toString(game.roomx) + "," +vvvvvv::Utility::toString(game.roomy) + "]";
     */
 
     //game.test = true;
-    //game.teststring = "Current room deaths: " +Utility::toString(game.currentroomdeaths);
+    //game.teststring = "Current room deaths: " +vvvvvv::Utility::toString(game.currentroomdeaths);
 
     //Special thing for loading:
     /*
     if(dwgfx.fademode==1){
       if(game.mainmenu==22){
-        dwgfx.Print(5, 225, "Loading...", 196, 196, 255 - Utility::glow, false);
+        dwgfx.Print(5, 225, "Loading...", 196, 196, 255 - vvvvvv::Utility::glow, false);
       }
     }
     */
@@ -2017,20 +2017,20 @@ void maprender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj)
     {
         if (game.roomx >= 102 && game.roomx <= 104 && game.roomy >= 110 && game.roomy <= 111)
         {
-            dwgfx.Print(5, 2, "The Ship", 196, 196, 255 - Utility::glow, true);
+            dwgfx.Print(5, 2, "The Ship", 196, 196, 255 - vvvvvv::Utility::glow, true);
         }
         else
         {
-            dwgfx.Print(5, 2, "Dimension VVVVVV", 196, 196, 255 - Utility::glow, true);
+            dwgfx.Print(5, 2, "Dimension VVVVVV", 196, 196, 255 - vvvvvv::Utility::glow, true);
         }
     }
     else
     {
       if (map.finalmode){
         map.glitchname = map.getglitchname(game.roomx, game.roomy);
-        dwgfx.Print(5, 2, map.glitchname, 196, 196, 255 - Utility::glow, true);
+        dwgfx.Print(5, 2, map.glitchname, 196, 196, 255 - vvvvvv::Utility::glow, true);
       }else{
-        dwgfx.Print(5, 2, map.roomname, 196, 196, 255 - Utility::glow, true);
+        dwgfx.Print(5, 2, map.roomname, 196, 196, 255 - vvvvvv::Utility::glow, true);
       }
     }
 
@@ -2052,7 +2052,7 @@ void maprender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj)
     switch(game.menupage)
     {
     case 0:
-        dwgfx.Print(30 - 8, 220, "[MAP]", 196, 196, 255 - Utility::glow);
+        dwgfx.Print(30 - 8, 220, "[MAP]", 196, 196, 255 - vvvvvv::Utility::glow);
         if (game.insecretlab)
         {
             dwgfx.Print(103, 220, "GRAV", 64, 64, 64);
@@ -2161,7 +2161,7 @@ void maprender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj)
               }
             }else if (map.cursorstate == 2){
               if (int(map.cursordelay / 15) % 2 == 0){
-                dwgfx.drawrect(40 + ((game.roomx - 100) * 48) + 2+map.custommmxoff, 21 + ((game.roomy - 100) * 36) + 2+map.custommmyoff, 48 - 4, 36 - 4, 16, 245 - (Utility::glow), 245 - (Utility::glow));
+                dwgfx.drawrect(40 + ((game.roomx - 100) * 48) + 2+map.custommmxoff, 21 + ((game.roomy - 100) * 36) + 2+map.custommmyoff, 48 - 4, 36 - 4, 16, 245 - (vvvvvv::Utility::glow), 245 - (vvvvvv::Utility::glow));
               }
             }
           }else if(map.customzoom==2){
@@ -2172,7 +2172,7 @@ void maprender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj)
               }
             }else if (map.cursorstate == 2){
               if (int(map.cursordelay / 15) % 2 == 0){
-                dwgfx.drawrect(40 + ((game.roomx - 100) * 24) + 2+map.custommmxoff, 21 + ((game.roomy - 100) * 18) + 2+map.custommmyoff, 24 - 4, 18 - 4, 16, 245 - (Utility::glow), 245 - (Utility::glow));
+                dwgfx.drawrect(40 + ((game.roomx - 100) * 24) + 2+map.custommmxoff, 21 + ((game.roomy - 100) * 18) + 2+map.custommmyoff, 24 - 4, 18 - 4, 16, 245 - (vvvvvv::Utility::glow), 245 - (vvvvvv::Utility::glow));
               }
             }
           }else{
@@ -2183,7 +2183,7 @@ void maprender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj)
               }
             }else if (map.cursorstate == 2){
               if (int(map.cursordelay / 15) % 2 == 0){
-                dwgfx.drawrect(40 + ((game.roomx - 100) * 12) + 2+map.custommmxoff, 21 + ((game.roomy - 100) * 9) + 2+map.custommmyoff, 12 - 4, 9 - 4, 16, 245 - (Utility::glow), 245 - (Utility::glow));
+                dwgfx.drawrect(40 + ((game.roomx - 100) * 12) + 2+map.custommmxoff, 21 + ((game.roomy - 100) * 9) + 2+map.custommmyoff, 12 - 4, 9 - 4, 16, 245 - (vvvvvv::Utility::glow), 245 - (vvvvvv::Utility::glow));
               }
             }
           }
@@ -2213,7 +2213,7 @@ void maprender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj)
                 /*if (map.ypos > (0.57 * (680 * 8))) {
                 	i = int(map.ypos - (0.57 * (680 * 8)));
                 	i = int((i / (0.43 * (680 * 8)))*9);
-                	dwgfx.drawrect(40 + ((game.roomx - 100) * 12) + 2, 21 + i + 2, 12 - 4, 9 - 4, 16, 245 - (Utility::glow * 2), 245 - (Utility::glow * 2));
+                	dwgfx.drawrect(40 + ((game.roomx - 100) * 12) + 2, 21 + i + 2, 12 - 4, 9 - 4, 16, 245 - (vvvvvv::Utility::glow * 2), 245 - (vvvvvv::Utility::glow * 2));
                 }*/
                 if (map.cursorstate == 0)
                 {
@@ -2239,7 +2239,7 @@ void maprender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj)
                     map.cursordelay++;
                     if (int(map.cursordelay / 15) % 2 == 0)
                     {
-                        dwgfx.drawrect(40 + ((game.roomx - 100) * 12) + 2 , 21  + 2, 12 - 4, 180 - 4,16, 245 - (Utility::glow), 245 - (Utility::glow));
+                        dwgfx.drawrect(40 + ((game.roomx - 100) * 12) + 2 , 21  + 2, 12 - 4, 180 - 4,16, 245 - (vvvvvv::Utility::glow), 245 - (vvvvvv::Utility::glow));
                     }
                 }
             }
@@ -2269,7 +2269,7 @@ void maprender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj)
                     map.cursordelay++;
                     if (int(map.cursordelay / 15) % 2 == 0)
                     {
-                        dwgfx.drawrect(40 + ((game.roomx - 100) * 12) + 2, 21 + ((game.roomy - 100) * 9) + 2, 12 - 4, 9 - 4, 16, 245 - (Utility::glow), 245 - (Utility::glow));
+                        dwgfx.drawrect(40 + ((game.roomx - 100) * 12) + 2, 21 + ((game.roomy - 100) * 9) + 2, 12 - 4, 9 - 4, 16, 245 - (vvvvvv::Utility::glow), 245 - (vvvvvv::Utility::glow));
                     }
                 }
             }
@@ -2310,73 +2310,73 @@ void maprender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj)
         if (game.insecretlab)
         {
             dwgfx.Print(30, 220, "MAP", 64,64,64);
-            dwgfx.Print(103-8, 220, "[GRAV]", 196, 196, 255 - Utility::glow);
+            dwgfx.Print(103-8, 220, "[GRAV]", 196, 196, 255 - vvvvvv::Utility::glow);
             dwgfx.Print(185-4, 220, "STATS", 64,64,64);
             dwgfx.Print(258, 220, "SAVE", 64, 64, 64);
 
             if (dwgfx.flipmode)
             {
-                dwgfx.Print(0, 174, "SUPER GRAVITRON HIGHSCORE", 196, 196, 255 - Utility::glow, true);
+                dwgfx.Print(0, 174, "SUPER GRAVITRON HIGHSCORE", 196, 196, 255 - vvvvvv::Utility::glow, true);
 
-                tempstring = Utility::timeString(game.swnrecord);
-                dwgfx.Print( 240, 124, "Best Time", 196, 196, 255 - Utility::glow, true);
-                dwgfx.bigrprint( 300, 94, tempstring, 196, 196, 255 - Utility::glow, true, 2);
+                tempstring = vvvvvv::Utility::timeString(game.swnrecord);
+                dwgfx.Print( 240, 124, "Best Time", 196, 196, 255 - vvvvvv::Utility::glow, true);
+                dwgfx.bigrprint( 300, 94, tempstring, 196, 196, 255 - vvvvvv::Utility::glow, true, 2);
 
                 switch(game.swnbestrank)
                 {
                 case 0:
-                    dwgfx.Print( -1, 40, "Next Trophy at 5 seconds", 196, 196, 255 - Utility::glow, true);
+                    dwgfx.Print( -1, 40, "Next Trophy at 5 seconds", 196, 196, 255 - vvvvvv::Utility::glow, true);
                     break;
                 case 1:
-                    dwgfx.Print( -1, 40, "Next Trophy at 10 seconds", 196, 196, 255 - Utility::glow, true);
+                    dwgfx.Print( -1, 40, "Next Trophy at 10 seconds", 196, 196, 255 - vvvvvv::Utility::glow, true);
                     break;
                 case 2:
-                    dwgfx.Print( -1, 40, "Next Trophy at 15 seconds", 196, 196, 255 - Utility::glow, true);
+                    dwgfx.Print( -1, 40, "Next Trophy at 15 seconds", 196, 196, 255 - vvvvvv::Utility::glow, true);
                     break;
                 case 3:
-                    dwgfx.Print( -1, 40, "Next Trophy at 20 seconds", 196, 196, 255 - Utility::glow, true);
+                    dwgfx.Print( -1, 40, "Next Trophy at 20 seconds", 196, 196, 255 - vvvvvv::Utility::glow, true);
                     break;
                 case 4:
-                    dwgfx.Print( -1, 40, "Next Trophy at 30 seconds", 196, 196, 255 - Utility::glow, true);
+                    dwgfx.Print( -1, 40, "Next Trophy at 30 seconds", 196, 196, 255 - vvvvvv::Utility::glow, true);
                     break;
                 case 5:
-                    dwgfx.Print( -1, 40, "Next Trophy at 1 minute", 196, 196, 255 - Utility::glow, true);
+                    dwgfx.Print( -1, 40, "Next Trophy at 1 minute", 196, 196, 255 - vvvvvv::Utility::glow, true);
                     break;
                 case 6:
-                    dwgfx.Print( -1, 40, "All Trophies collected!", 196, 196, 255 - Utility::glow, true);
+                    dwgfx.Print( -1, 40, "All Trophies collected!", 196, 196, 255 - vvvvvv::Utility::glow, true);
                     break;
                 }
             }
             else
             {
-                dwgfx.Print(0, 40, "SUPER GRAVITRON HIGHSCORE", 196, 196, 255 - Utility::glow, true);
+                dwgfx.Print(0, 40, "SUPER GRAVITRON HIGHSCORE", 196, 196, 255 - vvvvvv::Utility::glow, true);
 
-                tempstring = Utility::timeString(game.swnrecord);
-                dwgfx.Print( 240, 90, "Best Time", 196, 196, 255 - Utility::glow, true);
-                dwgfx.bigrprint( 300, 104, tempstring, 196, 196, 255 - Utility::glow, true, 2);
+                tempstring = vvvvvv::Utility::timeString(game.swnrecord);
+                dwgfx.Print( 240, 90, "Best Time", 196, 196, 255 - vvvvvv::Utility::glow, true);
+                dwgfx.bigrprint( 300, 104, tempstring, 196, 196, 255 - vvvvvv::Utility::glow, true, 2);
 
                 switch(game.swnbestrank)
                 {
                 case 0:
-                    dwgfx.Print( -1, 174, "Next Trophy at 5 seconds", 196, 196, 255 - Utility::glow, true);
+                    dwgfx.Print( -1, 174, "Next Trophy at 5 seconds", 196, 196, 255 - vvvvvv::Utility::glow, true);
                     break;
                 case 1:
-                    dwgfx.Print( -1, 174, "Next Trophy at 10 seconds", 196, 196, 255 - Utility::glow, true);
+                    dwgfx.Print( -1, 174, "Next Trophy at 10 seconds", 196, 196, 255 - vvvvvv::Utility::glow, true);
                     break;
                 case 2:
-                    dwgfx.Print( -1, 174, "Next Trophy at 15 seconds", 196, 196, 255 - Utility::glow, true);
+                    dwgfx.Print( -1, 174, "Next Trophy at 15 seconds", 196, 196, 255 - vvvvvv::Utility::glow, true);
                     break;
                 case 3:
-                    dwgfx.Print( -1, 174, "Next Trophy at 20 seconds", 196, 196, 255 - Utility::glow, true);
+                    dwgfx.Print( -1, 174, "Next Trophy at 20 seconds", 196, 196, 255 - vvvvvv::Utility::glow, true);
                     break;
                 case 4:
-                    dwgfx.Print( -1, 174, "Next Trophy at 30 seconds", 196, 196, 255 - Utility::glow, true);
+                    dwgfx.Print( -1, 174, "Next Trophy at 30 seconds", 196, 196, 255 - vvvvvv::Utility::glow, true);
                     break;
                 case 5:
-                    dwgfx.Print( -1, 174, "Next Trophy at 1 minute", 196, 196, 255 - Utility::glow, true);
+                    dwgfx.Print( -1, 174, "Next Trophy at 1 minute", 196, 196, 255 - vvvvvv::Utility::glow, true);
                     break;
                 case 6:
-                    dwgfx.Print( -1, 174, "All Trophies collected!", 196, 196, 255 - Utility::glow, true);
+                    dwgfx.Print( -1, 174, "All Trophies collected!", 196, 196, 255 - vvvvvv::Utility::glow, true);
                     break;
                 }
             }
@@ -2384,53 +2384,53 @@ void maprender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj)
         else if (obj.flags[67] == 1 && !map.custommode)
         {
             dwgfx.Print(30, 220, "MAP", 64,64,64);
-            dwgfx.Print(103-8, 220, "[SHIP]", 196, 196, 255 - Utility::glow);
+            dwgfx.Print(103-8, 220, "[SHIP]", 196, 196, 255 - vvvvvv::Utility::glow);
             dwgfx.Print(185-4, 220, "STATS", 64,64,64);
             dwgfx.Print(258, 220, "SAVE", 64, 64, 64);
 
-            dwgfx.Print(0, 105, "Press ACTION to warp to the ship.", 196, 196, 255 - Utility::glow, true);
+            dwgfx.Print(0, 105, "Press ACTION to warp to the ship.", 196, 196, 255 - vvvvvv::Utility::glow, true);
         }
         else if(map.custommode){
           dwgfx.Print(30, 220, "MAP", 64,64,64);
-            dwgfx.Print(103-8, 220, "[CREW]", 196, 196, 255 - Utility::glow);
+            dwgfx.Print(103-8, 220, "[CREW]", 196, 196, 255 - vvvvvv::Utility::glow);
             dwgfx.Print(185-4, 220, "STATS", 64,64,64);
             dwgfx.Print(258, 220, "SAVE", 64, 64, 64);
 
             if (dwgfx.flipmode)
             {
-              dwgfx.bigprint( -1, 220-45, ed.ListOfMetaData[game.playcustomlevel].title, 196, 196, 255 - Utility::glow, true);
-              dwgfx.Print( -1, 220-70, "by " + ed.ListOfMetaData[game.playcustomlevel].creator, 196, 196, 255 - Utility::glow, true);
-              dwgfx.Print( -1, 220-80, ed.ListOfMetaData[game.playcustomlevel].website, 196, 196, 255 - Utility::glow, true);
-              dwgfx.Print( -1, 220-100, ed.ListOfMetaData[game.playcustomlevel].Desc1, 196, 196, 255 - Utility::glow, true);
-              dwgfx.Print( -1, 220-110, ed.ListOfMetaData[game.playcustomlevel].Desc2, 196, 196, 255 - Utility::glow, true);
-              dwgfx.Print( -1, 220-120, ed.ListOfMetaData[game.playcustomlevel].Desc3, 196, 196, 255 - Utility::glow, true);
+              dwgfx.bigprint( -1, 220-45, ed.ListOfMetaData[game.playcustomlevel].title, 196, 196, 255 - vvvvvv::Utility::glow, true);
+              dwgfx.Print( -1, 220-70, "by " + ed.ListOfMetaData[game.playcustomlevel].creator, 196, 196, 255 - vvvvvv::Utility::glow, true);
+              dwgfx.Print( -1, 220-80, ed.ListOfMetaData[game.playcustomlevel].website, 196, 196, 255 - vvvvvv::Utility::glow, true);
+              dwgfx.Print( -1, 220-100, ed.ListOfMetaData[game.playcustomlevel].Desc1, 196, 196, 255 - vvvvvv::Utility::glow, true);
+              dwgfx.Print( -1, 220-110, ed.ListOfMetaData[game.playcustomlevel].Desc2, 196, 196, 255 - vvvvvv::Utility::glow, true);
+              dwgfx.Print( -1, 220-120, ed.ListOfMetaData[game.playcustomlevel].Desc3, 196, 196, 255 - vvvvvv::Utility::glow, true);
 
               if(map.customcrewmates-game.crewmates==1){
-                dwgfx.Print(1,220-165, Utility::toWord(int(map.customcrewmates-game.crewmates))+ " crewmate remains", 196, 196, 255 - Utility::glow, true);
+                dwgfx.Print(1,220-165, vvvvvv::Utility::toWord(int(map.customcrewmates-game.crewmates))+ " crewmate remains", 196, 196, 255 - vvvvvv::Utility::glow, true);
               }else if(map.customcrewmates-game.crewmates>0){
-                dwgfx.Print(1,220-165, Utility::toWord(int(map.customcrewmates-game.crewmates))+ " crewmates remain", 196, 196, 255 - Utility::glow, true);
+                dwgfx.Print(1,220-165, vvvvvv::Utility::toWord(int(map.customcrewmates-game.crewmates))+ " crewmates remain", 196, 196, 255 - vvvvvv::Utility::glow, true);
               }
             }
             else
             {
-              dwgfx.bigprint( -1, 45, ed.ListOfMetaData[game.playcustomlevel].title, 196, 196, 255 - Utility::glow, true);
-              dwgfx.Print( -1, 70, "by " + ed.ListOfMetaData[game.playcustomlevel].creator, 196, 196, 255 - Utility::glow, true);
-              dwgfx.Print( -1, 80, ed.ListOfMetaData[game.playcustomlevel].website, 196, 196, 255 - Utility::glow, true);
-              dwgfx.Print( -1, 100, ed.ListOfMetaData[game.playcustomlevel].Desc1, 196, 196, 255 - Utility::glow, true);
-              dwgfx.Print( -1, 110, ed.ListOfMetaData[game.playcustomlevel].Desc2, 196, 196, 255 - Utility::glow, true);
-              dwgfx.Print( -1, 120, ed.ListOfMetaData[game.playcustomlevel].Desc3, 196, 196, 255 - Utility::glow, true);
+              dwgfx.bigprint( -1, 45, ed.ListOfMetaData[game.playcustomlevel].title, 196, 196, 255 - vvvvvv::Utility::glow, true);
+              dwgfx.Print( -1, 70, "by " + ed.ListOfMetaData[game.playcustomlevel].creator, 196, 196, 255 - vvvvvv::Utility::glow, true);
+              dwgfx.Print( -1, 80, ed.ListOfMetaData[game.playcustomlevel].website, 196, 196, 255 - vvvvvv::Utility::glow, true);
+              dwgfx.Print( -1, 100, ed.ListOfMetaData[game.playcustomlevel].Desc1, 196, 196, 255 - vvvvvv::Utility::glow, true);
+              dwgfx.Print( -1, 110, ed.ListOfMetaData[game.playcustomlevel].Desc2, 196, 196, 255 - vvvvvv::Utility::glow, true);
+              dwgfx.Print( -1, 120, ed.ListOfMetaData[game.playcustomlevel].Desc3, 196, 196, 255 - vvvvvv::Utility::glow, true);
 
               if(map.customcrewmates-game.crewmates==1){
-                dwgfx.Print(1,165, Utility::toWord(int(map.customcrewmates-game.crewmates))+ " crewmate remains", 196, 196, 255 - Utility::glow, true);
+                dwgfx.Print(1,165, vvvvvv::Utility::toWord(int(map.customcrewmates-game.crewmates))+ " crewmate remains", 196, 196, 255 - vvvvvv::Utility::glow, true);
               }else if(map.customcrewmates-game.crewmates>0){
-                dwgfx.Print(1,165, Utility::toWord(int(map.customcrewmates-game.crewmates))+ " crewmates remain", 196, 196, 255 - Utility::glow, true);
+                dwgfx.Print(1,165, vvvvvv::Utility::toWord(int(map.customcrewmates-game.crewmates))+ " crewmates remain", 196, 196, 255 - vvvvvv::Utility::glow, true);
               }
             }
         }
         else
         {
             dwgfx.Print(30, 220, "MAP", 64,64,64);
-            dwgfx.Print(103-8, 220, "[CREW]", 196, 196, 255 - Utility::glow);
+            dwgfx.Print(103-8, 220, "[CREW]", 196, 196, 255 - vvvvvv::Utility::glow);
             dwgfx.Print(185-4, 220, "STATS", 64,64,64);
             dwgfx.Print(258, 220, "SAVE", 64, 64, 64);
 
@@ -2508,53 +2508,53 @@ void maprender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj)
         {
             dwgfx.Print(103, 220, "CREW", 64,64,64);
         }
-        dwgfx.Print(185-12, 220, "[STATS]", 196, 196, 255 - Utility::glow);
+        dwgfx.Print(185-12, 220, "[STATS]", 196, 196, 255 - vvvvvv::Utility::glow);
         dwgfx.Print(258, 220, "SAVE", 64, 64, 64);
 
         if(map.custommode){
           if (dwgfx.flipmode)
           {
-              dwgfx.Print(0, 164, "[Trinkets found]", 196, 196, 255 - Utility::glow, true);
-              dwgfx.Print(0, 152, Utility::toWord(game.trinkets) + " out of " + Utility::toWord(map.customtrinkets), 96,96,96, true);
+              dwgfx.Print(0, 164, "[Trinkets found]", 196, 196, 255 - vvvvvv::Utility::glow, true);
+              dwgfx.Print(0, 152, vvvvvv::Utility::toWord(game.trinkets) + " out of " + vvvvvv::Utility::toWord(map.customtrinkets), 96,96,96, true);
 
-              dwgfx.Print(0, 114, "[Number of Deaths]", 196, 196, 255 - Utility::glow, true);
-              dwgfx.Print(0, 102,Utility::toString(game.deathcounts),  96,96,96, true);
+              dwgfx.Print(0, 114, "[Number of Deaths]", 196, 196, 255 - vvvvvv::Utility::glow, true);
+              dwgfx.Print(0, 102,vvvvvv::Utility::toString(game.deathcounts),  96,96,96, true);
 
-              dwgfx.Print(0, 64, "[Time Taken]", 196, 196, 255 - Utility::glow, true);
+              dwgfx.Print(0, 64, "[Time Taken]", 196, 196, 255 - vvvvvv::Utility::glow, true);
               dwgfx.Print(0, 52, game.timestring(),  96, 96, 96, true);
           }
           else
           {
-              dwgfx.Print(0, 52, "[Trinkets found]", 196, 196, 255 - Utility::glow, true);
-              dwgfx.Print(0, 64, Utility::toWord(game.trinkets) + " out of "+Utility::toWord(map.customtrinkets), 96,96,96, true);
+              dwgfx.Print(0, 52, "[Trinkets found]", 196, 196, 255 - vvvvvv::Utility::glow, true);
+              dwgfx.Print(0, 64, vvvvvv::Utility::toWord(game.trinkets) + " out of "+vvvvvv::Utility::toWord(map.customtrinkets), 96,96,96, true);
 
-              dwgfx.Print(0, 102, "[Number of Deaths]", 196, 196, 255 - Utility::glow, true);
-              dwgfx.Print(0, 114,Utility::toString(game.deathcounts),  96,96,96, true);
+              dwgfx.Print(0, 102, "[Number of Deaths]", 196, 196, 255 - vvvvvv::Utility::glow, true);
+              dwgfx.Print(0, 114,vvvvvv::Utility::toString(game.deathcounts),  96,96,96, true);
 
-              dwgfx.Print(0, 152, "[Time Taken]", 196, 196, 255 - Utility::glow, true);
+              dwgfx.Print(0, 152, "[Time Taken]", 196, 196, 255 - vvvvvv::Utility::glow, true);
               dwgfx.Print(0, 164, game.timestring(),  96, 96, 96, true);
           }
         }else{
           if (dwgfx.flipmode)
           {
-              dwgfx.Print(0, 164, "[Trinkets found]", 196, 196, 255 - Utility::glow, true);
-              dwgfx.Print(0, 152, Utility::toWord(game.trinkets) + " out of Twenty", 96,96,96, true);
+              dwgfx.Print(0, 164, "[Trinkets found]", 196, 196, 255 - vvvvvv::Utility::glow, true);
+              dwgfx.Print(0, 152, vvvvvv::Utility::toWord(game.trinkets) + " out of Twenty", 96,96,96, true);
 
-              dwgfx.Print(0, 114, "[Number of Deaths]", 196, 196, 255 - Utility::glow, true);
-              dwgfx.Print(0, 102,Utility::toString(game.deathcounts),  96,96,96, true);
+              dwgfx.Print(0, 114, "[Number of Deaths]", 196, 196, 255 - vvvvvv::Utility::glow, true);
+              dwgfx.Print(0, 102,vvvvvv::Utility::toString(game.deathcounts),  96,96,96, true);
 
-              dwgfx.Print(0, 64, "[Time Taken]", 196, 196, 255 - Utility::glow, true);
+              dwgfx.Print(0, 64, "[Time Taken]", 196, 196, 255 - vvvvvv::Utility::glow, true);
               dwgfx.Print(0, 52, game.timestring(),  96, 96, 96, true);
           }
           else
           {
-              dwgfx.Print(0, 52, "[Trinkets found]", 196, 196, 255 - Utility::glow, true);
-              dwgfx.Print(0, 64, Utility::toWord(game.trinkets) + " out of Twenty", 96,96,96, true);
+              dwgfx.Print(0, 52, "[Trinkets found]", 196, 196, 255 - vvvvvv::Utility::glow, true);
+              dwgfx.Print(0, 64, vvvvvv::Utility::toWord(game.trinkets) + " out of Twenty", 96,96,96, true);
 
-              dwgfx.Print(0, 102, "[Number of Deaths]", 196, 196, 255 - Utility::glow, true);
-              dwgfx.Print(0, 114,Utility::toString(game.deathcounts),  96,96,96, true);
+              dwgfx.Print(0, 102, "[Number of Deaths]", 196, 196, 255 - vvvvvv::Utility::glow, true);
+              dwgfx.Print(0, 114,vvvvvv::Utility::toString(game.deathcounts),  96,96,96, true);
 
-              dwgfx.Print(0, 152, "[Time Taken]", 196, 196, 255 - Utility::glow, true);
+              dwgfx.Print(0, 152, "[Time Taken]", 196, 196, 255 - vvvvvv::Utility::glow, true);
               dwgfx.Print(0, 164, game.timestring(),  96, 96, 96, true);
           }
         }
@@ -2574,7 +2574,7 @@ void maprender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj)
             dwgfx.Print(103, 220, "CREW", 64,64,64);
         }
         dwgfx.Print(185-4, 220, "STATS", 64,64,64);
-        dwgfx.Print(258 - 8, 220, "[SAVE]", 196, 196, 255 - Utility::glow);
+        dwgfx.Print(258 - 8, 220, "[SAVE]", 196, 196, 255 - vvvvvv::Utility::glow);
 
         if (game.inintermission)
         {
@@ -2596,24 +2596,24 @@ void maprender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj)
         {
           if (game.gamesaved)
             {
-                dwgfx.Print(0, 36, "Game saved ok!", 255 - (Utility::glow / 2), 255 - (Utility::glow / 2), 255 - (Utility::glow / 2), true);
+                dwgfx.Print(0, 36, "Game saved ok!", 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2), true);
 
                 dwgfx.drawpixeltextbox(25, 65, 270, 90, 34,12, 65, 185, 207,0,4);
 
                 if (dwgfx.flipmode)
                 {
-                    dwgfx.Print(0, 122, game.customleveltitle, 25, 255 - (Utility::glow / 2), 255 - (Utility::glow / 2), true);
-                    dwgfx.Print(160 - 84, 78, game.savetime, 255 - (Utility::glow / 2), 255 - (Utility::glow / 2), 255 - (Utility::glow / 2));
-                    dwgfx.Print(160 + 40, 78, Utility::toWord(game.savetrinkets), 255 - (Utility::glow / 2), 255 - (Utility::glow / 2), 255 - (Utility::glow / 2));
+                    dwgfx.Print(0, 122, game.customleveltitle, 25, 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2), true);
+                    dwgfx.Print(160 - 84, 78, game.savetime, 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2));
+                    dwgfx.Print(160 + 40, 78, vvvvvv::Utility::toWord(game.savetrinkets), 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2));
 
                     dwgfx.drawspritesetcol(50, 74, 50, 18);
                     dwgfx.drawspritesetcol(175, 74, 22, 18);
                 }
                 else
                 {
-                    dwgfx.Print(0, 90, game.customleveltitle, 25, 255 - (Utility::glow / 2), 255 - (Utility::glow / 2), true);
-                    dwgfx.Print(160 - 84, 132, game.savetime, 255 - (Utility::glow / 2), 255 - (Utility::glow / 2), 255 - (Utility::glow / 2));
-                    dwgfx.Print(160 + 40, 132, Utility::toWord(game.savetrinkets), 255 - (Utility::glow / 2), 255 - (Utility::glow / 2), 255 - (Utility::glow / 2));
+                    dwgfx.Print(0, 90, game.customleveltitle, 25, 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2), true);
+                    dwgfx.Print(160 - 84, 132, game.savetime, 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2));
+                    dwgfx.Print(160 + 40, 132, vvvvvv::Utility::toWord(game.savetrinkets), 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2));
 
                     dwgfx.drawspritesetcol(50, 126, 50, 18);
                     dwgfx.drawspritesetcol(175, 126, 22, 18);
@@ -2621,7 +2621,7 @@ void maprender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj)
             }
             else
             {
-                dwgfx.Print(0, 80, "[Press ACTION to save your game]", 255 - (Utility::glow * 2), 255 - (Utility::glow * 2), 255 - Utility::glow, true);
+                dwgfx.Print(0, 80, "[Press ACTION to save your game]", 255 - (vvvvvv::Utility::glow * 2), 255 - (vvvvvv::Utility::glow * 2), 255 - vvvvvv::Utility::glow, true);
             }
         }
         else
@@ -2639,32 +2639,32 @@ void maprender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj)
 
             if (game.gamesaved)
             {
-                dwgfx.Print(0, 36, "Game saved ok!", 255 - (Utility::glow / 2), 255 - (Utility::glow / 2), 255 - (Utility::glow / 2), true);
+                dwgfx.Print(0, 36, "Game saved ok!", 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2), true);
 
                 dwgfx.drawpixeltextbox(25, 65, 270, 90, 34,12, 65, 185, 207,0,4);
 
                 if (dwgfx.flipmode)
                 {
-                    dwgfx.Print(0, 132, game.savearea, 25, 255 - (Utility::glow / 2), 255 - (Utility::glow / 2), true);
+                    dwgfx.Print(0, 132, game.savearea, 25, 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2), true);
                     for (int i = 0; i < 6; i++)
                     {
                         dwgfx.drawcrewman(169-(3*42)+(i*42), 98, i, game.crewstats[i], true);
                     }
-                    dwgfx.Print(160 - 84, 78, game.savetime, 255 - (Utility::glow / 2), 255 - (Utility::glow / 2), 255 - (Utility::glow / 2));
-                    dwgfx.Print(160 + 40, 78, Utility::toWord(game.savetrinkets), 255 - (Utility::glow / 2), 255 - (Utility::glow / 2), 255 - (Utility::glow / 2));
+                    dwgfx.Print(160 - 84, 78, game.savetime, 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2));
+                    dwgfx.Print(160 + 40, 78, vvvvvv::Utility::toWord(game.savetrinkets), 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2));
 
                     dwgfx.drawspritesetcol(50, 74, 50, 18);
                     dwgfx.drawspritesetcol(175, 74, 22, 18);
                 }
                 else
                 {
-                    dwgfx.Print(0, 80, game.savearea, 25, 255 - (Utility::glow / 2), 255 - (Utility::glow / 2), true);
+                    dwgfx.Print(0, 80, game.savearea, 25, 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2), true);
                     for (int i = 0; i < 6; i++)
                     {
                         dwgfx.drawcrewman(169-(3*42)+(i*42), 95, i, game.crewstats[i], true);
                     }
-                    dwgfx.Print(160 - 84, 132, game.savetime, 255 - (Utility::glow / 2), 255 - (Utility::glow / 2), 255 - (Utility::glow / 2));
-                    dwgfx.Print(160 + 40, 132, Utility::toWord(game.savetrinkets), 255 - (Utility::glow / 2), 255 - (Utility::glow / 2), 255 - (Utility::glow / 2));
+                    dwgfx.Print(160 - 84, 132, game.savetime, 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2));
+                    dwgfx.Print(160 + 40, 132, vvvvvv::Utility::toWord(game.savetrinkets), 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2), 255 - (vvvvvv::Utility::glow / 2));
 
                     dwgfx.drawspritesetcol(50, 126, 50, 18);
                     dwgfx.drawspritesetcol(175, 126, 22, 18);
@@ -2672,40 +2672,40 @@ void maprender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj)
             }
             else
             {
-                dwgfx.Print(0, 80, "[Press ACTION to save your game]", 255 - (Utility::glow * 2), 255 - (Utility::glow * 2), 255 - Utility::glow, true);
+                dwgfx.Print(0, 80, "[Press ACTION to save your game]", 255 - (vvvvvv::Utility::glow * 2), 255 - (vvvvvv::Utility::glow * 2), 255 - vvvvvv::Utility::glow, true);
 
                 if (game.quicksummary != "")
                 {
                     if (dwgfx.flipmode)
                     {
-                        dwgfx.Print(0, 110, "Last Save:", 164 - (Utility::glow / 4), 164 - (Utility::glow / 4), 164, true);
-                        dwgfx.Print(0, 100, game.quicksummary, 164  - (Utility::glow / 4), 164 - (Utility::glow / 4), 164, true);
+                        dwgfx.Print(0, 110, "Last Save:", 164 - (vvvvvv::Utility::glow / 4), 164 - (vvvvvv::Utility::glow / 4), 164, true);
+                        dwgfx.Print(0, 100, game.quicksummary, 164  - (vvvvvv::Utility::glow / 4), 164 - (vvvvvv::Utility::glow / 4), 164, true);
                     }
                     else
                     {
-                        dwgfx.Print(0, 100, "Last Save:", 164 - (Utility::glow / 4), 164 - (Utility::glow / 4), 164, true);
-                        dwgfx.Print(0, 110, game.quicksummary, 164  - (Utility::glow / 4), 164 - (Utility::glow / 4), 164, true);
+                        dwgfx.Print(0, 100, "Last Save:", 164 - (vvvvvv::Utility::glow / 4), 164 - (vvvvvv::Utility::glow / 4), 164, true);
+                        dwgfx.Print(0, 110, game.quicksummary, 164  - (vvvvvv::Utility::glow / 4), 164 - (vvvvvv::Utility::glow / 4), 164, true);
                     }
                 }
             }
         }
         break;
     case 10:
-        dwgfx.Print(128, 220, "[ QUIT ]", 196, 196, 255 - Utility::glow);
+        dwgfx.Print(128, 220, "[ QUIT ]", 196, 196, 255 - vvvvvv::Utility::glow);
 
         if (dwgfx.flipmode)
         {
             if (game.intimetrial || game.insecretlab || game.nodeathmode || game.menukludge)
             {
-                dwgfx.Print(0, 135, "Return to main menu?", 196, 196, 255 - Utility::glow, true);
+                dwgfx.Print(0, 135, "Return to main menu?", 196, 196, 255 - vvvvvv::Utility::glow, true);
             }
             else
             {
-                dwgfx.Print(0, 142, "Do you want to quit? You will", 196, 196, 255 - Utility::glow, true);
-                dwgfx.Print(0, 130, "lose any unsaved progress.", 196, 196, 255 - Utility::glow, true);
+                dwgfx.Print(0, 142, "Do you want to quit? You will", 196, 196, 255 - vvvvvv::Utility::glow, true);
+                dwgfx.Print(0, 130, "lose any unsaved progress.", 196, 196, 255 - vvvvvv::Utility::glow, true);
             }
 
-            dwgfx.Print(80-16, 88, "[ NO, KEEP PLAYING ]", 196, 196, 255 - Utility::glow);
+            dwgfx.Print(80-16, 88, "[ NO, KEEP PLAYING ]", 196, 196, 255 - vvvvvv::Utility::glow);
             dwgfx.Print(80 + 32, 76, "yes, quit to menu",  96, 96, 96);
         }
         else
@@ -2713,88 +2713,88 @@ void maprender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj)
 
             if (game.intimetrial || game.insecretlab || game.nodeathmode || game.menukludge)
             {
-                dwgfx.Print(0, 80, "Return to main menu?", 196, 196, 255 - Utility::glow, true);
+                dwgfx.Print(0, 80, "Return to main menu?", 196, 196, 255 - vvvvvv::Utility::glow, true);
             }
             else
             {
-                dwgfx.Print(0, 76, "Do you want to quit? You will", 196, 196, 255 - Utility::glow, true);
-                dwgfx.Print(0, 88, "lose any unsaved progress.", 196, 196, 255 - Utility::glow, true);
+                dwgfx.Print(0, 76, "Do you want to quit? You will", 196, 196, 255 - vvvvvv::Utility::glow, true);
+                dwgfx.Print(0, 88, "lose any unsaved progress.", 196, 196, 255 - vvvvvv::Utility::glow, true);
             }
 
-            dwgfx.Print(80-16, 130, "[ NO, KEEP PLAYING ]", 196, 196, 255 - Utility::glow);
+            dwgfx.Print(80-16, 130, "[ NO, KEEP PLAYING ]", 196, 196, 255 - vvvvvv::Utility::glow);
             dwgfx.Print(80 + 32, 142, "yes, quit to menu",  96, 96, 96);
 
         }
         break;
     case 11:
-        dwgfx.Print(128, 220, "[ QUIT ]", 196, 196, 255 - Utility::glow);
+        dwgfx.Print(128, 220, "[ QUIT ]", 196, 196, 255 - vvvvvv::Utility::glow);
 
         if (dwgfx.flipmode)
         {
             if (game.intimetrial || game.insecretlab || game.nodeathmode || game.menukludge)
             {
-                dwgfx.Print(0, 135, "Return to main menu?", 196, 196, 255 - Utility::glow, true);
+                dwgfx.Print(0, 135, "Return to main menu?", 196, 196, 255 - vvvvvv::Utility::glow, true);
             }
             else
             {
-                dwgfx.Print(0, 142, "Do you want to quit? You will", 196, 196, 255 - Utility::glow, true);
-                dwgfx.Print(0, 130, "lose any unsaved progress.", 196, 196, 255 - Utility::glow, true);
+                dwgfx.Print(0, 142, "Do you want to quit? You will", 196, 196, 255 - vvvvvv::Utility::glow, true);
+                dwgfx.Print(0, 130, "lose any unsaved progress.", 196, 196, 255 - vvvvvv::Utility::glow, true);
             }
 
             dwgfx.Print(80, 88, "no, keep playing", 96,96,96);
-            dwgfx.Print(80+32-16, 76, "[ YES, QUIT TO MENU ]",  196, 196, 255 - Utility::glow);
+            dwgfx.Print(80+32-16, 76, "[ YES, QUIT TO MENU ]",  196, 196, 255 - vvvvvv::Utility::glow);
         }
         else
         {
             if (game.intimetrial || game.insecretlab || game.nodeathmode || game.menukludge)
             {
-                dwgfx.Print(0, 80, "Return to main menu?", 196, 196, 255 - Utility::glow, true);
+                dwgfx.Print(0, 80, "Return to main menu?", 196, 196, 255 - vvvvvv::Utility::glow, true);
             }
             else
             {
-                dwgfx.Print(0, 76, "Do you want to quit? You will", 196, 196, 255 - Utility::glow, true);
-                dwgfx.Print(0, 88, "lose any unsaved progress.", 196, 196, 255 - Utility::glow, true);
+                dwgfx.Print(0, 76, "Do you want to quit? You will", 196, 196, 255 - vvvvvv::Utility::glow, true);
+                dwgfx.Print(0, 88, "lose any unsaved progress.", 196, 196, 255 - vvvvvv::Utility::glow, true);
             }
 
             dwgfx.Print(80, 130, "no, keep playing", 96,96,96);
-            dwgfx.Print(80+32-16, 142, "[ YES, QUIT TO MENU ]", 196, 196, 255 - Utility::glow);
+            dwgfx.Print(80+32-16, 142, "[ YES, QUIT TO MENU ]", 196, 196, 255 - vvvvvv::Utility::glow);
         }
         break;
     case 20:
-        dwgfx.Print(128, 220, "[ GRAVITRON ]", 196, 196, 255 - Utility::glow, true);
+        dwgfx.Print(128, 220, "[ GRAVITRON ]", 196, 196, 255 - vvvvvv::Utility::glow, true);
 
         if (dwgfx.flipmode)
         {
-            dwgfx.Print(0, 76, "the secret laboratory?", 196, 196, 255 - Utility::glow, true);
-            dwgfx.Print(0, 88, "Do you want to return to", 196, 196, 255 - Utility::glow, true);
-            dwgfx.Print(80-16, 142, "[ NO, KEEP PLAYING ]", 196, 196, 255 - Utility::glow);
+            dwgfx.Print(0, 76, "the secret laboratory?", 196, 196, 255 - vvvvvv::Utility::glow, true);
+            dwgfx.Print(0, 88, "Do you want to return to", 196, 196, 255 - vvvvvv::Utility::glow, true);
+            dwgfx.Print(80-16, 142, "[ NO, KEEP PLAYING ]", 196, 196, 255 - vvvvvv::Utility::glow);
             dwgfx.Print(80 + 32, 130, "yes, return",  96, 96, 96);
         }
         else
         {
-            dwgfx.Print(0, 76, "Do you want to return to", 196, 196, 255 - Utility::glow, true);
-            dwgfx.Print(0, 88, "the secret laboratory?", 196, 196, 255 - Utility::glow, true);
-            dwgfx.Print(80-16, 130, "[ NO, KEEP PLAYING ]", 196, 196, 255 - Utility::glow);
+            dwgfx.Print(0, 76, "Do you want to return to", 196, 196, 255 - vvvvvv::Utility::glow, true);
+            dwgfx.Print(0, 88, "the secret laboratory?", 196, 196, 255 - vvvvvv::Utility::glow, true);
+            dwgfx.Print(80-16, 130, "[ NO, KEEP PLAYING ]", 196, 196, 255 - vvvvvv::Utility::glow);
             dwgfx.Print(80 + 32, 142, "yes, return",  96, 96, 96);
         }
 
         break;
     case 21:
-        dwgfx.Print(128, 220, "[ GRAVITRON ]", 196, 196, 255 - Utility::glow, true);
+        dwgfx.Print(128, 220, "[ GRAVITRON ]", 196, 196, 255 - vvvvvv::Utility::glow, true);
 
         if (dwgfx.flipmode)
         {
-            dwgfx.Print(0, 76, "the secret laboratory?", 196, 196, 255 - Utility::glow, true);
-            dwgfx.Print(0, 88, "Do you want to return to", 196, 196, 255 - Utility::glow, true);
+            dwgfx.Print(0, 76, "the secret laboratory?", 196, 196, 255 - vvvvvv::Utility::glow, true);
+            dwgfx.Print(0, 88, "Do you want to return to", 196, 196, 255 - vvvvvv::Utility::glow, true);
             dwgfx.Print(80, 142, "no, keep playing", 96, 96, 96);
-            dwgfx.Print(80 + 32-16, 130, "[ YES, RETURN ]",  196, 196, 255 - Utility::glow);
+            dwgfx.Print(80 + 32-16, 130, "[ YES, RETURN ]",  196, 196, 255 - vvvvvv::Utility::glow);
         }
         else
         {
-            dwgfx.Print(0, 76, "Do you want to return to", 196, 196, 255 - Utility::glow, true);
-            dwgfx.Print(0, 88, "the secret laboratory?", 196, 196, 255 - Utility::glow, true);
+            dwgfx.Print(0, 76, "Do you want to return to", 196, 196, 255 - vvvvvv::Utility::glow, true);
+            dwgfx.Print(0, 88, "the secret laboratory?", 196, 196, 255 - vvvvvv::Utility::glow, true);
             dwgfx.Print(80, 130, "no, keep playing", 96, 96, 96);
-            dwgfx.Print(80 + 32-16, 142, "[ YES, RETURN ]",  196, 196, 255 - Utility::glow);
+            dwgfx.Print(80 + 32-16, 142, "[ YES, RETURN ]",  196, 196, 255 - vvvvvv::Utility::glow);
         }
 
     }
@@ -2920,18 +2920,18 @@ void towerrender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj)
     dwgfx.drawgui();
     if (dwgfx.flipmode)
     {
-        if (game.advancetext) dwgfx.bprint(5, 228, "- Press ACTION to advance text -", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true);
+        if (game.advancetext) dwgfx.bprint(5, 228, "- Press ACTION to advance text -", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true);
     }
     else
     {
-        if (game.advancetext) dwgfx.bprint(5, 5, "- Press ACTION to advance text -", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true);
+        if (game.advancetext) dwgfx.bprint(5, 5, "- Press ACTION to advance text -", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true);
     }
 
 
     FillRect(dwgfx.backBuffer, dwgfx.footerrect, 0x000000);
-    dwgfx.Print(5, 231, map.roomname, 196, 196, 255 - Utility::glow, true);
+    dwgfx.Print(5, 231, map.roomname, 196, 196, 255 - vvvvvv::Utility::glow, true);
 
-    //dwgfx.rprint(5, 231,Utility::toString(game.coins), 255 - Utility::glow/2, 255 - Utility::glow/2, 196, true);
+    //dwgfx.rprint(5, 231,vvvvvv::Utility::toString(game.coins), 255 - vvvvvv::Utility::glow/2, 255 - vvvvvv::Utility::glow/2, 196, true);
     //dwgfx.drawhuetile(311, 230, 48, 1);
 
     if (game.intimetrial && dwgfx.fademode==0)
@@ -2942,19 +2942,19 @@ void towerrender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj)
             if (game.timetrialcountdown < 30)
             {
                 game.resetgameclock();
-                if (int(game.timetrialcountdown / 4) % 2 == 0) dwgfx.bigprint( -1, 100, "Go!", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true, 4);
+                if (int(game.timetrialcountdown / 4) % 2 == 0) dwgfx.bigprint( -1, 100, "Go!", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true, 4);
             }
             else if (game.timetrialcountdown < 60)
             {
-                dwgfx.bigprint( -1, 100, "1", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true, 4);
+                dwgfx.bigprint( -1, 100, "1", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true, 4);
             }
             else if (game.timetrialcountdown < 90)
             {
-                dwgfx.bigprint( -1, 100, "2", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true, 4);
+                dwgfx.bigprint( -1, 100, "2", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true, 4);
             }
             else if (game.timetrialcountdown < 120)
             {
-                dwgfx.bigprint( -1, 100, "3", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true, 4);
+                dwgfx.bigprint( -1, 100, "3", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true, 4);
             }
         }
         else
@@ -2974,19 +2974,19 @@ void towerrender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj)
             }
             if(game.deathcounts>0)
             {
-                dwgfx.bprint(56, 30,Utility::toString(game.deathcounts),  196, 80, 80);
+                dwgfx.bprint(56, 30,vvvvvv::Utility::toString(game.deathcounts),  196, 80, 80);
             }
             else
             {
-                dwgfx.bprint(56, 30,Utility::toString(game.deathcounts),  196, 196, 196);
+                dwgfx.bprint(56, 30,vvvvvv::Utility::toString(game.deathcounts),  196, 196, 196);
             }
             if(game.trinkets<game.timetrialshinytarget)
             {
-                dwgfx.bprint(56, 42,Utility::toString(game.trinkets) + " of " +Utility::toString(game.timetrialshinytarget),  196, 80, 80);
+                dwgfx.bprint(56, 42,vvvvvv::Utility::toString(game.trinkets) + " of " +vvvvvv::Utility::toString(game.timetrialshinytarget),  196, 80, 80);
             }
             else
             {
-                dwgfx.bprint(56, 42,Utility::toString(game.trinkets) + " of " +Utility::toString(game.timetrialshinytarget),  196, 196, 196);
+                dwgfx.bprint(56, 42,vvvvvv::Utility::toString(game.trinkets) + " of " +vvvvvv::Utility::toString(game.timetrialshinytarget),  196, 196, 196);
             }
 
             if(game.timetrialparlost)
@@ -3030,16 +3030,16 @@ void teleporterrender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& o
     {
         if (game.roomx >= 102 && game.roomx <= 104 && game.roomy >= 110 && game.roomy <= 111)
         {
-            dwgfx.Print(5, 2, "The Ship", 196, 196, 255 - Utility::glow, true);
+            dwgfx.Print(5, 2, "The Ship", 196, 196, 255 - vvvvvv::Utility::glow, true);
         }
         else
         {
-            dwgfx.Print(5, 2, "Dimension VVVVVV", 196, 196, 255 - Utility::glow, true);
+            dwgfx.Print(5, 2, "Dimension VVVVVV", 196, 196, 255 - vvvvvv::Utility::glow, true);
         }
     }
     else
     {
-        dwgfx.Print(5, 2, map.roomname, 196, 196, 255 - Utility::glow, true);
+        dwgfx.Print(5, 2, map.roomname, 196, 196, 255 - vvvvvv::Utility::glow, true);
     }
 
     //Background color
@@ -3065,11 +3065,11 @@ void teleporterrender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& o
     if (game.roomx == 109)
     {
         //tower!instead of room y, scale map.ypos
-        dwgfx.drawrect(40 + ((game.roomx - 100) * 12) + 2, 21  + 2, 12 - 4, 180 - 4, 16, 245 - (Utility::glow * 2), 245 - (Utility::glow * 2));
+        dwgfx.drawrect(40 + ((game.roomx - 100) * 12) + 2, 21  + 2, 12 - 4, 180 - 4, 16, 245 - (vvvvvv::Utility::glow * 2), 245 - (vvvvvv::Utility::glow * 2));
     }
     else
     {
-        dwgfx.drawrect(40 + ((game.roomx - 100) * 12) + 2, 21 + ((game.roomy - 100) * 9) + 2, 12 - 4, 9 - 4, 16, 245 - (Utility::glow * 2), 245 - (Utility::glow * 2));
+        dwgfx.drawrect(40 + ((game.roomx - 100) * 12) + 2, 21 + ((game.roomy - 100) * 9) + 2, 12 - 4, 9 - 4, 16, 245 - (vvvvvv::Utility::glow * 2), 245 - (vvvvvv::Utility::glow * 2));
     }
 
     if (game.useteleporter)
@@ -3079,8 +3079,8 @@ void teleporterrender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& o
         //draw the coordinates //destination
         int tempx = map.teleporters[game.teleport_to_teleporter].x;
         int tempy = map.teleporters[game.teleport_to_teleporter].y;
-        dwgfx.drawrect(40 + (tempx * 12) + 1, 21 + (tempy * 9) + 1, 12 - 2, 9 - 2, 245 - (Utility::glow * 2), 16, 16);
-        dwgfx.drawrect(40 + (tempx * 12) + 3, 21 + (tempy * 9) + 3, 12 - 6, 9 - 6, 245 - (Utility::glow * 2), 16, 16);
+        dwgfx.drawrect(40 + (tempx * 12) + 1, 21 + (tempy * 9) + 1, 12 - 2, 9 - 2, 245 - (vvvvvv::Utility::glow * 2), 16, 16);
+        dwgfx.drawrect(40 + (tempx * 12) + 3, 21 + (tempy * 9) + 3, 12 - 6, 9 - 6, 245 - (vvvvvv::Utility::glow * 2), 16, 16);
     }
 
     //draw legend details
@@ -3116,7 +3116,7 @@ void teleporterrender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& o
 
 	tempx = map.teleporters[game.teleport_to_teleporter].x;
 	tempy = map.teleporters[game.teleport_to_teleporter].y;
-    if (game.useteleporter && ((Utility::slowSine%16)>8))
+    if (game.useteleporter && ((vvvvvv::Utility::slowSine%16)>8))
     {
         //colour in the legend
         temp = 1128;
@@ -3130,19 +3130,19 @@ void teleporterrender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& o
     if (game.useteleporter)
     {
         //Instructions!
-        dwgfx.Print(5, 210, "Press Left/Right to choose a Teleporter", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true);
-        dwgfx.Print(5, 225, "Press ENTER to Teleport", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true);
+        dwgfx.Print(5, 210, "Press Left/Right to choose a Teleporter", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true);
+        dwgfx.Print(5, 225, "Press ENTER to Teleport", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true);
     }
 
     dwgfx.drawgui();
 
     if (dwgfx.flipmode)
     {
-        if (game.advancetext) dwgfx.bprint(5, 228, "- Press ACTION to advance text -", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true);
+        if (game.advancetext) dwgfx.bprint(5, 228, "- Press ACTION to advance text -", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true);
     }
     else
     {
-        if (game.advancetext) dwgfx.bprint(5, 5, "- Press ACTION to advance text -", 220 - (Utility::glow), 220 - (Utility::glow), 255 - (Utility::glow / 2), true);
+        if (game.advancetext) dwgfx.bprint(5, 5, "- Press ACTION to advance text -", 220 - (vvvvvv::Utility::glow), 220 - (vvvvvv::Utility::glow), 255 - (vvvvvv::Utility::glow / 2), true);
     }
 
 

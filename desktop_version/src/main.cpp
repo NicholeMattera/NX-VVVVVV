@@ -1,3 +1,5 @@
+// This file has recieved my blessing. 🙏 - NicholeMattera
+
 #if defined(__SWITCH__)
     #include <SDL2/SDL.h>
 #else
@@ -11,10 +13,6 @@
 #include "KeyPoll.h"
 #include "titlerender.h"
 
-#include "Tower.h"
-#include "WarpClass.h"
-#include "LabClass.h"
-#include "FinalClass.h"
 #include "Map.h"
 
 #include "Screen.h"
@@ -304,9 +302,9 @@ int main(int argc, char * argv[])
                     game.setGlobalSoundVol(0);
                 }
                 FillRect(graphics.backBuffer, 0x00000000);
-                graphics.bprint(5, 110, "Game paused", 196 - Utility::glow, 255 - Utility::glow, 196 - Utility::glow, true);
-                graphics.bprint(5, 120, "[click to resume]", 196 - Utility::glow, 255 - Utility::glow, 196 - Utility::glow, true);
-                graphics.bprint(5, 230, "Press M to mute in game", 164 - Utility::glow, 196 - Utility::glow, 164 - Utility::glow, true);
+                graphics.bprint(5, 110, "Game paused", 196 - vvvvvv::Utility::glow, 255 - vvvvvv::Utility::glow, 196 - vvvvvv::Utility::glow, true);
+                graphics.bprint(5, 120, "[click to resume]", 196 - vvvvvv::Utility::glow, 255 - vvvvvv::Utility::glow, 196 - vvvvvv::Utility::glow, true);
+                graphics.bprint(5, 230, "Press M to mute in game", 164 - vvvvvv::Utility::glow, 196 - vvvvvv::Utility::glow, 164 - vvvvvv::Utility::glow, true);
                 graphics.render();
                 //We are minimised, so lets put a bit of a delay to save CPU
                 SDL_Delay(100);
@@ -318,37 +316,27 @@ int main(int argc, char * argv[])
         switch (game.gamestate)
         {
             case PRELOADER:
-                //Render
                 preloaderrender(graphics, game);
                 break;
 
             case EDITORMODE:
                 graphics.flipmode = false;
-                //Input
                 editorinput(key, graphics, game, map, obj, music);
-                //Render
                 editorrender(key, graphics, game, map, obj);
-                //Logic
                 editorlogic(key, graphics, game, obj, music, map);
                 break;
 
             case TITLEMODE:
-                //Input
                 titleinput(key, graphics, map, game, obj, music);
-                //Render
                 titlerender(graphics, map, game, obj, music);
-                //Logic
                 titlelogic(graphics, game, obj, music, map);
                 break;
 
             case GAMEMODE:
                 if (map.towermode)
                 {
-                    //Input
                     gameinput(key, graphics, game, map, obj, music);
-                    //Render
                     towerrender(graphics, game, map, obj);
-                    //Logic
                     towerlogic(graphics, game, obj, music, map);
                 }
                 else
@@ -358,26 +346,19 @@ int main(int argc, char * argv[])
                         script.run(key, graphics, game, map, obj, music);
                     }
 
-                    //Input
                     gameinput(key, graphics, game, map, obj, music);
-                    //Render
                     gamerender(graphics,map, game, obj);
-                    //Logic
                     gamelogic(graphics, game, obj, music, map);
                 }
                 break;
 
             case MAPMODE:
-                //Input
                 mapinput(key, graphics, game, map, obj, music);
-                //Render
                 maprender(graphics, game, map, obj);
-                //Logic
                 maplogic(graphics, game, obj, music, map);
                 break;
 
             case TELEPORTERMODE:
-                //Input
                 if(game.useteleporter)
                 {
                     teleporterinput(key, graphics, game, map, obj, music);
@@ -391,32 +372,24 @@ int main(int argc, char * argv[])
 
                     gameinput(key, graphics, game, map, obj, music);
                 }
-                //Render
                 teleporterrender(graphics, game, map, obj);
-                //Logic
                 maplogic(graphics, game, obj, music, map);
                 break;
 
             case GAMECOMPLETE:
-                //Input
                 gamecompleteinput(key, graphics, game, map, obj, music);
-                //Render
                 gamecompleterender(graphics, game, obj, map);
-                //Logic
                 gamecompletelogic(graphics, game, obj, music, map);
                 break;
 
             case GAMECOMPLETE2:
-                //Input
                 gamecompleteinput2(key, graphics, game, map, obj, music);
-                //Render
                 gamecompleterender2(graphics, game, obj);
-                //Logic
                 gamecompletelogic2(graphics, game, obj, music, map);
                 break;
 
             case CLICKTOSTART:
-                Utility::updateGlow();
+                vvvvvv::Utility::updateGlow();
                 break;
 
             default:

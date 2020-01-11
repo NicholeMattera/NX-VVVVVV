@@ -106,7 +106,7 @@ void towerclass::fillbackground(std::vector<std::string>& tmap)
 {
 	for (int j = 0; j < 120; j++)
 	{
-		std::vector<std::string> maprow = Utility::split(tmap[j], ',');
+		std::vector<std::string> maprow = vvvvvv::Utility::split(tmap[j], ',');
 		for (int i = 0; i < 40; i++)
 		{
 			back[i + vmult[j]] = atoi(maprow[i].c_str());
@@ -120,7 +120,7 @@ void towerclass::fillminitower(std::vector<std::string>& tmap)
 
 	for (int j = 0; j < 100; j++)
 	{
-		std::vector<std::string> maprow = Utility::split(tmap[j], ',');
+		std::vector<std::string> maprow = vvvvvv::Utility::split(tmap[j], ',');
 		for (int i = 0; i < 40; i++)
 		{
 			minitower[i + vmult[j]] = atoi(maprow[i].c_str());
@@ -475,7 +475,7 @@ void towerclass::fillcontents(std::vector<std::string>& tmap)
 {
 	for (int j = 0; j < 700; j++)
 	{
-		std::vector<std::string> maprow = Utility::split(tmap[j], ',');
+		std::vector<std::string> maprow = vvvvvv::Utility::split(tmap[j], ',');
 		for (int i = 0; i < 40; i++)
 		{
 			contents[i + vmult[j]] = atoi(maprow[i].c_str());

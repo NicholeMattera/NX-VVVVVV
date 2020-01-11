@@ -79,9 +79,9 @@ void preloaderrender(Graphics& dwgfx, Game& game)
     FillRect(dwgfx.backBuffer, pre_frontrectx, pre_frontrecty, pre_frontrectw,pre_frontrecth, dwgfx.getBGR(0x3E,0x31,0xA2));
 
     if(pre_fakepercent==100){
-      dwgfx.Print(282-(15*8), 204, "LOADING... " + Utility::toString(int(pre_fakepercent))+"%", 124, 112, 218, false);
+      dwgfx.Print(282-(15*8), 204, "LOADING... " + vvvvvv::Utility::toString(int(pre_fakepercent))+"%", 124, 112, 218, false);
     }else{
-      dwgfx.Print(282-(14*8), 204, "LOADING... " + Utility::toString(int(pre_fakepercent))+"%", 124, 112, 218, false);
+      dwgfx.Print(282-(14*8), 204, "LOADING... " + vvvvvv::Utility::toString(int(pre_fakepercent))+"%", 124, 112, 218, false);
     }
 
     //Render
@@ -103,7 +103,7 @@ void preloaderrender(Graphics& dwgfx, Game& game)
 
 	if (game.test)
 	{
-		dwgfx.Print(5, 5, game.teststring, 196, 196, 255 - Utility::glow, false);
+		dwgfx.Print(5, 5, game.teststring, 196, 196, 255 - vvvvvv::Utility::glow, false);
 	}
 
 	dwgfx.drawfade();

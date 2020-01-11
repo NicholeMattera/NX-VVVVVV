@@ -94,16 +94,16 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			{
 				//USAGE: moveplayer(x offset, y offset)
 				int player = obj.getplayer();
-				obj.entities[player].xp += Utility::toInt(words[1]);
-				obj.entities[player].yp += Utility::toInt(words[2]);
+				obj.entities[player].xp += vvvvvv::Utility::toInt(words[1]);
+				obj.entities[player].yp += vvvvvv::Utility::toInt(words[2]);
 				scriptdelay = 1;
 			}
 			if (words[0] == "warpdir")
 			{
-        int temprx=Utility::toInt(words[1])-1;
-        int tempry=Utility::toInt(words[2])-1;
+        int temprx=vvvvvv::Utility::toInt(words[1])-1;
+        int tempry=vvvvvv::Utility::toInt(words[2])-1;
         int curlevel=temprx+(ed.maxwidth*(tempry));
-			  ed.level[curlevel].warpdir=Utility::toInt(words[3]);
+			  ed.level[curlevel].warpdir=vvvvvv::Utility::toInt(words[3]);
 			  //If screen warping, then override all that:
         dwgfx.backgrounddrawn = false;
 
@@ -129,7 +129,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			if (words[0] == "ifwarp")
 			{
-				if (ed.level[Utility::toInt(words[1])-1+(ed.maxwidth*(Utility::toInt(words[2])-1))].warpdir == Utility::toInt(words[3]))
+				if (ed.level[vvvvvv::Utility::toInt(words[1])-1+(ed.maxwidth*(vvvvvv::Utility::toInt(words[2])-1))].warpdir == vvvvvv::Utility::toInt(words[3]))
 				{
 					load("custom_"+words[4]);
 					position--;
@@ -154,7 +154,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			if (words[0] == "customiftrinkets")
 			{
-				if (game.trinkets >= Utility::toInt(words[1]))
+				if (game.trinkets >= vvvvvv::Utility::toInt(words[1]))
 				{
 					load("custom_"+words[2]);
 					position--;
@@ -162,7 +162,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			if (words[0] == "customiftrinketsless")
 			{
-				if (game.trinkets < Utility::toInt(words[1]))
+				if (game.trinkets < vvvvvv::Utility::toInt(words[1]))
 				{
 					load("custom_"+words[2]);
 					position--;
@@ -170,7 +170,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
       else if (words[0] == "customifflag")
 			{
-				if (obj.flags[Utility::toInt(words[1])]==1)
+				if (obj.flags[vvvvvv::Utility::toInt(words[1])]==1)
 				{
 					load("custom_"+words[2]);
 					position--;
@@ -187,27 +187,27 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			if (words[0] == "delay")
 			{
 				//USAGE: delay(frames)
-				scriptdelay = Utility::toInt(words[1]);
+				scriptdelay = vvvvvv::Utility::toInt(words[1]);
 			}
       if (words[0] == "flag")
 			{
-				if(Utility::toInt(words[1])>=0 && Utility::toInt(words[1])<100){
+				if(vvvvvv::Utility::toInt(words[1])>=0 && vvvvvv::Utility::toInt(words[1])<100){
 					if(words[2]=="on"){
-						obj.changeflag(Utility::toInt(words[1]),1);
+						obj.changeflag(vvvvvv::Utility::toInt(words[1]),1);
 					}else if(words[2]=="off"){
-						obj.changeflag(Utility::toInt(words[1]),0);
+						obj.changeflag(vvvvvv::Utility::toInt(words[1]),0);
 					}
 				}
 			}
 			if (words[0] == "flash")
 			{
 				//USAGE: flash(frames)
-				game.flashlight = Utility::toInt(words[1]);
+				game.flashlight = vvvvvv::Utility::toInt(words[1]);
 			}
 			if (words[0] == "shake")
 			{
 				//USAGE: shake(frames)
-				game.screenshake = Utility::toInt(words[1]);
+				game.screenshake = vvvvvv::Utility::toInt(words[1]);
 			}
 			if (words[0] == "walk")
 			{
@@ -220,7 +220,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 				{
 					game.press_right = true;
 				}
-				scriptdelay = Utility::toInt(words[2]);
+				scriptdelay = vvvvvv::Utility::toInt(words[2]);
 			}
 			if (words[0] == "flip")
 			{
@@ -237,11 +237,11 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			if (words[0] == "playef")
 			{
-				music.playef(Utility::toInt(words[1]), Utility::toInt(words[2]));
+				music.playef(vvvvvv::Utility::toInt(words[1]), vvvvvv::Utility::toInt(words[2]));
 			}
 			if (words[0] == "play")
 			{
-				music.play(Utility::toInt(words[1]));
+				music.play(vvvvvv::Utility::toInt(words[1]));
 			}
 			if (words[0] == "stopmusic")
 			{
@@ -268,15 +268,15 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			{
 				//USAGE: gotoposition(x position, y position, gravity position)
 				int player = obj.getplayer();
-				obj.entities[player].xp = Utility::toInt(words[1]);
-				obj.entities[player].yp = Utility::toInt(words[2]);
-				game.gravitycontrol = Utility::toInt(words[3]);
+				obj.entities[player].xp = vvvvvv::Utility::toInt(words[1]);
+				obj.entities[player].yp = vvvvvv::Utility::toInt(words[2]);
+				game.gravitycontrol = vvvvvv::Utility::toInt(words[3]);
 
 			}
 			if (words[0] == "gotoroom")
 			{
 				//USAGE: gotoroom(x,y) (manually add 100)
-				map.gotoroom(Utility::toInt(words[1])+100, Utility::toInt(words[2])+100, dwgfx, game, obj, music);
+				map.gotoroom(vvvvvv::Utility::toInt(words[1])+100, vvvvvv::Utility::toInt(words[2])+100, dwgfx, game, obj, music);
 			}
 			if (words[0] == "cutscene")
 			{
@@ -366,11 +366,11 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 				}
 
 				//next are the x,y coordinates
-				textx = Utility::toInt(words[2]);
-				texty = Utility::toInt(words[3]);
+				textx = vvvvvv::Utility::toInt(words[2]);
+				texty = vvvvvv::Utility::toInt(words[3]);
 
 				//Number of lines for the textbox!
-				txtnumlines = Utility::toInt(words[4]);
+				txtnumlines = vvvvvv::Utility::toInt(words[4]);
 				for (int i = 0; i < txtnumlines; i++)
 				{
 					position++;
@@ -677,7 +677,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			{
 				//right, loop from this point
 				looppoint = position;
-				loopcount = Utility::toInt(words[1]);
+				loopcount = vvvvvv::Utility::toInt(words[1]);
 			}
 			else if (words[0] == "loop")
 			{
@@ -713,7 +713,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "createentity")
 			{
-				obj.createentity(game, Utility::toInt(words[1]), Utility::toInt(words[2]), Utility::toInt(words[3]), Utility::toInt(words[4]), Utility::toInt(words[5]));
+				obj.createentity(game, vvvvvv::Utility::toInt(words[1]), vvvvvv::Utility::toInt(words[2]), vvvvvv::Utility::toInt(words[3]), vvvvvv::Utility::toInt(words[4]), vvvvvv::Utility::toInt(words[5]));
 			}
 			else if (words[0] == "createcrewman")
 			{
@@ -780,13 +780,13 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 					words[6] = "0";
 				}
 
-				if (Utility::toInt(words[5]) >= 16)
+				if (vvvvvv::Utility::toInt(words[5]) >= 16)
 				{
-					obj.createentity(game, Utility::toInt(words[1]), Utility::toInt(words[2]), 18, r, Utility::toInt(words[4]), Utility::toInt(words[5]), Utility::toInt(words[6]));
+					obj.createentity(game, vvvvvv::Utility::toInt(words[1]), vvvvvv::Utility::toInt(words[2]), 18, r, vvvvvv::Utility::toInt(words[4]), vvvvvv::Utility::toInt(words[5]), vvvvvv::Utility::toInt(words[6]));
 				}
 				else
 				{
-					obj.createentity(game, Utility::toInt(words[1]), Utility::toInt(words[2]), 18, r, Utility::toInt(words[4]), Utility::toInt(words[5]));
+					obj.createentity(game, vvvvvv::Utility::toInt(words[1]), vvvvvv::Utility::toInt(words[2]), 18, r, vvvvvv::Utility::toInt(words[4]), vvvvvv::Utility::toInt(words[5]));
 				}
 			}
 			else if (words[0] == "changemood")
@@ -828,7 +828,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 					i=obj.getcrewman(1);
 				}
 
-				if (Utility::toInt(words[2]) == 0)
+				if (vvvvvv::Utility::toInt(words[2]) == 0)
 				{
 					obj.entities[i].tile = 0;
 				}
@@ -842,50 +842,50 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 				if (words[1] == "player")
 				{
 					i=obj.getcustomcrewman(0);
-					obj.customcrewmoods[0]=Utility::toInt(words[2]);
+					obj.customcrewmoods[0]=vvvvvv::Utility::toInt(words[2]);
 				}
 				else if (words[1] == "cyan")
 				{
 					i=obj.getcustomcrewman(0);
-					obj.customcrewmoods[0]=Utility::toInt(words[2]);
+					obj.customcrewmoods[0]=vvvvvv::Utility::toInt(words[2]);
 				}
 				else if (words[1] == "customcyan")
 				{
 					i=obj.getcustomcrewman(0);
-					obj.customcrewmoods[0]=Utility::toInt(words[2]);
+					obj.customcrewmoods[0]=vvvvvv::Utility::toInt(words[2]);
 				}
 				else if (words[1] == "red")
 				{
 					i=obj.getcustomcrewman(3);
-					obj.customcrewmoods[3]=Utility::toInt(words[2]);
+					obj.customcrewmoods[3]=vvvvvv::Utility::toInt(words[2]);
 				}
 				else if (words[1] == "green")
 				{
 					i=obj.getcustomcrewman(4);
-					obj.customcrewmoods[4]=Utility::toInt(words[2]);
+					obj.customcrewmoods[4]=vvvvvv::Utility::toInt(words[2]);
 				}
 				else if (words[1] == "yellow")
 				{
 					i=obj.getcustomcrewman(2);
-					obj.customcrewmoods[2]=Utility::toInt(words[2]);
+					obj.customcrewmoods[2]=vvvvvv::Utility::toInt(words[2]);
 				}
 				else if (words[1] == "blue")
 				{
 					i=obj.getcustomcrewman(5);
-					obj.customcrewmoods[5]=Utility::toInt(words[2]);
+					obj.customcrewmoods[5]=vvvvvv::Utility::toInt(words[2]);
 				}
 				else if (words[1] == "purple")
 				{
 					i=obj.getcustomcrewman(1);
-					obj.customcrewmoods[1]=Utility::toInt(words[2]);
+					obj.customcrewmoods[1]=vvvvvv::Utility::toInt(words[2]);
 				}
 				else if (words[1] == "pink")
 				{
 					i=obj.getcustomcrewman(1);
-					obj.customcrewmoods[1]=Utility::toInt(words[2]);
+					obj.customcrewmoods[1]=vvvvvv::Utility::toInt(words[2]);
 				}
 
-				if (Utility::toInt(words[2]) == 0)
+				if (vvvvvv::Utility::toInt(words[2]) == 0)
 				{
 					obj.entities[i].tile = 0;
 				}
@@ -925,7 +925,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 					i=obj.getcrewman(1);
 				}
 
-				obj.entities[i].tile = Utility::toInt(words[2]);
+				obj.entities[i].tile = vvvvvv::Utility::toInt(words[2]);
 			}
 			else if (words[0] == "flipgravity")
 			{
@@ -1027,7 +1027,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 					i=obj.getcrewman(1);
 				}
 
-				if (Utility::toInt(words[2]) == 0)
+				if (vvvvvv::Utility::toInt(words[2]) == 0)
 				{
 					obj.entities[i].dir = 0;
 				}
@@ -1096,14 +1096,14 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 				}
 
 
-				obj.entities[i].state = Utility::toInt(words[2]);
+				obj.entities[i].state = vvvvvv::Utility::toInt(words[2]);
 				if (obj.entities[i].state == 16)
 				{
-					obj.entities[i].para=Utility::toInt(words[3]);
+					obj.entities[i].para=vvvvvv::Utility::toInt(words[3]);
 				}
 				else if (obj.entities[i].state == 17)
 				{
-					obj.entities[i].dir=Utility::toInt(words[3]);
+					obj.entities[i].dir=vvvvvv::Utility::toInt(words[3]);
 				}
 			}
 			else if (words[0] == "alarmon")
@@ -1241,7 +1241,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "gamestate")
 			{
-				game.state = Utility::toInt(words[1]);
+				game.state = vvvvvv::Utility::toInt(words[1]);
 				game.statedelay = 0;
 			}
 			else if (words[0] == "textboxactive")
@@ -1269,7 +1269,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "ifexplored")
 			{
-				if (map.explored[Utility::toInt(words[1]) + (20 * Utility::toInt(words[2]))] == 1)
+				if (map.explored[vvvvvv::Utility::toInt(words[1]) + (20 * vvvvvv::Utility::toInt(words[2]))] == 1)
 				{
 					load(words[3]);
 					position--;
@@ -1277,7 +1277,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "iflast")
 			{
-				if (game.lastsaved==Utility::toInt(words[1]))
+				if (game.lastsaved==vvvvvv::Utility::toInt(words[1]))
 				{
 					load(words[2]);
 					position--;
@@ -1293,7 +1293,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "ifflag")
 			{
-				if (obj.flags[Utility::toInt(words[1])]==1)
+				if (obj.flags[vvvvvv::Utility::toInt(words[1])]==1)
 				{
 					load(words[2]);
 					position--;
@@ -1301,7 +1301,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "ifcrewlost")
 			{
-				if (game.crewstats[Utility::toInt(words[1])]==false)
+				if (game.crewstats[vvvvvv::Utility::toInt(words[1])]==false)
 				{
 					load(words[2]);
 					position--;
@@ -1309,7 +1309,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "iftrinkets")
 			{
-				if (game.trinkets >= Utility::toInt(words[1]))
+				if (game.trinkets >= vvvvvv::Utility::toInt(words[1]))
 				{
 					load(words[2]);
 					position--;
@@ -1317,7 +1317,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "iftrinketsless")
 			{
-				if (game.stat_trinkets < Utility::toInt(words[1]))
+				if (game.stat_trinkets < vvvvvv::Utility::toInt(words[1]))
 				{
 					load(words[2]);
 					position--;
@@ -1325,11 +1325,11 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "hidecoordinates")
 			{
-				map.explored[Utility::toInt(words[1]) + (20 * Utility::toInt(words[2]))] = 0;
+				map.explored[vvvvvv::Utility::toInt(words[1]) + (20 * vvvvvv::Utility::toInt(words[2]))] = 0;
 			}
 			else if (words[0] == "showcoordinates")
 			{
-				map.explored[Utility::toInt(words[1]) + (20 * Utility::toInt(words[2]))] = 1;
+				map.explored[vvvvvv::Utility::toInt(words[1]) + (20 * vvvvvv::Utility::toInt(words[2]))] = 1;
 			}
 			else if (words[0] == "hideship")
 			{
@@ -1411,7 +1411,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "companion")
 			{
-				game.companion = Utility::toInt(words[1]);
+				game.companion = vvvvvv::Utility::toInt(words[1]);
 			}
 			else if (words[0] == "befadein")
 			{
@@ -1499,8 +1499,8 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			else if (words[0] == "finalmode")
 			{
 				map.finalmode = true;
-				map.finalx = Utility::toInt(words[1]);
-				map.finaly = Utility::toInt(words[2]);
+				map.finalx = vvvvvv::Utility::toInt(words[1]);
+				map.finaly = vvvvvv::Utility::toInt(words[2]);
 				game.roomx = map.finalx;
 				game.roomy = map.finaly;
 				map.gotoroom(game.roomx, game.roomy, dwgfx, game, obj, music);
@@ -1645,7 +1645,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 						obj.entities[j].colour = 4;
 					}
 				}
-				if (Utility::toInt(words[1]) == 1)
+				if (vvvvvv::Utility::toInt(words[1]) == 1)
 				{
 					obj.createblock(5, 88 - 4, 80, 20, 16, 25);
 					for (j = 0; j < obj.nentity; j++)
@@ -1656,7 +1656,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 						}
 					}
 				}
-				else if (Utility::toInt(words[1]) == 2)
+				else if (vvvvvv::Utility::toInt(words[1]) == 2)
 				{
 					obj.createblock(5, 128 - 4, 80, 20, 16, 26);
 					for (j = 0; j < obj.nentity; j++)
@@ -1667,7 +1667,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 						}
 					}
 				}
-				else if (Utility::toInt(words[1]) == 3)
+				else if (vvvvvv::Utility::toInt(words[1]) == 3)
 				{
 					obj.createblock(5, 176 - 4, 80, 20, 16, 27);
 					for (j = 0; j < obj.nentity; j++)
@@ -1678,7 +1678,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 						}
 					}
 				}
-				else if (Utility::toInt(words[1]) == 4)
+				else if (vvvvvv::Utility::toInt(words[1]) == 4)
 				{
 					obj.createblock(5, 216 - 4, 80, 20, 16, 28);
 					for (j = 0; j < obj.nentity; j++)
@@ -1689,7 +1689,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 						}
 					}
 				}
-				else if (Utility::toInt(words[1]) == 5)
+				else if (vvvvvv::Utility::toInt(words[1]) == 5)
 				{
 					obj.createblock(5, 88 - 4, 128, 20, 16, 29);
 					for (j = 0; j < obj.nentity; j++)
@@ -1700,7 +1700,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 						}
 					}
 				}
-				else if (Utility::toInt(words[1]) == 6)
+				else if (vvvvvv::Utility::toInt(words[1]) == 6)
 				{
 					obj.createblock(5, 176 - 4, 128, 20, 16, 30);
 					for (j = 0; j < obj.nentity; j++)
@@ -1711,7 +1711,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 						}
 					}
 				}
-				else if (Utility::toInt(words[1]) == 7)
+				else if (vvvvvv::Utility::toInt(words[1]) == 7)
 				{
 					obj.createblock(5, 40 - 4, 40, 20, 16, 31);
 					for (j = 0; j < obj.nentity; j++)
@@ -1722,7 +1722,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 						}
 					}
 				}
-				else if (Utility::toInt(words[1]) == 8)
+				else if (vvvvvv::Utility::toInt(words[1]) == 8)
 				{
 					obj.createblock(5, 216 - 4, 128, 20, 16, 32);
 					for (j = 0; j < obj.nentity; j++)
@@ -1733,7 +1733,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 						}
 					}
 				}
-				else if (Utility::toInt(words[1]) == 9)
+				else if (vvvvvv::Utility::toInt(words[1]) == 9)
 				{
 					obj.createblock(5, 128 - 4, 128, 20, 16, 33);
 					for (j = 0; j < obj.nentity; j++)
@@ -1744,7 +1744,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 						}
 					}
 				}
-				else if (Utility::toInt(words[1]) == 10)
+				else if (vvvvvv::Utility::toInt(words[1]) == 10)
 				{
 					obj.createblock(5, 264 - 4, 40, 20, 16, 34);
 					for (j = 0; j < obj.nentity; j++)
@@ -1854,7 +1854,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "altstates")
 			{
-				obj.altstates = Utility::toInt(words[1]);
+				obj.altstates = vvvvvv::Utility::toInt(words[1]);
 			}
 			else if (words[0] == "activeteleporter")
 			{
@@ -1868,7 +1868,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 				music.playef(3,10);
 
 				game.trinkets++;
-				obj.collect[Utility::toInt(words[1])] = 1;
+				obj.collect[vvvvvv::Utility::toInt(words[1])] = 1;
 
 				dwgfx.textboxremovefast();
 
@@ -1877,7 +1877,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 				dwgfx.addline("You have found a shiny trinket!");
 				dwgfx.textboxcenterx();
 
-				dwgfx.createtextbox(" " + Utility::toWord(game.trinkets) + " out of Twenty ", 50, 135, 174, 174, 174);
+				dwgfx.createtextbox(" " + vvvvvv::Utility::toWord(game.trinkets) + " out of Twenty ", 50, 135, 174, 174, 174);
 				dwgfx.textboxcenterx();
 
 				if (!game.backgroundtext)
@@ -1994,7 +1994,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "specialline")
 			{
-				switch(Utility::toInt(words[1]))
+				switch(vvvvvv::Utility::toInt(words[1]))
 				{
 				case 1:
 					txtnumlines = 1;

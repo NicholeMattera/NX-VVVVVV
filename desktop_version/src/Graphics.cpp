@@ -587,14 +587,14 @@ void Graphics::drawgui()
                 {
                     for (j = 0; j < textbox[i].numlines; j++)
                     {
-                        Print(textbox[i].xp + 8, textbox[i].yp + (textbox[i].numlines*8) - (j * 8), textbox[i].line[j], 196, 196, 255 - Utility::glow);
+                        Print(textbox[i].xp + 8, textbox[i].yp + (textbox[i].numlines*8) - (j * 8), textbox[i].line[j], 196, 196, 255 - vvvvvv::Utility::glow);
                     }
                 }
                 else
                 {
                     for (j = 0; j < textbox[i].numlines; j++)
                     {
-                        Print(textbox[i].xp + 8, textbox[i].yp + 8 + (j * 8), textbox[i].line[j], 196, 196, 255 - Utility::glow);
+                        Print(textbox[i].xp + 8, textbox[i].yp + 8 + (j * 8), textbox[i].line[j], 196, 196, 255 - vvvvvv::Utility::glow);
                     }
                 }
             }
@@ -661,27 +661,27 @@ void Graphics::drawgui()
                 if (textbox[i].r == 175 && textbox[i].g == 175)
                 {
                     //purple guy
-                    drawsprite(80 - 6, 64 + 48 + 4, 6, 220- Utility::glow/4 - int(fRandom()*20), 120- Utility::glow/4, 210 - Utility::glow/4);
+                    drawsprite(80 - 6, 64 + 48 + 4, 6, 220- vvvvvv::Utility::glow/4 - int(fRandom()*20), 120- vvvvvv::Utility::glow/4, 210 - vvvvvv::Utility::glow/4);
                 }
                 else if (textbox[i].r == 175 && textbox[i].b == 175)
                 {
                     //red guy
-                    drawsprite(80 - 6, 64 + 48+ 4, 6, 255 - Utility::glow/8, 70 - Utility::glow/4, 70 - Utility::glow / 4);
+                    drawsprite(80 - 6, 64 + 48+ 4, 6, 255 - vvvvvv::Utility::glow/8, 70 - vvvvvv::Utility::glow/4, 70 - vvvvvv::Utility::glow / 4);
                 }
                 else if (textbox[i].r == 175)
                 {
                     //green guy
-                    drawsprite(80 - 6, 64 + 48 + 4, 6, 120 - Utility::glow / 4 - int(fRandom() * 20), 220 - Utility::glow / 4, 120 - Utility::glow / 4);
+                    drawsprite(80 - 6, 64 + 48 + 4, 6, 120 - vvvvvv::Utility::glow / 4 - int(fRandom() * 20), 220 - vvvvvv::Utility::glow / 4, 120 - vvvvvv::Utility::glow / 4);
                 }
                 else if (textbox[i].g == 175)
                 {
                     //yellow guy
-                    drawsprite(80 - 6, 64 + 48+ 4, 6, 220- Utility::glow/4 - int(fRandom()*20), 210 - Utility::glow/4, 120- Utility::glow/4);
+                    drawsprite(80 - 6, 64 + 48+ 4, 6, 220- vvvvvv::Utility::glow/4 - int(fRandom()*20), 210 - vvvvvv::Utility::glow/4, 120- vvvvvv::Utility::glow/4);
                 }
                 else if (textbox[i].b == 175)
                 {
                     //blue guy
-                    drawsprite(80 - 6, 64 + 48+ 4, 6, 75, 75, 255- Utility::glow/4 - int(fRandom()*20));
+                    drawsprite(80 - 6, 64 + 48+ 4, 6, 75, 75, 255- vvvvvv::Utility::glow/4 - int(fRandom()*20));
                 }
             }
             else
@@ -689,27 +689,27 @@ void Graphics::drawgui()
                 if (textbox[i].r == 175 && textbox[i].g == 175)
                 {
                     //purple guy
-                    drawsprite(80 - 6, 64 + 32 + 4, 0, 220- Utility::glow/4 - int(fRandom()*20), 120- Utility::glow/4, 210 - Utility::glow/4);
+                    drawsprite(80 - 6, 64 + 32 + 4, 0, 220- vvvvvv::Utility::glow/4 - int(fRandom()*20), 120- vvvvvv::Utility::glow/4, 210 - vvvvvv::Utility::glow/4);
                 }
                 else if (textbox[i].r == 175 && textbox[i].b == 175)
                 {
                     //red guy
-                    drawsprite(80 - 6, 64 + 32 + 4, 0, 255 - Utility::glow/8, 70 - Utility::glow/4, 70 - Utility::glow / 4);
+                    drawsprite(80 - 6, 64 + 32 + 4, 0, 255 - vvvvvv::Utility::glow/8, 70 - vvvvvv::Utility::glow/4, 70 - vvvvvv::Utility::glow / 4);
                 }
                 else if (textbox[i].r == 175)
                 {
                     //green guy
-                    drawsprite(80 - 6, 64 + 32 + 4, 0, 120 - Utility::glow / 4 - int(fRandom() * 20), 220 - Utility::glow / 4, 120 - Utility::glow / 4);
+                    drawsprite(80 - 6, 64 + 32 + 4, 0, 120 - vvvvvv::Utility::glow / 4 - int(fRandom() * 20), 220 - vvvvvv::Utility::glow / 4, 120 - vvvvvv::Utility::glow / 4);
                 }
                 else if (textbox[i].g == 175)
                 {
                     //yellow guy
-                    drawsprite(80 - 6, 64 + 32 + 4, 0, 220- Utility::glow/4 - int(fRandom()*20), 210 - Utility::glow/4, 120- Utility::glow/4);
+                    drawsprite(80 - 6, 64 + 32 + 4, 0, 220- vvvvvv::Utility::glow/4 - int(fRandom()*20), 210 - vvvvvv::Utility::glow/4, 120- vvvvvv::Utility::glow/4);
                 }
                 else if (textbox[i].b == 175)
                 {
                     //blue guy
-                    drawsprite(80 - 6, 64 + 32 + 4, 0, 75, 75, 255- Utility::glow/4 - int(fRandom()*20));
+                    drawsprite(80 - 6, 64 + 32 + 4, 0, 75, 75, 255- vvvvvv::Utility::glow/4 - int(fRandom()*20));
                 }
             }
         }
@@ -1325,13 +1325,13 @@ void Graphics::drawtrophytext( EntityClass& obj)
     {
         temp = (196 * obj.trophytext) / 15;
         temp2 = (196 * obj.trophytext) / 15;
-        temp3 = ((255 - Utility::glow) * obj.trophytext) / 15;
+        temp3 = ((255 - vvvvvv::Utility::glow) * obj.trophytext) / 15;
     }
     else
     {
         temp = 196;
         temp2 = 196;
-        temp3 = 255 - Utility::glow;
+        temp3 = 255 - vvvvvv::Utility::glow;
     }
     switch(obj.trophytype)
     {
@@ -1584,8 +1584,8 @@ void Graphics::drawentities( MapClass& map, EntityClass& obj)
                 }
                 else if (obj.entities[i].colour == 2)
                 {
-                    //backbuffer.fillRect(prect, RGB(160- Utility::glow/2 - (fRandom()*20), 200- Utility::glow/2, 220 - Utility::glow));
-                    FillRect(backBuffer,prect, int(160- Utility::glow/2 - (fRandom()*20)),  200- Utility::glow/2, 220 - Utility::glow);
+                    //backbuffer.fillRect(prect, RGB(160- vvvvvv::Utility::glow/2 - (fRandom()*20), 200- vvvvvv::Utility::glow/2, 220 - vvvvvv::Utility::glow));
+                    FillRect(backBuffer,prect, int(160- vvvvvv::Utility::glow/2 - (fRandom()*20)),  200- vvvvvv::Utility::glow/2, 220 - vvvvvv::Utility::glow);
                 }
             }
             else if (obj.entities[i].size == 4)    // Small pickups
@@ -2534,7 +2534,7 @@ void Graphics::drawtowerentities( MapClass& map, EntityClass& obj)
                 }
                 else if (obj.entities[i].colour == 2)
                 {
-                    FillRect(backBuffer, prect, getRGB(160- Utility::glow/2 - (fRandom()*20), 200- Utility::glow/2, 220 - Utility::glow));
+                    FillRect(backBuffer, prect, getRGB(160- vvvvvv::Utility::glow/2 - (fRandom()*20), 200- vvvvvv::Utility::glow/2, 220 - vvvvvv::Utility::glow));
                 }
             }
             else if (obj.entities[i].size == 4)    // Small pickups
@@ -2659,7 +2659,7 @@ void Graphics::setcol(int t)
 	{
 		//Player Normal
 	case 0:
-		ct.colour = getRGB(160- Utility::glow/2 - (fRandom()*20), 200- Utility::glow/2, 220 - Utility::glow);
+		ct.colour = getRGB(160- vvvvvv::Utility::glow/2 - (fRandom()*20), 200- vvvvvv::Utility::glow/2, 220 - vvvvvv::Utility::glow);
 		break;
 		//Player Hurt
 	case 1:
@@ -2667,7 +2667,7 @@ void Graphics::setcol(int t)
 		break;
 		//Enemies and stuff
 	case 2:
-		ct.colour = getRGB(225-(Utility::glow/2), 75, 30);
+		ct.colour = getRGB(225-(vvvvvv::Utility::glow/2), 75, 30);
 		break;
 	case 3: //Trinket
 		if (!trinketcolset)
@@ -2680,74 +2680,74 @@ void Graphics::setcol(int t)
 		ct.colour = getRGB(trinketr, trinketg, trinketb);
 		break;
 	case 4: //Inactive savepoint
-		temp = (Utility::glow/2) + (fRandom() * 8);
+		temp = (vvvvvv::Utility::glow/2) + (fRandom() * 8);
 		ct.colour = getRGB(80 + temp, 80 + temp, 80 + temp);
 		break;
 	case 5: //Active savepoint
 		ct.colour = getRGB(164+(fRandom()*64),164+(fRandom()*64), 255-(fRandom()*64));
 		break;
 	case 6: //Enemy : Red
-		ct.colour = getRGB(250 - Utility::glow/2, 60- Utility::glow/2, 60 - Utility::glow/2);
+		ct.colour = getRGB(250 - vvvvvv::Utility::glow/2, 60- vvvvvv::Utility::glow/2, 60 - vvvvvv::Utility::glow/2);
 		break;
 	case 7: //Enemy : Green
-		ct.colour = getRGB(100 - Utility::glow/2 - (fRandom()*30), 250 - Utility::glow/2, 100 - Utility::glow/2 - (fRandom()*30));
+		ct.colour = getRGB(100 - vvvvvv::Utility::glow/2 - (fRandom()*30), 250 - vvvvvv::Utility::glow/2, 100 - vvvvvv::Utility::glow/2 - (fRandom()*30));
 		break;
 	case 8: //Enemy : Purple
-		ct.colour = getRGB(250 - Utility::glow/2, 20, 128 - Utility::glow/2 + (fRandom()*30));
+		ct.colour = getRGB(250 - vvvvvv::Utility::glow/2, 20, 128 - vvvvvv::Utility::glow/2 + (fRandom()*30));
 		break;
 	case 9: //Enemy : Yellow
-		ct.colour = getRGB(250 - Utility::glow/2, 250 - Utility::glow/2, 20);
+		ct.colour = getRGB(250 - vvvvvv::Utility::glow/2, 250 - vvvvvv::Utility::glow/2, 20);
 		break;
 	case 10: //Warp point (white)
 		ct.colour = getRGB(255 - (fRandom() * 64), 255 - (fRandom() * 64), 255 - (fRandom() * 64));
 		break;
 	case 11: //Enemy : Cyan
-		ct.colour = getRGB(20, 250 - Utility::glow/2, 250 - Utility::glow/2);
+		ct.colour = getRGB(20, 250 - vvvvvv::Utility::glow/2, 250 - vvvvvv::Utility::glow/2);
 		break;
 	case 12: //Enemy : Blue
-		ct.colour = getRGB(90- Utility::glow/2, 90 - Utility::glow/2, 250 - Utility::glow/2);
+		ct.colour = getRGB(90- vvvvvv::Utility::glow/2, 90 - vvvvvv::Utility::glow/2, 250 - vvvvvv::Utility::glow/2);
 		break;
 		//Crew Members
 		//green
 	case 13:
-		ct.colour = getRGB(120- Utility::glow/4 - (fRandom()*20), 220 - Utility::glow/4, 120- Utility::glow/4);
+		ct.colour = getRGB(120- vvvvvv::Utility::glow/4 - (fRandom()*20), 220 - vvvvvv::Utility::glow/4, 120- vvvvvv::Utility::glow/4);
 		break;
 		//Yellow
 	case 14:
-		ct.colour = getRGB(220- Utility::glow/4 - (fRandom()*20), 210 - Utility::glow/4, 120- Utility::glow/4);
+		ct.colour = getRGB(220- vvvvvv::Utility::glow/4 - (fRandom()*20), 210 - vvvvvv::Utility::glow/4, 120- vvvvvv::Utility::glow/4);
 		break;
 		//pink
 	case 15:
-		ct.colour = getRGB(255 - Utility::glow/8, 70 - Utility::glow/4, 70 - Utility::glow / 4);
+		ct.colour = getRGB(255 - vvvvvv::Utility::glow/8, 70 - vvvvvv::Utility::glow/4, 70 - vvvvvv::Utility::glow / 4);
 		break;
 		//Blue
 	case 16:
-		ct.colour = getRGB(75, 75, 255- Utility::glow/4 - (fRandom()*20));
+		ct.colour = getRGB(75, 75, 255- vvvvvv::Utility::glow/4 - (fRandom()*20));
 		break;
 
 
 	case 17: //Enemy : Orange
-		ct.colour = getRGB(250 - Utility::glow/2, 130 - Utility::glow/2, 20);
+		ct.colour = getRGB(250 - vvvvvv::Utility::glow/2, 130 - vvvvvv::Utility::glow/2, 20);
 		break;
 	case 18: //Enemy : Gray
-		ct.colour = getRGB(130- Utility::glow/2, 130 - Utility::glow/2, 130 - Utility::glow/2);
+		ct.colour = getRGB(130- vvvvvv::Utility::glow/2, 130 - vvvvvv::Utility::glow/2, 130 - vvvvvv::Utility::glow/2);
 		break;
 	case 19: //Enemy : Dark gray
-		ct.colour = getRGB(60- Utility::glow/8, 60 - Utility::glow/8, 60 - Utility::glow/8);
+		ct.colour = getRGB(60- vvvvvv::Utility::glow/8, 60 - vvvvvv::Utility::glow/8, 60 - vvvvvv::Utility::glow/8);
 		break;
 		//Purple
 	case 20:
-		ct.colour = getRGB(220 - Utility::glow / 4 - (fRandom() * 20), 120 - Utility::glow / 4, 210 - Utility::glow / 4);
+		ct.colour = getRGB(220 - vvvvvv::Utility::glow / 4 - (fRandom() * 20), 120 - vvvvvv::Utility::glow / 4, 210 - vvvvvv::Utility::glow / 4);
 		break;
 
 	case 21: //Enemy : Light Gray
-		ct.colour = getRGB(180- Utility::glow/2, 180 - Utility::glow/2, 180 - Utility::glow/2);
+		ct.colour = getRGB(180- vvvvvv::Utility::glow/2, 180 - vvvvvv::Utility::glow/2, 180 - vvvvvv::Utility::glow/2);
 		break;
 	case 22: //Enemy : Indicator Gray
-		ct.colour = getRGB(230- Utility::glow/2, 230- Utility::glow/2, 230- Utility::glow/2);
+		ct.colour = getRGB(230- vvvvvv::Utility::glow/2, 230- vvvvvv::Utility::glow/2, 230- vvvvvv::Utility::glow/2);
 		break;
 	case 23: //Enemy : Indicator Gray
-		ct.colour = getRGB(255- Utility::glow/2 - (fRandom() * 40) , 255- Utility::glow/2 - (fRandom() * 40), 255- Utility::glow/2 - (fRandom() * 40));
+		ct.colour = getRGB(255- vvvvvv::Utility::glow/2 - (fRandom() * 40) , 255- vvvvvv::Utility::glow/2 - (fRandom() * 40), 255- vvvvvv::Utility::glow/2 - (fRandom() * 40));
 		break;
 
 		//Trophies
@@ -2819,7 +2819,7 @@ void Graphics::setcol(int t)
 		break;
 
 	case 100: //Inactive Teleporter
-		temp = (Utility::glow/2) + (fRandom() * 8);
+		temp = (vvvvvv::Utility::glow/2) + (fRandom() * 8);
 		ct.colour = getRGB(42 + temp, 42 + temp, 42 + temp);
 		break;
 	case 101: //Active Teleporter

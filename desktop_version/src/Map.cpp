@@ -743,7 +743,7 @@ void MapClass::fillareamap(std::vector<std::string>& tmap)
 
 	for (j = 0; j < 20; j++)
 	{
-		std::vector<std::string> maprow = Utility::split(tmap[j], ',');
+		std::vector<std::string> maprow = vvvvvv::Utility::split(tmap[j], ',');
 		for (int i = 0; i < 20; i++)
 		{
 			areamap[i + (j * 20)] = atoi(maprow[i].c_str());
@@ -764,7 +764,7 @@ void MapClass::fillcontent(std::vector<std::string>& tmap)
 
 	for (j = 0; j < 29+extrarow; j++)
 	{
-		std::vector<std::string> maprow = Utility::split(tmap[j], ',');
+		std::vector<std::string> maprow = vvvvvv::Utility::split(tmap[j], ',');
 
 		for(int i = 0; i < 40; i++)
 		{

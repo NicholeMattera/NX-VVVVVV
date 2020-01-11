@@ -9,7 +9,7 @@ void titlelogic( Graphics& dwgfx, Game& game, EntityClass& obj, MusicClass& musi
 {
     //Misc
     //map.updatetowerglow();
-    Utility::updateGlow();
+    vvvvvv::Utility::updateGlow();
 
     map.bypos -= 2;
     map.bscroll = -2;
@@ -41,7 +41,7 @@ void titlelogic( Graphics& dwgfx, Game& game, EntityClass& obj, MusicClass& musi
 void maplogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music, MapClass& map)
 {
     //Misc
-    Utility::updateGlow();
+    vvvvvv::Utility::updateGlow();
 }
 
 
@@ -49,7 +49,7 @@ void gamecompletelogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClas
 {
     //Misc
     map.updatetowerglow();
-    Utility::updateGlow();
+    vvvvvv::Utility::updateGlow();
     dwgfx.crewframe = 0;
 
     map.tdrawback = true;
@@ -94,7 +94,7 @@ void gamecompletelogic2(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicCla
 {
     //Misc
     map.updatetowerglow();
-    Utility::updateGlow();
+    vvvvvv::Utility::updateGlow();
 
     game.creditposdelay--;
     if (game.creditposdelay <= 0)
@@ -145,7 +145,7 @@ void towerlogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& musi
 {
     //Logic for the tower level
     map.updatetowerglow();
-    Utility::updateGlow();
+    vvvvvv::Utility::updateGlow();
 
     if(!game.completestop)
     {
@@ -542,7 +542,7 @@ void towerlogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& musi
 void gamelogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music, MapClass& map)
 {
     //Misc
-    Utility::updateGlow();
+    vvvvvv::Utility::updateGlow();
 
     if (game.alarmon)
     {
@@ -1537,7 +1537,7 @@ void gamelogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music
     {
         int i = obj.getplayer();
         obj.settemprect(i);
-        if (Utility::intersects(game.teleblock, obj.temprect))
+        if (vvvvvv::Utility::intersects(game.teleblock, obj.temprect))
         {
             game.readytotele += 25;
             if (game.readytotele >= 255) game.readytotele = 255;

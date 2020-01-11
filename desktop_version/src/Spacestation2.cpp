@@ -15,7 +15,7 @@ std::vector<std::string> spacestation2class::loadlevel(int rx, int ry, Game& gam
 	t = rx + (ry * 100);
 
 	std::vector<std::string> tmap;
-	roomname = "Untitled room ["+Utility::toString(rx) + "," + Utility::toString(ry)+"]";
+	roomname = "Untitled room ["+vvvvvv::Utility::toString(rx) + "," + vvvvvv::Utility::toString(ry)+"]";
 
 	switch(t)
 	{

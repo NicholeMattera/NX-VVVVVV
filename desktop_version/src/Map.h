@@ -1,7 +1,7 @@
 #pragma once
 
+#include "levels/Warp.h"
 #include "Tower.h"
-#include "WarpClass.h"
 #include "FinalClass.h"
 #include "LabClass.h"
 #include "Spacestation2.h"
@@ -167,7 +167,7 @@ public:
     spacestation2class spacestation2;
     LabClass lablevel;
     FinalClass finallevel;
-    WarpClass warplevel;
+    vvvvvv::levels::Warp warplevel;
     towerclass tower;
     int extrarow;
 

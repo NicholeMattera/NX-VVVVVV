@@ -39,7 +39,7 @@ include $(DEVKITPRO)/libnx/switch_rules
 #---------------------------------------------------------------------------------
 TARGET		:=	VVVVVV
 BUILD		:=	build
-SOURCES		:=	src tinyxml physfs lodepng
+SOURCES		:=	src src/levels tinyxml physfs lodepng
 DATA		:=	data
 INCLUDES	:=	tinyxml physfs lodepng
 
