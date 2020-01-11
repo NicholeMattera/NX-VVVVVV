@@ -22,9 +22,7 @@ namespace vvvvvv {
             static std::string twoDigits(int t);
             static std::string timeString(int frames);
             static std::string toWord(int number);
-
             static bool intersects(SDL_Rect rect1, SDL_Rect rect2);
-
             static void updateGlow();
 
             static int glow;

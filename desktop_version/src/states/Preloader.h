@@ -15,7 +15,6 @@ namespace vvvvvv::states {
             static int fakePercentage;
             static int transition;
             static bool startGame;
-
             static int darkColor;
             static int lightColor;
             static int currentColor;

@@ -198,7 +198,6 @@ namespace vvvvvv::states {
 	int Preloader::fakePercentage = 0;
 	int Preloader::transition = 30;
 	bool Preloader::startGame = false;
-
 	int Preloader::darkColor = 0;
 	int Preloader::lightColor = 0;
 	int Preloader::currentColor = 0;
