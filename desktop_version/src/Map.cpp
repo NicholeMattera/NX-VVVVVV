@@ -1362,14 +1362,14 @@ void MapClass::loadlevel(int rx, int ry, Graphics& dwgfx, Game& game, EntityClas
 	case 4: //The Warpzone
 		tmap = warplevel.loadlevel(rx, ry, game, obj);
 		fillcontent(tmap);
-		roomname = warplevel.roomname;
+		roomname = warplevel.roomName;
 		tileset = 1;
 		background = 3;
-		dwgfx.rcol = warplevel.rcol;
+		dwgfx.rcol = warplevel.rCol;
 		dwgfx.backgrounddrawn = false;
 
-		warpx = warplevel.warpx;
-		warpy = warplevel.warpy;
+		warpx = warplevel.warpX;
+		warpy = warplevel.warpY;
 		background = 5;
 		if (warpy) background = 4;
 		if (warpx) background = 3;

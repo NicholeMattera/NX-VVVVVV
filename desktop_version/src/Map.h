@@ -167,7 +167,7 @@ public:
     spacestation2class spacestation2;
     LabClass lablevel;
     FinalClass finallevel;
-    warpclass warplevel;
+    WarpClass warplevel;
     towerclass tower;
     int extrarow;
 

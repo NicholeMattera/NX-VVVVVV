@@ -6,11 +6,12 @@
 #include <string>
 #include <vector>
 
-class warpclass
+class WarpClass
 {
 public:
 	std::vector<std::string> loadlevel(int rx, int ry , Game& game, EntityClass& obj);
-	std::string roomname;
-	int coin, rcol;
-	bool warpx, warpy;
+
+	std::string roomName;
+	int rCol;
+	bool warpX, warpY;
 };
