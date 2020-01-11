@@ -13,10 +13,10 @@
 #include "GraphicsUtil.h"
 
 
-class entityclass;
-class mapclass;
+class EntityClass;
+class MapClass;
 class Graphics;
-class musicclass;
+class MusicClass;
 
 class Game
 {
@@ -41,8 +41,8 @@ public:
 
     void resetgameclock();
 
-    void customsavequick(std::string savfile, mapclass& map, entityclass& obj, musicclass& music);
-    void savequick(mapclass& map, entityclass& obj, musicclass& music);
+    void customsavequick(std::string savfile, MapClass& map, EntityClass& obj, MusicClass& music);
+    void savequick(MapClass& map, EntityClass& obj, MusicClass& music);
 
     void gameclock();
 
@@ -58,35 +58,35 @@ public:
 
     void  createmenu(std::string t);
 
-    void lifesequence(entityclass& obj);
+    void lifesequence(EntityClass& obj);
 
-    void gethardestroom(mapclass& map);
+    void gethardestroom(MapClass& map);
 
-    void updatestate(Graphics& dwgfx, mapclass& map, entityclass& obj, UtilityClass& help, musicclass& music);
+    void updatestate(Graphics& dwgfx, MapClass& map, EntityClass& obj, UtilityClass& help, MusicClass& music);
 
-    void unlocknum(int t, mapclass& map, Graphics& dwgfx);
+    void unlocknum(int t, MapClass& map, Graphics& dwgfx);
 
-    void loadstats(mapclass& map, Graphics& dwgfx);
+    void loadstats(MapClass& map, Graphics& dwgfx);
 
-    void  savestats(mapclass& map, Graphics& dwgfx);
+    void  savestats(MapClass& map, Graphics& dwgfx);
 
-    void deletestats(mapclass& map, Graphics& dwgfx);
+    void deletestats(MapClass& map, Graphics& dwgfx);
 
     void deletequick();
 
-    void savetele(mapclass& map, entityclass& obj, musicclass& music);
+    void savetele(MapClass& map, EntityClass& obj, MusicClass& music);
 
-    void loadtele(mapclass& map, entityclass& obj, musicclass& music);
+    void loadtele(MapClass& map, EntityClass& obj, MusicClass& music);
 
     void deletetele();
 
-    void customstart(entityclass& obj, musicclass& music );
+    void customstart(EntityClass& obj, MusicClass& music );
 
-    void start(entityclass& obj, musicclass& music );
+    void start(EntityClass& obj, MusicClass& music );
 
-    void startspecial(int t, entityclass& obj, musicclass& music);
+    void startspecial(int t, EntityClass& obj, MusicClass& music);
 
-    void starttrial(int t, entityclass& obj, musicclass& music);
+    void starttrial(int t, EntityClass& obj, MusicClass& music);
 
     void telegotoship()
     {
@@ -108,14 +108,14 @@ public:
 
     void swnpenalty();
 
-    void deathsequence(mapclass& map, entityclass& obj, musicclass& music);
+    void deathsequence(MapClass& map, EntityClass& obj, MusicClass& music);
 
-    void customloadquick(std::string savfile, mapclass& map, entityclass& obj, musicclass& music);
-    void loadquick(mapclass& map, entityclass& obj, musicclass& music);
+    void customloadquick(std::string savfile, MapClass& map, EntityClass& obj, MusicClass& music);
+    void loadquick(MapClass& map, EntityClass& obj, MusicClass& music);
 
-    void loadsummary(mapclass& map, UtilityClass& help);
+    void loadsummary(MapClass& map, UtilityClass& help);
 
-    void initteleportermode(mapclass& map);
+    void initteleportermode(MapClass& map);
 
 	std::string saveFilePath;
 

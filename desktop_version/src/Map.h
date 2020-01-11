@@ -3,22 +3,22 @@
 
 #include "Tower.h"
 #include "WarpClass.h"
-#include "Finalclass.h"
-#include "Labclass.h"
+#include "FinalClass.h"
+#include "LabClass.h"
 #include "Spacestation2.h"
-#include "Otherlevel.h"
+#include "OtherLevel.h"
 #include "Entity.h"
 #include "Graphics.h"
 #include <vector>
 #include "Music.h"
-#include "editor.h"
+#include "Editor.h"
 
-extern editorclass ed;
+extern EditorClass ed;
 
-class mapclass
+class MapClass
 {
 public:
-    mapclass();
+    MapClass();
 
     int RGB(int red,int green,int blue);
 
@@ -42,7 +42,7 @@ public:
 
     int maptiletoenemycol(int t);
 
-    void changefinalcol(int t, entityclass& obj, Game& game);
+    void changefinalcol(int t, EntityClass& obj, Game& game);
 
     void setcol(const int r1, const int g1, const int b1 , const int r2, const  int g2, const int b2, const int c);
 
@@ -71,15 +71,15 @@ public:
 
     void showship();
 
-    void resetplayer(Graphics& dwgfx, Game& game, entityclass& obj, musicclass& music);
+    void resetplayer(Graphics& dwgfx, Game& game, EntityClass& obj, MusicClass& music);
 
-    void warpto(int rx, int ry , int t, int tx, int ty,  Graphics& dwgfx, Game& game, entityclass& obj, musicclass& music);
+    void warpto(int rx, int ry , int t, int tx, int ty,  Graphics& dwgfx, Game& game, EntityClass& obj, MusicClass& music);
 
-    void gotoroom(int rx, int ry, Graphics& dwgfx,  Game& game, entityclass& obj, musicclass& music);
+    void gotoroom(int rx, int ry, Graphics& dwgfx,  Game& game, EntityClass& obj, MusicClass& music);
 
     std::string currentarea(int t);
 
-    void loadlevel(int rx, int ry, Graphics& dwgfx, Game& game, entityclass& obj, musicclass& music);
+    void loadlevel(int rx, int ry, Graphics& dwgfx, Game& game, EntityClass& obj, MusicClass& music);
 
 
     std::vector <int> roomdeaths;
@@ -164,10 +164,10 @@ public:
     int roomtextnumlines;
 
     //Levels
-    otherlevelclass otherlevel;
+    OtherLevelClass otherlevel;
     spacestation2class spacestation2;
-    labclass lablevel;
-    finalclass finallevel;
+    LabClass lablevel;
+    FinalClass finallevel;
     warpclass warplevel;
     towerclass tower;
     int extrarow;

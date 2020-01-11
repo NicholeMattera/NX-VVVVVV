@@ -10,7 +10,7 @@
 
 #include "MakeAndPlay.h"
 
-extern scriptclass script;
+extern ScriptClass script;
 
 Stage stage;
 Stage swfStage;
@@ -27,7 +27,7 @@ void updategraphicsmode(Game& game, Graphics& dwgfx)
     swfStage = stage;
 }
 
-void titlerender(Graphics& dwgfx, mapclass& map, Game& game, entityclass& obj, UtilityClass& help, musicclass& music)
+void titlerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, UtilityClass& help, MusicClass& music)
 {
 
     FillRect(dwgfx.backBuffer, 0,0,dwgfx.backBuffer->w, dwgfx.backBuffer->h, 0x00000000 );
@@ -1293,7 +1293,7 @@ void titlerender(Graphics& dwgfx, mapclass& map, Game& game, entityclass& obj, U
     //dwgfx.backbuffer.unlock();
 }
 
-void gamecompleterender(Graphics& dwgfx, Game& game, entityclass& obj, UtilityClass& help, mapclass& map)
+void gamecompleterender(Graphics& dwgfx, Game& game, EntityClass& obj, UtilityClass& help, MapClass& map)
 {
     FillRect(dwgfx.backBuffer, 0x000000);
 
@@ -1558,7 +1558,7 @@ void gamecompleterender(Graphics& dwgfx, Game& game, entityclass& obj, UtilityCl
     }
 }
 
-void gamecompleterender2(Graphics& dwgfx, Game& game, entityclass& obj, UtilityClass& help)
+void gamecompleterender2(Graphics& dwgfx, Game& game, EntityClass& obj, UtilityClass& help)
 {
     FillRect(dwgfx.backBuffer, 0x000000);
 
@@ -1607,7 +1607,7 @@ void gamecompleterender2(Graphics& dwgfx, Game& game, entityclass& obj, UtilityC
     }
 }
 
-void gamerender(Graphics& dwgfx, mapclass& map, Game& game, entityclass& obj, UtilityClass& help)
+void gamerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, UtilityClass& help)
 {
 
 
@@ -2002,7 +2002,7 @@ void gamerender(Graphics& dwgfx, mapclass& map, Game& game, entityclass& obj, Ut
     //dwgfx.backbuffer.unlock();
 }
 
-void maprender(Graphics& dwgfx, Game& game, mapclass& map, entityclass& obj, UtilityClass& help)
+void maprender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj, UtilityClass& help)
 {
     //dwgfx.backbuffer.lock();
 
@@ -2862,7 +2862,7 @@ void maprender(Graphics& dwgfx, Game& game, mapclass& map, entityclass& obj, Uti
     //dwgfx.backbuffer.unlock();
 }
 
-void towerrender(Graphics& dwgfx, Game& game, mapclass& map, entityclass& obj, UtilityClass& help)
+void towerrender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj, UtilityClass& help)
 {
 
     FillRect(dwgfx.backBuffer, 0x000000);
@@ -3018,7 +3018,7 @@ void towerrender(Graphics& dwgfx, Game& game, mapclass& map, entityclass& obj, U
     dwgfx.render();
 }
 
-void teleporterrender(Graphics& dwgfx, Game& game, mapclass& map, entityclass& obj, UtilityClass& help)
+void teleporterrender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj, UtilityClass& help)
 {
     //dwgfx.backbuffer.lock();
     int tempx;

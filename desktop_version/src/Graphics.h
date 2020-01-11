@@ -32,7 +32,7 @@ public:
 
 	void drawhuetile(int x, int y, int t, int c);
 
-	void drawgravityline(int t, entityclass& obj);
+	void drawgravityline(int t, EntityClass& obj);
 
 	void MakeTileArray();
 
@@ -126,9 +126,9 @@ public:
 
 	bool Hitest(SDL_Surface* surface1, point p1, int col, SDL_Surface* surface2, point p2, int col2);
 
-	void drawentities(mapclass& map, entityclass& obj, UtilityClass& help);
+	void drawentities(MapClass& map, EntityClass& obj, UtilityClass& help);
 
-	void drawtrophytext(entityclass&, UtilityClass& help);
+	void drawtrophytext(EntityClass&, UtilityClass& help);
 
 	void bigrprint(int x, int y, std::string& t, int r, int g, int b, bool cen = false, float sc = 2);
 
@@ -148,7 +148,7 @@ public:
 
 	void setcolreal(Uint32 t);
 
-	void drawbackground(int t, mapclass& map);
+	void drawbackground(int t, MapClass& map);
 	void drawtile3( int x, int y, int t, int off );
 	void drawentcolours( int x, int y, int t);
 	void drawtile2( int x, int y, int t, int r, int g, int b );
@@ -158,7 +158,7 @@ public:
 
 	void drawtile(int x, int y, int t);
 
-	void drawmap(mapclass& map);
+	void drawmap(MapClass& map);
 
 	void drawforetile(int x, int y, int t);
 
@@ -168,25 +168,25 @@ public:
 
 	void drawrect(int x, int y, int w, int h, int r, int g, int b);
 
-	void drawtowermap(mapclass& map);
+	void drawtowermap(MapClass& map);
 
-	void drawtowermap_nobackground(mapclass& map);
+	void drawtowermap_nobackground(MapClass& map);
 
-	void drawtowerspikes(mapclass& map);
+	void drawtowerspikes(MapClass& map);
 
-	void drawtowerentities(mapclass& map, entityclass& obj, UtilityClass& help);
+	void drawtowerentities(MapClass& map, EntityClass& obj, UtilityClass& help);
 
 	int onscreen(int t);
 
-	void drawtowerbackgroundsolo(mapclass& map);
+	void drawtowerbackgroundsolo(MapClass& map);
 
 
 	void menuoffrender();
 
-	void drawtowerbackground(mapclass& map);
+	void drawtowerbackground(MapClass& map);
 
 	void setcol(int t, UtilityClass& help);
-	void drawfinalmap(mapclass & map);
+	void drawfinalmap(MapClass & map);
 
 	colourTransform ct;
 

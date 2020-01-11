@@ -20,13 +20,13 @@ enum
     ACTIVITY = 5
 };
 
-class mapclass;
-class musicclass;
+class MapClass;
+class MusicClass;
 class Graphics;
 class Game;
 class UtilityClass;
 
-class entityclass
+class EntityClass
 {
 public:
     void init();
@@ -97,7 +97,7 @@ public:
     void createentity(Game& game, float xp, float yp, int t, float vx = 0, float vy = 0,
                       int p1 = 0, int p2 = 0, int p3 = 320, int p4 = 240 );
 
-    bool updateentities(int i, UtilityClass& help, Game& game, musicclass& music);
+    bool updateentities(int i, UtilityClass& help, Game& game, MusicClass& music);
 
     void animateentities(int i, Game& game, UtilityClass& help);
 
@@ -142,9 +142,9 @@ public:
 
     bool checkblocks();
 
-    bool checktowerspikes(int t, mapclass& map);
+    bool checktowerspikes(int t, MapClass& map);
 
-    bool checkwall(mapclass& map);
+    bool checkwall(MapClass& map);
 
     float hplatformat();
 
@@ -159,17 +159,17 @@ public:
 
 		void customwarplinecheck(int i);
 
-    float entitycollideplatformroof(mapclass& map, int t);
+    float entitycollideplatformroof(MapClass& map, int t);
 
-    float entitycollideplatformfloor(mapclass& map, int t);
+    float entitycollideplatformfloor(MapClass& map, int t);
 
-    bool entitycollidefloor(mapclass& map, int t);
+    bool entitycollidefloor(MapClass& map, int t);
 
-    bool entitycollideroof(mapclass& map, int t);
+    bool entitycollideroof(MapClass& map, int t);
 
-    bool testwallsx(int t, mapclass& map, int tx, int ty);
+    bool testwallsx(int t, MapClass& map, int tx, int ty);
 
-	bool testwallsy(int t, mapclass& map, float tx, float ty);
+	bool testwallsy(int t, MapClass& map, float tx, float ty);
 
     void fixfriction(int t, float xfix, float xrate, float yrate);
 
@@ -180,15 +180,15 @@ public:
     void updateentitylogic(int t, Game& game);
 
 
-    void entitymapcollision(int t, mapclass& map);
+    void entitymapcollision(int t, MapClass& map);
 
-    void movingplatformfix(int t, mapclass& map);
+    void movingplatformfix(int t, MapClass& map);
 
-    void scmmovingplatformfix(int t, mapclass& map);
+    void scmmovingplatformfix(int t, MapClass& map);
 
-    void hormovingplatformfix(int t, mapclass& map);
+    void hormovingplatformfix(int t, MapClass& map);
 
-    void entitycollisioncheck(Graphics& dwgfx, Game& game, mapclass& map, musicclass& music);
+    void entitycollisioncheck(Graphics& dwgfx, Game& game, MapClass& map, MusicClass& music);
 
 
     std::vector<entclass> entities;

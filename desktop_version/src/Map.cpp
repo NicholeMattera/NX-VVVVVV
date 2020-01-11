@@ -2,9 +2,9 @@
 
 #include "MakeAndPlay.h"
 
-extern editorclass ed;
+extern EditorClass ed;
 
-mapclass::mapclass()
+MapClass::MapClass()
 {
 	//Start here!
 	r = 196;
@@ -124,29 +124,29 @@ mapclass::mapclass()
 	fillareamap(tmap);
 }
 
-int mapclass::RGB(int red,int green,int blue)
+int MapClass::RGB(int red,int green,int blue)
 {
 	return (blue | (green << 8) | (red << 16));
 }
 
-int mapclass::intpol(int a, int b, float c)
+int MapClass::intpol(int a, int b, float c)
 {
 	return static_cast<int>(a + ((b - a) * c));
 }
 
-void mapclass::setteleporter(int t, int x, int y)
+void MapClass::setteleporter(int t, int x, int y)
 {
 	teleporters[t].x = x;
 	teleporters[t].y = y;
 }
 
-void mapclass::settrinket(int t, int x, int y)
+void MapClass::settrinket(int t, int x, int y)
 {
 	shinytrinkets[t].x = x;
 	shinytrinkets[t].y = y;
 }
 
-void mapclass::resetmap()
+void MapClass::resetmap()
 {
 	//clear the explored area of the map
 	for (int j = 0; j < 20; j++)
@@ -158,7 +158,7 @@ void mapclass::resetmap()
 	}
 }
 
-void mapclass::resetnames()
+void MapClass::resetnames()
 {
 	//Reset all the special names
 	specialnames[0] = "Rear Window";
@@ -174,7 +174,7 @@ void mapclass::resetnames()
 	glitchdelay = 0;
 }
 
-void mapclass::transformname(int t)
+void MapClass::transformname(int t)
 {
 	//transform special names into new ones, one step at a time
 
@@ -358,7 +358,7 @@ void mapclass::transformname(int t)
 	}
 }
 
-std::string mapclass::getglitchname(int x, int y)
+std::string MapClass::getglitchname(int x, int y)
 {
 	//Returns the name in the final area.
 	if (roomname == "glitch")
@@ -423,7 +423,7 @@ std::string mapclass::getglitchname(int x, int y)
 	return roomname;
 }
 
-void mapclass::initmapdata()
+void MapClass::initmapdata()
 {
 	//Set up static map information like teleporters and shiny trinkets.
 	numteleporters = 17;
@@ -466,7 +466,7 @@ void mapclass::initmapdata()
 	settrinket(17, 10, 8);
 }
 
-int mapclass::finalat(int x, int y)
+int MapClass::finalat(int x, int y)
 {
 	//return the tile index of the final stretch tiles offset by the colour difference
 	if (contents[x + vmult[y]] == 740)
@@ -494,7 +494,7 @@ int mapclass::finalat(int x, int y)
 	return 0;
 }
 
-int mapclass::maptiletoenemycol(int t)
+int MapClass::maptiletoenemycol(int t)
 {
 	//returns the colour index for enemies that matches the map colour t
 	switch(t)
@@ -524,7 +524,7 @@ int mapclass::maptiletoenemycol(int t)
 	return 11;
 }
 
-void mapclass::changefinalcol(int t, entityclass& obj, Game& game)
+void MapClass::changefinalcol(int t, EntityClass& obj, Game& game)
 {
 	//change the map to colour t - for the game's final stretch.
 	//First up, the tiles. This is just a setting:
@@ -563,14 +563,14 @@ void mapclass::changefinalcol(int t, entityclass& obj, Game& game)
 	}
 }
 
-void mapclass::setcol(const int r1, const int g1, const int b1 , const int r2, const int g2, const int b2, const int c)
+void MapClass::setcol(const int r1, const int g1, const int b1 , const int r2, const int g2, const int b2, const int c)
 {
 	r = intpol(r1, r2, c / 5);
 	g = intpol(g1, g2, c / 5);
 	b = intpol(b1, b2, c / 5);
 }
 
-void mapclass::updatetowerglow()
+void MapClass::updatetowerglow()
 {
 	if (colstatedelay <= 0 || colsuperstate > 0)
 	{
@@ -621,7 +621,7 @@ void mapclass::updatetowerglow()
 	}
 }
 
-void mapclass::nexttowercolour()
+void MapClass::nexttowercolour()
 {
 	colstate+=5;
 	if (colstate >= 30) colstate = 0;
@@ -654,7 +654,7 @@ void mapclass::nexttowercolour()
 	towercol = RGB(r*0.04, g*0.04, b*0.04);
 }
 
-void mapclass::settowercolour(int t)
+void MapClass::settowercolour(int t)
 {
 	colstate=t*5;
 	if (colstate >= 30) colstate = 0;
@@ -687,14 +687,14 @@ void mapclass::settowercolour(int t)
 	towercol = RGB(r*0.04, g*0.04, b*0.04);
 }
 
-bool mapclass::spikecollide(int x, int y)
+bool MapClass::spikecollide(int x, int y)
 {
 	if (invincibility) return false;
 	if (tower.at(x,y,0)>= 6 && tower.at(x,y,0) <= 11) return true;
 	return false;
 }
 
-bool mapclass::collide(int x, int y)
+bool MapClass::collide(int x, int y)
 {
 	if (towermode)
 	{
@@ -737,7 +737,7 @@ bool mapclass::collide(int x, int y)
 	return false;
 }
 
-void mapclass::fillareamap(std::vector<std::string>& tmap)
+void MapClass::fillareamap(std::vector<std::string>& tmap)
 {
 
 	for (j = 0; j < 20; j++)
@@ -750,7 +750,7 @@ void mapclass::fillareamap(std::vector<std::string>& tmap)
 	}
 }
 
-void mapclass::settile(int xp, int yp, int t)
+void MapClass::settile(int xp, int yp, int t)
 {
 	if (xp >= 0 && xp < 40 && yp >= 0 && yp < 29+extrarow)
 	{
@@ -758,7 +758,7 @@ void mapclass::settile(int xp, int yp, int t)
 	}
 }
 
-void mapclass::fillcontent(std::vector<std::string>& tmap)
+void MapClass::fillcontent(std::vector<std::string>& tmap)
 {
 
 	for (j = 0; j < 29+extrarow; j++)
@@ -773,7 +773,7 @@ void mapclass::fillcontent(std::vector<std::string>& tmap)
 }
 
 
-int mapclass::area(int _rx, int _ry)
+int MapClass::area(int _rx, int _ry)
 {
 	//THIS IS THE BUG
 	if (finalmode)
@@ -794,7 +794,7 @@ int mapclass::area(int _rx, int _ry)
 	}
 }
 
-void mapclass::exploretower()
+void MapClass::exploretower()
 {
 	for (int i = 0; i < 20; i++)
 	{
@@ -802,7 +802,7 @@ void mapclass::exploretower()
 	}
 }
 
-void mapclass::hideship()
+void MapClass::hideship()
 {
 	//remove the ship from the explored areas
 	explored[2 + (10 * 20)] = 0;
@@ -813,7 +813,7 @@ void mapclass::hideship()
 	explored[4 + (11 * 20)] = 0;
 }
 
-void mapclass::showship()
+void MapClass::showship()
 {
 	//remove the ship from the explored areas
 	explored[2 + (10 * 20)] = 1;
@@ -824,7 +824,7 @@ void mapclass::showship()
 	explored[4 + (11 * 20)] = 1;
 }
 
-void mapclass::resetplayer(Graphics& dwgfx, Game& game, entityclass& obj, musicclass& music)
+void MapClass::resetplayer(Graphics& dwgfx, Game& game, EntityClass& obj, MusicClass& music)
 {
 	if (game.roomx != game.saverx || game.roomy != game.savery)
 	{
@@ -869,7 +869,7 @@ void mapclass::resetplayer(Graphics& dwgfx, Game& game, entityclass& obj, musicc
 	}
 }
 
-void mapclass::warpto(int rx, int ry , int t, int tx, int ty, Graphics& dwgfx, Game& game, entityclass& obj, musicclass& music)
+void MapClass::warpto(int rx, int ry , int t, int tx, int ty, Graphics& dwgfx, Game& game, EntityClass& obj, MusicClass& music)
 {
 	gotoroom(rx, ry, dwgfx, game, obj, music);
 	game.teleport = false;
@@ -878,7 +878,7 @@ void mapclass::warpto(int rx, int ry , int t, int tx, int ty, Graphics& dwgfx, G
 	game.gravitycontrol = 0;
 }
 
-void mapclass::gotoroom(int rx, int ry, Graphics& dwgfx, Game& game, entityclass& obj, musicclass& music)
+void MapClass::gotoroom(int rx, int ry, Graphics& dwgfx, Game& game, EntityClass& obj, MusicClass& music)
 {
 	//First, destroy the current room
 	obj.removeallblocks();
@@ -1109,7 +1109,7 @@ void mapclass::gotoroom(int rx, int ry, Graphics& dwgfx, Game& game, entityclass
 	}
 }
 
-std::string mapclass::currentarea(int t)
+std::string MapClass::currentarea(int t)
 {
 	switch(t)
 	{
@@ -1153,7 +1153,7 @@ std::string mapclass::currentarea(int t)
 	return "???";
 }
 
-void mapclass::loadlevel(int rx, int ry, Graphics& dwgfx, Game& game, entityclass& obj, musicclass& music)
+void MapClass::loadlevel(int rx, int ry, Graphics& dwgfx, Game& game, EntityClass& obj, MusicClass& music)
 {
 	int t;
 	//t = rx + (ry * 100);

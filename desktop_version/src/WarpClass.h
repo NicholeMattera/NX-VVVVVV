@@ -10,7 +10,7 @@
 class warpclass
 {
 public:
-	std::vector<std::string> loadlevel(int rx, int ry , Game& game, entityclass& obj);
+	std::vector<std::string> loadlevel(int rx, int ry , Game& game, EntityClass& obj);
 	std::string roomname;
 	int coin, rcol;
 	bool warpx, warpy;

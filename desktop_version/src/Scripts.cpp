@@ -5,9 +5,9 @@
 
 #include <algorithm>
 
-extern scriptclass script;
+extern ScriptClass script;
 
-void scriptclass::load(std::string t)
+void ScriptClass::load(std::string t)
 {
     //loads script name t into the array
     position = 0;

@@ -9,22 +9,22 @@
 #include "Music.h"
 #include "Map.h"
 
-void titleinput(KeyPoll& key, Graphics& dwgfx, mapclass& map, Game& game,
-                entityclass& obj, UtilityClass& help, musicclass& music);
+void titleinput(KeyPoll& key, Graphics& dwgfx, MapClass& map, Game& game,
+                EntityClass& obj, UtilityClass& help, MusicClass& music);
 
-void gameinput(KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map,
-               entityclass& obj, UtilityClass& help, musicclass& music);
+void gameinput(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
+               EntityClass& obj, UtilityClass& help, MusicClass& music);
 
-void mapinput(KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map,
-              entityclass& obj, UtilityClass& help, musicclass& music);
+void mapinput(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
+              EntityClass& obj, UtilityClass& help, MusicClass& music);
 
-void teleporterinput(KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map,
-                     entityclass& obj, UtilityClass& help, musicclass& music);
+void teleporterinput(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
+                     EntityClass& obj, UtilityClass& help, MusicClass& music);
 
-void gamecompleteinput(KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map,
-                       entityclass& obj, UtilityClass& help, musicclass& music);
+void gamecompleteinput(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
+                       EntityClass& obj, UtilityClass& help, MusicClass& music);
 
-void gamecompleteinput2(KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map,
-                        entityclass& obj, UtilityClass& help, musicclass& music);
+void gamecompleteinput2(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
+                        EntityClass& obj, UtilityClass& help, MusicClass& music);
 
 #endif /* INPUT_H */

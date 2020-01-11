@@ -3,7 +3,7 @@
 
 extern int temp;
 
-void titlelogic( Graphics& dwgfx, Game& game, entityclass& obj, UtilityClass& help, musicclass& music, mapclass& map)
+void titlelogic( Graphics& dwgfx, Game& game, EntityClass& obj, UtilityClass& help, MusicClass& music, MapClass& map)
 {
     //Misc
     //map.updatetowerglow();
@@ -36,14 +36,14 @@ void titlelogic( Graphics& dwgfx, Game& game, entityclass& obj, UtilityClass& he
     }
 }
 
-void maplogic(Graphics& dwgfx, Game& game, entityclass& obj,  musicclass& music, mapclass& map, UtilityClass& help)
+void maplogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music, MapClass& map, UtilityClass& help)
 {
     //Misc
     help.updateglow();
 }
 
 
-void gamecompletelogic(Graphics& dwgfx, Game& game, entityclass& obj,  musicclass& music, mapclass& map, UtilityClass& help)
+void gamecompletelogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music, MapClass& map, UtilityClass& help)
 {
     //Misc
     map.updatetowerglow();
@@ -88,7 +88,7 @@ void gamecompletelogic(Graphics& dwgfx, Game& game, entityclass& obj,  musicclas
     }
 }
 
-void gamecompletelogic2(Graphics& dwgfx, Game& game, entityclass& obj,  musicclass& music, mapclass& map, UtilityClass& help)
+void gamecompletelogic2(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music, MapClass& map, UtilityClass& help)
 {
     //Misc
     map.updatetowerglow();
@@ -139,7 +139,7 @@ void gamecompletelogic2(Graphics& dwgfx, Game& game, entityclass& obj,  musiccla
 }
 
 
-void towerlogic(Graphics& dwgfx, Game& game, entityclass& obj,  musicclass& music, mapclass& map, UtilityClass& help)
+void towerlogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music, MapClass& map, UtilityClass& help)
 {
     //Logic for the tower level
     map.updatetowerglow();
@@ -537,7 +537,7 @@ void towerlogic(Graphics& dwgfx, Game& game, entityclass& obj,  musicclass& musi
     if (game.teleport_to_new_area) script.teleport(dwgfx, game, map,	obj, help, music);
 }
 
-void gamelogic(Graphics& dwgfx, Game& game, entityclass& obj,  musicclass& music, mapclass& map, UtilityClass& help)
+void gamelogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music, MapClass& map, UtilityClass& help)
 {
     //Misc
     help.updateglow();

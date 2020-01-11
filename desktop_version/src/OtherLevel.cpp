@@ -1,6 +1,6 @@
-#include "Otherlevel.h"
+#include "OtherLevel.h"
 
-otherlevelclass::otherlevelclass()
+OtherLevelClass::OtherLevelClass()
 {
 	for (i = 0; i < 50; i++)
 	{
@@ -8,13 +8,13 @@ otherlevelclass::otherlevelclass()
 	}
 }
 
-void otherlevelclass::addline(std::string t)
+void OtherLevelClass::addline(std::string t)
 {
 	roomtext[roomtextnumlines] = t;
 	roomtextnumlines++;
 }
 
-std::vector<std::string> otherlevelclass::loadlevel(int rx, int ry , Game& game, entityclass& obj)
+std::vector<std::string> OtherLevelClass::loadlevel(int rx, int ry , Game& game, EntityClass& obj)
 {
 	int t;
 	roomtileset = 1;

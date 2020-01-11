@@ -6,7 +6,7 @@
 #include "KeyPoll.h"
 #include "Map.h"
 
-scriptclass::scriptclass()
+ScriptClass::ScriptClass()
 {
     	//Start SDL
 
@@ -28,11 +28,11 @@ scriptclass::scriptclass()
 
 }
 
-void scriptclass::clearcustom(){
+void ScriptClass::clearcustom(){
 	customscript.clear();
 }
 
-void scriptclass::tokenize( std::string t )
+void ScriptClass::tokenize( std::string t )
 {
 	j = 0;
 	tempword = "";
@@ -63,7 +63,7 @@ void scriptclass::tokenize( std::string t )
 	}
 }
 
-void scriptclass::run( KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map, entityclass& obj, UtilityClass& help, musicclass& music )
+void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj, UtilityClass& help, MusicClass& music )
 {
 	while(running && scriptdelay<=0 && !game.pausescript)
 	{
@@ -2497,7 +2497,7 @@ void scriptclass::run( KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map,
 	}
 }
 
-void scriptclass::resetgametomenu( Graphics& dwgfx, Game& game,mapclass& map, entityclass& obj, UtilityClass& help, musicclass& music )
+void ScriptClass::resetgametomenu( Graphics& dwgfx, Game& game,MapClass& map, EntityClass& obj, UtilityClass& help, MusicClass& music )
 {
 	game.gamestate = TITLEMODE;
 	dwgfx.flipmode = false;
@@ -2506,7 +2506,7 @@ void scriptclass::resetgametomenu( Graphics& dwgfx, Game& game,mapclass& map, en
 	game.createmenu("gameover");
 }
 
-void scriptclass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map, entityclass& obj, UtilityClass& help, musicclass& music )
+void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj, UtilityClass& help, MusicClass& music )
 {
 	switch(t)
 	{
@@ -3274,7 +3274,7 @@ void scriptclass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 	}
 }
 
-void scriptclass::teleport( Graphics& dwgfx, Game& game, mapclass& map, entityclass& obj, UtilityClass& help, musicclass& music )
+void ScriptClass::teleport( Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj, UtilityClass& help, MusicClass& music )
 {
 	//er, ok! Teleport to a new area, so!
 	//A general rule of thumb: if you teleport with a companion, get rid of them!
@@ -3382,7 +3382,7 @@ void scriptclass::teleport( Graphics& dwgfx, Game& game, mapclass& map, entitycl
 	}
 }
 
-void scriptclass::hardreset( KeyPoll& key, Graphics& dwgfx, Game& game,mapclass& map, entityclass& obj, UtilityClass& help, musicclass& music )
+void ScriptClass::hardreset( KeyPoll& key, Graphics& dwgfx, Game& game,MapClass& map, EntityClass& obj, UtilityClass& help, MusicClass& music )
 {
 	//Game:
 	game.hascontrol = true;
@@ -3476,7 +3476,7 @@ void scriptclass::hardreset( KeyPoll& key, Graphics& dwgfx, Game& game,mapclass&
 	dwgfx.flipmode = false; //This will be reset if needs be elsewhere
 	dwgfx.showcutscenebars = false;
 
-  //mapclass
+  //MapClass
 	map.warpx = false;
 	map.warpy = false;
 	map.showteleporters = false;
@@ -3508,7 +3508,7 @@ void scriptclass::hardreset( KeyPoll& key, Graphics& dwgfx, Game& game,mapclass&
 			map.explored[i + (j * 20)] = 0;
 		}
 	}
-	//entityclass
+	//EntityClass
 	obj.nearelephant = false;
 	obj.upsetmode = false;
 	obj.upset = 0;

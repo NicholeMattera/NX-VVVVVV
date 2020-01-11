@@ -7,10 +7,10 @@
 
 #define musicroom(rx, ry) ((rx) + ((ry) * 20))
 
-class musicclass
+class MusicClass
 {
 public:
-	musicclass();
+	MusicClass();
 
 	void play(int t);
 	void loopmusic();

@@ -1,6 +1,6 @@
-#include "Labclass.h"
+#include "LabClass.h"
 
-std::vector<std::string> labclass::loadlevel(int rx, int ry , Game& game, entityclass& obj)
+std::vector<std::string> LabClass::loadlevel(int rx, int ry , Game& game, EntityClass& obj)
 {
 	int t;
 

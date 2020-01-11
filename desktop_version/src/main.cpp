@@ -13,8 +13,8 @@
 
 #include "Tower.h"
 #include "WarpClass.h"
-#include "Labclass.h"
-#include "Finalclass.h"
+#include "LabClass.h"
+#include "FinalClass.h"
 #include "Map.h"
 
 #include "Screen.h"
@@ -24,7 +24,7 @@
 #include "Logic.h"
 
 #include "Input.h"
-#include "editor.h"
+#include "Editor.h"
 #include "preloader.h"
 
 #include "FileSystemUtils.h"
@@ -37,10 +37,10 @@
     #include <switch.h>
 #endif
 
-scriptclass script;
+ScriptClass script;
 edentities edentity[3000];
 
-editorclass ed;
+EditorClass ed;
 
 int main(int argc, char * argv[])
 {
@@ -103,7 +103,7 @@ int main(int argc, char * argv[])
 
     UtilityClass help;
     Graphics graphics;
-    musicclass music;
+    MusicClass music;
     Game game;
     game.infocus = true;
 
@@ -151,7 +151,7 @@ int main(int argc, char * argv[])
     game.mainmenu = 0;
 
     KeyPoll key;
-    mapclass map;
+    MapClass map;
 
     map.ypos = (700 - 29) * 8;
     map.bypos = map.ypos / 2;
@@ -216,7 +216,7 @@ int main(int argc, char * argv[])
         if (game.bestrank[5] >= 3) NETWORK_unlockAchievement("vvvvvvtimetrial_final_fixed");
     #endif
 
-    entityclass obj;
+    EntityClass obj;
     obj.init();
 
     volatile Uint32 time, timePrev = 0;
@@ -482,8 +482,10 @@ int main(int argc, char * argv[])
         gameScreen.FlipScreen();
     }
 
-    //Quit SDL
-    NETWORK_shutdown();
+    // Switch doesn't have Steam.
+    #if !defined(__SWITCH__)
+        NETWORK_shutdown();
+    #endif
     SDL_Quit();
     FILESYSTEM_deinit();
 

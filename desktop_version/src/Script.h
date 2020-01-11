@@ -7,15 +7,15 @@
 #include "Enums.h"
 
 
-class KeyPoll; class Graphics; class Game; class mapclass; class entityclass; class UtilityClass;class musicclass;
+class KeyPoll; class Graphics; class Game; class MapClass; class EntityClass; class UtilityClass;class MusicClass;
 
 
-class scriptclass
+class ScriptClass
 {
 public:
 
 
-    scriptclass();
+    ScriptClass();
 
 	void load(std::string t);
 	void loadother(std::string t);
@@ -31,20 +31,20 @@ public:
 
     void tokenize(std::string t);
 
-    void run(KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map,
-             entityclass& obj, UtilityClass& help, musicclass& music);
+    void run(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
+             EntityClass& obj, UtilityClass& help, MusicClass& music);
 
-    void resetgametomenu(Graphics& dwgfx, Game& game,mapclass& map,
-                         entityclass& obj, UtilityClass& help, musicclass& music);
+    void resetgametomenu(Graphics& dwgfx, Game& game,MapClass& map,
+                         EntityClass& obj, UtilityClass& help, MusicClass& music);
 
-    void startgamemode(int t, KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map,
-                       entityclass& obj, UtilityClass& help, musicclass& music);
+    void startgamemode(int t, KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
+                       EntityClass& obj, UtilityClass& help, MusicClass& music);
 
-    void teleport(Graphics& dwgfx, Game& game, mapclass& map,
-                  entityclass& obj, UtilityClass& help, musicclass& music);
+    void teleport(Graphics& dwgfx, Game& game, MapClass& map,
+                  EntityClass& obj, UtilityClass& help, MusicClass& music);
 
-    void hardreset(KeyPoll& key, Graphics& dwgfx, Game& game,mapclass& map,
-                   entityclass& obj, UtilityClass& help, musicclass& music);
+    void hardreset(KeyPoll& key, Graphics& dwgfx, Game& game,MapClass& map,
+                   EntityClass& obj, UtilityClass& help, MusicClass& music);
 
     //Script contents
     std::vector<std::string> commands;

@@ -7,7 +7,7 @@
 // Found in titlerender.cpp
 void updategraphicsmode(Game& game, Graphics& dwgfx);
 
-void updatebuttonmappings(Game& game, KeyPoll& key, musicclass& music, int bind)
+void updatebuttonmappings(Game& game, KeyPoll& key, MusicClass& music, int bind)
 {
 	for (
 		SDL_GameControllerButton i = SDL_CONTROLLER_BUTTON_A;
@@ -108,7 +108,7 @@ void updatebuttonmappings(Game& game, KeyPoll& key, musicclass& music, int bind)
 	}
 }
 
-void titleinput(KeyPoll& key, Graphics& dwgfx, mapclass& map, Game& game, entityclass& obj, UtilityClass& help, musicclass& music)
+void titleinput(KeyPoll& key, Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, UtilityClass& help, MusicClass& music)
 {
     //game.mx = (mouseX / 4);
     //game.my = (mouseY / 4);
@@ -1674,8 +1674,8 @@ SDL_assert(0 && "Remove open level dir");
         script.startgamemode(game.mainmenu, key, dwgfx, game, map, obj, help, music);
 }
 
-void gameinput(KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map,
-               entityclass& obj, UtilityClass& help, musicclass& music)
+void gameinput(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
+               EntityClass& obj, UtilityClass& help, MusicClass& music)
 {
     //TODO mouse input
     //game.mx = (mouseX / 2);
@@ -2133,8 +2133,8 @@ void gameinput(KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map,
     }
 }
 
-void mapinput(KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map,
-              entityclass& obj, UtilityClass& help, musicclass& music)
+void mapinput(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
+              EntityClass& obj, UtilityClass& help, MusicClass& music)
 {
     //TODO Mouse Input!
     //game.mx = (mouseX / 2);
@@ -2331,8 +2331,8 @@ void mapinput(KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map,
     }
 }
 
-void teleporterinput(KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map,
-                     entityclass& obj, UtilityClass& help, musicclass& music)
+void teleporterinput(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
+                     EntityClass& obj, UtilityClass& help, MusicClass& music)
 {
     //Todo Mouseinput!
     //game.mx = (mouseX / 2);
@@ -2434,8 +2434,8 @@ void teleporterinput(KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map,
     }
 }
 
-void gamecompleteinput(KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map,
-                       entityclass& obj, UtilityClass& help, musicclass& music)
+void gamecompleteinput(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
+                       EntityClass& obj, UtilityClass& help, MusicClass& music)
 {
     //game.mx = (mouseX / 2);
     //game.my = (mouseY / 2);
@@ -2495,8 +2495,8 @@ void gamecompleteinput(KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map,
     }
 }
 
-void gamecompleteinput2(KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map,
-                        entityclass& obj, UtilityClass& help, musicclass& music)
+void gamecompleteinput2(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
+                        EntityClass& obj, UtilityClass& help, MusicClass& music)
 {
     //TODO Mouse Input!
     //game.mx = (mouseX / 2);

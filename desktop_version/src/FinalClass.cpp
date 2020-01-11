@@ -1,6 +1,6 @@
-#include "Finalclass.h"
+#include "FinalClass.h"
 
-std::vector<std::string> finalclass::loadlevel(int rx, int ry, Game& game, entityclass& obj)
+std::vector<std::string> FinalClass::loadlevel(int rx, int ry, Game& game, EntityClass& obj)
 {
 	int t;
 

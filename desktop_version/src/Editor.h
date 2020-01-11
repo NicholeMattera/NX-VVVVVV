@@ -5,7 +5,7 @@
 #include <string>
 #include "Script.h"
 
-class KeyPoll; class Graphics; class Game; class mapclass; class entityclass; class UtilityClass;
+class KeyPoll; class Graphics; class Game; class MapClass; class EntityClass; class UtilityClass;
 
 
 class edentities{
@@ -47,7 +47,7 @@ struct LevelMetaData
 
 
 extern edentities edentity[3000];
-extern scriptclass script;
+extern ScriptClass script;
 
 class EditorData
 {
@@ -80,10 +80,10 @@ private:
 };
 
 
-class editorclass{
+class EditorClass{
   //Special class to handle ALL editor variables locally
   public:
-  editorclass();
+  EditorClass();
 
   std::string Desc1;
   std::string Desc2;
@@ -129,7 +129,7 @@ class editorclass{
 
   void load(std::string& _path);
   void save(std::string& _path);
-  void generatecustomminimap(Graphics& dwgfx, mapclass& map);
+  void generatecustomminimap(Graphics& dwgfx, MapClass& map);
   int edgetile(int x, int y);
   int warpzoneedgetile(int x, int y);
   int outsideedgetile(int x, int y);
@@ -252,11 +252,11 @@ void fillbox(Graphics& dwgfx, int x, int y, int x2, int y2, int c);
 
 void fillboxabs(Graphics& dwgfx, int x, int y, int x2, int y2, int c);
 
-void editorrender(KeyPoll& key, Graphics& dwgfx, Game& game,  mapclass& map, entityclass& obj, UtilityClass& help);
+void editorrender(KeyPoll& key, Graphics& dwgfx, Game& game,  MapClass& map, EntityClass& obj, UtilityClass& help);
 
-void editorlogic(KeyPoll& key, Graphics& dwgfx, Game& game, entityclass& obj,  musicclass& music, mapclass& map, UtilityClass& help);
+void editorlogic(KeyPoll& key, Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music, MapClass& map, UtilityClass& help);
 
-void editorinput(KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map,
-                 entityclass& obj, UtilityClass& help, musicclass& music);
+void editorinput(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
+                 EntityClass& obj, UtilityClass& help, MusicClass& music);
 
 #endif /* EDITOR_H */

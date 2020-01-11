@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-class otherlevelclass
+class OtherLevelClass
 {
 public:
     enum
@@ -20,9 +20,9 @@ public:
         ACTIVITY
     };
 
-    otherlevelclass();
+    OtherLevelClass();
     void addline(std::string t);
-    std::vector<std::string> loadlevel(int rx, int ry , Game& game, entityclass& obj);
+    std::vector<std::string> loadlevel(int rx, int ry , Game& game, EntityClass& obj);
 
     std::string roomname;
 

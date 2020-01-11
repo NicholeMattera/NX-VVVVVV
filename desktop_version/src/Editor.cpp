@@ -1,4 +1,4 @@
-#include "editor.h"
+#include "Editor.h"
 
 #include "Graphics.h"
 #include "Entity.h"
@@ -36,7 +36,7 @@ edlevelclass::edlevelclass()
     directmode=0;
 }
 
-editorclass::editorclass()
+EditorClass::EditorClass()
 {
     maxwidth=20;
     maxheight=20;
@@ -84,7 +84,7 @@ bool compare_nocase (std::string first, std::string second)
         return false;
 }
 
-void editorclass::getDirectoryData()
+void EditorClass::getDirectoryData()
 {
 
     ListOfMetaData.clear();
@@ -114,7 +114,7 @@ void editorclass::getDirectoryData()
     }
 
 }
-bool editorclass::getLevelMetaData(std::string& _path, LevelMetaData& _data )
+bool EditorClass::getLevelMetaData(std::string& _path, LevelMetaData& _data )
 {
     unsigned char *mem = NULL;
     FILESYSTEM_loadFileToMemory(_path.c_str(), &mem, NULL);
@@ -218,7 +218,7 @@ bool editorclass::getLevelMetaData(std::string& _path, LevelMetaData& _data )
     return (_data.filename != "");
 }
 
-void editorclass::reset()
+void EditorClass::reset()
 {
     version=2; //New smaller format change is 2
 
@@ -358,7 +358,7 @@ void editorclass::reset()
     script.customscript.clear();
 }
 
-void editorclass::weirdloadthing(std::string t)
+void EditorClass::weirdloadthing(std::string t)
 {
     //Stupid pointless function because I hate C++ and everything to do with it
     //It's even stupider now that I don't need to append .vvvvvv anymore! bah, whatever
@@ -366,7 +366,7 @@ void editorclass::weirdloadthing(std::string t)
     load(t);
 }
 
-void editorclass::gethooks()
+void EditorClass::gethooks()
 {
     //Scan through the script and create a hooks list based on it
     numhooks=0;
@@ -397,9 +397,9 @@ void editorclass::gethooks()
     }
 }
 
-void editorclass::loadhookineditor(std::string t)
+void EditorClass::loadhookineditor(std::string t)
 {
-    //Find hook t in the scriptclass, then load it into the editor
+    //Find hook t in the ScriptClass, then load it into the editor
     clearscriptbuffer();
 
     std::string tstring;
@@ -434,9 +434,9 @@ void editorclass::loadhookineditor(std::string t)
     if(sblength>1) sblength--;
 }
 
-void editorclass::addhooktoscript(std::string t)
+void EditorClass::addhooktoscript(std::string t)
 {
-    //Adds hook+the scriptbuffer to the end of the scriptclass
+    //Adds hook+the scriptbuffer to the end of the ScriptClass
     removehookfromscript(t);
     script.customscript.push_back(t+":");
     if(sblength>=1)
@@ -448,9 +448,9 @@ void editorclass::addhooktoscript(std::string t)
     }
 }
 
-void editorclass::removehookfromscript(std::string t)
+void EditorClass::removehookfromscript(std::string t)
 {
-    //Find hook t in the scriptclass, then removes it (and any other code with it)
+    //Find hook t in the ScriptClass, then removes it (and any other code with it)
     std::string tstring;
     bool removemode=false;
     for(size_t i=0; i<script.customscript.size(); i++)
@@ -492,7 +492,7 @@ void editorclass::removehookfromscript(std::string t)
     }
 }
 
-void editorclass::removehook(std::string t)
+void EditorClass::removehook(std::string t)
 {
     //Check the hooklist for the hook t. If it's there, remove it from here and the script
     for(int i=0; i<numhooks; i++)
@@ -511,7 +511,7 @@ void editorclass::removehook(std::string t)
     }
 }
 
-void editorclass::addhook(std::string t)
+void EditorClass::addhook(std::string t)
 {
     //Add an empty function to the list in both editor and script
     removehook(t);
@@ -520,7 +520,7 @@ void editorclass::addhook(std::string t)
     addhooktoscript(t);
 }
 
-bool editorclass::checkhook(std::string t)
+bool EditorClass::checkhook(std::string t)
 {
     //returns true if hook t already is in the list
     for(int i=0; i<numhooks; i++)
@@ -531,7 +531,7 @@ bool editorclass::checkhook(std::string t)
 }
 
 
-void editorclass::clearscriptbuffer()
+void EditorClass::clearscriptbuffer()
 {
     for(int i=0; i<sblength+1; i++)
     {
@@ -540,7 +540,7 @@ void editorclass::clearscriptbuffer()
     sblength=1;
 }
 
-void editorclass::removeline(int t)
+void EditorClass::removeline(int t)
 {
     //Remove line t from the script
     if(sblength>0)
@@ -561,7 +561,7 @@ void editorclass::removeline(int t)
     }
 }
 
-void editorclass::insertline(int t)
+void EditorClass::insertline(int t)
 {
     //insert a blank line into script at line t
     for(int i=sblength; i>=t; i--)
@@ -572,9 +572,9 @@ void editorclass::insertline(int t)
     sblength++;
 }
 
-void editorclass::loadlevel( int rxi, int ryi )
+void EditorClass::loadlevel( int rxi, int ryi )
 {
-    //Set up our buffer array to be picked up by mapclass
+    //Set up our buffer array to be picked up by MapClass
     rxi -= 100;
     ryi -= 100;
     if(rxi<0)rxi+=mapwidth;
@@ -591,7 +591,7 @@ void editorclass::loadlevel( int rxi, int ryi )
     }
 }
 
-int editorclass::getlevelcol(int t)
+int EditorClass::getlevelcol(int t)
 {
     if(level[t].tileset==0)  //Space Station
     {
@@ -616,7 +616,7 @@ int editorclass::getlevelcol(int t)
     return 0;
 }
 
-int editorclass::getenemycol(int t)
+int EditorClass::getenemycol(int t)
 {
     switch(t)
     {
@@ -709,7 +709,7 @@ int editorclass::getenemycol(int t)
     return 0;
 }
 
-int editorclass::getwarpbackground(int rx, int ry)
+int EditorClass::getwarpbackground(int rx, int ry)
 {
     int tmp=rx+(maxwidth*ry);
     switch(level[tmp].tileset)
@@ -946,7 +946,7 @@ int editorclass::getwarpbackground(int rx, int ry)
     }
 }
 
-int editorclass::getenemyframe(int t)
+int EditorClass::getenemyframe(int t)
 {
     switch(t)
     {
@@ -988,7 +988,7 @@ int editorclass::getenemyframe(int t)
 }
 
 
-void editorclass::placetile( int x, int y, int t )
+void EditorClass::placetile( int x, int y, int t )
 {
     if(x>=0 && y>=0 && x<mapwidth*40 && y<mapheight*30)
     {
@@ -996,7 +996,7 @@ void editorclass::placetile( int x, int y, int t )
     }
 }
 
-void editorclass::placetilelocal( int x, int y, int t )
+void EditorClass::placetilelocal( int x, int y, int t )
 {
     if(x>=0 && y>=0 && x<40 && y<30)
     {
@@ -1005,7 +1005,7 @@ void editorclass::placetilelocal( int x, int y, int t )
     updatetiles=true;
 }
 
-int editorclass::base( int x, int y )
+int EditorClass::base( int x, int y )
 {
     //Return the base tile for the given tileset and colour
     temp=x+(y*maxwidth);
@@ -1043,7 +1043,7 @@ int editorclass::base( int x, int y )
     return 0;
 }
 
-int editorclass::backbase( int x, int y )
+int EditorClass::backbase( int x, int y )
 {
     //Return the base tile for the background of the given tileset and colour
     temp=x+(y*maxwidth);
@@ -1127,7 +1127,7 @@ int editorclass::backbase( int x, int y )
     return 0;
 }
 
-int editorclass::at( int x, int y )
+int EditorClass::at( int x, int y )
 {
     if(x<0) return at(0,y);
     if(y<0) return at(x,0);
@@ -1142,7 +1142,7 @@ int editorclass::at( int x, int y )
 }
 
 
-int editorclass::freewrap( int x, int y )
+int EditorClass::freewrap( int x, int y )
 {
     if(x<0) return freewrap(x+(mapwidth*40),y);
     if(y<0) return freewrap(x,y+(mapheight*30));
@@ -1170,7 +1170,7 @@ int editorclass::freewrap( int x, int y )
     return 1;
 }
 
-int editorclass::backonlyfree( int x, int y )
+int EditorClass::backonlyfree( int x, int y )
 {
     //Returns 1 if tile is a background tile, 0 otherwise
     if(x<0) return backonlyfree(0,y);
@@ -1188,7 +1188,7 @@ int editorclass::backonlyfree( int x, int y )
     return 0;
 }
 
-int editorclass::backfree( int x, int y )
+int EditorClass::backfree( int x, int y )
 {
     //Returns 0 if tile is not a block or background tile, 1 otherwise
     if(x<0) return backfree(0,y);
@@ -1212,7 +1212,7 @@ int editorclass::backfree( int x, int y )
     return 1;
 }
 
-int editorclass::spikefree( int x, int y )
+int EditorClass::spikefree( int x, int y )
 {
     //Returns 0 if tile is not a block or spike, 1 otherwise
     if(x==-1) return free(0,y);
@@ -1237,7 +1237,7 @@ int editorclass::spikefree( int x, int y )
     return 1;
 }
 
-int editorclass::free( int x, int y )
+int EditorClass::free( int x, int y )
 {
     //Returns 0 if tile is not a block, 1 otherwise
     if(x==-1) return free(0,y);
@@ -1266,7 +1266,7 @@ int editorclass::free( int x, int y )
     return 1;
 }
 
-int editorclass::absfree( int x, int y )
+int EditorClass::absfree( int x, int y )
 {
     //Returns 0 if tile is not a block, 1 otherwise, abs on grid
     if(x>=0 && y>=0 && x<mapwidth*40 && y<mapheight*30)
@@ -1290,7 +1290,7 @@ int editorclass::absfree( int x, int y )
     return 1;
 }
 
-int editorclass::match( int x, int y )
+int EditorClass::match( int x, int y )
 {
     if(free(x-1,y)==0 && free(x,y-1)==0 && free(x+1,y)==0 && free(x,y+1)==0) return 0;
 
@@ -1311,7 +1311,7 @@ int editorclass::match( int x, int y )
     return 0;
 }
 
-int editorclass::warpzonematch( int x, int y )
+int EditorClass::warpzonematch( int x, int y )
 {
     if(free(x-1,y)==0 && free(x,y-1)==0 && free(x+1,y)==0 && free(x,y+1)==0) return 0;
 
@@ -1332,7 +1332,7 @@ int editorclass::warpzonematch( int x, int y )
     return 0;
 }
 
-int editorclass::outsidematch( int x, int y )
+int EditorClass::outsidematch( int x, int y )
 {
 
     if(backonlyfree(x-1,y)==0 && backonlyfree(x+1,y)==0) return 2;
@@ -1341,7 +1341,7 @@ int editorclass::outsidematch( int x, int y )
     return 0;
 }
 
-int editorclass::backmatch( int x, int y )
+int EditorClass::backmatch( int x, int y )
 {
     //Returns the first position match for a border
     // 5 1 6
@@ -1381,7 +1381,7 @@ int editorclass::backmatch( int x, int y )
     return 0;
 }
 
-int editorclass::edgetile( int x, int y )
+int EditorClass::edgetile( int x, int y )
 {
     switch(match(x,y))
     {
@@ -1432,7 +1432,7 @@ int editorclass::edgetile( int x, int y )
     return 0;
 }
 
-int editorclass::warpzoneedgetile( int x, int y )
+int EditorClass::warpzoneedgetile( int x, int y )
 {
     switch(backmatch(x,y))
     {
@@ -1483,7 +1483,7 @@ int editorclass::warpzoneedgetile( int x, int y )
     return 0;
 }
 
-int editorclass::outsideedgetile( int x, int y )
+int EditorClass::outsideedgetile( int x, int y )
 {
     switch(outsidematch(x,y))
     {
@@ -1502,7 +1502,7 @@ int editorclass::outsideedgetile( int x, int y )
 }
 
 
-int editorclass::backedgetile( int x, int y )
+int EditorClass::backedgetile( int x, int y )
 {
     switch(backmatch(x,y))
     {
@@ -1553,7 +1553,7 @@ int editorclass::backedgetile( int x, int y )
     return 0;
 }
 
-int editorclass::labspikedir( int x, int y, int t )
+int EditorClass::labspikedir( int x, int y, int t )
 {
     // a slightly more tricky case
     if(free(x,y+1)==1) return 63 + (t*2);
@@ -1563,7 +1563,7 @@ int editorclass::labspikedir( int x, int y, int t )
     return 63 + (t*2);
 }
 
-int editorclass::spikedir( int x, int y )
+int EditorClass::spikedir( int x, int y )
 {
     if(free(x,y+1)==1) return 8;
     if(free(x,y-1)==1) return 9;
@@ -1572,7 +1572,7 @@ int editorclass::spikedir( int x, int y )
     return 8;
 }
 
-void editorclass::findstartpoint(Game& game)
+void EditorClass::findstartpoint(Game& game)
 {
     //Ok! Scan the room for the closest checkpoint
     int testeditor=-1;
@@ -1611,7 +1611,7 @@ void editorclass::findstartpoint(Game& game)
     }
 }
 
-void editorclass::saveconvertor()
+void EditorClass::saveconvertor()
 {
     //In the case of resizing breaking a level, this function can fix it
     maxwidth=20;
@@ -1662,7 +1662,7 @@ void editorclass::saveconvertor()
 
 }
 
-int editorclass::findtrinket(int t)
+int EditorClass::findtrinket(int t)
 {
     int ttrinket=0;
     for(int i=0; i<EditorData::GetInstance().numedentities; i++)
@@ -1673,7 +1673,7 @@ int editorclass::findtrinket(int t)
     return 0;
 }
 
-int editorclass::findcrewmate(int t)
+int EditorClass::findcrewmate(int t)
 {
     int ttrinket=0;
     for(int i=0; i<EditorData::GetInstance().numedentities; i++)
@@ -1684,7 +1684,7 @@ int editorclass::findcrewmate(int t)
     return 0;
 }
 
-int editorclass::findwarptoken(int t)
+int EditorClass::findwarptoken(int t)
 {
     int ttrinket=0;
     for(int i=0; i<EditorData::GetInstance().numedentities; i++)
@@ -1695,7 +1695,7 @@ int editorclass::findwarptoken(int t)
     return 0;
 }
 
-void editorclass::countstuff()
+void EditorClass::countstuff()
 {
     numtrinkets=0;
     numcrewmates=0;
@@ -1706,7 +1706,7 @@ void editorclass::countstuff()
     }
 }
 
-void editorclass::load(std::string& _path)
+void EditorClass::load(std::string& _path)
 {
     reset();
 
@@ -1942,7 +1942,7 @@ void editorclass::load(std::string& _path)
     //saveconvertor();
 }
 
-void editorclass::save(std::string& _path)
+void EditorClass::save(std::string& _path)
 {
     TiXmlDocument doc;
     TiXmlElement* msg;
@@ -2203,14 +2203,14 @@ void fillboxabs( Graphics& dwgfx, int x, int y, int x2, int y2, int c )
 }
 
 
-extern editorclass ed;
+extern EditorClass ed;
 extern edentities edentity[3000];
 
 extern int temp;
 
-extern scriptclass script;
+extern ScriptClass script;
 
-void editorclass::generatecustomminimap(Graphics& dwgfx, mapclass& map)
+void EditorClass::generatecustomminimap(Graphics& dwgfx, MapClass& map)
 {
     map.customwidth=mapwidth;
     map.customheight=mapheight;
@@ -2329,7 +2329,7 @@ void editorclass::generatecustomminimap(Graphics& dwgfx, mapclass& map)
     }
 }
 
-void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map, entityclass& obj, UtilityClass& help )
+void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj, UtilityClass& help )
 {
     //TODO
     //dwgfx.backbuffer.lock();
@@ -3598,7 +3598,7 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map, ent
     //dwgfx.backbuffer.unlock();
 }
 
-void editorlogic( KeyPoll& key, Graphics& dwgfx, Game& game, entityclass& obj, musicclass& music, mapclass& map, UtilityClass& help )
+void editorlogic( KeyPoll& key, Graphics& dwgfx, Game& game, EntityClass& obj, MusicClass& music, MapClass& map, UtilityClass& help )
 {
     //Misc
     help.updateglow();
@@ -3635,7 +3635,7 @@ void editorlogic( KeyPoll& key, Graphics& dwgfx, Game& game, entityclass& obj, m
 }
 
 
-void editorinput( KeyPoll& key, Graphics& dwgfx, Game& game, mapclass& map, entityclass& obj, UtilityClass& help, musicclass& music )
+void editorinput( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj, UtilityClass& help, MusicClass& music )
 {
     //TODO Mouse Input!
     game.mx = (float) key.mx;

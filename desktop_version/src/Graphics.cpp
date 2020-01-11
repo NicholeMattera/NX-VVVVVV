@@ -1250,7 +1250,7 @@ bool Graphics::Hitest(SDL_Surface* surface1, point p1, int col, SDL_Surface* sur
 
 }
 
-void Graphics::drawgravityline( int t, entityclass& obj )
+void Graphics::drawgravityline( int t, EntityClass& obj )
 {
     if (obj.entities[t].life == 0)
     {
@@ -1294,7 +1294,7 @@ void Graphics::drawgravityline( int t, entityclass& obj )
     }
 }
 
-void Graphics::drawtrophytext( entityclass& obj, UtilityClass& help )
+void Graphics::drawtrophytext( EntityClass& obj, UtilityClass& help )
 {
     int temp, temp2, temp3;
 
@@ -1381,7 +1381,7 @@ void Graphics::drawtrophytext( entityclass& obj, UtilityClass& help )
     }
 }
 
-void Graphics::drawentities( mapclass& map, entityclass& obj, UtilityClass& help )
+void Graphics::drawentities( MapClass& map, EntityClass& obj, UtilityClass& help )
 {
     //Update line colours!
     if (linedelay <= 0)
@@ -1912,7 +1912,7 @@ void Graphics::drawentities( mapclass& map, entityclass& obj, UtilityClass& help
     }
 }
 
-void Graphics::drawbackground( int t, mapclass& map )
+void Graphics::drawbackground( int t, MapClass& map )
 {
     int temp = 0;
 
@@ -2317,7 +2317,7 @@ void Graphics::drawbackground( int t, mapclass& map )
     }
 }
 
-void Graphics::drawmap( mapclass& map )
+void Graphics::drawmap( MapClass& map )
 {
     ///TODO forground once;
     if (!foregrounddrawn)
@@ -2360,7 +2360,7 @@ void Graphics::drawmap( mapclass& map )
 
 }
 
-void Graphics::drawfinalmap(mapclass & map)
+void Graphics::drawfinalmap(MapClass & map)
 {
 	//Update colour cycling for final level
 	if (map.final_colormode) {
@@ -2400,7 +2400,7 @@ void Graphics::drawfinalmap(mapclass & map)
 	OverlaySurfaceKeyed(forgroundBuffer, backBuffer, 0xDEADBEEF);
 }
 
-void Graphics::drawtowermap( mapclass& map )
+void Graphics::drawtowermap( MapClass& map )
 {
     int temp;
     for (int j = 0; j < 30; j++)
@@ -2413,7 +2413,7 @@ void Graphics::drawtowermap( mapclass& map )
     }
 }
 
-void Graphics::drawtowermap_nobackground( mapclass& map )
+void Graphics::drawtowermap_nobackground( MapClass& map )
 {
     int temp;
     for (j = 0; j < 30; j++)
@@ -2426,7 +2426,7 @@ void Graphics::drawtowermap_nobackground( mapclass& map )
     }
 }
 
-void Graphics::drawtowerentities( mapclass& map, entityclass& obj, UtilityClass& help )
+void Graphics::drawtowerentities( MapClass& map, EntityClass& obj, UtilityClass& help )
 {
     //Update line colours!
     if (linedelay <= 0)
@@ -2538,7 +2538,7 @@ void Graphics::drawtowerentities( mapclass& map, entityclass& obj, UtilityClass&
     }
 }
 
-void Graphics::drawtowerspikes( mapclass& map )
+void Graphics::drawtowerspikes( MapClass& map )
 {
     for (int i = 0; i < 40; i++)
     {
@@ -2547,7 +2547,7 @@ void Graphics::drawtowerspikes( mapclass& map )
     }
 }
 
-void Graphics::drawtowerbackgroundsolo( mapclass& map )
+void Graphics::drawtowerbackgroundsolo( MapClass& map )
 {
     if (map.bypos < 0)
     {
@@ -2584,7 +2584,7 @@ void Graphics::drawtowerbackgroundsolo( mapclass& map )
     }
 }
 
-void Graphics::drawtowerbackground( mapclass& map )
+void Graphics::drawtowerbackground( MapClass& map )
 {
     //TODO
     int temp;

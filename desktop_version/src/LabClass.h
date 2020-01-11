@@ -7,10 +7,10 @@
 #include <vector>
 #include <string>
 
-class labclass
+class LabClass
 {
 public:
-    std::vector<std::string>  loadlevel(int rx, int ry , Game& game, entityclass& obj);
+    std::vector<std::string>  loadlevel(int rx, int ry , Game& game, EntityClass& obj);
 
     std::string roomname;
     int coin, rcol;

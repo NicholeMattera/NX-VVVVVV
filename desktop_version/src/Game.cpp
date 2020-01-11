@@ -416,7 +416,7 @@ Game::~Game(void)
 {
 }
 
-void Game::lifesequence( entityclass& obj )
+void Game::lifesequence( EntityClass& obj )
 {
     if (lifeseq > 0)
     {
@@ -609,7 +609,7 @@ void Game::savecustomlevelstats()
     }
 }
 
-void Game::updatestate( Graphics& dwgfx, mapclass& map, entityclass& obj, UtilityClass& help, musicclass& music )
+void Game::updatestate( Graphics& dwgfx, MapClass& map, EntityClass& obj, UtilityClass& help, MusicClass& music )
 {
     int i;
     statedelay--;
@@ -4062,7 +4062,7 @@ void Game::updatestate( Graphics& dwgfx, mapclass& map, entityclass& obj, Utilit
     }
 }
 
-void Game::gethardestroom( mapclass& map )
+void Game::gethardestroom( MapClass& map )
 {
     if (currentroomdeaths > hardestroomdeaths)
     {
@@ -4094,7 +4094,7 @@ void Game::gethardestroom( mapclass& map )
     }
 }
 
-void Game::deletestats( mapclass& map, Graphics& dwgfx )
+void Game::deletestats( MapClass& map, Graphics& dwgfx )
 {
     for (int i = 0; i < 25; i++)
     {
@@ -4113,13 +4113,13 @@ void Game::deletestats( mapclass& map, Graphics& dwgfx )
     savestats(map, dwgfx);
 }
 
-void Game::unlocknum( int t, mapclass& map, Graphics& dwgfx )
+void Game::unlocknum( int t, MapClass& map, Graphics& dwgfx )
 {
     unlock[t] = true;
     savestats(map, dwgfx);
 }
 
-void Game::loadstats( mapclass& map, Graphics& dwgfx )
+void Game::loadstats( MapClass& map, Graphics& dwgfx )
 {
     // TODO loadstats
     TiXmlDocument doc((saveFilePath+"unlock.vvv").c_str());
@@ -4423,7 +4423,7 @@ void Game::loadstats( mapclass& map, Graphics& dwgfx )
     }
 }
 
-void Game::savestats( mapclass& _map, Graphics& _dwgfx )
+void Game::savestats( MapClass& _map, Graphics& _dwgfx )
 {
     TiXmlDocument doc;
     TiXmlElement* msg;
@@ -4592,7 +4592,7 @@ void Game::savestats( mapclass& _map, Graphics& _dwgfx )
     doc.SaveFile( (saveFilePath+"unlock.vvv").c_str() );
 }
 
-void Game::customstart( entityclass& obj, musicclass& music )
+void Game::customstart( EntityClass& obj, MusicClass& music )
 {
     jumpheld = true;
 
@@ -4620,7 +4620,7 @@ void Game::customstart( entityclass& obj, musicclass& music )
     //if (!nocutscenes) music.play(5);
 }
 
-void Game::start( entityclass& obj, musicclass& music )
+void Game::start( EntityClass& obj, MusicClass& music )
 {
     jumpheld = true;
 
@@ -4647,7 +4647,7 @@ void Game::start( entityclass& obj, musicclass& music )
     if (!nocutscenes) music.play(5);
 }
 
-void Game::deathsequence( mapclass& map, entityclass& obj, musicclass& music )
+void Game::deathsequence( MapClass& map, EntityClass& obj, MusicClass& music )
 {
     int i;
     if (supercrewmate && scmhurt)
@@ -4698,7 +4698,7 @@ void Game::deathsequence( mapclass& map, entityclass& obj, musicclass& music )
     }
 }
 
-void Game::startspecial( int t, entityclass& obj, musicclass& music )
+void Game::startspecial( int t, EntityClass& obj, MusicClass& music )
 {
     jumpheld = true;
 
@@ -4739,7 +4739,7 @@ void Game::startspecial( int t, entityclass& obj, musicclass& music )
     lifeseq = 0;
 }
 
-void Game::starttrial( int t, entityclass& obj, musicclass& music )
+void Game::starttrial( int t, EntityClass& obj, MusicClass& music )
 {
     jumpheld = true;
 
@@ -4815,7 +4815,7 @@ void Game::starttrial( int t, entityclass& obj, musicclass& music )
     lifeseq = 0;
 }
 
-void Game::loadquick( mapclass& map, entityclass& obj, musicclass& music )
+void Game::loadquick( MapClass& map, EntityClass& obj, MusicClass& music )
 {
     TiXmlDocument doc((saveFilePath+"qsave.vvv").c_str());
     if (!doc.LoadFile()) return; ;
@@ -5036,7 +5036,7 @@ void Game::loadquick( mapclass& map, entityclass& obj, musicclass& music )
 
 }
 
-void Game::customloadquick(std::string savfile, mapclass& map, entityclass& obj, musicclass& music )
+void Game::customloadquick(std::string savfile, MapClass& map, EntityClass& obj, MusicClass& music )
 {
     std::string levelfile = savfile.substr(7);
     TiXmlDocument doc((saveFilePath+levelfile+".vvv").c_str());
@@ -5294,7 +5294,7 @@ void Game::customloadquick(std::string savfile, mapclass& map, entityclass& obj,
 }
 
 //TODO load summary
-void Game::loadsummary( mapclass& map, UtilityClass& help )
+void Game::loadsummary( MapClass& map, UtilityClass& help )
 {
     //quickcookie = SharedObject.getLocal("dwvvvvvv_quick");
     //telecookie = SharedObject.getLocal("dwvvvvvv_tele");
@@ -5510,7 +5510,7 @@ void Game::loadsummary( mapclass& map, UtilityClass& help )
 
 }
 
-void Game::initteleportermode( mapclass& map )
+void Game::initteleportermode( MapClass& map )
 {
     //Set the teleporter variable to the right position!
     teleport_to_teleporter = 0;
@@ -5524,7 +5524,7 @@ void Game::initteleportermode( mapclass& map )
     }
 }
 
-void Game::savetele( mapclass& map, entityclass& obj, musicclass& music )
+void Game::savetele( MapClass& map, EntityClass& obj, MusicClass& music )
 {
     //TODO make this code a bit cleaner.
 
@@ -5771,7 +5771,7 @@ void Game::savetele( mapclass& map, entityclass& obj, musicclass& music )
 }
 
 
-void Game::savequick( mapclass& map, entityclass& obj, musicclass& music )
+void Game::savequick( MapClass& map, EntityClass& obj, MusicClass& music )
 {
     quickcookieexists = true;
 
@@ -6015,7 +6015,7 @@ void Game::savequick( mapclass& map, entityclass& obj, musicclass& music )
 
 }
 
-void Game::customsavequick(std::string savfile, mapclass& map, entityclass& obj, musicclass& music )
+void Game::customsavequick(std::string savfile, MapClass& map, EntityClass& obj, MusicClass& music )
 {
     quickcookieexists = true;
 
@@ -6276,7 +6276,7 @@ void Game::customsavequick(std::string savfile, mapclass& map, entityclass& obj,
 }
 
 
-void Game::loadtele( mapclass& map, entityclass& obj, musicclass& music )
+void Game::loadtele( MapClass& map, EntityClass& obj, MusicClass& music )
 {
     TiXmlDocument doc((saveFilePath+"tsave.vvv").c_str());
     if (!doc.LoadFile()) return; ;

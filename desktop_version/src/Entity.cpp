@@ -3,7 +3,7 @@
 #include "Map.h"
 #include "UtilityClass.h"
 
-bool entityclass::checktowerspikes(int t, mapclass& map)
+bool EntityClass::checktowerspikes(int t, MapClass& map)
 {
     tempx = entities[t].xp + entities[t].cx;
     tempy = entities[t].yp + entities[t].cy;
@@ -46,7 +46,7 @@ bool entityclass::checktowerspikes(int t, mapclass& map)
     return false;
 }
 
-void entityclass::init()
+void EntityClass::init()
 {
     nentity = 0;
     nblocks = 0;
@@ -98,7 +98,7 @@ void entityclass::init()
     nlinecrosskludge = 0;
 }
 
-void entityclass::resetallflags()
+void EntityClass::resetallflags()
 {
     for (int i = 0; i < 100; i++)
     {
@@ -106,7 +106,7 @@ void entityclass::resetallflags()
     }
 }
 
-void entityclass::resetflags()
+void EntityClass::resetflags()
 {
     for (int i = 0; i < 100; i++)
     {
@@ -114,7 +114,7 @@ void entityclass::resetflags()
     }
 }
 
-void entityclass::confirmflags()
+void EntityClass::confirmflags()
 {
     for (int i = 0; i < 100; i++)
     {
@@ -122,23 +122,23 @@ void entityclass::confirmflags()
     }
 }
 
-void entityclass::changecollect( int t, int s )
+void EntityClass::changecollect( int t, int s )
 {
     collect[t] = s;
 }
 
 
-void entityclass::changecustomcollect( int t, int s )
+void EntityClass::changecustomcollect( int t, int s )
 {
     collect[t] = s;
 }
 
-void entityclass::changeflag( int t, int s )
+void EntityClass::changeflag( int t, int s )
 {
     flags[t] = s;
 }
 
-void entityclass::setblockcolour( int t, std::string col )
+void EntityClass::setblockcolour( int t, std::string col )
 {
     if (col == "cyan")
     {
@@ -203,7 +203,7 @@ void entityclass::setblockcolour( int t, std::string col )
     }
 }
 
-int entityclass::swncolour( int t )
+int EntityClass::swncolour( int t )
 {
     //given colour t, return colour in setcol
     if (t == 0) return 11;
@@ -215,7 +215,7 @@ int entityclass::swncolour( int t )
     return 0;
 }
 
-void entityclass::swnenemiescol( int t )
+void EntityClass::swnenemiescol( int t )
 {
     //change the colour of all SWN enemies to the current one
     for (int i = 0; i < nentity; i++)
@@ -230,7 +230,7 @@ void entityclass::swnenemiescol( int t )
     }
 }
 
-void entityclass::gravcreate( Game& game, int ypos, int dir, int xoff /*= 0*/, int yoff /*= 0*/ )
+void EntityClass::gravcreate( Game& game, int ypos, int dir, int xoff /*= 0*/, int yoff /*= 0*/ )
 {
     if (dir == 0)
     {
@@ -242,7 +242,7 @@ void entityclass::gravcreate( Game& game, int ypos, int dir, int xoff /*= 0*/, i
     }
 }
 
-void entityclass::generateswnwave( Game& game, UtilityClass& help, int t )
+void EntityClass::generateswnwave( Game& game, UtilityClass& help, int t )
 {
     //generate a wave for the SWN game
     if(game.swndelay<=0)
@@ -875,7 +875,7 @@ void entityclass::generateswnwave( Game& game, UtilityClass& help, int t )
     }
 }
 
-void entityclass::createblock( int t, int xp, int yp, int w, int h, int trig /*= 0*/ )
+void EntityClass::createblock( int t, int xp, int yp, int w, int h, int trig /*= 0*/ )
 {
     if(nblocks == 0)
     {
@@ -1193,13 +1193,13 @@ void entityclass::createblock( int t, int xp, int yp, int w, int h, int trig /*=
     }
 }
 
-void entityclass::removeallblocks()
+void EntityClass::removeallblocks()
 {
     for(int i=0; i<nblocks; i++) blocks[i].clear();
     nblocks=0;
 }
 
-void entityclass::removeblock( int t )
+void EntityClass::removeblock( int t )
 {
     blocks[t].clear();
     int i = nblocks - 1;
@@ -1210,7 +1210,7 @@ void entityclass::removeblock( int t )
     }
 }
 
-void entityclass::removeblockat( int x, int y )
+void EntityClass::removeblockat( int x, int y )
 {
     for (int i = 0; i < nblocks; i++)
     {
@@ -1218,7 +1218,7 @@ void entityclass::removeblockat( int x, int y )
     }
 }
 
-void entityclass::removetrigger( int t )
+void EntityClass::removetrigger( int t )
 {
     for(int i=0; i<nblocks; i++)
     {
@@ -1233,7 +1233,7 @@ void entityclass::removetrigger( int t )
     }
 }
 
-void entityclass::copylinecross( int t )
+void EntityClass::copylinecross( int t )
 {
     //Copy entity t into the first free linecrosskludge entity
     linecrosskludge[nlinecrosskludge].clear();
@@ -1246,7 +1246,7 @@ void entityclass::copylinecross( int t )
     nlinecrosskludge++;
 }
 
-void entityclass::revertlinecross( int t, int s )
+void EntityClass::revertlinecross( int t, int s )
 {
     //Restore entity t info from linecrossing s
     entities[t].onentity = linecrosskludge[s].onentity;
@@ -1254,13 +1254,13 @@ void entityclass::revertlinecross( int t, int s )
     entities[t].life = linecrosskludge[s].life;
 }
 
-bool entityclass::gridmatch( int p1, int p2, int p3, int p4, int p11, int p21, int p31, int p41 )
+bool EntityClass::gridmatch( int p1, int p2, int p3, int p4, int p11, int p21, int p31, int p41 )
 {
     if (p1 == p11 && p2 == p21 && p3 == p31 && p4 == p41) return true;
     return false;
 }
 
-int entityclass::crewcolour( int t )
+int EntityClass::crewcolour( int t )
 {
     //Return the colour of the indexed crewmate
     switch(t)
@@ -1287,7 +1287,7 @@ int entityclass::crewcolour( int t )
     return 0;
 }
 
-void entityclass::setenemyroom( int t, int rx, int ry )
+void EntityClass::setenemyroom( int t, int rx, int ry )
 {
     //Simple function to initilise simple enemies
     rx -= 100;
@@ -1621,7 +1621,7 @@ void entityclass::setenemyroom( int t, int rx, int ry )
     }
 }
 
-void entityclass::setenemy( int t, int r )
+void EntityClass::setenemy( int t, int r )
 {
     switch(t)
     {
@@ -1706,7 +1706,7 @@ void entityclass::setenemy( int t, int r )
     }
 }
 
-void entityclass::settreadmillcolour( int t, int rx, int ry )
+void EntityClass::settreadmillcolour( int t, int rx, int ry )
 {
     rx -= 100;
     ry -= 100;
@@ -1789,7 +1789,7 @@ void entityclass::settreadmillcolour( int t, int rx, int ry )
     }
 }
 
-void entityclass::createentity( Game& game, float xp, float yp, int t, float vx /*= 0*/, float vy /*= 0*/, int p1 /*= 0*/, int p2 /*= 0*/, int p3 /*= 320*/, int p4 /*= 240 */ )
+void EntityClass::createentity( Game& game, float xp, float yp, int t, float vx /*= 0*/, float vy /*= 0*/, int p1 /*= 0*/, int p2 /*= 0*/, int p3 /*= 320*/, int p4 /*= 240 */ )
 {
     //Find the first inactive case z that we can use to index the new entity
     if (nentity == 0)
@@ -2780,7 +2780,7 @@ void entityclass::createentity( Game& game, float xp, float yp, int t, float vx 
     }
 }
 
-bool entityclass::updateentities( int i, UtilityClass& help, Game& game, musicclass& music )
+bool EntityClass::updateentities( int i, UtilityClass& help, Game& game, MusicClass& music )
 {
     if(entities[i].active)
     {
@@ -3947,7 +3947,7 @@ bool entityclass::updateentities( int i, UtilityClass& help, Game& game, musiccl
     return true;
 }
 
-void entityclass::animateentities( int _i, Game& game, UtilityClass& help )
+void EntityClass::animateentities( int _i, Game& game, UtilityClass& help )
 {
     if(entities[_i].active)
     {
@@ -4311,7 +4311,7 @@ void entityclass::animateentities( int _i, Game& game, UtilityClass& help )
     }
 }
 
-bool entityclass::gettype( int t )
+bool EntityClass::gettype( int t )
 {
     //Returns true is there is an entity of type t onscreen
     for (int i = 0; i < nentity; i++)
@@ -4325,7 +4325,7 @@ bool entityclass::gettype( int t )
     return false;
 }
 
-int entityclass::getcompanion( int t )
+int EntityClass::getcompanion( int t )
 {
     //Returns the index of the companion with rule t
     for (int i = 0; i < nentity; i++)
@@ -4339,7 +4339,7 @@ int entityclass::getcompanion( int t )
     return -1;
 }
 
-int entityclass::getplayer()
+int EntityClass::getplayer()
 {
     //Returns the index of the first player entity
     for (int i = 0; i < nentity; i++)
@@ -4353,7 +4353,7 @@ int entityclass::getplayer()
     return -1;
 }
 
-int entityclass::getscm()
+int EntityClass::getscm()
 {
     //Returns the supercrewmate
     for (int i = 0; i < nentity; i++)
@@ -4367,7 +4367,7 @@ int entityclass::getscm()
     return 0;
 }
 
-int entityclass::getlineat( int t )
+int EntityClass::getlineat( int t )
 {
     //Get the entity which is a horizontal line at height t (for SWN game)
     for (int i = 0; i < nentity; i++)
@@ -4384,7 +4384,7 @@ int entityclass::getlineat( int t )
     return 0;
 }
 
-int entityclass::getcrewman( int t )
+int EntityClass::getcrewman( int t )
 {
     //Returns the index of the crewman with colour index given by t
     if (t == 0) t = 0;
@@ -4408,7 +4408,7 @@ int entityclass::getcrewman( int t )
     return 0;
 }
 
-int entityclass::getcustomcrewman( int t )
+int EntityClass::getcustomcrewman( int t )
 {
     //Returns the index of the crewman with colour index given by t
     if (t == 0) t = 0;
@@ -4432,7 +4432,7 @@ int entityclass::getcustomcrewman( int t )
     return 0;
 }
 
-int entityclass::getteleporter()
+int EntityClass::getteleporter()
 {
     for (int i = 0; i < nentity; i++)
     {
@@ -4445,7 +4445,7 @@ int entityclass::getteleporter()
     return -1;
 }
 
-void entityclass::rectset( int xi, int yi, int wi, int hi )
+void EntityClass::rectset( int xi, int yi, int wi, int hi )
 {
     temprect.x = xi;
     temprect.y = yi;
@@ -4453,7 +4453,7 @@ void entityclass::rectset( int xi, int yi, int wi, int hi )
     temprect.h = hi;
 }
 
-void entityclass::rect2set( int xi, int yi, int wi, int hi )
+void EntityClass::rect2set( int xi, int yi, int wi, int hi )
 {
     temprect2.x = xi;
     temprect2.y = yi;
@@ -4461,7 +4461,7 @@ void entityclass::rect2set( int xi, int yi, int wi, int hi )
     temprect2.h = hi;
 }
 
-bool entityclass::entitycollide( int a, int b )
+bool EntityClass::entitycollide( int a, int b )
 {
     //Do entities a and b collide?
     tempx = entities[a].xp + entities[a].cx;
@@ -4480,7 +4480,7 @@ bool entityclass::entitycollide( int a, int b )
     return false;
 }
 
-bool entityclass::checkdirectional( int t )
+bool EntityClass::checkdirectional( int t )
 {
     //Returns true if player entity (rule 0) moving in dir t through directional block
     for(int i=0; i < nentity; i++)
@@ -4508,7 +4508,7 @@ bool entityclass::checkdirectional( int t )
     return false;
 }
 
-bool entityclass::checkdamage()
+bool EntityClass::checkdamage()
 {
     //Returns true if player entity (rule 0) collides with a damagepoint
     for(int i=0; i < nentity; i++)
@@ -4536,7 +4536,7 @@ bool entityclass::checkdamage()
     return false;
 }
 
-bool entityclass::scmcheckdamage()
+bool EntityClass::scmcheckdamage()
 {
     //Returns true if supercrewmate collides with a damagepoint
     for(int i=0; i < nentity; i++)
@@ -4564,7 +4564,7 @@ bool entityclass::scmcheckdamage()
     return false;
 }
 
-void entityclass::settemprect( int t )
+void EntityClass::settemprect( int t )
 {
     //setup entity t in temprect
     tempx = entities[t].xp + entities[t].cx;
@@ -4574,7 +4574,7 @@ void entityclass::settemprect( int t )
     rectset(tempx, tempy, tempw, temph);
 }
 
-int entityclass::checktrigger()
+int EntityClass::checktrigger()
 {
     //Returns an int player entity (rule 0) collides with a trigger
     for(int i=0; i < nentity; i++)
@@ -4603,7 +4603,7 @@ int entityclass::checktrigger()
     return -1;
 }
 
-int entityclass::checkactivity()
+int EntityClass::checkactivity()
 {
     //Returns an int player entity (rule 0) collides with an activity
     for(int i=0; i < nentity; i++)
@@ -4631,13 +4631,13 @@ int entityclass::checkactivity()
     return -1;
 }
 
-int entityclass::getgridpoint( int t )
+int EntityClass::getgridpoint( int t )
 {
     t = (t - (t % 8)) / 8;
     return t;
 }
 
-bool entityclass::cblocks( int t )
+bool EntityClass::cblocks( int t )
 {
     tempx = entities[t].xp + entities[t].cx;
     tempy = entities[t].yp + entities[t].cy;
@@ -4648,7 +4648,7 @@ bool entityclass::cblocks( int t )
     return checkblocks();
 }
 
-bool entityclass::checkplatform()
+bool EntityClass::checkplatform()
 {
     //Return true if rectset intersects a moving platform, setups px & py to the platform x & y
     for (int i = 0; i < nblocks; i++)
@@ -4669,7 +4669,7 @@ bool entityclass::checkplatform()
     return false;
 }
 
-bool entityclass::checkblocks()
+bool EntityClass::checkblocks()
 {
     for (int i = 0; i < nblocks; i++)
     {
@@ -4707,7 +4707,7 @@ bool entityclass::checkblocks()
     return false;
 }
 
-bool entityclass::checkwall( mapclass& map )
+bool EntityClass::checkwall( MapClass& map )
 {
     //Returns true if entity setup in temprect collides with a wall
     //used for proper collision functions; you can't just, like, call it
@@ -4754,7 +4754,7 @@ bool entityclass::checkwall( mapclass& map )
     return false;
 }
 
-float entityclass::hplatformat()
+float EntityClass::hplatformat()
 {
     //Returns first entity of horizontal platform at (px, py), -1000 otherwise.
     for (int i = 0; i < nentity; i++)
@@ -4787,13 +4787,13 @@ float entityclass::hplatformat()
     return -1000;
 }
 
-int entityclass::yline( int a, int b )
+int EntityClass::yline( int a, int b )
 {
     if (a < b) return -1;
     return 1;
 }
 
-bool entityclass::entityhlinecollide( int t, int l )
+bool EntityClass::entityhlinecollide( int t, int l )
 {
     //Returns true is entity t collided with the horizontal line l.
     if(entities[t].xp + entities[t].cx+entities[t].w>=entities[l].xp)
@@ -4814,7 +4814,7 @@ bool entityclass::entityhlinecollide( int t, int l )
     return false;
 }
 
-bool entityclass::entityvlinecollide( int t, int l )
+bool EntityClass::entityvlinecollide( int t, int l )
 {
     //Returns true is entity t collided with the vertical line l.
     if(entities[t].yp + entities[t].cy+entities[t].h>=entities[l].yp)
@@ -4835,7 +4835,7 @@ bool entityclass::entityvlinecollide( int t, int l )
     return false;
 }
 
-bool entityclass::entitywarphlinecollide(int t, int l) {
+bool EntityClass::entitywarphlinecollide(int t, int l) {
 	//Returns true is entity t collided with the horizontal line l.
 	if(entities[t].xp + entities[t].cx+entities[t].w>=entities[l].xp){
 		if(entities[t].xp + entities[t].cx<=entities[l].xp+entities[l].w){
@@ -4868,7 +4868,7 @@ bool entityclass::entitywarphlinecollide(int t, int l) {
 	return false;
 }
 		
-bool entityclass::entitywarpvlinecollide(int t, int l) {
+bool EntityClass::entitywarpvlinecollide(int t, int l) {
 	//Returns true is entity t collided with the vertical warp line l.
 	if(entities[t].yp + entities[t].cy+entities[t].h>=entities[l].yp){
 		if (entities[t].yp + entities[t].cy <= entities[l].yp + entities[l].h) {
@@ -4897,7 +4897,7 @@ bool entityclass::entitywarpvlinecollide(int t, int l) {
 	return false;
 }
 
-float entityclass::entitycollideplatformroof( mapclass& map, int t )
+float EntityClass::entitycollideplatformroof( MapClass& map, int t )
 {
     tempx = entities[t].xp + entities[t].cx;
     tempy = entities[t].yp + entities[t].cy -1;
@@ -4913,7 +4913,7 @@ float entityclass::entitycollideplatformroof( mapclass& map, int t )
     return -1000;
 }
 
-float entityclass::entitycollideplatformfloor( mapclass& map, int t )
+float EntityClass::entitycollideplatformfloor( MapClass& map, int t )
 {
     tempx = entities[t].xp + entities[t].cx;
     tempy = entities[t].yp + entities[t].cy + 1;
@@ -4929,7 +4929,7 @@ float entityclass::entitycollideplatformfloor( mapclass& map, int t )
     return -1000;
 }
 
-bool entityclass::entitycollidefloor( mapclass& map, int t )
+bool EntityClass::entitycollidefloor( MapClass& map, int t )
 {
     //see? like here, for example!
     tempx = entities[t].xp + entities[t].cx;
@@ -4942,7 +4942,7 @@ bool entityclass::entitycollidefloor( mapclass& map, int t )
     return false;
 }
 
-bool entityclass::entitycollideroof( mapclass& map, int t )
+bool EntityClass::entitycollideroof( MapClass& map, int t )
 {
     //and here!
     tempx = entities[t].xp + entities[t].cx;
@@ -4955,7 +4955,7 @@ bool entityclass::entitycollideroof( mapclass& map, int t )
     return false;
 }
 
-bool entityclass::testwallsx( int t, mapclass& map, int tx, int ty )
+bool EntityClass::testwallsx( int t, MapClass& map, int tx, int ty )
 {
     tempx = tx + entities[t].cx;
     tempy = ty + entities[t].cy;
@@ -5001,7 +5001,7 @@ bool entityclass::testwallsx( int t, mapclass& map, int tx, int ty )
     return true;
 }
 
-bool entityclass::testwallsy( int t, mapclass& map, float tx, float ty )
+bool EntityClass::testwallsy( int t, MapClass& map, float tx, float ty )
 {
     tempx = static_cast<int>(tx) + entities[t].cx;
     tempy = static_cast<int>(ty) + entities[t].cy;
@@ -5048,7 +5048,7 @@ bool entityclass::testwallsy( int t, mapclass& map, float tx, float ty )
     return true;
 }
 
-void entityclass::fixfriction( int t, float xfix, float xrate, float yrate )
+void EntityClass::fixfriction( int t, float xfix, float xrate, float yrate )
 {
     if (entities[t].vx > xfix) entities[t].vx -= xrate;
     if (entities[t].vx < xfix) entities[t].vx += xrate;
@@ -5063,7 +5063,7 @@ void entityclass::fixfriction( int t, float xfix, float xrate, float yrate )
     if (std::abs(entities[t].vy) < yrate) entities[t].vy = 0;
 }
 
-void entityclass::applyfriction( int t, float xrate, float yrate )
+void EntityClass::applyfriction( int t, float xrate, float yrate )
 {
     if (entities[t].vx > 0.00f) entities[t].vx -= xrate;
     if (entities[t].vx < 0.00f) entities[t].vx += xrate;
@@ -5078,7 +5078,7 @@ void entityclass::applyfriction( int t, float xrate, float yrate )
     if (std::abs(entities[t].vy) < yrate) entities[t].vy = 0.0f;
 }
 
-void entityclass::cleanup()
+void EntityClass::cleanup()
 {
     int i = nentity - 1;
     while (i >= 0 && !entities[i].active)
@@ -5088,7 +5088,7 @@ void entityclass::cleanup()
     }
 }
 
-void entityclass::updateentitylogic( int t, Game& game )
+void EntityClass::updateentitylogic( int t, Game& game )
 {
     entities[t].oldxp = entities[t].xp;
     entities[t].oldyp = entities[t].yp;
@@ -5125,7 +5125,7 @@ void entityclass::updateentitylogic( int t, Game& game )
     entities[t].newyp = entities[t].yp + entities[t].vy;
 }
 
-void entityclass::entitymapcollision( int t, mapclass& map )
+void EntityClass::entitymapcollision( int t, MapClass& map )
 {
     if (testwallsx(t, map, entities[t].newxp, entities[t].yp))
     {
@@ -5148,7 +5148,7 @@ void entityclass::entitymapcollision( int t, mapclass& map )
     }
 }
 
-void entityclass::movingplatformfix( int t, mapclass& map )
+void EntityClass::movingplatformfix( int t, MapClass& map )
 {
     //If this intersects the player, then we move the player along it
     int j = getplayer();
@@ -5184,7 +5184,7 @@ void entityclass::movingplatformfix( int t, mapclass& map )
     }
 }
 
-void entityclass::scmmovingplatformfix( int t, mapclass& map )
+void EntityClass::scmmovingplatformfix( int t, MapClass& map )
 {
     //If this intersects the SuperCrewMate, then we move them along it
     int j = getscm();
@@ -5220,7 +5220,7 @@ void entityclass::scmmovingplatformfix( int t, mapclass& map )
     }
 }
 
-void entityclass::hormovingplatformfix( int t, mapclass& map )
+void EntityClass::hormovingplatformfix( int t, MapClass& map )
 {
     //If this intersects the player, then we move the player along it
     //for horizontal platforms, this is simplier
@@ -5235,7 +5235,7 @@ void entityclass::hormovingplatformfix( int t, mapclass& map )
     }*/
 }
 
-void entityclass::customwarplinecheck(int i) {
+void EntityClass::customwarplinecheck(int i) {
 		//Turns on obj.customwarpmodevon and obj.customwarpmodehon if player collides
 		//with warp lines
 			
@@ -5263,7 +5263,7 @@ void entityclass::customwarplinecheck(int i) {
 	}
 }
 
-void entityclass::entitycollisioncheck( Graphics& dwgfx, Game& game, mapclass& map, musicclass& music )
+void EntityClass::entitycollisioncheck( Graphics& dwgfx, Game& game, MapClass& map, MusicClass& music )
 {
     for (int i = 0; i < nentity; i++)
     {

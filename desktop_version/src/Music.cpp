@@ -7,7 +7,7 @@
 #include "Music.h"
 #include "BinaryBlob.h"
 
-musicclass::musicclass()
+MusicClass::MusicClass()
 {
 	soundTracks.push_back(SoundTrack( "sounds/jump.wav" ));
 	soundTracks.push_back(SoundTrack( "sounds/jump2.wav" ));
@@ -214,7 +214,7 @@ musicclass::musicclass()
 	// nicefade = 0;
 }
 
-void musicclass::play(int t)
+void MusicClass::play(int t)
 {
   t = (t % 16);
 
@@ -271,7 +271,7 @@ void musicclass::play(int t)
 	}
 }
 
-void musicclass::loopmusic()
+void MusicClass::loopmusic()
 {
 	//musicchannel.removeEventListener(Event.SOUND_COMPLETE, loopmusic);
 	//if(currentsong>-1){
@@ -280,7 +280,7 @@ void musicclass::loopmusic()
 	//}
 }
 
-void musicclass::stopmusic()
+void MusicClass::stopmusic()
 {
 	// musicchannel.removeEventListener(Event.SOUND_COMPLETE, stopmusic);
 	// musicchannel.stop();
@@ -288,7 +288,7 @@ void musicclass::stopmusic()
 	currentsong = -1;
 }
 
-void musicclass::haltdasmusik()
+void MusicClass::haltdasmusik()
 {
 	// musicchannel.removeEventListener(Event.SOUND_COMPLETE, stopmusic);
 	// musicchannel.stop();
@@ -297,7 +297,7 @@ void musicclass::haltdasmusik()
 	currentsong = -1;
 }
 
-void musicclass::silencedasmusik()
+void MusicClass::silencedasmusik()
 {
 	//if(currentsong>-1){
 	//	musicchannel.soundTransform = new SoundTransform(0);
@@ -306,13 +306,13 @@ void musicclass::silencedasmusik()
 	musicVolume = 0;
 }
 
-void musicclass::fadeMusicVolumeIn(int ms)
+void MusicClass::fadeMusicVolumeIn(int ms)
 {
 	m_doFadeInVol = true;
 	FadeVolAmountPerFrame =  MIX_MAX_VOLUME / (ms / 33);
 }
 
-void musicclass::fadeout()
+void MusicClass::fadeout()
 {
 	//if(currentsong>-1){
 	//	if (musicfade == 0) {
@@ -325,7 +325,7 @@ void musicclass::fadeout()
 	currentsong = -1;
 }
 
-void musicclass::processmusicfade()
+void MusicClass::processmusicfade()
 {
 	//musicfade--;
 	//if (musicfade > 0) {
@@ -336,7 +336,7 @@ void musicclass::processmusicfade()
 	//}
 }
 
-void musicclass::processmusicfadein()
+void MusicClass::processmusicfadein()
 {
 	musicVolume += FadeVolAmountPerFrame;
 	Mix_VolumeMusic(musicVolume);
@@ -346,7 +346,7 @@ void musicclass::processmusicfadein()
 	}
 }
 
-void musicclass::processmusic()
+void MusicClass::processmusic()
 {
 	if(!safeToProcessMusic)
 	{
@@ -391,7 +391,7 @@ void musicclass::processmusic()
 }
 
 
-void musicclass::niceplay(int t)
+void MusicClass::niceplay(int t)
 {
 	// important: do nothing if the correct song is playing!
 	if(currentsong!=t)
@@ -402,7 +402,7 @@ void musicclass::niceplay(int t)
 	}
 }
 
-void musicclass::changemusicarea(int x, int y)
+void MusicClass::changemusicarea(int x, int y)
 {
 	switch(musicroom(x, y))
 	{
@@ -438,12 +438,12 @@ void musicclass::changemusicarea(int x, int y)
 	}
 }
 
-void musicclass::initefchannels()
+void MusicClass::initefchannels()
 {
 	// for (var i:int = 0; i < 16; i++) efchannel.push(new SoundChannel);
 }
 
-void musicclass::playef(int t, int offset)
+void MusicClass::playef(int t, int offset)
 {
 	// efchannel[currentefchan] = efchan[t].play(offset);
 	// currentefchan++;
