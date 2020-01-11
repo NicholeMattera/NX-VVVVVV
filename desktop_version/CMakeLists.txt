@@ -40,6 +40,11 @@ INCLUDE_DIRECTORIES(src tinyxml physfs lodepng)
 
 # Source Lists
 SET(VVV_SRC
+	src/levels/Final.cpp
+	src/levels/Lab.cpp
+	src/levels/Other.cpp
+	src/levels/SpaceStation.cpp
+	src/levels/Tower.cpp
 	src/levels/Warp.cpp
 	src/states/Preloader.cpp
 	src/BinaryBlob.cpp
@@ -48,14 +53,12 @@ SET(VVV_SRC
 	src/Ent.cpp
 	src/Entity.cpp
 	src/FileSystemUtils.cpp
-	src/FinalClass.cpp
 	src/Game.cpp
 	src/Graphics.cpp
 	src/GraphicsResources.cpp
 	src/GraphicsUtil.cpp
 	src/Input.cpp
 	src/KeyPoll.cpp
-	src/LabClass.cpp
 	src/Logic.cpp
 	src/Map.cpp
 	src/Music.cpp

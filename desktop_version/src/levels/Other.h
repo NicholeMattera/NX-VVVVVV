@@ -8,13 +8,18 @@
 
 namespace vvvvvv::levels
 {
-	class Warp
+	class Other
 	{
 		public:
+            Other();
 			std::vector<std::string> loadLevel(int rX, int rY , Game& game, EntityClass& obj);
 
 			std::string roomName;
-			int roomColor;
-			bool warpX, warpY;
+            int roomTileSet;
+            bool roomTextOn;
+            int roomTextX;
+            int roomTextY;
+            int roomTextNumberLines;
+            std::vector<std::string> roomText;
 	};
 }

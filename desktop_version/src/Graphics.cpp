@@ -2306,7 +2306,7 @@ void Graphics::drawbackground( int t, MapClass& map )
         {
             for (int i = 0; i < 40; i++)
             {
-                drawtile3(i * 8, j * 8, map.tower.backat(i, j, 200), 15);
+                drawtile3(i * 8, j * 8, map.tower.backAt(i, j, 200), 15);
             }
         }
         break;
@@ -2316,7 +2316,7 @@ void Graphics::drawbackground( int t, MapClass& map )
         {
             for (int i = 0; i < 40; i++)
             {
-                drawtile3(i * 8, j * 8, map.tower.backat(i, j, 200), 10);
+                drawtile3(i * 8, j * 8, map.tower.backAt(i, j, 200), 10);
             }
         }
         break;
@@ -2326,7 +2326,7 @@ void Graphics::drawbackground( int t, MapClass& map )
         {
             for (int i = 0; i < 40; i++)
             {
-                drawtile3(i * 8, j * 8, map.tower.backat(i, j, 600), 0);
+                drawtile3(i * 8, j * 8, map.tower.backAt(i, j, 600), 0);
             }
         }
         break;
@@ -2586,7 +2586,7 @@ void Graphics::drawtowerbackgroundsolo( MapClass& map )
         {
             for (int  i = 0; i < 40; i++)
             {
-                temp = map.tower.backat(i, j, map.bypos);
+                temp = map.tower.backAt(i, j, map.bypos);
                 drawtowertile3(i * 8, (j * 8) - (map.bypos % 8), temp, map.colstate);
             }
         }
@@ -2599,7 +2599,7 @@ void Graphics::drawtowerbackgroundsolo( MapClass& map )
         ScrollSurface(towerbuffer,0, -map.bscroll);
         for (int i = 0; i < 40; i++)
         {
-            temp = map.tower.backat(i, 0, map.bypos);
+            temp = map.tower.backAt(i, 0, map.bypos);
             drawtowertile3(i * 8, -(map.bypos % 8), temp, map.colstate);
         }
 
@@ -2623,7 +2623,7 @@ void Graphics::drawtowerbackground( MapClass& map )
         {
             for (int i = 0; i < 40; i++)
             {
-                temp = map.tower.backat(i, j, map.bypos);
+                temp = map.tower.backAt(i, j, map.bypos);
                 drawtowertile3(i * 8, (j * 8) - (map.bypos % 8), temp, map.colstate);
             }
         }
@@ -2641,7 +2641,7 @@ void Graphics::drawtowerbackground( MapClass& map )
         ScrollSurface(towerbuffer, 0, -map.bscroll);
         for (int i = 0; i < 40; i++)
         {
-            temp = map.tower.backat(i, 0, map.bypos);
+            temp = map.tower.backAt(i, 0, map.bypos);
             drawtowertile3(i * 8, -(map.bypos % 8), temp, map.colstate);
         }
 

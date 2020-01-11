@@ -1,11 +1,11 @@
 #pragma once
 
+#include "levels/Final.h"
+#include "levels/Lab.h"
+#include "levels/Other.h"
+#include "levels/SpaceStation.h"
+#include "levels/Tower.h"
 #include "levels/Warp.h"
-#include "Tower.h"
-#include "FinalClass.h"
-#include "LabClass.h"
-#include "Spacestation2.h"
-#include "OtherLevel.h"
 #include "Entity.h"
 #include "Graphics.h"
 #include <vector>
@@ -163,12 +163,12 @@ public:
     int roomtextnumlines;
 
     //Levels
-    OtherLevelClass otherlevel;
-    spacestation2class spacestation2;
-    LabClass lablevel;
-    FinalClass finallevel;
+    vvvvvv::levels::Final finallevel;
+    vvvvvv::levels::Lab lablevel;
+    vvvvvv::levels::Other otherlevel;
+    vvvvvv::levels::SpaceStation spacestation2;
+    vvvvvv::levels::Tower tower;
     vvvvvv::levels::Warp warplevel;
-    towerclass tower;
     int extrarow;
 
     //Accessibility options

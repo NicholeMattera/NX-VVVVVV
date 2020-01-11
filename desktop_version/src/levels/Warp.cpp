@@ -1,26 +1,23 @@
-// This file has recieved my blessing. 🙏 - NicholeMattera
-
 #include "Warp.h"
 
 #include "../MakeAndPlay.h"
 #include "../Utility.h"
 
-namespace vvvvvv::levels {
+namespace vvvvvv::levels
+{
 	std::vector<std::string> Warp::loadLevel(int rX, int rY , Game& game, EntityClass& obj)
 	{
 		int t;
+		std::vector<std::string> tmap;
 
 		rX -= 100;
 		rY -= 100;
 		rX += 50 - 14;
 		rY += 49;	// warp
-
 		t = rX + (rY * 100);
-		std::vector<std::string> tmap;
-		rCol = 0;
 		warpX = false;
 		warpY = false;
-
+		roomColor = 0;
 		roomName = "Untitled room ["+vvvvvv::Utility::toString(rX) + "," + vvvvvv::Utility::toString(rY)+"]";
 
 		switch (t)
@@ -59,12 +56,12 @@ namespace vvvvvv::levels {
 
 					obj.createentity(game, 288, 168, 10, 1, 50500);	// (savepoint)
 
-					if(game.intimetrial)
+					if (game.intimetrial)
 					{
 						obj.createblock(0, 0, 0, 8, 240);
 					}
 
-					rCol = 0;
+					roomColor = 0;
 					warpY = true;
 					roomName = "This is how it is";
 					break;
@@ -100,11 +97,10 @@ namespace vvvvvv::levels {
 					tmap.push_back("126,126,126,206,86,208,0,0,0,0,166,167,167,167,167,168,206,86,208,126,126,126,126,126,126,126,126,126,126,126,126,126,126,126,126,126,126,126,126,126");
 					tmap.push_back("126,126,126,206,86,208,0,0,0,0,206,86,86,86,86,208,206,86,208,126,126,126,126,126,126,126,126,126,126,126,126,126,126,126,126,126,126,126,126,126");
 
-					rCol = 2;
+					roomColor = 2;
 					warpX = true;
 					roomName = "A Bisected Spiral";
 					break;
-
 
 				case rn(51,51):
 					tmap.push_back("83,83,83,83,83,205,0,0,0,0,203,83,83,83,83,83,83,205,0,0,0,0,203,83,83,83,83,83,83,205,0,0,0,0,203,83,83,83,83,83");
@@ -141,7 +137,7 @@ namespace vvvvvv::levels {
 					obj.createentity(game, 136, 128, 1, 3, 3, 128, 120, 288, 152);	// Enemy, bounded
 					obj.createentity(game, 104, 192, 10, 1, 51511);					// (savepoint)
 
-					rCol = 1;
+					roomColor = 1;
 					warpY = true;
 					roomName = "Take the Red Pill";
 					break;
@@ -183,7 +179,7 @@ namespace vvvvvv::levels {
 					obj.createentity(game, 224, 24, 1, 3, 4, -56, -40, 384, 312);	// Enemy, bounded
 					obj.createentity(game, 232, 152, 10, 1, 51520);					// (savepoint)
 					
-					rCol = 5;
+					roomColor = 5;
 					warpX = true;
 					roomName = "Short Circuit";
 					break;
@@ -221,11 +217,10 @@ namespace vvvvvv::levels {
 
 					obj.createentity(game, 32, 16, 10, 0, 50520);	// (savepoint)
 					
-					rCol = 4;
+					roomColor = 4;
 					warpY = true;
 					roomName = "As you like it";
 					break;
-
 
 				case rn(53,50):
 					tmap.push_back("250,250,250,250,250,250,251,0,0,0,209,211,249,250,250,250,250,250,250,250,250,250,250,250,250,250,250,250,250,250,250,250,250,250,250,250,250,250,250,250");
@@ -260,7 +255,7 @@ namespace vvvvvv::levels {
 
 					obj.createentity(game, 16, 120, 10, 1, 50530);	// (savepoint)
 					
-					rCol = 3;
+					roomColor = 3;
 					warpX = true;
 					roomName = "Maze With No Entrance";
 					break;
@@ -298,7 +293,7 @@ namespace vvvvvv::levels {
 
 					obj.createentity(game, 64, 152, 10, 0, 49530);	// (savepoint)
 					
-					rCol = 2;
+					roomColor = 2;
 					warpY = true;
 					roomName = "As we go up, we go down";
 					break;
@@ -339,7 +334,7 @@ namespace vvvvvv::levels {
 					obj.createentity(game, 240-4-15+8, 186, 1, 1, 6, 128, 32, 288, 200);	// Enemy, bounded
 					obj.createentity(game, 296, 152, 10, 0, 49541);							// (savepoint)
 					
-					rCol = 0;
+					roomColor = 0;
 					warpX = true;
 					roomName = "Time to get serious";
 					break;
@@ -375,12 +370,12 @@ namespace vvvvvv::levels {
 					tmap.push_back("86,86,208,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,206,86,86");
 					tmap.push_back("86,86,208,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,206,86,86");
 
-					if(!game.intimetrial)
+					if (!game.intimetrial)
 					{
 						obj.createentity(game, (7 * 8) + 4, (6 * 8), 14);	// Teleporter!
 					}
 					
-					rCol = 2;
+					roomColor = 2;
 					warpY = true;
 					roomName = "Wheeler's Wormhole";
 					break;
@@ -421,7 +416,7 @@ namespace vvvvvv::levels {
 					obj.createentity(game, 72, 16, 10, 0, 50550);					// (savepoint)
 					obj.createentity(game, 264, 176, 10, 1, 50551);					// (savepoint)
 					
-					rCol = 4;
+					roomColor = 4;
 					warpX = true;
 					roomName = "Ascending and Descending";
 					break;
@@ -464,7 +459,7 @@ namespace vvvvvv::levels {
 					obj.createentity(game, 256, 128, 10, 1, 51550);					// (savepoint)
 					obj.createentity(game, 136, 32, 10, 1, 51551);					// (savepoint)
 					
-					rCol = 1;
+					roomColor = 1;
 					warpY = true;
 					roomName = "Shockwave Rider";
 					break;
@@ -507,7 +502,7 @@ namespace vvvvvv::levels {
 					obj.createentity(game, 8, 32, 20, 1);								// (terminal)
 					obj.createblock(5, 8-8, 32, 20, 16, 17);
 
-					rCol = 3;
+					roomColor = 3;
 					warpX = true;
 					roomName = "Sweeney's Maze";
 					break;
@@ -556,7 +551,7 @@ namespace vvvvvv::levels {
 					obj.createentity(game, 192, 16+72+36+18, 1, 1, 10, 0, -40, 320, 280);	// Enemy, bounded
 					obj.createentity(game, 208, 16+80+40+20, 1, 1, 10, 0, -48, 320, 280);	// Enemy, bounded
 					
-					rCol = 5;
+					roomColor = 5;
 					warpY = true;
 					roomName = "Mind The Gap";
 					break;
@@ -603,7 +598,7 @@ namespace vvvvvv::levels {
 					obj.createentity(game, 24, 200, 20, 1);							// (terminal)
 					obj.createblock(5, 24-8, 200, 20, 16, 18);
 					
-					rCol = 2;
+					roomColor = 2;
 					warpX = true;
 					roomName = "Edge Games";
 					break;
@@ -641,7 +636,7 @@ namespace vvvvvv::levels {
 
 					obj.createentity(game, 152, 112, 13);
 					
-					rCol = 1;
+					roomColor = 1;
 					warpX = true;
 					warpY = true;
 					roomName = "The Brown Gate";
@@ -681,7 +676,7 @@ namespace vvvvvv::levels {
 					obj.createentity(game, 152, 112, 13);
 					obj.createentity(game, 152, 152, 10, 0, 49550);  // (savepoint)
 					
-					rCol = 4;
+					roomColor = 4;
 					warpX = true;
 					warpY = true;
 					roomName = "To The Batcave!";
@@ -721,7 +716,7 @@ namespace vvvvvv::levels {
 					obj.createentity(game, 152, 112, 13);
 					obj.createentity(game, 136, 40, 10, 1, 52550);	// (savepoint)
 					
-					rCol = 3;
+					roomColor = 3;
 					warpX = true;
 					warpY = true;
 					roomName = "This will make you flip";
@@ -761,7 +756,7 @@ namespace vvvvvv::levels {
 					obj.createentity(game, 152, 112, 13);
 					obj.createentity(game, 288, 120, 10, 1, 52520);	// (savepoint)
 					
-					rCol = 5;
+					roomColor = 5;
 					warpX = true;
 					warpY = true;
 					roomName = "Twisty Little Passages";
@@ -805,7 +800,7 @@ namespace vvvvvv::levels {
 					obj.createentity(game, 152, 48, 1, 2, 8, -24, -24, 344, 256);	// Enemy, bounded
 					obj.createentity(game, 152, 176, 1, 2, 8, -24, -16, 344, 256);	// Enemy, bounded
 					
-					rCol = 1;
+					roomColor = 1;
 					warpX = true;
 					warpY = true;
 					roomName = "That's Why I Have To Kill You";
@@ -850,7 +845,7 @@ namespace vvvvvv::levels {
 					obj.createentity(game, 104, 56, 1, 2, 5, -24, -24, 344, 256);	// Enemy, bounded
 					obj.createentity(game, 152, 152, 10, 0, 49520);					// (savepoint)
 					
-					rCol = 2;
+					roomColor = 2;
 					warpX = true;
 					warpY = true;
 					roomName = "I Love You";
@@ -887,7 +882,7 @@ namespace vvvvvv::levels {
 					tmap.push_back("83,83,205,0,0,0,0,0,203,83,83,83,205,163,164,164,164,164,164,164,164,164,165,0,0,0,0,0,203,83,83,83,205,0,0,0,0,0,203,83");
 					tmap.push_back("83,83,205,0,0,0,0,0,203,83,83,83,205,203,83,83,83,83,83,83,83,83,205,0,0,0,0,0,203,83,83,83,205,0,0,0,0,0,203,83");
 					
-					rCol = 1;
+					roomColor = 1;
 					warpY = true;
 					roomName = "Green Dudes Can't Flip";
 					break;
@@ -933,7 +928,7 @@ namespace vvvvvv::levels {
 						obj.createblock(1, 20, 0, 32, 240, 82);
 					}
 
-					rCol = 5;
+					roomColor = 5;
 					warpX = true;
 					warpY = true;
 					roomName = "Murdering Twinmaker";
@@ -979,48 +974,49 @@ namespace vvvvvv::levels {
 						}
 					}
 
-					rCol = 0;
+					roomColor = 0;
 					warpY = true;
 					roomName = "It's Not Easy Being Green";
 					break;
-
-
-				default:
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-					tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
-
-					game.test = true;
-					game.teststring = "ERROR: Map not found in Warp Area";
-					break;
 			#endif
+
+			default:
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+				tmap.push_back("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+
+				game.test = true;
+				game.teststring = "ERROR: Map not found in Warp Level";
+
+				roomName = "Outer Space";
+				break;
 		}
 
 		return tmap;

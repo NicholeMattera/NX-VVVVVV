@@ -8,7 +8,7 @@
 
 namespace vvvvvv::levels
 {
-	class Warp
+	class Final
 	{
 		public:
 			std::vector<std::string> loadLevel(int rX, int rY , Game& game, EntityClass& obj);

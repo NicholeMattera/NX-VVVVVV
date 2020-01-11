@@ -1296,36 +1296,36 @@ void MapClass::loadlevel(int rx, int ry, Graphics& dwgfx, Game& game, EntityClas
 	case 1: //World Map
 		tileset = 1;
 		extrarow = 1;
-		tmap = otherlevel.loadlevel(rx, ry, game, obj);
+		tmap = otherlevel.loadLevel(rx, ry, game, obj);
 		fillcontent(tmap);
-		roomname = otherlevel.roomname;
-		tileset = otherlevel.roomtileset;
+		roomname = otherlevel.roomName;
+		tileset = otherlevel.roomTileSet;
 		//do the appear/remove roomname here
 
-		if (otherlevel.roomtexton)
+		if (otherlevel.roomTextOn)
 		{
 			roomtexton = true;
-			roomtextx[0] = otherlevel.roomtextx;
-			roomtexty[0] = otherlevel.roomtexty;
-			roomtextnumlines = otherlevel.roomtextnumlines;
+			roomtextx[0] = otherlevel.roomTextX;
+			roomtexty[0] = otherlevel.roomTextY;
+			roomtextnumlines = otherlevel.roomTextNumberLines;
 			for (int i = 0; i < roomtextnumlines; i++)
 			{
-				roomtext[i] = otherlevel.roomtext[i];
+				roomtext[i] = otherlevel.roomText[i];
 			}
 		}
 		break;
 	case 2: //The Lab
-		tmap = lablevel.loadlevel(rx, ry, game, obj);
+		tmap = lablevel.loadLevel(rx, ry, game, obj);
 		fillcontent(tmap);
-		roomname = lablevel.roomname;
+		roomname = lablevel.roomName;
 		tileset = 1;
 		background = 2;
-		dwgfx.rcol = lablevel.rcol;
+		dwgfx.rcol = lablevel.roomColor;
 		break;
 	case 3: //The Tower
 		tdrawback = true;
 		minitowermode = false;
-		tower.minitowermode = false;
+		tower.miniTowerMode = false;
 		bscroll = 0;
 		scrolldir = 0;
 
@@ -1366,7 +1366,7 @@ void MapClass::loadlevel(int rx, int ry, Graphics& dwgfx, Game& game, EntityClas
 		roomname = warplevel.roomName;
 		tileset = 1;
 		background = 3;
-		dwgfx.rcol = warplevel.rCol;
+		dwgfx.rcol = warplevel.roomColor;
 		dwgfx.backgrounddrawn = false;
 
 		warpx = warplevel.warpX;
@@ -1377,18 +1377,18 @@ void MapClass::loadlevel(int rx, int ry, Graphics& dwgfx, Game& game, EntityClas
 		if (warpx && warpy) background = 5;
 		break;
 	case 5: //Space station
-		tmap = spacestation2.loadlevel(rx, ry, game, obj);
+		tmap = spacestation2.loadLevel(rx, ry, game, obj);
 		fillcontent(tmap);
-		roomname = spacestation2.roomname;
+		roomname = spacestation2.roomName;
 		tileset = 0;
 		break;
 	case 6: //final level
-		tmap = finallevel.loadlevel(finalx, finaly, game, obj);
+		tmap = finallevel.loadLevel(finalx, finaly, game, obj);
 		fillcontent(tmap);
-		roomname = finallevel.roomname;
+		roomname = finallevel.roomName;
 		tileset = 1;
 		background = 3;
-		dwgfx.rcol = finallevel.rcol;
+		dwgfx.rcol = finallevel.roomColor;
 		dwgfx.backgrounddrawn = false;
 
 		if (finalstretch)
@@ -1397,8 +1397,8 @@ void MapClass::loadlevel(int rx, int ry, Graphics& dwgfx, Game& game, EntityClas
 		}
 		else
 		{
-			warpx = finallevel.warpx;
-			warpy = finallevel.warpy;
+			warpx = finallevel.warpX;
+			warpy = finallevel.warpY;
 			background = 5;
 			if (warpy) background = 4;
 			if (warpx) background = 3;
@@ -1411,7 +1411,7 @@ void MapClass::loadlevel(int rx, int ry, Graphics& dwgfx, Game& game, EntityClas
 	case 7: //Final Level, Tower 1
 		tdrawback = true;
 		minitowermode = true;
-		tower.minitowermode = true;
+		tower.miniTowerMode = true;
 		bscroll = 0;
 		scrolldir = 1;
 
@@ -1420,7 +1420,7 @@ void MapClass::loadlevel(int rx, int ry, Graphics& dwgfx, Game& game, EntityClas
 		background = 3;
 		towermode = true;
 
-		tower.loadminitower1();
+		tower.loadMiniTower1();
 
 		ypos = 0;
 		bypos = 0;
@@ -1432,7 +1432,7 @@ void MapClass::loadlevel(int rx, int ry, Graphics& dwgfx, Game& game, EntityClas
 	{
 		tdrawback = true;
 		minitowermode = true;
-		tower.minitowermode = true;
+		tower.miniTowerMode = true;
 		bscroll = 0;
 		scrolldir = 1;
 
@@ -1441,7 +1441,7 @@ void MapClass::loadlevel(int rx, int ry, Graphics& dwgfx, Game& game, EntityClas
 		background = 3;
 		towermode = true;
 
-		tower.loadminitower1();
+		tower.loadMiniTower1();
 
 		int i = obj.getplayer();
 		obj.entities[i].yp += (71 * 8);
@@ -1458,7 +1458,7 @@ void MapClass::loadlevel(int rx, int ry, Graphics& dwgfx, Game& game, EntityClas
 	{
 		tdrawback = true;
 		minitowermode = true;
-		tower.minitowermode = true;
+		tower.miniTowerMode = true;
 		bscroll = 0;
 		scrolldir = 0;
 		final_colorframe = 2;
@@ -1468,7 +1468,7 @@ void MapClass::loadlevel(int rx, int ry, Graphics& dwgfx, Game& game, EntityClas
 		background = 3;
 		towermode = true;
 
-		tower.loadminitower2();
+		tower.loadMiniTower2();
 
 		obj.createentity(game, 56, 556, 11, 136); // (horizontal gravity line)
 		obj.createentity(game, 184, 592, 10, 0, 50500); // (savepoint)
@@ -1501,7 +1501,7 @@ void MapClass::loadlevel(int rx, int ry, Graphics& dwgfx, Game& game, EntityClas
 
 		tdrawback = true;
 		minitowermode = true;
-		tower.minitowermode = true;
+		tower.miniTowerMode = true;
 		bscroll = 0;
 		scrolldir = 0;
 		final_colorframe = 2;
@@ -1511,7 +1511,7 @@ void MapClass::loadlevel(int rx, int ry, Graphics& dwgfx, Game& game, EntityClas
 		background = 3;
 		towermode = true;
 
-		tower.loadminitower2();
+		tower.loadMiniTower2();
 
 		obj.createentity(game, 56, 556, 11, 136); // (horizontal gravity line)
 		obj.createentity(game, 184, 592, 10, 0, 50500); // (savepoint)
@@ -1536,9 +1536,9 @@ void MapClass::loadlevel(int rx, int ry, Graphics& dwgfx, Game& game, EntityClas
 		break;
 	case 11: //Tower Hallways //Content is held in final level routine
 	{
-		tmap = finallevel.loadlevel(rx, ry, game, obj);
+		tmap = finallevel.loadLevel(rx, ry, game, obj);
 		fillcontent(tmap);
-		roomname = finallevel.roomname;
+		roomname = finallevel.roomName;
 		tileset = 2;
 		if (rx == 108)
 		{
@@ -1744,18 +1744,7 @@ void MapClass::loadlevel(int rx, int ry, Graphics& dwgfx, Game& game, EntityClas
 		break;
 	}
 	//The room's loaded: now we fill out damage blocks based on the tiles.
-	if (towermode)
-	{
-		for (int j = 0; j < 700; j++)
-		{
-			for (int i = 0; i < 40; i++)
-			{
-				//Damage blocks
-				//if (tower.contents[i + tower.vmult[j]] >=6	&& tower.contents[i + tower.vmult[j]] <= 11) obj.createblock(2, (i * 8) + 1, j * 8, 6, 8);
-			}
-		}
-	}
-	else
+	if (!towermode)
 	{
 		for (int j = 0; j < 29 + extrarow; j++)
 		{
