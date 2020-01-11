@@ -41,6 +41,7 @@ INCLUDE_DIRECTORIES(src tinyxml physfs lodepng)
 # Source Lists
 SET(VVV_SRC
 	src/levels/Warp.cpp
+	src/states/Preloader.cpp
 	src/BinaryBlob.cpp
 	src/BlockV.cpp
 	src/Editor.cpp
@@ -59,7 +60,6 @@ SET(VVV_SRC
 	src/Map.cpp
 	src/Music.cpp
 	src/Otherlevel.cpp
-	src/preloader.cpp
 	src/Screen.cpp
 	src/Script.cpp
 	src/Scripts.cpp

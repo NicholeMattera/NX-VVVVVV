@@ -5,6 +5,9 @@
 #else
     #include <SDL.h>
 #endif
+
+#include "states/Preloader.h"
+
 #include "SoundSystem.h"
 
 #include "Utility.h"
@@ -23,7 +26,6 @@
 
 #include "Input.h"
 #include "Editor.h"
-#include "preloader.h"
 
 #include "FileSystemUtils.h"
 #include "Network.h"
@@ -316,7 +318,7 @@ int main(int argc, char * argv[])
         switch (game.gamestate)
         {
             case PRELOADER:
-                preloaderrender(graphics, game);
+                vvvvvv::states::Preloader::render(graphics, game);
                 break;
 
             case EDITORMODE:
