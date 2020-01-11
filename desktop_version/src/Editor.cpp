@@ -6,7 +6,7 @@
 #include "KeyPoll.h"
 #include "Map.h"
 #include "Script.h"
-//#include "UtilityClass.h"
+#include "Utility.h"
 #include "time.h"
 
 #include "tinyxml.h"
@@ -1818,7 +1818,7 @@ void EditorClass::load(std::string& _path)
             std::string TextString = (pText);
             if(TextString.length())
             {
-                std::vector<std::string> values = split(TextString,',');
+                std::vector<std::string> values = Utility::split(TextString,',');
                 //contents.clear();
                 for(size_t i = 0; i < contents.size(); i++)
                 {
@@ -1846,7 +1846,7 @@ void EditorClass::load(std::string& _path)
             std::string TextString = (pText);
             if(TextString.length())
             {
-              std::vector<std::string> values = split(TextString,',');
+              std::vector<std::string> values = Utility::split(TextString,',');
               contents.clear();
               for(int i = 0; i < values.size(); i++)
               {
@@ -1924,7 +1924,7 @@ void EditorClass::load(std::string& _path)
             std::string TextString = (pText);
             if(TextString.length())
             {
-                std::vector<std::string> values = split(TextString,'|');
+                std::vector<std::string> values = Utility::split(TextString,'|');
                 script.clearcustom();
                 for(size_t i = 0; i < values.size(); i++)
                 {
@@ -1987,7 +1987,7 @@ void EditorClass::save(std::string& _path)
     msg->LinkEndChild( meta );
 
     meta = new TiXmlElement( "Created" );
-    meta->LinkEndChild( new TiXmlText( UtilityClass::String(version).c_str() ));
+    meta->LinkEndChild( new TiXmlText( Utility::toString(version).c_str() ));
     msg->LinkEndChild( meta );
 
     meta = new TiXmlElement( "Modified" );
@@ -1995,7 +1995,7 @@ void EditorClass::save(std::string& _path)
     msg->LinkEndChild( meta );
 
     meta = new TiXmlElement( "Modifiers" );
-    meta->LinkEndChild( new TiXmlText( UtilityClass::String(version).c_str() ));
+    meta->LinkEndChild( new TiXmlText( Utility::toString(version).c_str() ));
     msg->LinkEndChild( meta );
 
     meta = new TiXmlElement( "Desc1" );
@@ -2017,15 +2017,15 @@ void EditorClass::save(std::string& _path)
     data->LinkEndChild( msg );
 
     msg = new TiXmlElement( "mapwidth" );
-    msg->LinkEndChild( new TiXmlText( UtilityClass::String(mapwidth).c_str() ));
+    msg->LinkEndChild( new TiXmlText( Utility::toString(mapwidth).c_str() ));
     data->LinkEndChild( msg );
 
     msg = new TiXmlElement( "mapheight" );
-    msg->LinkEndChild( new TiXmlText( UtilityClass::String(mapheight).c_str() ));
+    msg->LinkEndChild( new TiXmlText( Utility::toString(mapheight).c_str() ));
     data->LinkEndChild( msg );
 
     msg = new TiXmlElement( "levmusic" );
-    msg->LinkEndChild( new TiXmlText( UtilityClass::String(levmusic).c_str() ));
+    msg->LinkEndChild( new TiXmlText( Utility::toString(levmusic).c_str() ));
     data->LinkEndChild( msg );
 
     //New save format
@@ -2034,7 +2034,7 @@ void EditorClass::save(std::string& _path)
     {
         for(int x = 0; x < mapwidth*40; x++ )
         {
-            contentsString += UtilityClass::String(contents[x + (maxwidth*40*y)]) + ",";
+            contentsString += Utility::toString(contents[x + (maxwidth*40*y)]) + ",";
         }
     }
     msg = new TiXmlElement( "contents" );
@@ -2047,7 +2047,7 @@ void EditorClass::save(std::string& _path)
     std::string contentsString;
     for(int i = 0; i < contents.size(); i++ )
     {
-    	contentsString += UtilityClass::String(contents[i]) + ",";
+    	contentsString += Utility::toString(contents[i]) + ",";
     }
     msg = new TiXmlElement( "contents" );
     msg->LinkEndChild( new TiXmlText( contentsString.c_str() ));
@@ -2329,7 +2329,7 @@ void EditorClass::generatecustomminimap(Graphics& dwgfx, MapClass& map)
     }
 }
 
-void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj, UtilityClass& help )
+void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj)
 {
     //TODO
     //dwgfx.backbuffer.lock();
@@ -2413,12 +2413,12 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
         //left edge
         if(ed.freewrap((ed.levx*40)-1,j+(ed.levy*30))==1)
         {
-            FillRect(dwgfx.backBuffer, 0,j*8, 2,8, dwgfx.getRGB(255,255,255-help.glow));
+            FillRect(dwgfx.backBuffer, 0,j*8, 2,8, dwgfx.getRGB(255,255,255-Utility::glow));
         }
         //right edge
         if(ed.freewrap((ed.levx*40)+40,j+(ed.levy*30))==1)
         {
-            FillRect(dwgfx.backBuffer, 318,j*8, 2,8, dwgfx.getRGB(255,255,255-help.glow));
+            FillRect(dwgfx.backBuffer, 318,j*8, 2,8, dwgfx.getRGB(255,255,255-Utility::glow));
         }
     }
 
@@ -2426,12 +2426,12 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
     {
         if(ed.freewrap((ed.levx*40)+i,(ed.levy*30)-1)==1)
         {
-            FillRect(dwgfx.backBuffer, i*8,0, 8,2, dwgfx.getRGB(255,255,255-help.glow));
+            FillRect(dwgfx.backBuffer, i*8,0, 8,2, dwgfx.getRGB(255,255,255-Utility::glow));
         }
 
         if(ed.freewrap((ed.levx*40)+i,30+(ed.levy*30))==1)
         {
-            FillRect(dwgfx.backBuffer, i*8,238, 8,2, dwgfx.getRGB(255,255,255-help.glow));
+            FillRect(dwgfx.backBuffer, i*8,238, 8,2, dwgfx.getRGB(255,255,255-Utility::glow));
         }
     }
 
@@ -2457,11 +2457,11 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
             case 1: //Entities
                 //FillRect(dwgfx.backBuffer, (edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8), 16,16, dwgfx.getRGB(64,32,64));
                 //dwgfx.drawsprite((edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8),ed.getenemyframe(ed.level[ed.levx+(ed.levy*ed.maxwidth)].enemytype),164,48,48);
-                dwgfx.drawspritesetcol((edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8),ed.getenemyframe(ed.level[ed.levx+(ed.levy*ed.maxwidth)].enemytype),ed.entcol,help);
-                if(edentity[i].p1==0) dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8)+4,(edentity[i].y*8)- (ed.levy*30*8)+4, "V", 255, 255, 255 - help.glow, false);
-                if(edentity[i].p1==1) dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8)+4,(edentity[i].y*8)- (ed.levy*30*8)+4, "^", 255, 255, 255 - help.glow, false);
-                if(edentity[i].p1==2) dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8)+4,(edentity[i].y*8)- (ed.levy*30*8)+4, "<", 255, 255, 255 - help.glow, false);
-                if(edentity[i].p1==3) dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8)+4,(edentity[i].y*8)- (ed.levy*30*8)+4, ">", 255, 255, 255 - help.glow, false);
+                dwgfx.drawspritesetcol((edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8),ed.getenemyframe(ed.level[ed.levx+(ed.levy*ed.maxwidth)].enemytype),ed.entcol);
+                if(edentity[i].p1==0) dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8)+4,(edentity[i].y*8)- (ed.levy*30*8)+4, "V", 255, 255, 255 - Utility::glow, false);
+                if(edentity[i].p1==1) dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8)+4,(edentity[i].y*8)- (ed.levy*30*8)+4, "^", 255, 255, 255 - Utility::glow, false);
+                if(edentity[i].p1==2) dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8)+4,(edentity[i].y*8)- (ed.levy*30*8)+4, "<", 255, 255, 255 - Utility::glow, false);
+                if(edentity[i].p1==3) dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8)+4,(edentity[i].y*8)- (ed.levy*30*8)+4, ">", 255, 255, 255 - Utility::glow, false);
                 fillboxabs(dwgfx, (edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8),16,16,dwgfx.getBGR(255,164,255));
                 break;
             case 2: //Threadmills & platforms
@@ -2480,21 +2480,21 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
 
                 if(edentity[i].p1<=4)
                 {
-                    if(edentity[i].p1==0) dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8)+12,(edentity[i].y*8)- (ed.levy*30*8), "V", 255 - help.glow, 255 - help.glow, 255 - help.glow, false);
-                    if(edentity[i].p1==1) dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8)+12,(edentity[i].y*8)- (ed.levy*30*8), "^", 255 - help.glow, 255 - help.glow, 255 - help.glow, false);
-                    if(edentity[i].p1==2) dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8)+12,(edentity[i].y*8)- (ed.levy*30*8), "<", 255 - help.glow, 255 - help.glow, 255 - help.glow, false);
-                    if(edentity[i].p1==3) dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8)+12,(edentity[i].y*8)- (ed.levy*30*8), ">", 255 - help.glow, 255 - help.glow, 255 - help.glow, false);
+                    if(edentity[i].p1==0) dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8)+12,(edentity[i].y*8)- (ed.levy*30*8), "V", 255 - Utility::glow, 255 - Utility::glow, 255 - Utility::glow, false);
+                    if(edentity[i].p1==1) dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8)+12,(edentity[i].y*8)- (ed.levy*30*8), "^", 255 - Utility::glow, 255 - Utility::glow, 255 - Utility::glow, false);
+                    if(edentity[i].p1==2) dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8)+12,(edentity[i].y*8)- (ed.levy*30*8), "<", 255 - Utility::glow, 255 - Utility::glow, 255 - Utility::glow, false);
+                    if(edentity[i].p1==3) dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8)+12,(edentity[i].y*8)- (ed.levy*30*8), ">", 255 - Utility::glow, 255 - Utility::glow, 255 - Utility::glow, false);
                     fillboxabs(dwgfx, (edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8),32,8,dwgfx.getBGR(255,255,255));
                 }
 
                 if(edentity[i].p1==5)
                 {
-                    dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8), ">>>>", 255 - help.glow, 255 - help.glow, 255 - help.glow, false);
+                    dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8), ">>>>", 255 - Utility::glow, 255 - Utility::glow, 255 - Utility::glow, false);
                     fillboxabs(dwgfx, (edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8),32,8,dwgfx.getBGR(255,255,255));
                 }
                 else if(edentity[i].p1==6)
                 {
-                    dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8), "<<<<", 255 - help.glow, 255 - help.glow, 255 - help.glow, false);
+                    dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8), "<<<<", 255 - Utility::glow, 255 - Utility::glow, 255 - Utility::glow, false);
                     fillboxabs(dwgfx, (edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8),32,8,dwgfx.getBGR(255,255,255));
                 }
 
@@ -2518,12 +2518,12 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
 
                 if(edentity[i].p1==7)
                 {
-                    dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8)+4,(edentity[i].y*8)- (ed.levy*30*8), "> > > > ", 255 - help.glow, 255 - help.glow, 255 - help.glow, false);
+                    dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8)+4,(edentity[i].y*8)- (ed.levy*30*8), "> > > > ", 255 - Utility::glow, 255 - Utility::glow, 255 - Utility::glow, false);
                     fillboxabs(dwgfx, (edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8),64,8,dwgfx.getBGR(255,255,255));
                 }
                 else if(edentity[i].p1==8)
                 {
-                    dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8)+4,(edentity[i].y*8)- (ed.levy*30*8), "< < < < ", 255 - help.glow, 255 - help.glow, 255 - help.glow, false);
+                    dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8)+4,(edentity[i].y*8)- (ed.levy*30*8), "< < < < ", 255 - Utility::glow, 255 - Utility::glow, 255 - Utility::glow, false);
                     fillboxabs(dwgfx, (edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8),64,8,dwgfx.getBGR(255,255,255));
                 }
                 break;
@@ -2543,7 +2543,7 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
                 drawRect.x += 8;
                 BlitSurfaceStandard(dwgfx.entcolours[obj.customplatformtile],NULL,dwgfx.backBuffer, &drawRect);
 
-                dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8), "////", 255 - help.glow, 255 - help.glow, 255 - help.glow, false);
+                dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8), "////", 255 - Utility::glow, 255 - Utility::glow, 255 - Utility::glow, false);
                 fillboxabs(dwgfx, (edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8),32,8,dwgfx.getBGR(255,255,255));
                 break;
             case 9: //Shiny Trinket
@@ -2595,25 +2595,25 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
                 if(ed.temp==i)
                 {
                     dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8)-8,
-                                "("+help.String(((edentity[i].p1-int(edentity[i].p1%40))/40)+1)+","+help.String(((edentity[i].p2-int(edentity[i].p2%30))/30)+1)+")",210,210,255);
+                                "("+Utility::toString(((edentity[i].p1-int(edentity[i].p1%40))/40)+1)+","+Utility::toString(((edentity[i].p2-int(edentity[i].p2%30))/30)+1)+")",210,210,255);
                 }
                 else
                 {
-                    dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8)-8,help.String(ed.findwarptoken(i)),210,210,255);
+                    dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8)-8,Utility::toString(ed.findwarptoken(i)),210,210,255);
                 }
                 break;
             case 15: //Crewmates
-                dwgfx.drawspritesetcol((edentity[i].x*8)- (ed.levx*40*8)-4,(edentity[i].y*8)- (ed.levy*30*8),144,obj.crewcolour(edentity[i].p1), help);
+                dwgfx.drawspritesetcol((edentity[i].x*8)- (ed.levx*40*8)-4,(edentity[i].y*8)- (ed.levy*30*8),144,obj.crewcolour(edentity[i].p1));
                 fillboxabs(dwgfx, (edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8),16,24,dwgfx.getRGB(164,164,164));
                 break;
             case 16: //Start
                 if(edentity[i].p1==0)  //Left
                 {
-                    dwgfx.drawspritesetcol((edentity[i].x*8)- (ed.levx*40*8)-4,(edentity[i].y*8)- (ed.levy*30*8),0,obj.crewcolour(0), help);
+                    dwgfx.drawspritesetcol((edentity[i].x*8)- (ed.levx*40*8)-4,(edentity[i].y*8)- (ed.levy*30*8),0,obj.crewcolour(0));
                 }
                 else if(edentity[i].p1==1)
                 {
-                    dwgfx.drawspritesetcol((edentity[i].x*8)- (ed.levx*40*8)-4,(edentity[i].y*8)- (ed.levy*30*8),3,obj.crewcolour(0), help);
+                    dwgfx.drawspritesetcol((edentity[i].x*8)- (ed.levx*40*8)-4,(edentity[i].y*8)- (ed.levy*30*8),3,obj.crewcolour(0));
                 }
                 fillboxabs(dwgfx, (edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8),16,24,dwgfx.getRGB(164,255,255));
                 if(ed.entframe<2)
@@ -2634,7 +2634,7 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
                 {
                     fillboxabs(dwgfx, (edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8),edentity[i].scriptname.length()*8,8,dwgfx.getRGB(96,96,96));
                 }
-                dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8), edentity[i].scriptname, 196, 196, 255 - help.glow);
+                dwgfx.Print((edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8), edentity[i].scriptname, 196, 196, 255 - Utility::glow);
                 break;
             case 18: //Terminals
                 dwgfx.drawsprite((edentity[i].x*8)- (ed.levx*40*8),(edentity[i].y*8)- (ed.levy*30*8)+8,17,96,96,96);
@@ -2695,11 +2695,11 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
                 if(ed.tilex+(ed.levx*40)==edentity[i].p1 && ed.tiley+(ed.levy*30)==edentity[i].p2)
                 {
                     dwgfx.Print((edentity[i].p1*8)- (ed.levx*40*8),(edentity[i].p2*8)- (ed.levy*30*8)-8,
-                                "("+help.String(((edentity[i].x-int(edentity[i].x%40))/40)+1)+","+help.String(((edentity[i].y-int(edentity[i].y%30))/30)+1)+")",190,190,225);
+                                "("+Utility::toString(((edentity[i].x-int(edentity[i].x%40))/40)+1)+","+Utility::toString(((edentity[i].y-int(edentity[i].y%30))/30)+1)+")",190,190,225);
                 }
                 else
                 {
-                    dwgfx.Print((edentity[i].p1*8)- (ed.levx*40*8),(edentity[i].p2*8)- (ed.levy*30*8)-8,help.String(ed.findwarptoken(i)),190,190,225);
+                    dwgfx.Print((edentity[i].p1*8)- (ed.levx*40*8),(edentity[i].p2*8)- (ed.levy*30*8)-8,Utility::toString(ed.findwarptoken(i)),190,190,225);
                 }
             }
         }
@@ -2709,20 +2709,20 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
     {
         if(ed.boundarymod==1)
         {
-            fillboxabs(dwgfx, ed.tilex*8, ed.tiley*8, 8,8,dwgfx.getRGB(255-(help.glow/2),191+(help.glow),210+(help.glow/2)));
-            fillboxabs(dwgfx, (ed.tilex*8)+2, (ed.tiley*8)+2, 4,4,dwgfx.getRGB(128-(help.glow/4),100+(help.glow/2),105+(help.glow/4)));
+            fillboxabs(dwgfx, ed.tilex*8, ed.tiley*8, 8,8,dwgfx.getRGB(255-(Utility::glow/2),191+(Utility::glow),210+(Utility::glow/2)));
+            fillboxabs(dwgfx, (ed.tilex*8)+2, (ed.tiley*8)+2, 4,4,dwgfx.getRGB(128-(Utility::glow/4),100+(Utility::glow/2),105+(Utility::glow/4)));
         }
         else if(ed.boundarymod==2)
         {
             if((ed.tilex*8)+8<=ed.boundx1 || (ed.tiley*8)+8<=ed.boundy1)
             {
-                fillboxabs(dwgfx, ed.boundx1, ed.boundy1, 8, 8,dwgfx.getRGB(255-(help.glow/2),191+(help.glow),210+(help.glow/2)));
-                fillboxabs(dwgfx, ed.boundx1+2, ed.boundy1+2, 4, 4,dwgfx.getRGB(128-(help.glow/4),100+(help.glow/2),105+(help.glow/4)));
+                fillboxabs(dwgfx, ed.boundx1, ed.boundy1, 8, 8,dwgfx.getRGB(255-(Utility::glow/2),191+(Utility::glow),210+(Utility::glow/2)));
+                fillboxabs(dwgfx, ed.boundx1+2, ed.boundy1+2, 4, 4,dwgfx.getRGB(128-(Utility::glow/4),100+(Utility::glow/2),105+(Utility::glow/4)));
             }
             else
             {
-                fillboxabs(dwgfx, ed.boundx1, ed.boundy1, (ed.tilex*8)+8-ed.boundx1,(ed.tiley*8)+8-ed.boundy1,dwgfx.getRGB(255-(help.glow/2),191+(help.glow),210+(help.glow/2)));
-                fillboxabs(dwgfx, ed.boundx1+2, ed.boundy1+2, (ed.tilex*8)+8-ed.boundx1-4,(ed.tiley*8)+8-ed.boundy1-4,dwgfx.getRGB(128-(help.glow/4),100+(help.glow/2),105+(help.glow/4)));
+                fillboxabs(dwgfx, ed.boundx1, ed.boundy1, (ed.tilex*8)+8-ed.boundx1,(ed.tiley*8)+8-ed.boundy1,dwgfx.getRGB(255-(Utility::glow/2),191+(Utility::glow),210+(Utility::glow/2)));
+                fillboxabs(dwgfx, ed.boundx1+2, ed.boundy1+2, (ed.tilex*8)+8-ed.boundx1-4,(ed.tiley*8)+8-ed.boundy1-4,dwgfx.getRGB(128-(Utility::glow/4),100+(Utility::glow/2),105+(Utility::glow/4)));
             }
         }
     }
@@ -2736,7 +2736,7 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
             fillboxabs(dwgfx,  ed.level[tmp].enemyx1, ed.level[tmp].enemyy1,
                        ed.level[tmp].enemyx2-ed.level[tmp].enemyx1,
                        ed.level[tmp].enemyy2-ed.level[tmp].enemyy1,
-                       dwgfx.getBGR(255-(help.glow/2),64,64));
+                       dwgfx.getBGR(255-(Utility::glow/2),64,64));
         }
 
         if(ed.level[tmp].platx1!=0 && ed.level[tmp].platy1!=0
@@ -2745,7 +2745,7 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
             fillboxabs(dwgfx,  ed.level[tmp].platx1, ed.level[tmp].platy1,
                        ed.level[tmp].platx2-ed.level[tmp].platx1,
                        ed.level[tmp].platy2-ed.level[tmp].platy1,
-                       dwgfx.getBGR(64,64,255-(help.glow/2)));
+                       dwgfx.getBGR(64,64,255-(Utility::glow/2)));
         }
     }
 
@@ -2844,15 +2844,15 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
                 }
             }
             //Highlight our little block
-            fillboxabs(dwgfx,((ed.dmtile%40)*8)-2,16-2,12,12,dwgfx.getRGB(196, 196, 255 - help.glow));
+            fillboxabs(dwgfx,((ed.dmtile%40)*8)-2,16-2,12,12,dwgfx.getRGB(196, 196, 255 - Utility::glow));
             fillboxabs(dwgfx,((ed.dmtile%40)*8)-1,16-1,10,10,dwgfx.getRGB(0,0,0));
         }
 
         if(ed.dmtileeditor>0 && t2<=30)
         {
-            dwgfx.Print(2, 45-t2, "Tile:", 196, 196, 255 - help.glow, false);
-            dwgfx.Print(58, 45-t2, help.String(ed.dmtile), 196, 196, 255 - help.glow, false);
-            FillRect(dwgfx.backBuffer, 44,44-t2,10,10, dwgfx.getRGB(196, 196, 255 - help.glow));
+            dwgfx.Print(2, 45-t2, "Tile:", 196, 196, 255 - Utility::glow, false);
+            dwgfx.Print(58, 45-t2, Utility::toString(ed.dmtile), 196, 196, 255 - Utility::glow, false);
+            FillRect(dwgfx.backBuffer, 44,44-t2,10,10, dwgfx.getRGB(196, 196, 255 - Utility::glow));
             FillRect(dwgfx.backBuffer, 45,45-t2,8,8, dwgfx.getRGB(0,0,0));
 
             if(ed.level[ed.levx+(ed.levy*ed.maxwidth)].tileset==0)
@@ -2866,9 +2866,9 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
         }
         else
         {
-            dwgfx.Print(2, 12, "Tile:", 196, 196, 255 - help.glow, false);
-            dwgfx.Print(58, 12, help.String(ed.dmtile), 196, 196, 255 - help.glow, false);
-            FillRect(dwgfx.backBuffer, 44,11,10,10, dwgfx.getRGB(196, 196, 255 - help.glow));
+            dwgfx.Print(2, 12, "Tile:", 196, 196, 255 - Utility::glow, false);
+            dwgfx.Print(58, 12, Utility::toString(ed.dmtile), 196, 196, 255 - Utility::glow, false);
+            FillRect(dwgfx.backBuffer, 44,11,10,10, dwgfx.getRGB(196, 196, 255 - Utility::glow));
             FillRect(dwgfx.backBuffer, 45,12,8,8, dwgfx.getRGB(0,0,0));
 
             if(ed.level[ed.levx+(ed.levy*ed.maxwidth)].tileset==0)
@@ -2997,9 +2997,9 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
     {
         if(!game.colourblindmode) dwgfx.drawtowerbackgroundsolo(map);
 
-        int tr = map.r - (help.glow / 4) - int(fRandom() * 4);
-        int tg = map.g - (help.glow / 4) - int(fRandom() * 4);
-        int tb = map.b - (help.glow / 4) - int(fRandom() * 4);
+        int tr = map.r - (Utility::glow / 4) - int(fRandom() * 4);
+        int tg = map.g - (Utility::glow / 4) - int(fRandom() * 4);
+        int tb = map.b - (Utility::glow / 4) - int(fRandom() * 4);
         if (tr < 0) tr = 0;
         if(tr>255) tr=255;
         if (tg < 0) tg = 0;
@@ -3162,9 +3162,9 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
         /*
         dwgfx.Print(4, 224, "Enter name to save map as:", 255,255,255, false);
         if(ed.entframe<2){
-          dwgfx.Print(4, 232, ed.filename+"_", 196, 196, 255 - help.glow, true);
+          dwgfx.Print(4, 232, ed.filename+"_", 196, 196, 255 - Utility::glow, true);
         }else{
-          dwgfx.Print(4, 232, ed.filename+" ", 196, 196, 255 - help.glow, true);
+          dwgfx.Print(4, 232, ed.filename+" ", 196, 196, 255 - Utility::glow, true);
         }
         */
     }
@@ -3175,11 +3175,11 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
         dwgfx.Print(4, 224, "Enter script id name:", 255,255,255, false);
         if(ed.entframe<2)
         {
-            dwgfx.Print(4, 232, edentity[ed.scripttextent].scriptname+"_", 196, 196, 255 - help.glow, true);
+            dwgfx.Print(4, 232, edentity[ed.scripttextent].scriptname+"_", 196, 196, 255 - Utility::glow, true);
         }
         else
         {
-            dwgfx.Print(4, 232, edentity[ed.scripttextent].scriptname+" ", 196, 196, 255 - help.glow, true);
+            dwgfx.Print(4, 232, edentity[ed.scripttextent].scriptname+" ", 196, 196, 255 - Utility::glow, true);
         }
     }
     else if(ed.savemod)
@@ -3189,11 +3189,11 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
         dwgfx.Print(4, 224, "Enter filename to save map as:", 255,255,255, false);
         if(ed.entframe<2)
         {
-            dwgfx.Print(4, 232, ed.filename+"_", 196, 196, 255 - help.glow, true);
+            dwgfx.Print(4, 232, ed.filename+"_", 196, 196, 255 - Utility::glow, true);
         }
         else
         {
-            dwgfx.Print(4, 232, ed.filename+" ", 196, 196, 255 - help.glow, true);
+            dwgfx.Print(4, 232, ed.filename+" ", 196, 196, 255 - Utility::glow, true);
         }
     }
     else if(ed.loadmod)
@@ -3203,11 +3203,11 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
         dwgfx.Print(4, 224, "Enter map filename to load:", 255,255,255, false);
         if(ed.entframe<2)
         {
-            dwgfx.Print(4, 232, ed.filename+"_", 196, 196, 255 - help.glow, true);
+            dwgfx.Print(4, 232, ed.filename+"_", 196, 196, 255 - Utility::glow, true);
         }
         else
         {
-            dwgfx.Print(4, 232, ed.filename+" ", 196, 196, 255 - help.glow, true);
+            dwgfx.Print(4, 232, ed.filename+" ", 196, 196, 255 - Utility::glow, true);
         }
     }
     else if(ed.roomnamemod)
@@ -3217,11 +3217,11 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
         dwgfx.Print(4, 224, "Enter new room name:", 255,255,255, false);
         if(ed.entframe<2)
         {
-            dwgfx.Print(4, 232, ed.level[ed.levx+(ed.levy*ed.maxwidth)].roomname+"_", 196, 196, 255 - help.glow, true);
+            dwgfx.Print(4, 232, ed.level[ed.levx+(ed.levy*ed.maxwidth)].roomname+"_", 196, 196, 255 - Utility::glow, true);
         }
         else
         {
-            dwgfx.Print(4, 232, ed.level[ed.levx+(ed.levy*ed.maxwidth)].roomname+" ", 196, 196, 255 - help.glow, true);
+            dwgfx.Print(4, 232, ed.level[ed.levx+(ed.levy*ed.maxwidth)].roomname+" ", 196, 196, 255 - Utility::glow, true);
         }
     }
     else if(ed.roomtextmod)
@@ -3231,11 +3231,11 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
         dwgfx.Print(4, 224, "Enter text string:", 255,255,255, false);
         if(ed.entframe<2)
         {
-            dwgfx.Print(4, 232, edentity[ed.roomtextent].scriptname+"_", 196, 196, 255 - help.glow, true);
+            dwgfx.Print(4, 232, edentity[ed.roomtextent].scriptname+"_", 196, 196, 255 - Utility::glow, true);
         }
         else
         {
-            dwgfx.Print(4, 232, edentity[ed.roomtextent].scriptname+" ", 196, 196, 255 - help.glow, true);
+            dwgfx.Print(4, 232, edentity[ed.roomtextent].scriptname+" ", 196, 196, 255 - Utility::glow, true);
         }
     }
     else if(ed.warpmod)
@@ -3243,8 +3243,8 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
         //placing warp token
         FillRect(dwgfx.backBuffer, 0,221,320,240, dwgfx.getRGB(32,32,32));
         FillRect(dwgfx.backBuffer, 0,222,320,240, dwgfx.getRGB(0,0,0));
-        dwgfx.Print(4, 224, "Left click to place warp destination", 196, 196, 255 - help.glow, false);
-        dwgfx.Print(4, 232, "Right click to cancel", 196, 196, 255 - help.glow, false);
+        dwgfx.Print(4, 224, "Left click to place warp destination", 196, 196, 255 - Utility::glow, false);
+        dwgfx.Print(4, 232, "Right click to cancel", 196, 196, 255 - Utility::glow, false);
     }
     else
     {
@@ -3305,7 +3305,7 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
                 for(int i=0; i<9; i++)
                 {
                     fillboxabs(dwgfx, 4+(i*tg), 209,20,20,dwgfx.getRGB(96,96,96));
-                    dwgfx.Print(22+(i*tg)-4, 225-4,help.String(i+1),164,164,164,false);
+                    dwgfx.Print(22+(i*tg)-4, 225-4,Utility::toString(i+1),164,164,164,false);
                 }
 
                 if(ed.drawmode==9)dwgfx.Print(22+(ed.drawmode*tg)-4, 225-4,"0",255,255,255,false);
@@ -3316,10 +3316,10 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
                 fillboxabs(dwgfx, 4+(ed.drawmode*tg), 209,20,20,dwgfx.getRGB(200,200,200));
                 if(ed.drawmode<9)
                 {
-                    dwgfx.Print(22+(ed.drawmode*tg)-4, 225-4,help.String(ed.drawmode+1),255,255,255,false);
+                    dwgfx.Print(22+(ed.drawmode*tg)-4, 225-4,Utility::toString(ed.drawmode+1),255,255,255,false);
                 }
 
-                dwgfx.Print(4, 232, "1/2", 196, 196, 255 - help.glow, false);
+                dwgfx.Print(4, 232, "1/2", 196, 196, 255 - Utility::glow, false);
             }
             else
             {
@@ -3329,10 +3329,10 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
                 }
                 FillRect(dwgfx.backBuffer, 4+((ed.drawmode-10)*tg), 209,20,20,dwgfx.getRGB(64,64,64));
                 //10:
-                dwgfx.Print(tx,ty,"A",196, 196, 255 - help.glow, false);
-                dwgfx.Print(tx+8,ty,"B",196, 196, 255 - help.glow, false);
-                dwgfx.Print(tx,ty+8,"C",196, 196, 255 - help.glow, false);
-                dwgfx.Print(tx+8,ty+8,"D",196, 196, 255 - help.glow, false);
+                dwgfx.Print(tx,ty,"A",196, 196, 255 - Utility::glow, false);
+                dwgfx.Print(tx+8,ty,"B",196, 196, 255 - Utility::glow, false);
+                dwgfx.Print(tx,ty+8,"C",196, 196, 255 - Utility::glow, false);
+                dwgfx.Print(tx+8,ty+8,"D",196, 196, 255 - Utility::glow, false);
                 //11:
                 tx+=tg;
                 dwgfx.drawsprite(tx,ty,17,196,196,196);
@@ -3347,10 +3347,10 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
                 FillRect(dwgfx.backBuffer, tx+6,ty+2,4,12,dwgfx.getRGB(255,255,255));
                 //15:
                 tx+=tg;
-                dwgfx.drawsprite(tx,ty,186,75, 75, 255- help.glow/4 - (fRandom()*20));
+                dwgfx.drawsprite(tx,ty,186,75, 75, 255- Utility::glow/4 - (fRandom()*20));
                 //16:
                 tx+=tg;
-                dwgfx.drawsprite(tx,ty,184,160- help.glow/2 - (fRandom()*20), 200- help.glow/2, 220 - help.glow);
+                dwgfx.drawsprite(tx,ty,184,160- Utility::glow/2 - (fRandom()*20), 200- Utility::glow/2, 220 - Utility::glow);
 
                 if(ed.drawmode==10)dwgfx.Print(22+((ed.drawmode-10)*tg)-4, 225-4,"R",255,255,255,false);
                 if(ed.drawmode==11)dwgfx.Print(22+((ed.drawmode-10)*tg)-4, 225-4,"T",255,255,255,false);
@@ -3375,71 +3375,71 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
                 fillboxabs(dwgfx, 4+(6*tg), 209,20,20,dwgfx.getRGB(96,96,96));
                 dwgfx.Print(22+(6*tg)-4, 225-4, "P",164,164,164,false);
 
-                dwgfx.Print(4, 232, "2/2", 196, 196, 255 - help.glow, false);
+                dwgfx.Print(4, 232, "2/2", 196, 196, 255 - Utility::glow, false);
             }
 
-            dwgfx.Print(128, 232, "< and > keys change tool", 196, 196, 255 - help.glow, false);
+            dwgfx.Print(128, 232, "< and > keys change tool", 196, 196, 255 - Utility::glow, false);
 
             FillRect(dwgfx.backBuffer, 0,198,120,10, dwgfx.getRGB(32,32,32));
             FillRect(dwgfx.backBuffer, 0,199,119,9, dwgfx.getRGB(0,0,0));
             switch(ed.drawmode)
             {
             case 0:
-                dwgfx.Print(2,199, "1: Walls",196, 196, 255 - help.glow);
+                dwgfx.Print(2,199, "1: Walls",196, 196, 255 - Utility::glow);
                 break;
             case 1:
-                dwgfx.Print(2,199, "2: Backing",196, 196, 255 - help.glow);
+                dwgfx.Print(2,199, "2: Backing",196, 196, 255 - Utility::glow);
                 break;
             case 2:
-                dwgfx.Print(2,199, "3: Spikes",196, 196, 255 - help.glow);
+                dwgfx.Print(2,199, "3: Spikes",196, 196, 255 - Utility::glow);
                 break;
             case 3:
-                dwgfx.Print(2,199, "4: Trinkets",196, 196, 255 - help.glow);
+                dwgfx.Print(2,199, "4: Trinkets",196, 196, 255 - Utility::glow);
                 break;
             case 4:
-                dwgfx.Print(2,199, "5: Checkpoint",196, 196, 255 - help.glow);
+                dwgfx.Print(2,199, "5: Checkpoint",196, 196, 255 - Utility::glow);
                 break;
             case 5:
-                dwgfx.Print(2,199, "6: Disappear",196, 196, 255 - help.glow);
+                dwgfx.Print(2,199, "6: Disappear",196, 196, 255 - Utility::glow);
                 break;
             case 6:
-                dwgfx.Print(2,199, "7: Conveyors",196, 196, 255 - help.glow);
+                dwgfx.Print(2,199, "7: Conveyors",196, 196, 255 - Utility::glow);
                 break;
             case 7:
-                dwgfx.Print(2,199, "8: Moving",196, 196, 255 - help.glow);
+                dwgfx.Print(2,199, "8: Moving",196, 196, 255 - Utility::glow);
                 break;
             case 8:
-                dwgfx.Print(2,199, "9: Enemies",196, 196, 255 - help.glow);
+                dwgfx.Print(2,199, "9: Enemies",196, 196, 255 - Utility::glow);
                 break;
             case 9:
-                dwgfx.Print(2,199, "0: Grav Line",196, 196, 255 - help.glow);
+                dwgfx.Print(2,199, "0: Grav Line",196, 196, 255 - Utility::glow);
                 break;
             case 10:
-                dwgfx.Print(2,199, "R: Roomtext",196, 196, 255 - help.glow);
+                dwgfx.Print(2,199, "R: Roomtext",196, 196, 255 - Utility::glow);
                 break;
             case 11:
-                dwgfx.Print(2,199, "T: Terminal",196, 196, 255 - help.glow);
+                dwgfx.Print(2,199, "T: Terminal",196, 196, 255 - Utility::glow);
                 break;
             case 12:
-                dwgfx.Print(2,199, "Y: Script Box",196, 196, 255 - help.glow);
+                dwgfx.Print(2,199, "Y: Script Box",196, 196, 255 - Utility::glow);
                 break;
             case 13:
-                dwgfx.Print(2,199, "U: Warp Token",196, 196, 255 - help.glow);
+                dwgfx.Print(2,199, "U: Warp Token",196, 196, 255 - Utility::glow);
                 break;
             case 14:
-                dwgfx.Print(2,199, "I: Warp Lines",196, 196, 255 - help.glow);
+                dwgfx.Print(2,199, "I: Warp Lines",196, 196, 255 - Utility::glow);
                 break;
             case 15:
-                dwgfx.Print(2,199, "O: Crewmate",196, 196, 255 - help.glow);
+                dwgfx.Print(2,199, "O: Crewmate",196, 196, 255 - Utility::glow);
                 break;
             case 16:
-                dwgfx.Print(2,199, "P: Start Point",196, 196, 255 - help.glow);
+                dwgfx.Print(2,199, "P: Start Point",196, 196, 255 - Utility::glow);
                 break;
             }
 
             FillRect(dwgfx.backBuffer, 260,198,80,10, dwgfx.getRGB(32,32,32));
             FillRect(dwgfx.backBuffer, 261,199,80,9, dwgfx.getRGB(0,0,0));
-            dwgfx.Print(268,199, "("+help.String(ed.levx+1)+","+help.String(ed.levy+1)+")",196, 196, 255 - help.glow, false);
+            dwgfx.Print(268,199, "("+Utility::toString(ed.levx+1)+","+Utility::toString(ed.levy+1)+")",196, 196, 255 - Utility::glow, false);
 
         }
         else
@@ -3452,21 +3452,21 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
                 {
                     if(ed.roomnamehide>0) ed.roomnamehide--;
                     FillRect(dwgfx.backBuffer, 0,230+ed.roomnamehide,320,10, dwgfx.getRGB(0,0,0));
-                    dwgfx.Print(5,231+ed.roomnamehide,ed.level[ed.levx+(ed.maxwidth*ed.levy)].roomname, 196, 196, 255 - help.glow, true);
+                    dwgfx.Print(5,231+ed.roomnamehide,ed.level[ed.levx+(ed.maxwidth*ed.levy)].roomname, 196, 196, 255 - Utility::glow, true);
                 }
                 else
                 {
                     if(ed.roomnamehide<12) ed.roomnamehide++;
                     FillRect(dwgfx.backBuffer, 0,230+ed.roomnamehide,320,10, dwgfx.getRGB(0,0,0));
-                    dwgfx.Print(5,231+ed.roomnamehide,ed.level[ed.levx+(ed.maxwidth*ed.levy)].roomname, 196, 196, 255 - help.glow, true);
+                    dwgfx.Print(5,231+ed.roomnamehide,ed.level[ed.levx+(ed.maxwidth*ed.levy)].roomname, 196, 196, 255 - Utility::glow, true);
                 }
-                dwgfx.Print(4, 222, "SPACE ^  SHIFT ^", 196, 196, 255 - help.glow, false);
-                dwgfx.Print(268,222, "("+help.String(ed.levx+1)+","+help.String(ed.levy+1)+")",196, 196, 255 - help.glow, false);
+                dwgfx.Print(4, 222, "SPACE ^  SHIFT ^", 196, 196, 255 - Utility::glow, false);
+                dwgfx.Print(268,222, "("+Utility::toString(ed.levx+1)+","+Utility::toString(ed.levy+1)+")",196, 196, 255 - Utility::glow, false);
             }
             else
             {
-                dwgfx.Print(4, 232, "SPACE ^  SHIFT ^", 196, 196, 255 - help.glow, false);
-                dwgfx.Print(268,232, "("+help.String(ed.levx+1)+","+help.String(ed.levy+1)+")",196, 196, 255 - help.glow, false);
+                dwgfx.Print(4, 232, "SPACE ^  SHIFT ^", 196, 196, 255 - Utility::glow, false);
+                dwgfx.Print(268,232, "("+Utility::toString(ed.levx+1)+","+Utility::toString(ed.levy+1)+")",196, 196, 255 - Utility::glow, false);
             }
         }
 
@@ -3499,71 +3499,71 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
         switch(ed.drawmode)
         {
         case 0:
-            dwgfx.Print(2,2, "1: Walls",196, 196, 255 - help.glow);
+            dwgfx.Print(2,2, "1: Walls",196, 196, 255 - Utility::glow);
             break;
         case 1:
-            dwgfx.Print(2,2, "2: Backing",196, 196, 255 - help.glow);
+            dwgfx.Print(2,2, "2: Backing",196, 196, 255 - Utility::glow);
             break;
         case 2:
-            dwgfx.Print(2,2, "3: Spikes",196, 196, 255 - help.glow);
+            dwgfx.Print(2,2, "3: Spikes",196, 196, 255 - Utility::glow);
             break;
         case 3:
-            dwgfx.Print(2,2, "4: Trinkets",196, 196, 255 - help.glow);
+            dwgfx.Print(2,2, "4: Trinkets",196, 196, 255 - Utility::glow);
             break;
         case 4:
-            dwgfx.Print(2,2, "5: Checkpoint",196, 196, 255 - help.glow);
+            dwgfx.Print(2,2, "5: Checkpoint",196, 196, 255 - Utility::glow);
             break;
         case 5:
-            dwgfx.Print(2,2, "6: Disappear",196, 196, 255 - help.glow);
+            dwgfx.Print(2,2, "6: Disappear",196, 196, 255 - Utility::glow);
             break;
         case 6:
-            dwgfx.Print(2,2, "7: Conveyors",196, 196, 255 - help.glow);
+            dwgfx.Print(2,2, "7: Conveyors",196, 196, 255 - Utility::glow);
             break;
         case 7:
-            dwgfx.Print(2,2, "8: Moving",196, 196, 255 - help.glow);
+            dwgfx.Print(2,2, "8: Moving",196, 196, 255 - Utility::glow);
             break;
         case 8:
-            dwgfx.Print(2,2, "9: Enemies",196, 196, 255 - help.glow);
+            dwgfx.Print(2,2, "9: Enemies",196, 196, 255 - Utility::glow);
             break;
         case 9:
-            dwgfx.Print(2,2, "0: Grav Line",196, 196, 255 - help.glow);
+            dwgfx.Print(2,2, "0: Grav Line",196, 196, 255 - Utility::glow);
             break;
         case 10:
-            dwgfx.Print(2,2, "R: Roomtext",196, 196, 255 - help.glow);
+            dwgfx.Print(2,2, "R: Roomtext",196, 196, 255 - Utility::glow);
             break;
         case 11:
-            dwgfx.Print(2,2, "T: Terminal",196, 196, 255 - help.glow);
+            dwgfx.Print(2,2, "T: Terminal",196, 196, 255 - Utility::glow);
             break;
         case 12:
-            dwgfx.Print(2,2, "Y: Script Box",196, 196, 255 - help.glow);
+            dwgfx.Print(2,2, "Y: Script Box",196, 196, 255 - Utility::glow);
             break;
         case 13:
-            dwgfx.Print(2,2, "U: Warp Token",196, 196, 255 - help.glow);
+            dwgfx.Print(2,2, "U: Warp Token",196, 196, 255 - Utility::glow);
             break;
         case 14:
-            dwgfx.Print(2,2, "I: Warp Lines",196, 196, 255 - help.glow);
+            dwgfx.Print(2,2, "I: Warp Lines",196, 196, 255 - Utility::glow);
             break;
         case 15:
-            dwgfx.Print(2,2, "O: Crewmate",196, 196, 255 - help.glow);
+            dwgfx.Print(2,2, "O: Crewmate",196, 196, 255 - Utility::glow);
             break;
         case 16:
-            dwgfx.Print(2,2, "P: Start Point",196, 196, 255 - help.glow);
+            dwgfx.Print(2,2, "P: Start Point",196, 196, 255 - Utility::glow);
             break;
         }
 
-        //dwgfx.Print(254, 2, "F1: HELP", 196, 196, 255 - help.glow, false);
+        //dwgfx.Print(254, 2, "F1: HELP", 196, 196, 255 - Utility::glow, false);
     }
 
     /*
     for(int i=0; i<script.customscript.size(); i++){
       dwgfx.Print(0,i*8,script.customscript[i],255,255,255);
     }
-    dwgfx.Print(0,8*script.customscript.size(),help.String(script.customscript.size()),255,255,255);
+    dwgfx.Print(0,8*script.customscript.size(),Utility::toString(script.customscript.size()),255,255,255);
 
     for(int i=0; i<ed.numhooks; i++){
       dwgfx.Print(260,i*8,ed.hooklist[i],255,255,255);
     }
-    dwgfx.Print(260,8*ed.numhooks,help.String(ed.numhooks),255,255,255);
+    dwgfx.Print(260,8*ed.numhooks,Utility::toString(ed.numhooks),255,255,255);
     */
 
     if(ed.notedelay>0)
@@ -3575,7 +3575,7 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
 
     if (game.test)
     {
-        dwgfx.Print(5, 5, game.teststring, 196, 196, 255 - help.glow, false);
+        dwgfx.Print(5, 5, game.teststring, 196, 196, 255 - Utility::glow, false);
     }
 
     dwgfx.drawfade();
@@ -3598,10 +3598,10 @@ void editorrender( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Ent
     //dwgfx.backbuffer.unlock();
 }
 
-void editorlogic( KeyPoll& key, Graphics& dwgfx, Game& game, EntityClass& obj, MusicClass& music, MapClass& map, UtilityClass& help )
+void editorlogic( KeyPoll& key, Graphics& dwgfx, Game& game, EntityClass& obj, MusicClass& music, MapClass& map )
 {
     //Misc
-    help.updateglow();
+    Utility::updateGlow();
 
     map.bypos -= 2;
     map.bscroll = -2;
@@ -3635,7 +3635,7 @@ void editorlogic( KeyPoll& key, Graphics& dwgfx, Game& game, EntityClass& obj, M
 }
 
 
-void editorinput( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj, UtilityClass& help, MusicClass& music )
+void editorinput( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj, MusicClass& music )
 {
     //TODO Mouse Input!
     game.mx = (float) key.mx;
@@ -4548,7 +4548,7 @@ void editorinput( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Enti
 
                         music.stopmusic();
                         dwgfx.backgrounddrawn=false;
-                        script.startgamemode(21, key, dwgfx, game, map, obj, help, music);
+                        script.startgamemode(21, key, dwgfx, game, map, obj, music);
                     }
                     //Return to game
                     //game.gamestate=GAMEMODE;
@@ -4615,7 +4615,7 @@ void editorinput( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Enti
                         if(ed.mapheight<1) ed.mapheight=1;
                         if(ed.mapwidth>=ed.maxwidth) ed.mapwidth=ed.maxwidth;
                         if(ed.mapheight>=ed.maxheight) ed.mapheight=ed.maxheight;
-                        ed.note = "Mapsize is now [" + help.String(ed.mapwidth) + "," + help.String(ed.mapheight) + "]";
+                        ed.note = "Mapsize is now [" + Utility::toString(ed.mapwidth) + "," + Utility::toString(ed.mapheight) + "]";
                         ed.notedelay=45;
                     }
                 }

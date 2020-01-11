@@ -5,7 +5,7 @@
 #endif
 #include "SoundSystem.h"
 
-#include "UtilityClass.h"
+#include "Utility.h"
 #include "Game.h"
 #include "Graphics.h"
 #include "KeyPoll.h"
@@ -101,7 +101,6 @@ int main(int argc, char * argv[])
 	printf("\t\t\n");
 	printf("\t\t\n");
 
-    UtilityClass help;
     Graphics graphics;
     MusicClass music;
     Game game;
@@ -305,9 +304,9 @@ int main(int argc, char * argv[])
                     game.setGlobalSoundVol(0);
                 }
                 FillRect(graphics.backBuffer, 0x00000000);
-                graphics.bprint(5, 110, "Game paused", 196 - help.glow, 255 - help.glow, 196 - help.glow, true);
-                graphics.bprint(5, 120, "[click to resume]", 196 - help.glow, 255 - help.glow, 196 - help.glow, true);
-                graphics.bprint(5, 230, "Press M to mute in game", 164 - help.glow, 196 - help.glow, 164 - help.glow, true);
+                graphics.bprint(5, 110, "Game paused", 196 - Utility::glow, 255 - Utility::glow, 196 - Utility::glow, true);
+                graphics.bprint(5, 120, "[click to resume]", 196 - Utility::glow, 255 - Utility::glow, 196 - Utility::glow, true);
+                graphics.bprint(5, 230, "Press M to mute in game", 164 - Utility::glow, 196 - Utility::glow, 164 - Utility::glow, true);
                 graphics.render();
                 //We are minimised, so lets put a bit of a delay to save CPU
                 SDL_Delay(100);
@@ -320,104 +319,104 @@ int main(int argc, char * argv[])
         {
             case PRELOADER:
                 //Render
-                preloaderrender(graphics, game, help);
+                preloaderrender(graphics, game);
                 break;
 
             case EDITORMODE:
                 graphics.flipmode = false;
                 //Input
-                editorinput(key, graphics, game, map, obj, help, music);
+                editorinput(key, graphics, game, map, obj, music);
                 //Render
-                editorrender(key, graphics, game, map, obj, help);
+                editorrender(key, graphics, game, map, obj);
                 //Logic
-                editorlogic(key, graphics, game, obj, music, map, help);
+                editorlogic(key, graphics, game, obj, music, map);
                 break;
 
             case TITLEMODE:
                 //Input
-                titleinput(key, graphics, map, game, obj, help, music);
+                titleinput(key, graphics, map, game, obj, music);
                 //Render
-                titlerender(graphics, map, game, obj, help, music);
+                titlerender(graphics, map, game, obj, music);
                 //Logic
-                titlelogic(graphics, game, obj, help, music, map);
+                titlelogic(graphics, game, obj, music, map);
                 break;
 
             case GAMEMODE:
                 if (map.towermode)
                 {
                     //Input
-                    gameinput(key, graphics, game, map, obj, help, music);
+                    gameinput(key, graphics, game, map, obj, music);
                     //Render
-                    towerrender(graphics, game, map, obj, help);
+                    towerrender(graphics, game, map, obj);
                     //Logic
-                    towerlogic(graphics, game, obj, music, map, help);
+                    towerlogic(graphics, game, obj, music, map);
                 }
                 else
                 {
                     if (script.running)
                     {
-                        script.run(key, graphics, game, map, obj, help, music);
+                        script.run(key, graphics, game, map, obj, music);
                     }
 
                     //Input
-                    gameinput(key, graphics, game, map, obj, help, music);
+                    gameinput(key, graphics, game, map, obj, music);
                     //Render
-                    gamerender(graphics,map, game, obj, help);
+                    gamerender(graphics,map, game, obj);
                     //Logic
-                    gamelogic(graphics, game, obj, music, map,  help);
+                    gamelogic(graphics, game, obj, music, map);
                 }
                 break;
 
             case MAPMODE:
                 //Input
-                mapinput(key, graphics, game, map, obj, help, music);
+                mapinput(key, graphics, game, map, obj, music);
                 //Render
-                maprender(graphics, game, map, obj, help);
+                maprender(graphics, game, map, obj);
                 //Logic
-                maplogic(graphics, game, obj ,music , map, help );
+                maplogic(graphics, game, obj, music, map);
                 break;
 
             case TELEPORTERMODE:
                 //Input
                 if(game.useteleporter)
                 {
-                    teleporterinput(key, graphics, game, map, obj, help, music);
+                    teleporterinput(key, graphics, game, map, obj, music);
                 }
                 else
                 {
                     if (script.running)
                     {
-                        script.run(key, graphics, game, map, obj, help, music);
+                        script.run(key, graphics, game, map, obj, music);
                     }
 
-                    gameinput(key, graphics, game, map, obj, help, music);
+                    gameinput(key, graphics, game, map, obj, music);
                 }
                 //Render
-                teleporterrender(graphics, game, map, obj, help);
+                teleporterrender(graphics, game, map, obj);
                 //Logic
-                maplogic(graphics, game, obj, music, map, help);
+                maplogic(graphics, game, obj, music, map);
                 break;
 
             case GAMECOMPLETE:
                 //Input
-                gamecompleteinput(key, graphics, game, map, obj, help, music);
+                gamecompleteinput(key, graphics, game, map, obj, music);
                 //Render
-                gamecompleterender(graphics, game, obj, help, map);
+                gamecompleterender(graphics, game, obj, map);
                 //Logic
-                gamecompletelogic(graphics, game, obj, music, map, help);
+                gamecompletelogic(graphics, game, obj, music, map);
                 break;
 
             case GAMECOMPLETE2:
                 //Input
-                gamecompleteinput2(key, graphics, game, map, obj, help, music);
+                gamecompleteinput2(key, graphics, game, map, obj, music);
                 //Render
-                gamecompleterender2(graphics, game, obj, help);
+                gamecompleterender2(graphics, game, obj);
                 //Logic
-                gamecompletelogic2(graphics, game, obj, music, map, help);
+                gamecompletelogic2(graphics, game, obj, music, map);
                 break;
 
             case CLICKTOSTART:
-                help.updateglow();
+                Utility::updateGlow();
                 break;
 
             default:

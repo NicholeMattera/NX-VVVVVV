@@ -23,7 +23,6 @@ class MapClass;
 class MusicClass;
 class Graphics;
 class Game;
-class UtilityClass;
 
 class EntityClass
 {
@@ -67,7 +66,7 @@ public:
 
     void gravcreate(Game& game, int ypos, int dir, int xoff = 0, int yoff = 0);
 
-    void generateswnwave(Game& game, UtilityClass& help, int t);
+    void generateswnwave(Game& game, int t);
 
     void createblock(int t, int xp, int yp, int w, int h, int trig = 0);
 
@@ -96,9 +95,9 @@ public:
     void createentity(Game& game, float xp, float yp, int t, float vx = 0, float vy = 0,
                       int p1 = 0, int p2 = 0, int p3 = 320, int p4 = 240 );
 
-    bool updateentities(int i, UtilityClass& help, Game& game, MusicClass& music);
+    bool updateentities(int i, Game& game, MusicClass& music);
 
-    void animateentities(int i, Game& game, UtilityClass& help);
+    void animateentities(int i, Game& game);
 
     bool gettype(int t);
 

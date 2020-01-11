@@ -1,5 +1,7 @@
 #include "FinalClass.h"
 
+#include "Utility.h"
+
 std::vector<std::string> FinalClass::loadlevel(int rx, int ry, Game& game, EntityClass& obj)
 {
 	int t;
@@ -11,7 +13,7 @@ std::vector<std::string> FinalClass::loadlevel(int rx, int ry, Game& game, Entit
 	warpx = false;
 	warpy = false;
 
-	roomname = "Untitled room ["+UtilityClass::String(rx) + "," + UtilityClass::String(ry)+"]";
+	roomname = "Untitled room ["+Utility::toString(rx) + "," + Utility::toString(ry)+"]";
 
 	switch(t)
 	{

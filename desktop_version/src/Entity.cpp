@@ -1,7 +1,7 @@
 #include "Entity.h"
 #include "Game.h"
 #include "Map.h"
-#include "UtilityClass.h"
+#include "Utility.h"
 
 bool EntityClass::checktowerspikes(int t, MapClass& map)
 {
@@ -242,7 +242,7 @@ void EntityClass::gravcreate( Game& game, int ypos, int dir, int xoff /*= 0*/, i
     }
 }
 
-void EntityClass::generateswnwave( Game& game, UtilityClass& help, int t )
+void EntityClass::generateswnwave( Game& game, int t )
 {
     //generate a wave for the SWN game
     if(game.swndelay<=0)
@@ -2780,7 +2780,7 @@ void EntityClass::createentity( Game& game, float xp, float yp, int t, float vx 
     }
 }
 
-bool EntityClass::updateentities( int i, UtilityClass& help, Game& game, MusicClass& music )
+bool EntityClass::updateentities( int i, Game& game, MusicClass& music )
 {
     if(entities[i].active)
     {
@@ -2801,7 +2801,7 @@ bool EntityClass::updateentities( int i, UtilityClass& help, Game& game, MusicCl
                     if (entities[i].state == 0)   //Init
                     {
                         entities[i].state = 3;
-                        updateentities(i, help, game, music);
+                        updateentities(i, game, music);
                     }
                     else if (entities[i].state == 1)
                     {
@@ -2824,7 +2824,7 @@ bool EntityClass::updateentities( int i, UtilityClass& help, Game& game, MusicCl
                     if (entities[i].state == 0)   //Init
                     {
                         entities[i].state = 2;
-                        updateentities(i, help, game, music);
+                        updateentities(i, game, music);
                     }
                     else if (entities[i].state == 1)
                     {
@@ -2847,7 +2847,7 @@ bool EntityClass::updateentities( int i, UtilityClass& help, Game& game, MusicCl
                     if (entities[i].state == 0)   //Init
                     {
                         entities[i].state = 3;
-                        updateentities(i, help, game, music);
+                        updateentities(i, game, music);
                     }
                     else if (entities[i].state == 1)
                     {
@@ -2870,7 +2870,7 @@ bool EntityClass::updateentities( int i, UtilityClass& help, Game& game, MusicCl
                     if (entities[i].state == 0)   //Init
                     {
                         entities[i].state = 3;
-                        updateentities(i, help, game, music);
+                        updateentities(i, game, music);
                     }
                     else if (entities[i].state == 1)
                     {
@@ -3010,7 +3010,7 @@ bool EntityClass::updateentities( int i, UtilityClass& help, Game& game, MusicCl
                             if (entities[j].type == 2 && entities[j].state== 3 && entities[j].xp == (entities[i].xp-32) )
                             {
                                 entities[i].state = 3;
-                                updateentities(i, help, game, music);
+                                updateentities(i, game, music);
                             }
                         }
                     }
@@ -3039,7 +3039,7 @@ bool EntityClass::updateentities( int i, UtilityClass& help, Game& game, MusicCl
                             if (entities[j].type == 2 && entities[j].state==3 && entities[j].xp==entities[i].xp+32)
                             {
                                 entities[i].state = 3;
-                                updateentities(i, help, game, music);
+                                updateentities(i, game, music);
                             }
                         }
                     }
@@ -3080,14 +3080,14 @@ bool EntityClass::updateentities( int i, UtilityClass& help, Game& game, MusicCl
                             //approach from the left
                             entities[i].xp = -64;
                             entities[i].state = 2;
-                            updateentities(i, help, game, music); //right
+                            updateentities(i, game, music); //right
                         }
                         else
                         {
                             //approach from the left
                             entities[i].xp = 320;
                             entities[i].state = 3;
-                            updateentities(i, help, game, music); //left
+                            updateentities(i, game, music); //left
                         }
 
                     }
@@ -3947,7 +3947,7 @@ bool EntityClass::updateentities( int i, UtilityClass& help, Game& game, MusicCl
     return true;
 }
 
-void EntityClass::animateentities( int _i, Game& game, UtilityClass& help )
+void EntityClass::animateentities( int _i, Game& game )
 {
     if(entities[_i].active)
     {
@@ -4476,7 +4476,7 @@ bool EntityClass::entitycollide( int a, int b )
     temph = entities[b].h;
     rect2set(tempx, tempy, tempw, temph);
 
-    if (UtilityClass::intersects(temprect, temprect2)) return true;
+    if (Utility::intersects(temprect, temprect2)) return true;
     return false;
 }
 
@@ -4497,7 +4497,7 @@ bool EntityClass::checkdirectional( int t )
             {
                 if (blocks[j].type == DIRECTIONAL && blocks[j].active)
                 {
-                    if(UtilityClass::intersects(blocks[j].rect,temprect))
+                    if(Utility::intersects(blocks[j].rect,temprect))
                     {
                         return true;
                     }
@@ -4525,7 +4525,7 @@ bool EntityClass::checkdamage()
             {
                 if (blocks[j].type == DAMAGE && blocks[j].active)
                 {
-                    if(UtilityClass::intersects(blocks[j].rect, temprect))
+                    if(Utility::intersects(blocks[j].rect, temprect))
                     {
                         return true;
                     }
@@ -4553,7 +4553,7 @@ bool EntityClass::scmcheckdamage()
             {
                 if (blocks[j].type == DAMAGE && blocks[j].active)
                 {
-                    if(UtilityClass::intersects(blocks[j].rect, temprect))
+                    if(Utility::intersects(blocks[j].rect, temprect))
                     {
                         return true;
                     }
@@ -4591,7 +4591,7 @@ int EntityClass::checktrigger()
             {
                 if (blocks[j].type == TRIGGER && blocks[j].active)
                 {
-                    if (UtilityClass::intersects(blocks[j].rect, temprect))
+                    if (Utility::intersects(blocks[j].rect, temprect))
                     {
                         activetrigger = blocks[j].trigger;
                         return blocks[j].trigger;
@@ -4620,7 +4620,7 @@ int EntityClass::checkactivity()
             {
                 if (blocks[j].type == ACTIVITY && blocks[j].active)
                 {
-                    if (UtilityClass::intersects(blocks[j].rect, temprect))
+                    if (Utility::intersects(blocks[j].rect, temprect))
                     {
                         return j;
                     }
@@ -4657,7 +4657,7 @@ bool EntityClass::checkplatform()
         {
             if (blocks[i].type == BLOCK)
             {
-                if (UtilityClass::intersects(blocks[i].rect, temprect))
+                if (Utility::intersects(blocks[i].rect, temprect))
                 {
                     px = blocks[i].xp;
                     py = blocks[i].yp;
@@ -4679,15 +4679,15 @@ bool EntityClass::checkblocks()
             {
                 if (blocks[i].type == DIRECTIONAL)
                 {
-                    if (dy > 0 && blocks[i].trigger == 0) if (UtilityClass::intersects(blocks[i].rect, temprect)) return true;
-                    if (dy <= 0 && blocks[i].trigger == 1) if (UtilityClass::intersects(blocks[i].rect, temprect)) return true;
-                    if (dx > 0 && blocks[i].trigger == 2) if (UtilityClass::intersects(blocks[i].rect, temprect)) return true;
-                    if (dx <= 0 && blocks[i].trigger == 3) if (UtilityClass::intersects(blocks[i].rect, temprect)) return true;
+                    if (dy > 0 && blocks[i].trigger == 0) if (Utility::intersects(blocks[i].rect, temprect)) return true;
+                    if (dy <= 0 && blocks[i].trigger == 1) if (Utility::intersects(blocks[i].rect, temprect)) return true;
+                    if (dx > 0 && blocks[i].trigger == 2) if (Utility::intersects(blocks[i].rect, temprect)) return true;
+                    if (dx <= 0 && blocks[i].trigger == 3) if (Utility::intersects(blocks[i].rect, temprect)) return true;
                 }
             }
             if (blocks[i].type == BLOCK)
             {
-                if (UtilityClass::intersects(blocks[i].rect, temprect))
+                if (Utility::intersects(blocks[i].rect, temprect))
                 {
                     return true;
                 }
@@ -4696,7 +4696,7 @@ bool EntityClass::checkblocks()
             {
                 if( (dr)==1)
                 {
-                    if (UtilityClass::intersects(blocks[i].rect, temprect))
+                    if (Utility::intersects(blocks[i].rect, temprect))
                     {
                         return true;
                     }

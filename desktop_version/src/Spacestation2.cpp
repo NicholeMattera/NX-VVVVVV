@@ -1,6 +1,7 @@
 #include "Spacestation2.h"
 
 #include "MakeAndPlay.h"
+#include "Utility.h"
 
 std::vector<std::string> spacestation2class::loadlevel(int rx, int ry, Game& game, EntityClass& obj)
 {
@@ -14,7 +15,7 @@ std::vector<std::string> spacestation2class::loadlevel(int rx, int ry, Game& gam
 	t = rx + (ry * 100);
 
 	std::vector<std::string> tmap;
-	roomname = "Untitled room ["+UtilityClass::String(rx) + "," + UtilityClass::String(ry)+"]";
+	roomname = "Untitled room ["+Utility::toString(rx) + "," + Utility::toString(ry)+"]";
 
 	switch(t)
 	{

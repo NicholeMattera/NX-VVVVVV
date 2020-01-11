@@ -8,7 +8,6 @@
     #include <SDL.h>
 #endif
 #include "Maths.h"
-#include "UtilityClass.h"
 #include "GraphicsUtil.h"
 
 
@@ -45,15 +44,15 @@ public:
 
     void gameclock();
 
-    std::string giventimestring(int hrs, int min, int sec, UtilityClass& help );
+    std::string giventimestring(int hrs, int min, int sec );
 
-    std::string  timestring(UtilityClass& help);
+    std::string  timestring();
 
-    std::string partimestring(UtilityClass& help);
+    std::string partimestring();
 
-    std::string resulttimestring(UtilityClass& help);
+    std::string resulttimestring();
 
-    std::string timetstring(int t, UtilityClass& help);
+    std::string timetstring(int t);
 
     void  createmenu(std::string t);
 
@@ -61,7 +60,7 @@ public:
 
     void gethardestroom(MapClass& map);
 
-    void updatestate(Graphics& dwgfx, MapClass& map, EntityClass& obj, UtilityClass& help, MusicClass& music);
+    void updatestate(Graphics& dwgfx, MapClass& map, EntityClass& obj, MusicClass& music);
 
     void unlocknum(int t, MapClass& map, Graphics& dwgfx);
 
@@ -112,7 +111,7 @@ public:
     void customloadquick(std::string savfile, MapClass& map, EntityClass& obj, MusicClass& music);
     void loadquick(MapClass& map, EntityClass& obj, MusicClass& music);
 
-    void loadsummary(MapClass& map, UtilityClass& help);
+    void loadsummary(MapClass& map);
 
     void initteleportermode(MapClass& map);
 

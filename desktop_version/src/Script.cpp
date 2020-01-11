@@ -5,6 +5,7 @@
 #include "Music.h"
 #include "KeyPoll.h"
 #include "Map.h"
+#include "Utility.h"
 
 ScriptClass::ScriptClass()
 {
@@ -73,7 +74,7 @@ void ScriptClass::tokenize( std::string t )
 	}
 }
 
-void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj, UtilityClass& help, MusicClass& music )
+void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj, MusicClass& music )
 {
 	while(running && scriptdelay<=0 && !game.pausescript)
 	{
@@ -93,16 +94,16 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			{
 				//USAGE: moveplayer(x offset, y offset)
 				int player = obj.getplayer();
-				obj.entities[player].xp += ss_toi(words[1]);
-				obj.entities[player].yp += ss_toi(words[2]);
+				obj.entities[player].xp += Utility::toInt(words[1]);
+				obj.entities[player].yp += Utility::toInt(words[2]);
 				scriptdelay = 1;
 			}
 			if (words[0] == "warpdir")
 			{
-        int temprx=ss_toi(words[1])-1;
-        int tempry=ss_toi(words[2])-1;
+        int temprx=Utility::toInt(words[1])-1;
+        int tempry=Utility::toInt(words[2])-1;
         int curlevel=temprx+(ed.maxwidth*(tempry));
-			  ed.level[curlevel].warpdir=ss_toi(words[3]);
+			  ed.level[curlevel].warpdir=Utility::toInt(words[3]);
 			  //If screen warping, then override all that:
         dwgfx.backgrounddrawn = false;
 
@@ -128,7 +129,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			if (words[0] == "ifwarp")
 			{
-				if (ed.level[ss_toi(words[1])-1+(ed.maxwidth*(ss_toi(words[2])-1))].warpdir == ss_toi(words[3]))
+				if (ed.level[Utility::toInt(words[1])-1+(ed.maxwidth*(Utility::toInt(words[2])-1))].warpdir == Utility::toInt(words[3]))
 				{
 					load("custom_"+words[4]);
 					position--;
@@ -153,7 +154,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			if (words[0] == "customiftrinkets")
 			{
-				if (game.trinkets >= ss_toi(words[1]))
+				if (game.trinkets >= Utility::toInt(words[1]))
 				{
 					load("custom_"+words[2]);
 					position--;
@@ -161,7 +162,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			if (words[0] == "customiftrinketsless")
 			{
-				if (game.trinkets < ss_toi(words[1]))
+				if (game.trinkets < Utility::toInt(words[1]))
 				{
 					load("custom_"+words[2]);
 					position--;
@@ -169,7 +170,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
       else if (words[0] == "customifflag")
 			{
-				if (obj.flags[ss_toi(words[1])]==1)
+				if (obj.flags[Utility::toInt(words[1])]==1)
 				{
 					load("custom_"+words[2]);
 					position--;
@@ -186,27 +187,27 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			if (words[0] == "delay")
 			{
 				//USAGE: delay(frames)
-				scriptdelay = ss_toi(words[1]);
+				scriptdelay = Utility::toInt(words[1]);
 			}
       if (words[0] == "flag")
 			{
-				if(ss_toi(words[1])>=0 && ss_toi(words[1])<100){
+				if(Utility::toInt(words[1])>=0 && Utility::toInt(words[1])<100){
 					if(words[2]=="on"){
-						obj.changeflag(ss_toi(words[1]),1);
+						obj.changeflag(Utility::toInt(words[1]),1);
 					}else if(words[2]=="off"){
-						obj.changeflag(ss_toi(words[1]),0);
+						obj.changeflag(Utility::toInt(words[1]),0);
 					}
 				}
 			}
 			if (words[0] == "flash")
 			{
 				//USAGE: flash(frames)
-				game.flashlight = ss_toi(words[1]);
+				game.flashlight = Utility::toInt(words[1]);
 			}
 			if (words[0] == "shake")
 			{
 				//USAGE: shake(frames)
-				game.screenshake = ss_toi(words[1]);
+				game.screenshake = Utility::toInt(words[1]);
 			}
 			if (words[0] == "walk")
 			{
@@ -219,7 +220,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 				{
 					game.press_right = true;
 				}
-				scriptdelay = ss_toi(words[2]);
+				scriptdelay = Utility::toInt(words[2]);
 			}
 			if (words[0] == "flip")
 			{
@@ -236,11 +237,11 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			if (words[0] == "playef")
 			{
-				music.playef(ss_toi(words[1]), ss_toi(words[2]));
+				music.playef(Utility::toInt(words[1]), Utility::toInt(words[2]));
 			}
 			if (words[0] == "play")
 			{
-				music.play(ss_toi(words[1]));
+				music.play(Utility::toInt(words[1]));
 			}
 			if (words[0] == "stopmusic")
 			{
@@ -267,15 +268,15 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			{
 				//USAGE: gotoposition(x position, y position, gravity position)
 				int player = obj.getplayer();
-				obj.entities[player].xp = ss_toi(words[1]);
-				obj.entities[player].yp = ss_toi(words[2]);
-				game.gravitycontrol = ss_toi(words[3]);
+				obj.entities[player].xp = Utility::toInt(words[1]);
+				obj.entities[player].yp = Utility::toInt(words[2]);
+				game.gravitycontrol = Utility::toInt(words[3]);
 
 			}
 			if (words[0] == "gotoroom")
 			{
 				//USAGE: gotoroom(x,y) (manually add 100)
-				map.gotoroom(ss_toi(words[1])+100, ss_toi(words[2])+100, dwgfx, game, obj, music);
+				map.gotoroom(Utility::toInt(words[1])+100, Utility::toInt(words[2])+100, dwgfx, game, obj, music);
 			}
 			if (words[0] == "cutscene")
 			{
@@ -365,11 +366,11 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 				}
 
 				//next are the x,y coordinates
-				textx = ss_toi(words[2]);
-				texty = ss_toi(words[3]);
+				textx = Utility::toInt(words[2]);
+				texty = Utility::toInt(words[3]);
 
 				//Number of lines for the textbox!
-				txtnumlines = ss_toi(words[4]);
+				txtnumlines = Utility::toInt(words[4]);
 				for (int i = 0; i < txtnumlines; i++)
 				{
 					position++;
@@ -676,7 +677,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			{
 				//right, loop from this point
 				looppoint = position;
-				loopcount = ss_toi(words[1]);
+				loopcount = Utility::toInt(words[1]);
 			}
 			else if (words[0] == "loop")
 			{
@@ -712,7 +713,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "createentity")
 			{
-				obj.createentity(game, ss_toi(words[1]), ss_toi(words[2]), ss_toi(words[3]), ss_toi(words[4]), ss_toi(words[5]));
+				obj.createentity(game, Utility::toInt(words[1]), Utility::toInt(words[2]), Utility::toInt(words[3]), Utility::toInt(words[4]), Utility::toInt(words[5]));
 			}
 			else if (words[0] == "createcrewman")
 			{
@@ -779,13 +780,13 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 					words[6] = "0";
 				}
 
-				if (ss_toi(words[5]) >= 16)
+				if (Utility::toInt(words[5]) >= 16)
 				{
-					obj.createentity(game, ss_toi(words[1]), ss_toi(words[2]), 18, r, ss_toi(words[4]), ss_toi(words[5]), ss_toi(words[6]));
+					obj.createentity(game, Utility::toInt(words[1]), Utility::toInt(words[2]), 18, r, Utility::toInt(words[4]), Utility::toInt(words[5]), Utility::toInt(words[6]));
 				}
 				else
 				{
-					obj.createentity(game, ss_toi(words[1]), ss_toi(words[2]), 18, r, ss_toi(words[4]), ss_toi(words[5]));
+					obj.createentity(game, Utility::toInt(words[1]), Utility::toInt(words[2]), 18, r, Utility::toInt(words[4]), Utility::toInt(words[5]));
 				}
 			}
 			else if (words[0] == "changemood")
@@ -827,7 +828,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 					i=obj.getcrewman(1);
 				}
 
-				if (ss_toi(words[2]) == 0)
+				if (Utility::toInt(words[2]) == 0)
 				{
 					obj.entities[i].tile = 0;
 				}
@@ -841,50 +842,50 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 				if (words[1] == "player")
 				{
 					i=obj.getcustomcrewman(0);
-					obj.customcrewmoods[0]=ss_toi(words[2]);
+					obj.customcrewmoods[0]=Utility::toInt(words[2]);
 				}
 				else if (words[1] == "cyan")
 				{
 					i=obj.getcustomcrewman(0);
-					obj.customcrewmoods[0]=ss_toi(words[2]);
+					obj.customcrewmoods[0]=Utility::toInt(words[2]);
 				}
 				else if (words[1] == "customcyan")
 				{
 					i=obj.getcustomcrewman(0);
-					obj.customcrewmoods[0]=ss_toi(words[2]);
+					obj.customcrewmoods[0]=Utility::toInt(words[2]);
 				}
 				else if (words[1] == "red")
 				{
 					i=obj.getcustomcrewman(3);
-					obj.customcrewmoods[3]=ss_toi(words[2]);
+					obj.customcrewmoods[3]=Utility::toInt(words[2]);
 				}
 				else if (words[1] == "green")
 				{
 					i=obj.getcustomcrewman(4);
-					obj.customcrewmoods[4]=ss_toi(words[2]);
+					obj.customcrewmoods[4]=Utility::toInt(words[2]);
 				}
 				else if (words[1] == "yellow")
 				{
 					i=obj.getcustomcrewman(2);
-					obj.customcrewmoods[2]=ss_toi(words[2]);
+					obj.customcrewmoods[2]=Utility::toInt(words[2]);
 				}
 				else if (words[1] == "blue")
 				{
 					i=obj.getcustomcrewman(5);
-					obj.customcrewmoods[5]=ss_toi(words[2]);
+					obj.customcrewmoods[5]=Utility::toInt(words[2]);
 				}
 				else if (words[1] == "purple")
 				{
 					i=obj.getcustomcrewman(1);
-					obj.customcrewmoods[1]=ss_toi(words[2]);
+					obj.customcrewmoods[1]=Utility::toInt(words[2]);
 				}
 				else if (words[1] == "pink")
 				{
 					i=obj.getcustomcrewman(1);
-					obj.customcrewmoods[1]=ss_toi(words[2]);
+					obj.customcrewmoods[1]=Utility::toInt(words[2]);
 				}
 
-				if (ss_toi(words[2]) == 0)
+				if (Utility::toInt(words[2]) == 0)
 				{
 					obj.entities[i].tile = 0;
 				}
@@ -924,7 +925,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 					i=obj.getcrewman(1);
 				}
 
-				obj.entities[i].tile = ss_toi(words[2]);
+				obj.entities[i].tile = Utility::toInt(words[2]);
 			}
 			else if (words[0] == "flipgravity")
 			{
@@ -1026,7 +1027,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 					i=obj.getcrewman(1);
 				}
 
-				if (ss_toi(words[2]) == 0)
+				if (Utility::toInt(words[2]) == 0)
 				{
 					obj.entities[i].dir = 0;
 				}
@@ -1095,14 +1096,14 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 				}
 
 
-				obj.entities[i].state = ss_toi(words[2]);
+				obj.entities[i].state = Utility::toInt(words[2]);
 				if (obj.entities[i].state == 16)
 				{
-					obj.entities[i].para=ss_toi(words[3]);
+					obj.entities[i].para=Utility::toInt(words[3]);
 				}
 				else if (obj.entities[i].state == 17)
 				{
-					obj.entities[i].dir=ss_toi(words[3]);
+					obj.entities[i].dir=Utility::toInt(words[3]);
 				}
 			}
 			else if (words[0] == "alarmon")
@@ -1240,7 +1241,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "gamestate")
 			{
-				game.state = ss_toi(words[1]);
+				game.state = Utility::toInt(words[1]);
 				game.statedelay = 0;
 			}
 			else if (words[0] == "textboxactive")
@@ -1268,7 +1269,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "ifexplored")
 			{
-				if (map.explored[ss_toi(words[1]) + (20 * ss_toi(words[2]))] == 1)
+				if (map.explored[Utility::toInt(words[1]) + (20 * Utility::toInt(words[2]))] == 1)
 				{
 					load(words[3]);
 					position--;
@@ -1276,7 +1277,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "iflast")
 			{
-				if (game.lastsaved==ss_toi(words[1]))
+				if (game.lastsaved==Utility::toInt(words[1]))
 				{
 					load(words[2]);
 					position--;
@@ -1292,7 +1293,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "ifflag")
 			{
-				if (obj.flags[ss_toi(words[1])]==1)
+				if (obj.flags[Utility::toInt(words[1])]==1)
 				{
 					load(words[2]);
 					position--;
@@ -1300,7 +1301,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "ifcrewlost")
 			{
-				if (game.crewstats[ss_toi(words[1])]==false)
+				if (game.crewstats[Utility::toInt(words[1])]==false)
 				{
 					load(words[2]);
 					position--;
@@ -1308,7 +1309,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "iftrinkets")
 			{
-				if (game.trinkets >= ss_toi(words[1]))
+				if (game.trinkets >= Utility::toInt(words[1]))
 				{
 					load(words[2]);
 					position--;
@@ -1316,7 +1317,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "iftrinketsless")
 			{
-				if (game.stat_trinkets < ss_toi(words[1]))
+				if (game.stat_trinkets < Utility::toInt(words[1]))
 				{
 					load(words[2]);
 					position--;
@@ -1324,11 +1325,11 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "hidecoordinates")
 			{
-				map.explored[ss_toi(words[1]) + (20 * ss_toi(words[2]))] = 0;
+				map.explored[Utility::toInt(words[1]) + (20 * Utility::toInt(words[2]))] = 0;
 			}
 			else if (words[0] == "showcoordinates")
 			{
-				map.explored[ss_toi(words[1]) + (20 * ss_toi(words[2]))] = 1;
+				map.explored[Utility::toInt(words[1]) + (20 * Utility::toInt(words[2]))] = 1;
 			}
 			else if (words[0] == "hideship")
 			{
@@ -1410,7 +1411,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "companion")
 			{
-				game.companion = ss_toi(words[1]);
+				game.companion = Utility::toInt(words[1]);
 			}
 			else if (words[0] == "befadein")
 			{
@@ -1498,8 +1499,8 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			else if (words[0] == "finalmode")
 			{
 				map.finalmode = true;
-				map.finalx = ss_toi(words[1]);
-				map.finaly = ss_toi(words[2]);
+				map.finalx = Utility::toInt(words[1]);
+				map.finaly = Utility::toInt(words[2]);
 				game.roomx = map.finalx;
 				game.roomy = map.finaly;
 				map.gotoroom(game.roomx, game.roomy, dwgfx, game, obj, music);
@@ -1644,7 +1645,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 						obj.entities[j].colour = 4;
 					}
 				}
-				if (ss_toi(words[1]) == 1)
+				if (Utility::toInt(words[1]) == 1)
 				{
 					obj.createblock(5, 88 - 4, 80, 20, 16, 25);
 					for (j = 0; j < obj.nentity; j++)
@@ -1655,7 +1656,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 						}
 					}
 				}
-				else if (ss_toi(words[1]) == 2)
+				else if (Utility::toInt(words[1]) == 2)
 				{
 					obj.createblock(5, 128 - 4, 80, 20, 16, 26);
 					for (j = 0; j < obj.nentity; j++)
@@ -1666,7 +1667,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 						}
 					}
 				}
-				else if (ss_toi(words[1]) == 3)
+				else if (Utility::toInt(words[1]) == 3)
 				{
 					obj.createblock(5, 176 - 4, 80, 20, 16, 27);
 					for (j = 0; j < obj.nentity; j++)
@@ -1677,7 +1678,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 						}
 					}
 				}
-				else if (ss_toi(words[1]) == 4)
+				else if (Utility::toInt(words[1]) == 4)
 				{
 					obj.createblock(5, 216 - 4, 80, 20, 16, 28);
 					for (j = 0; j < obj.nentity; j++)
@@ -1688,7 +1689,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 						}
 					}
 				}
-				else if (ss_toi(words[1]) == 5)
+				else if (Utility::toInt(words[1]) == 5)
 				{
 					obj.createblock(5, 88 - 4, 128, 20, 16, 29);
 					for (j = 0; j < obj.nentity; j++)
@@ -1699,7 +1700,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 						}
 					}
 				}
-				else if (ss_toi(words[1]) == 6)
+				else if (Utility::toInt(words[1]) == 6)
 				{
 					obj.createblock(5, 176 - 4, 128, 20, 16, 30);
 					for (j = 0; j < obj.nentity; j++)
@@ -1710,7 +1711,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 						}
 					}
 				}
-				else if (ss_toi(words[1]) == 7)
+				else if (Utility::toInt(words[1]) == 7)
 				{
 					obj.createblock(5, 40 - 4, 40, 20, 16, 31);
 					for (j = 0; j < obj.nentity; j++)
@@ -1721,7 +1722,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 						}
 					}
 				}
-				else if (ss_toi(words[1]) == 8)
+				else if (Utility::toInt(words[1]) == 8)
 				{
 					obj.createblock(5, 216 - 4, 128, 20, 16, 32);
 					for (j = 0; j < obj.nentity; j++)
@@ -1732,7 +1733,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 						}
 					}
 				}
-				else if (ss_toi(words[1]) == 9)
+				else if (Utility::toInt(words[1]) == 9)
 				{
 					obj.createblock(5, 128 - 4, 128, 20, 16, 33);
 					for (j = 0; j < obj.nentity; j++)
@@ -1743,7 +1744,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 						}
 					}
 				}
-				else if (ss_toi(words[1]) == 10)
+				else if (Utility::toInt(words[1]) == 10)
 				{
 					obj.createblock(5, 264 - 4, 40, 20, 16, 34);
 					for (j = 0; j < obj.nentity; j++)
@@ -1853,7 +1854,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "altstates")
 			{
-				obj.altstates = ss_toi(words[1]);
+				obj.altstates = Utility::toInt(words[1]);
 			}
 			else if (words[0] == "activeteleporter")
 			{
@@ -1867,7 +1868,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 				music.playef(3,10);
 
 				game.trinkets++;
-				obj.collect[ss_toi(words[1])] = 1;
+				obj.collect[Utility::toInt(words[1])] = 1;
 
 				dwgfx.textboxremovefast();
 
@@ -1876,7 +1877,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 				dwgfx.addline("You have found a shiny trinket!");
 				dwgfx.textboxcenterx();
 
-				dwgfx.createtextbox(" " + help.number(game.trinkets) + " out of Twenty ", 50, 135, 174, 174, 174);
+				dwgfx.createtextbox(" " + Utility::toWord(game.trinkets) + " out of Twenty ", 50, 135, 174, 174, 174);
 				dwgfx.textboxcenterx();
 
 				if (!game.backgroundtext)
@@ -1993,7 +1994,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			}
 			else if (words[0] == "specialline")
 			{
-				switch(ss_toi(words[1]))
+				switch(Utility::toInt(words[1]))
 				{
 				case 1:
 					txtnumlines = 1;
@@ -2507,7 +2508,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 	}
 }
 
-void ScriptClass::resetgametomenu( Graphics& dwgfx, Game& game,MapClass& map, EntityClass& obj, UtilityClass& help, MusicClass& music )
+void ScriptClass::resetgametomenu( Graphics& dwgfx, Game& game,MapClass& map, EntityClass& obj, MusicClass& music )
 {
 	game.gamestate = TITLEMODE;
 	dwgfx.flipmode = false;
@@ -2516,13 +2517,13 @@ void ScriptClass::resetgametomenu( Graphics& dwgfx, Game& game,MapClass& map, En
 	game.createmenu("gameover");
 }
 
-void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj, UtilityClass& help, MusicClass& music )
+void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj, MusicClass& music )
 {
 	switch(t)
 	{
 	case 0:  //Normal new game
 		game.gamestate = GAMEMODE;
-		hardreset(key, dwgfx, game, map, obj, help, music);
+		hardreset(key, dwgfx, game, map, obj, music);
 		game.start(obj, music);
 		game.jumpheld = true;
 		dwgfx.showcutscenebars = true;
@@ -2545,7 +2546,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 		break;
 	case 1:
 		game.gamestate = GAMEMODE;
-		hardreset(key, dwgfx, game, map, obj, help, music);
+		hardreset(key, dwgfx, game, map, obj, music);
 		game.start(obj, music);
 		game.loadtele(map, obj, music);
 		game.gravitycontrol = game.savegc;
@@ -2567,7 +2568,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 		break;
 	case 2: //Load Quicksave
 		game.gamestate = GAMEMODE;
-		hardreset(key, dwgfx, game, map, obj, help, music);
+		hardreset(key, dwgfx, game, map, obj, music);
 		game.start(obj, music);
 		game.loadquick(map, obj, music);
 		game.gravitycontrol = game.savegc;
@@ -2600,7 +2601,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 		break;
 	case 3:
 		//Start Time Trial 1
-		hardreset(key, dwgfx, game, map, obj, help, music);
+		hardreset(key, dwgfx, game, map, obj, music);
 		game.nocutscenes = true;
 		game.intimetrial = true;
 		game.timetrialcountdown = 150;
@@ -2628,7 +2629,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 		break;
 	case 4:
 		//Start Time Trial 2
-		hardreset(key, dwgfx, game, map, obj, help, music);
+		hardreset(key, dwgfx, game, map, obj, music);
 		game.nocutscenes = true;
 		game.intimetrial = true;
 		game.timetrialcountdown = 150;
@@ -2656,7 +2657,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 		break;
 	case 5:
 		//Start Time Trial 3 tow
-		hardreset(key, dwgfx, game, map, obj, help, music);
+		hardreset(key, dwgfx, game, map, obj, music);
 		game.nocutscenes = true;
 		game.intimetrial = true;
 		game.timetrialcountdown = 150;
@@ -2684,7 +2685,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 		break;
 	case 6:
 		//Start Time Trial 4 station
-		hardreset(key, dwgfx, game, map, obj, help, music);
+		hardreset(key, dwgfx, game, map, obj, music);
 		game.nocutscenes = true;
 		game.intimetrial = true;
 		game.timetrialcountdown = 150;
@@ -2712,7 +2713,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 		break;
 	case 7:
 		//Start Time Trial 5 warp
-		hardreset(key, dwgfx, game, map, obj, help, music);
+		hardreset(key, dwgfx, game, map, obj, music);
 		game.nocutscenes = true;
 		game.intimetrial = true;
 		game.timetrialcountdown = 150;
@@ -2740,7 +2741,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 		break;
 	case 8:
 		//Start Time Trial 6// final level!
-		hardreset(key, dwgfx, game, map, obj, help, music);
+		hardreset(key, dwgfx, game, map, obj, music);
 		game.nocutscenes = true;
 		game.intimetrial = true;
 		game.timetrialcountdown = 150;
@@ -2774,7 +2775,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 		break;
 	case 9:
 		game.gamestate = GAMEMODE;
-		hardreset(key, dwgfx, game, map, obj, help, music);
+		hardreset(key, dwgfx, game, map, obj, music);
 		game.nodeathmode = true;
 		game.start(obj, music);
 		game.jumpheld = true;
@@ -2801,7 +2802,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 		break;
 	case 10:
 		game.gamestate = GAMEMODE;
-		hardreset(key, dwgfx, game, map, obj, help, music);
+		hardreset(key, dwgfx, game, map, obj, music);
 		game.nodeathmode = true;
 		game.nocutscenes = true;
 
@@ -2830,7 +2831,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 		break;
 	case 11:
 		game.gamestate = GAMEMODE;
-		hardreset(key, dwgfx, game, map, obj, help, music);
+		hardreset(key, dwgfx, game, map, obj, music);
 
 		game.startspecial(0, obj, music);
 		game.jumpheld = true;
@@ -2865,7 +2866,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 		break;
 	case 12:
 		game.gamestate = GAMEMODE;
-		hardreset(key, dwgfx, game, map, obj, help, music);
+		hardreset(key, dwgfx, game, map, obj, music);
 		music.fadeout();
 
 		game.lastsaved = 2;
@@ -2900,7 +2901,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 		break;
 	case 13:
 		game.gamestate = GAMEMODE;
-		hardreset(key, dwgfx, game, map, obj, help, music);
+		hardreset(key, dwgfx, game, map, obj, music);
 		music.fadeout();
 
 		game.lastsaved = 3;
@@ -2935,7 +2936,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 		break;
 	case 14:
 		game.gamestate = GAMEMODE;
-		hardreset(key, dwgfx, game, map, obj, help, music);
+		hardreset(key, dwgfx, game, map, obj, music);
 		music.fadeout();
 
 		game.lastsaved = 4;
@@ -2970,7 +2971,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 		break;
 	case 15:
 		game.gamestate = GAMEMODE;
-		hardreset(key, dwgfx, game, map, obj, help, music);
+		hardreset(key, dwgfx, game, map, obj, music);
 		music.fadeout();
 
 		game.lastsaved = 5;
@@ -3005,7 +3006,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 		break;
 	case 16:
 		game.gamestate = GAMEMODE;
-		hardreset(key, dwgfx, game, map, obj, help, music);
+		hardreset(key, dwgfx, game, map, obj, music);
 		music.fadeout();
 
 		game.lastsaved = 2;
@@ -3037,7 +3038,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 		break;
 	case 17:
 		game.gamestate = GAMEMODE;
-		hardreset(key, dwgfx, game, map, obj, help, music);
+		hardreset(key, dwgfx, game, map, obj, music);
 		music.fadeout();
 
 		game.lastsaved = 3;
@@ -3069,7 +3070,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 		break;
 	case 18:
 		game.gamestate = GAMEMODE;
-		hardreset(key, dwgfx, game, map, obj, help, music);
+		hardreset(key, dwgfx, game, map, obj, music);
 		music.fadeout();
 
 		game.lastsaved = 4;
@@ -3101,7 +3102,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 		break;
 	case 19:
 		game.gamestate = GAMEMODE;
-		hardreset(key, dwgfx, game, map, obj, help, music);
+		hardreset(key, dwgfx, game, map, obj, music);
 		music.fadeout();
 
 		game.lastsaved = 5;
@@ -3133,7 +3134,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 		break;
 	case 20:
 		//Level editor
-		hardreset(key, dwgfx, game, map, obj, help, music);
+		hardreset(key, dwgfx, game, map, obj, music);
 		ed.reset();
 		music.fadeout();
 
@@ -3155,7 +3156,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 	case 21:  //play custom level (in editor)
 		game.gamestate = GAMEMODE;
 		music.fadeout();
-		hardreset(key, dwgfx, game, map, obj, help, music);
+		hardreset(key, dwgfx, game, map, obj, music);
 		game.customstart(obj, music);
 		game.jumpheld = true;
 
@@ -3194,7 +3195,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 
     game.gamestate = GAMEMODE;
     music.fadeout();
-    hardreset(key, dwgfx, game, map, obj, help, music);
+    hardreset(key, dwgfx, game, map, obj, music);
     game.customstart(obj, music);
     game.jumpheld = true;
 
@@ -3237,7 +3238,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 
     game.gamestate = GAMEMODE;
     music.fadeout();
-    hardreset(key, dwgfx, game, map, obj, help, music);
+    hardreset(key, dwgfx, game, map, obj, music);
 		map.custommodeforreal = true;
     map.custommode = true;
     map.customx = 100;
@@ -3284,7 +3285,7 @@ void ScriptClass::startgamemode( int t, KeyPoll& key, Graphics& dwgfx, Game& gam
 	}
 }
 
-void ScriptClass::teleport( Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj, UtilityClass& help, MusicClass& music )
+void ScriptClass::teleport( Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj, MusicClass& music )
 {
 	//er, ok! Teleport to a new area, so!
 	//A general rule of thumb: if you teleport with a companion, get rid of them!
@@ -3392,7 +3393,7 @@ void ScriptClass::teleport( Graphics& dwgfx, Game& game, MapClass& map, EntityCl
 	}
 }
 
-void ScriptClass::hardreset( KeyPoll& key, Graphics& dwgfx, Game& game,MapClass& map, EntityClass& obj, UtilityClass& help, MusicClass& music )
+void ScriptClass::hardreset( KeyPoll& key, Graphics& dwgfx, Game& game,MapClass& map, EntityClass& obj, MusicClass& music )
 {
 	//Game:
 	game.hascontrol = true;

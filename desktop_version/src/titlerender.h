@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Graphics.h"
-#include "UtilityClass.h"
 #include "Maths.h"
 #include "Entity.h"
 #include "Map.h"
@@ -17,16 +16,16 @@ extern Stage stage;
 extern Stage swfStage;
 extern int temp;
 
-void titlerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, UtilityClass& help, MusicClass& music);
+void titlerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, MusicClass& music);
 
-void towerrender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj, UtilityClass& help);
+void towerrender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj);
 
-void gamerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, UtilityClass& help);
+void gamerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj);
 
-void maprender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj, UtilityClass& help);
+void maprender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj);
 
-void teleporterrender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj, UtilityClass& help);
+void teleporterrender(Graphics& dwgfx, Game& game, MapClass& map, EntityClass& obj);
 
-void gamecompleterender(Graphics& dwgfx, Game& game, EntityClass& obj, UtilityClass& help, MapClass& map);
+void gamecompleterender(Graphics& dwgfx, Game& game, EntityClass& obj, MapClass& map);
 
-void gamecompleterender2(Graphics& dwgfx, Game& game, EntityClass& obj, UtilityClass& help);
+void gamecompleterender2(Graphics& dwgfx, Game& game, EntityClass& obj);

@@ -1,13 +1,15 @@
 #include "Logic.h"
+
 #include "Network.h"
+#include "Utility.h"
 
 extern int temp;
 
-void titlelogic( Graphics& dwgfx, Game& game, EntityClass& obj, UtilityClass& help, MusicClass& music, MapClass& map)
+void titlelogic( Graphics& dwgfx, Game& game, EntityClass& obj, MusicClass& music, MapClass& map)
 {
     //Misc
     //map.updatetowerglow();
-    help.updateglow();
+    Utility::updateGlow();
 
     map.bypos -= 2;
     map.bscroll = -2;
@@ -36,18 +38,18 @@ void titlelogic( Graphics& dwgfx, Game& game, EntityClass& obj, UtilityClass& he
     }
 }
 
-void maplogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music, MapClass& map, UtilityClass& help)
+void maplogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music, MapClass& map)
 {
     //Misc
-    help.updateglow();
+    Utility::updateGlow();
 }
 
 
-void gamecompletelogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music, MapClass& map, UtilityClass& help)
+void gamecompletelogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music, MapClass& map)
 {
     //Misc
     map.updatetowerglow();
-    help.updateglow();
+    Utility::updateGlow();
     dwgfx.crewframe = 0;
 
     map.tdrawback = true;
@@ -88,11 +90,11 @@ void gamecompletelogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClas
     }
 }
 
-void gamecompletelogic2(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music, MapClass& map, UtilityClass& help)
+void gamecompletelogic2(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music, MapClass& map)
 {
     //Misc
     map.updatetowerglow();
-    help.updateglow();
+    Utility::updateGlow();
 
     game.creditposdelay--;
     if (game.creditposdelay <= 0)
@@ -139,11 +141,11 @@ void gamecompletelogic2(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicCla
 }
 
 
-void towerlogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music, MapClass& map, UtilityClass& help)
+void towerlogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music, MapClass& map)
 {
     //Logic for the tower level
     map.updatetowerglow();
-    help.updateglow();
+    Utility::updateGlow();
 
     if(!game.completestop)
     {
@@ -289,7 +291,7 @@ void towerlogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& musi
                 game.gethardestroom(map);
                 //start depressing sequence here...
                 if (game.gameoverdelay <= -10 && dwgfx.fademode==0) dwgfx.fademode = 2;
-                if (dwgfx.fademode == 1) script.resetgametomenu(dwgfx, game, map, obj, help, music);
+                if (dwgfx.fademode == 1) script.resetgametomenu(dwgfx, game, map, obj, music);
             }
             else
             {
@@ -308,7 +310,7 @@ void towerlogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& musi
     else
     {
         //State machine for game logic
-        game.updatestate(dwgfx, map, obj, help, music);
+        game.updatestate(dwgfx, map, obj, music);
 
 
         //Time trial stuff
@@ -376,7 +378,7 @@ void towerlogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& musi
                 //Remove old platform
                 //if (obj.entities[i].isplatform) obj.removeblockat(obj.entities[i].xp, obj.entities[i].yp);
 
-                obj.updateentities(i, help, game, music);                // Behavioral logic
+                obj.updateentities(i, game, music);                // Behavioral logic
                 obj.updateentitylogic(i, game);                          // Basic Physics
                 obj.entitymapcollision(i, map);                          // Collisions with walls
 
@@ -534,13 +536,13 @@ void towerlogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& musi
         //Looping around, room change conditions!
     }
 
-    if (game.teleport_to_new_area) script.teleport(dwgfx, game, map,	obj, help, music);
+    if (game.teleport_to_new_area) script.teleport(dwgfx, game, map,	obj, music);
 }
 
-void gamelogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music, MapClass& map, UtilityClass& help)
+void gamelogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music, MapClass& map)
 {
     //Misc
-    help.updateglow();
+    Utility::updateGlow();
 
     if (game.alarmon)
     {
@@ -618,14 +620,14 @@ void gamelogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music
             {
                 //ok, unfortunate case where the disappearing platform hasn't fully disappeared. Accept a little
                 //graphical uglyness to avoid breaking the room!
-                while (obj.entities[i].state == 2) obj.updateentities(i, help, game, music);
+                while (obj.entities[i].state == 2) obj.updateentities(i, game, music);
                 obj.entities[i].state = 4;
             }
             else if (map.finalstretch && obj.entities[i].type == 2)
             {
                 //TODO: }else if (map.finallevel && map.finalstretch && obj.entities[i].type == 2) {
                 //for the final level. probably something 99% of players won't see.
-                while (obj.entities[i].state == 2) obj.updateentities(i, help, game, music);
+                while (obj.entities[i].state == 2) obj.updateentities(i, game, music);
                 obj.entities[i].state = 4;
             }
             else if (obj.entities[i].type == 23 && game.swnmode && game.deathseq<15)
@@ -668,7 +670,7 @@ void gamelogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music
                 game.gethardestroom(map);
                 //start depressing sequence here...
                 if (game.gameoverdelay <= -10 && dwgfx.fademode==0) dwgfx.fademode = 2;
-                if (dwgfx.fademode == 1) script.resetgametomenu(dwgfx, game, map, obj, help, music);
+                if (dwgfx.fademode == 1) script.resetgametomenu(dwgfx, game, map, obj, music);
             }
             else
             {
@@ -727,7 +729,7 @@ void gamelogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music
             }
         }
         //State machine for game logic
-        game.updatestate(dwgfx, map, obj, help, music);
+        game.updatestate(dwgfx, map, obj, music);
         if (game.startscript)
         {
             script.load(game.newscript);
@@ -762,7 +764,7 @@ void gamelogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music
                 }
                 else
                 {
-                    obj.generateswnwave(game, help, 0);
+                    obj.generateswnwave(game, 0);
                 }
             }
             else if(game.swngame==1)   //super gravitron game
@@ -837,7 +839,7 @@ void gamelogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music
                     }
                 }
 
-                obj.generateswnwave(game, help, 1);
+                obj.generateswnwave(game, 1);
 
                 game.swncoldelay--;
                 if(game.swncoldelay<=0)
@@ -977,7 +979,7 @@ void gamelogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music
                         {
                             obj.removeblockat(obj.entities[i].xp, obj.entities[i].yp);
 
-                            obj.updateentities(i, help, game, music);                // Behavioral logic
+                            obj.updateentities(i, game, music);                // Behavioral logic
                             obj.updateentitylogic(i, game);                          // Basic Physics
                             obj.entitymapcollision(i, map);                          // Collisions with walls
 
@@ -1006,7 +1008,7 @@ void gamelogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music
                         {
                             obj.removeblockat(obj.entities[ie].xp, obj.entities[ie].yp);
 
-                            obj.updateentities(ie, help, game, music);                // Behavioral logic
+                            obj.updateentities(ie, game, music);                // Behavioral logic
                             obj.updateentitylogic(ie, game);                          // Basic Physics
                             obj.entitymapcollision(ie, map);                          // Collisions with walls
 
@@ -1037,7 +1039,7 @@ void gamelogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music
             {
                 if (!obj.entities[ie].isplatform)
                 {
-                    obj.updateentities(ie, help, game, music);          // Behavioral logic
+                    obj.updateentities(ie, game, music);          // Behavioral logic
                     obj.updateentitylogic(ie, game);                    // Basic Physics
                     obj.entitymapcollision(ie, map);                    // Collisions with walls
                 }
@@ -1535,7 +1537,7 @@ void gamelogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music
     {
         int i = obj.getplayer();
         obj.settemprect(i);
-        if (help.intersects(game.teleblock, obj.temprect))
+        if (Utility::intersects(game.teleblock, obj.temprect))
         {
             game.readytotele += 25;
             if (game.readytotele >= 255) game.readytotele = 255;
@@ -1556,5 +1558,5 @@ void gamelogic(Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music
     }
 
     if (game.teleport_to_new_area)
-        script.teleport(dwgfx, game, map,	obj, help, music);
+        script.teleport(dwgfx, game, map, obj, music);
 }

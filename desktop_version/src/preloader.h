@@ -2,6 +2,5 @@
 
 #include "Graphics.h"
 #include "Game.h"
-#include "UtilityClass.h"
 
-void preloaderrender(Graphics& dwgfx, Game& game, UtilityClass& help);
+void preloaderrender(Graphics& dwgfx, Game& game);

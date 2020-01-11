@@ -9,7 +9,7 @@
 class WarpClass
 {
 public:
-	std::vector<std::string> loadlevel(int rx, int ry , Game& game, EntityClass& obj);
+	std::vector<std::string> loadLevel(int rX, int rY , Game& game, EntityClass& obj);
 
 	std::string roomName;
 	int rCol;

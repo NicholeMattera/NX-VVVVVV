@@ -1,6 +1,7 @@
 #include "Map.h"
 
 #include "MakeAndPlay.h"
+#include "Utility.h"
 
 extern EditorClass ed;
 
@@ -742,7 +743,7 @@ void MapClass::fillareamap(std::vector<std::string>& tmap)
 
 	for (j = 0; j < 20; j++)
 	{
-		std::vector<std::string> maprow = split(tmap[j], ',');
+		std::vector<std::string> maprow = Utility::split(tmap[j], ',');
 		for (int i = 0; i < 20; i++)
 		{
 			areamap[i + (j * 20)] = atoi(maprow[i].c_str());
@@ -763,7 +764,7 @@ void MapClass::fillcontent(std::vector<std::string>& tmap)
 
 	for (j = 0; j < 29+extrarow; j++)
 	{
-		std::vector<std::string> maprow = split(tmap[j], ',');
+		std::vector<std::string> maprow = Utility::split(tmap[j], ',');
 
 		for(int i = 0; i < 40; i++)
 		{
@@ -1360,7 +1361,7 @@ void MapClass::loadlevel(int rx, int ry, Graphics& dwgfx, Game& game, EntityClas
 		obj.createentity(game, 280, 3216, 9, 8); // (shiny trinket)
 		break;
 	case 4: //The Warpzone
-		tmap = warplevel.loadlevel(rx, ry, game, obj);
+		tmap = warplevel.loadLevel(rx, ry, game, obj);
 		fillcontent(tmap);
 		roomname = warplevel.roomName;
 		tileset = 1;

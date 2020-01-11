@@ -1,5 +1,7 @@
 #include "LabClass.h"
 
+#include "Utility.h"
+
 std::vector<std::string> LabClass::loadlevel(int rx, int ry , Game& game, EntityClass& obj)
 {
 	int t;
@@ -21,7 +23,7 @@ std::vector<std::string> LabClass::loadlevel(int rx, int ry , Game& game, Entity
 	std::vector<std::string> tmap;
 	coin = 0;
 	rcol = 0;
-	roomname = "Untitled room ["+UtilityClass::String(rx) + "," + UtilityClass::String(ry)+"]";
+	roomname = "Untitled room ["+Utility::toString(rx) + "," + Utility::toString(ry)+"]";
 
 	switch(t)
 	{

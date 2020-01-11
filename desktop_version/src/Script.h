@@ -6,7 +6,7 @@
 #include "Enums.h"
 
 
-class KeyPoll; class Graphics; class Game; class MapClass; class EntityClass; class UtilityClass;class MusicClass;
+class KeyPoll; class Graphics; class Game; class MapClass; class EntityClass; class MusicClass;
 
 
 class ScriptClass
@@ -31,19 +31,19 @@ public:
     void tokenize(std::string t);
 
     void run(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
-             EntityClass& obj, UtilityClass& help, MusicClass& music);
+             EntityClass& obj, MusicClass& music);
 
     void resetgametomenu(Graphics& dwgfx, Game& game,MapClass& map,
-                         EntityClass& obj, UtilityClass& help, MusicClass& music);
+                         EntityClass& obj, MusicClass& music);
 
     void startgamemode(int t, KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
-                       EntityClass& obj, UtilityClass& help, MusicClass& music);
+                       EntityClass& obj, MusicClass& music);
 
     void teleport(Graphics& dwgfx, Game& game, MapClass& map,
-                  EntityClass& obj, UtilityClass& help, MusicClass& music);
+                  EntityClass& obj, MusicClass& music);
 
     void hardreset(KeyPoll& key, Graphics& dwgfx, Game& game,MapClass& map,
-                   EntityClass& obj, UtilityClass& help, MusicClass& music);
+                   EntityClass& obj, MusicClass& music);
 
     //Script contents
     std::vector<std::string> commands;

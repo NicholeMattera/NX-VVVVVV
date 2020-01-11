@@ -1,6 +1,7 @@
 #include "Input.h"
 
 #include "MakeAndPlay.h"
+#include "Utility.h"
 
 #include "tinyxml.h"
 
@@ -108,7 +109,7 @@ void updatebuttonmappings(Game& game, KeyPoll& key, MusicClass& music, int bind)
 	}
 }
 
-void titleinput(KeyPoll& key, Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, UtilityClass& help, MusicClass& music)
+void titleinput(KeyPoll& key, Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, MusicClass& music)
 {
     //game.mx = (mouseX / 4);
     //game.my = (mouseY / 4);
@@ -1167,7 +1168,7 @@ SDL_assert(0 && "Remove open level dir");
                         {
                             //go to a menu!
                             music.playef(11, 10);
-                            game.loadsummary(map, help); //Prepare save slots to display
+                            game.loadsummary(map); //Prepare save slots to display
                             game.createmenu("continue");
                             map.settowercolour(3);
                         }
@@ -1217,7 +1218,7 @@ SDL_assert(0 && "Remove open level dir");
                         {
                             //go to a menu!
                             music.playef(11, 10);
-                            game.loadsummary(map, help); //Prepare save slots to display
+                            game.loadsummary(map); //Prepare save slots to display
                             game.createmenu("continue");
                             map.settowercolour(3);
                         }
@@ -1669,11 +1670,11 @@ SDL_assert(0 && "Remove open level dir");
     }
 
     if (dwgfx.fademode == 1)
-        script.startgamemode(game.mainmenu, key, dwgfx, game, map, obj, help, music);
+        script.startgamemode(game.mainmenu, key, dwgfx, game, map, obj, music);
 }
 
 void gameinput(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
-               EntityClass& obj, UtilityClass& help, MusicClass& music)
+               EntityClass& obj, MusicClass& music)
 {
     //TODO mouse input
     //game.mx = (mouseX / 2);
@@ -1830,7 +1831,7 @@ void gameinput(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
     {
         //restart the time trial
         game.quickrestartkludge = false;
-        script.startgamemode(game.timetriallevel + 3, key, dwgfx, game, map, obj, help, music);
+        script.startgamemode(game.timetriallevel + 3, key, dwgfx, game, map, obj, music);
         game.deathseq = -1;
         game.completestop = false;
     }
@@ -1985,7 +1986,7 @@ void gameinput(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
                     else if (game.intimetrial && dwgfx.fademode==0)
                     {
                         //Quick restart of time trial
-                        script.hardreset(key, dwgfx, game, map, obj, help, music);
+                        script.hardreset(key, dwgfx, game, map, obj, music);
                         if (dwgfx.setflipmode) dwgfx.flipmode = true;
                         dwgfx.fademode = 2;
                         game.completestop = true;
@@ -2132,7 +2133,7 @@ void gameinput(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 }
 
 void mapinput(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
-              EntityClass& obj, UtilityClass& help, MusicClass& music)
+              EntityClass& obj, MusicClass& music)
 {
     //TODO Mouse Input!
     //game.mx = (mouseX / 2);
@@ -2267,7 +2268,7 @@ void mapinput(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
             music.playef(18, 10);
             game.gamesaved = true;
 
-            game.savetime = game.timestring(help);
+            game.savetime = game.timestring();
             game.savearea = map.currentarea(map.area(game.roomx, game.roomy));
             game.savetrinkets = game.trinkets;
 
@@ -2294,7 +2295,7 @@ void mapinput(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 				//This fixes an apparent frame flicker.
 				FillRect(dwgfx.tempBuffer, 0x000000);
                 if (game.intimetrial || game.insecretlab || game.nodeathmode) game.menukludge = true;
-                script.hardreset(key, dwgfx, game, map, obj, help, music);
+                script.hardreset(key, dwgfx, game, map, obj, music);
                 if(dwgfx.setflipmode) dwgfx.flipmode = true;
                 dwgfx.fademode = 2;
                 music.fadeout();
@@ -2330,7 +2331,7 @@ void mapinput(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 }
 
 void teleporterinput(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
-                     EntityClass& obj, UtilityClass& help, MusicClass& music)
+                     EntityClass& obj, MusicClass& music)
 {
     //Todo Mouseinput!
     //game.mx = (mouseX / 2);
@@ -2433,7 +2434,7 @@ void teleporterinput(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 }
 
 void gamecompleteinput(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
-                       EntityClass& obj, UtilityClass& help, MusicClass& music)
+                       EntityClass& obj, MusicClass& music)
 {
     //game.mx = (mouseX / 2);
     //game.my = (mouseY / 2);
@@ -2494,7 +2495,7 @@ void gamecompleteinput(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 }
 
 void gamecompleteinput2(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
-                        EntityClass& obj, UtilityClass& help, MusicClass& music)
+                        EntityClass& obj, MusicClass& music)
 {
     //TODO Mouse Input!
     //game.mx = (mouseX / 2);

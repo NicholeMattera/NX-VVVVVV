@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "Map.h"
 #include "Screen.h"
+#include "Utility.h"
 
 Graphics::Graphics()
 {
@@ -134,11 +135,11 @@ Graphics::~Graphics()
 
 }
 
-void Graphics::drawspritesetcol(int x, int y, int t, int c, UtilityClass& help)
+void Graphics::drawspritesetcol(int x, int y, int t, int c)
 {
     SDL_Rect rect;
     setRect(rect,x,y,sprites_rect.w,sprites_rect.h);
-    setcol(c, help);
+    setcol(c);
 
     BlitSurfaceColoured(sprites[t],NULL,backBuffer, &rect, ct);
     //.copyPixels(sprites[t], sprites_rect, backbuffer, tpoint);
@@ -570,7 +571,7 @@ void Graphics::drawtowertile3( int x, int y, int t, int off )
     BlitSurfaceStandard(tiles3[t+(off*30)], NULL, towerbuffer, &rect);
 }
 
-void Graphics::drawgui( UtilityClass& help )
+void Graphics::drawgui()
 {
     textboxcleanup();
     //Draw all the textboxes to the screen
@@ -586,14 +587,14 @@ void Graphics::drawgui( UtilityClass& help )
                 {
                     for (j = 0; j < textbox[i].numlines; j++)
                     {
-                        Print(textbox[i].xp + 8, textbox[i].yp + (textbox[i].numlines*8) - (j * 8), textbox[i].line[j], 196, 196, 255 - help.glow);
+                        Print(textbox[i].xp + 8, textbox[i].yp + (textbox[i].numlines*8) - (j * 8), textbox[i].line[j], 196, 196, 255 - Utility::glow);
                     }
                 }
                 else
                 {
                     for (j = 0; j < textbox[i].numlines; j++)
                     {
-                        Print(textbox[i].xp + 8, textbox[i].yp + 8 + (j * 8), textbox[i].line[j], 196, 196, 255 - help.glow);
+                        Print(textbox[i].xp + 8, textbox[i].yp + 8 + (j * 8), textbox[i].line[j], 196, 196, 255 - Utility::glow);
                     }
                 }
             }
@@ -660,27 +661,27 @@ void Graphics::drawgui( UtilityClass& help )
                 if (textbox[i].r == 175 && textbox[i].g == 175)
                 {
                     //purple guy
-                    drawsprite(80 - 6, 64 + 48 + 4, 6, 220- help.glow/4 - int(fRandom()*20), 120- help.glow/4, 210 - help.glow/4);
+                    drawsprite(80 - 6, 64 + 48 + 4, 6, 220- Utility::glow/4 - int(fRandom()*20), 120- Utility::glow/4, 210 - Utility::glow/4);
                 }
                 else if (textbox[i].r == 175 && textbox[i].b == 175)
                 {
                     //red guy
-                    drawsprite(80 - 6, 64 + 48+ 4, 6, 255 - help.glow/8, 70 - help.glow/4, 70 - help.glow / 4);
+                    drawsprite(80 - 6, 64 + 48+ 4, 6, 255 - Utility::glow/8, 70 - Utility::glow/4, 70 - Utility::glow / 4);
                 }
                 else if (textbox[i].r == 175)
                 {
                     //green guy
-                    drawsprite(80 - 6, 64 + 48 + 4, 6, 120 - help.glow / 4 - int(fRandom() * 20), 220 - help.glow / 4, 120 - help.glow / 4);
+                    drawsprite(80 - 6, 64 + 48 + 4, 6, 120 - Utility::glow / 4 - int(fRandom() * 20), 220 - Utility::glow / 4, 120 - Utility::glow / 4);
                 }
                 else if (textbox[i].g == 175)
                 {
                     //yellow guy
-                    drawsprite(80 - 6, 64 + 48+ 4, 6, 220- help.glow/4 - int(fRandom()*20), 210 - help.glow/4, 120- help.glow/4);
+                    drawsprite(80 - 6, 64 + 48+ 4, 6, 220- Utility::glow/4 - int(fRandom()*20), 210 - Utility::glow/4, 120- Utility::glow/4);
                 }
                 else if (textbox[i].b == 175)
                 {
                     //blue guy
-                    drawsprite(80 - 6, 64 + 48+ 4, 6, 75, 75, 255- help.glow/4 - int(fRandom()*20));
+                    drawsprite(80 - 6, 64 + 48+ 4, 6, 75, 75, 255- Utility::glow/4 - int(fRandom()*20));
                 }
             }
             else
@@ -688,27 +689,27 @@ void Graphics::drawgui( UtilityClass& help )
                 if (textbox[i].r == 175 && textbox[i].g == 175)
                 {
                     //purple guy
-                    drawsprite(80 - 6, 64 + 32 + 4, 0, 220- help.glow/4 - int(fRandom()*20), 120- help.glow/4, 210 - help.glow/4);
+                    drawsprite(80 - 6, 64 + 32 + 4, 0, 220- Utility::glow/4 - int(fRandom()*20), 120- Utility::glow/4, 210 - Utility::glow/4);
                 }
                 else if (textbox[i].r == 175 && textbox[i].b == 175)
                 {
                     //red guy
-                    drawsprite(80 - 6, 64 + 32 + 4, 0, 255 - help.glow/8, 70 - help.glow/4, 70 - help.glow / 4);
+                    drawsprite(80 - 6, 64 + 32 + 4, 0, 255 - Utility::glow/8, 70 - Utility::glow/4, 70 - Utility::glow / 4);
                 }
                 else if (textbox[i].r == 175)
                 {
                     //green guy
-                    drawsprite(80 - 6, 64 + 32 + 4, 0, 120 - help.glow / 4 - int(fRandom() * 20), 220 - help.glow / 4, 120 - help.glow / 4);
+                    drawsprite(80 - 6, 64 + 32 + 4, 0, 120 - Utility::glow / 4 - int(fRandom() * 20), 220 - Utility::glow / 4, 120 - Utility::glow / 4);
                 }
                 else if (textbox[i].g == 175)
                 {
                     //yellow guy
-                    drawsprite(80 - 6, 64 + 32 + 4, 0, 220- help.glow/4 - int(fRandom()*20), 210 - help.glow/4, 120- help.glow/4);
+                    drawsprite(80 - 6, 64 + 32 + 4, 0, 220- Utility::glow/4 - int(fRandom()*20), 210 - Utility::glow/4, 120- Utility::glow/4);
                 }
                 else if (textbox[i].b == 175)
                 {
                     //blue guy
-                    drawsprite(80 - 6, 64 + 32 + 4, 0, 75, 75, 255- help.glow/4 - int(fRandom()*20));
+                    drawsprite(80 - 6, 64 + 32 + 4, 0, 75, 75, 255- Utility::glow/4 - int(fRandom()*20));
                 }
             }
         }
@@ -817,7 +818,7 @@ void Graphics::cutscenebars()
     }
 }
 
-void Graphics::drawcrewman( int x, int y, int t, bool act, UtilityClass& help, bool noshift /*=false*/ )
+void Graphics::drawcrewman( int x, int y, int t, bool act, bool noshift /*=false*/ )
 {
     if (!act)
     {
@@ -825,22 +826,22 @@ void Graphics::drawcrewman( int x, int y, int t, bool act, UtilityClass& help, b
         {
             if (flipmode)
             {
-                drawspritesetcol(x, y, 14, 19, help);
+                drawspritesetcol(x, y, 14, 19);
             }
             else
             {
-                drawspritesetcol(x, y, 12, 19, help);
+                drawspritesetcol(x, y, 12, 19);
             }
         }
         else
         {
             if (flipmode)
             {
-                drawspritesetcol(x - 8, y, 14, 19, help);
+                drawspritesetcol(x - 8, y, 14, 19);
             }
             else
             {
-                drawspritesetcol(x - 8, y, 12, 19, help);
+                drawspritesetcol(x - 8, y, 12, 19);
             }
         }
     }
@@ -851,22 +852,22 @@ void Graphics::drawcrewman( int x, int y, int t, bool act, UtilityClass& help, b
         switch(t)
         {
         case 0:
-            drawspritesetcol(x, y, crewframe, 0 , help);
+            drawspritesetcol(x, y, crewframe, 0);
             break;
         case 1:
-            drawspritesetcol(x, y, crewframe, 20, help);
+            drawspritesetcol(x, y, crewframe, 20);
             break;
         case 2:
-            drawspritesetcol(x, y, crewframe, 14, help);
+            drawspritesetcol(x, y, crewframe, 14);
             break;
         case 3:
-            drawspritesetcol(x, y, crewframe, 15, help);
+            drawspritesetcol(x, y, crewframe, 15);
             break;
         case 4:
-            drawspritesetcol(x, y, crewframe, 13, help);
+            drawspritesetcol(x, y, crewframe, 13);
             break;
         case 5:
-            drawspritesetcol(x, y, crewframe, 16, help);
+            drawspritesetcol(x, y, crewframe, 16);
             break;
         }
 
@@ -1316,7 +1317,7 @@ void Graphics::drawgravityline( int t, EntityClass& obj )
     }
 }
 
-void Graphics::drawtrophytext( EntityClass& obj, UtilityClass& help )
+void Graphics::drawtrophytext( EntityClass& obj)
 {
     int temp, temp2, temp3;
 
@@ -1324,13 +1325,13 @@ void Graphics::drawtrophytext( EntityClass& obj, UtilityClass& help )
     {
         temp = (196 * obj.trophytext) / 15;
         temp2 = (196 * obj.trophytext) / 15;
-        temp3 = ((255 - help.glow) * obj.trophytext) / 15;
+        temp3 = ((255 - Utility::glow) * obj.trophytext) / 15;
     }
     else
     {
         temp = 196;
         temp2 = 196;
-        temp3 = 255 - help.glow;
+        temp3 = 255 - Utility::glow;
     }
     switch(obj.trophytype)
     {
@@ -1403,7 +1404,7 @@ void Graphics::drawtrophytext( EntityClass& obj, UtilityClass& help )
     }
 }
 
-void Graphics::drawentities( MapClass& map, EntityClass& obj, UtilityClass& help )
+void Graphics::drawentities( MapClass& map, EntityClass& obj)
 {
     //Update line colours!
     if (linedelay <= 0)
@@ -1435,7 +1436,7 @@ void Graphics::drawentities( MapClass& map, EntityClass& obj, UtilityClass& help
                     tpoint.x = obj.entities[i].xp;
                     tpoint.y = obj.entities[i].yp;
                     //
-                    setcol(obj.entities[i].colour, help);
+                    setcol(obj.entities[i].colour);
                     //flipsprites[obj.entities[i].drawframe].colorTransform(sprites_rect, ct);
                     drawRect = sprites_rect;
                     drawRect.x += tpoint.x;
@@ -1487,7 +1488,7 @@ void Graphics::drawentities( MapClass& map, EntityClass& obj, UtilityClass& help
                     tpoint.x = obj.entities[i].xp;
                     tpoint.y = obj.entities[i].yp;
                     //
-                    setcol(obj.entities[i].colour, help);
+                    setcol(obj.entities[i].colour);
                     //sprites[obj.entities[i].drawframe].colorTransform(sprites_rect, ct);
 
                     drawRect = sprites_rect;
@@ -1583,8 +1584,8 @@ void Graphics::drawentities( MapClass& map, EntityClass& obj, UtilityClass& help
                 }
                 else if (obj.entities[i].colour == 2)
                 {
-                    //backbuffer.fillRect(prect, RGB(160- help.glow/2 - (fRandom()*20), 200- help.glow/2, 220 - help.glow));
-                    FillRect(backBuffer,prect, int(160- help.glow/2 - (fRandom()*20)),  200- help.glow/2, 220 - help.glow);
+                    //backbuffer.fillRect(prect, RGB(160- Utility::glow/2 - (fRandom()*20), 200- Utility::glow/2, 220 - Utility::glow));
+                    FillRect(backBuffer,prect, int(160- Utility::glow/2 - (fRandom()*20)),  200- Utility::glow/2, 220 - Utility::glow);
                 }
             }
             else if (obj.entities[i].size == 4)    // Small pickups
@@ -1609,7 +1610,7 @@ void Graphics::drawentities( MapClass& map, EntityClass& obj, UtilityClass& help
             }
             else if (obj.entities[i].size == 7)    //Teleporter
             {
-                drawtele(obj.entities[i].xp, obj.entities[i].yp, obj.entities[i].drawframe, obj.entities[i].colour, help);
+                drawtele(obj.entities[i].xp, obj.entities[i].yp, obj.entities[i].drawframe, obj.entities[i].colour);
             }
             else if (obj.entities[i].size == 8)    // Special: Moving platform, 8 tiles
             {
@@ -1658,7 +1659,7 @@ void Graphics::drawentities( MapClass& map, EntityClass& obj, UtilityClass& help
             {
                 if (flipmode)
                 {
-                    setcol(obj.entities[i].colour, help);
+                    setcol(obj.entities[i].colour);
 
                     tpoint.x = obj.entities[i].xp;
                     tpoint.y = obj.entities[i].yp;
@@ -1694,7 +1695,7 @@ void Graphics::drawentities( MapClass& map, EntityClass& obj, UtilityClass& help
                 }
                 else
                 {
-                    setcol(obj.entities[i].colour, help);
+                    setcol(obj.entities[i].colour);
 
                     tpoint.x = obj.entities[i].xp;
                     tpoint.y = obj.entities[i].yp;
@@ -1733,7 +1734,7 @@ void Graphics::drawentities( MapClass& map, EntityClass& obj, UtilityClass& help
             {
                 if (flipmode)
                 {
-                    setcol(obj.entities[i].colour, help);
+                    setcol(obj.entities[i].colour);
 
                     tpoint.x = obj.entities[i].xp;
                     tpoint.y = obj.entities[i].yp;
@@ -1753,7 +1754,7 @@ void Graphics::drawentities( MapClass& map, EntityClass& obj, UtilityClass& help
                 }
                 else
                 {
-                    setcol(obj.entities[i].colour, help);
+                    setcol(obj.entities[i].colour);
 
                     tpoint.x = obj.entities[i].xp;
                     tpoint.y = obj.entities[i].yp;
@@ -1775,7 +1776,7 @@ void Graphics::drawentities( MapClass& map, EntityClass& obj, UtilityClass& help
             else if (obj.entities[i].size == 11)    //The fucking elephant
             {
 				//TODO elephant bug
-                setcol(obj.entities[i].colour, help);
+                setcol(obj.entities[i].colour);
                 drawimagecol(3, obj.entities[i].xp, obj.entities[i].yp);
             }
             else if (obj.entities[i].size == 12)         // Regular sprites that don't wrap
@@ -1785,7 +1786,7 @@ void Graphics::drawentities( MapClass& map, EntityClass& obj, UtilityClass& help
                     //forget this for a minute;
                     tpoint.x = obj.entities[i].xp;
                     tpoint.y = obj.entities[i].yp;
-                    setcol(obj.entities[i].colour, help);
+                    setcol(obj.entities[i].colour);
                     //
 
                     drawRect = sprites_rect;
@@ -1806,7 +1807,7 @@ void Graphics::drawentities( MapClass& map, EntityClass& obj, UtilityClass& help
                         }
 
                         tpoint.y = tpoint.y+4;
-                        setcol(23, help);
+                        setcol(23);
 
                         drawRect = tiles_rect;
                         drawRect.x += tpoint.x;
@@ -1826,7 +1827,7 @@ void Graphics::drawentities( MapClass& map, EntityClass& obj, UtilityClass& help
                         }
 
                         tpoint.y = tpoint.y+4;
-                        setcol(23, help);
+                        setcol(23);
                         //
 
                         drawRect = tiles_rect;
@@ -1839,7 +1840,7 @@ void Graphics::drawentities( MapClass& map, EntityClass& obj, UtilityClass& help
                 {
                     tpoint.x = obj.entities[i].xp;
                     tpoint.y = obj.entities[i].yp;
-                    setcol(obj.entities[i].colour, help);
+                    setcol(obj.entities[i].colour);
                     //
                     drawRect = sprites_rect;
                     drawRect.x += tpoint.x;
@@ -1861,7 +1862,7 @@ void Graphics::drawentities( MapClass& map, EntityClass& obj, UtilityClass& help
                         }
 
                         tpoint.y = tpoint.y+4;
-                        setcol(23, help);
+                        setcol(23);
 
 
                         drawRect = tiles_rect;
@@ -1882,7 +1883,7 @@ void Graphics::drawentities( MapClass& map, EntityClass& obj, UtilityClass& help
                         }
 
                         tpoint.y = tpoint.y+4;
-                        setcol(23, help);
+                        setcol(23);
                         //
 
                         drawRect = tiles_rect;
@@ -1905,7 +1906,7 @@ void Graphics::drawentities( MapClass& map, EntityClass& obj, UtilityClass& help
 						FillRect(tempBuffer, 0x000000);
 
                 		tpoint.x = obj.entities[i].xp; tpoint.y = obj.entities[i].yp;
-                		setcol(obj.entities[i].colour, help);
+                		setcol(obj.entities[i].colour);
                 		//flipsprites[obj.entities[i].drawframe].colorTransform(sprites_rect, ct);
                 		//bigbuffer.copyPixels(flipsprites[obj.entities[i].drawframe], sprites_rect, new Point(0, 0));
 						SDL_Rect drawRect = {Sint16(obj.entities[i].xp ), Sint16(obj.entities[i].yp), sprites_rect.x, sprites_rect.y   };
@@ -1918,7 +1919,7 @@ void Graphics::drawentities( MapClass& map, EntityClass& obj, UtilityClass& help
 					{
 						//TODO checkthis
 						tpoint.x = obj.entities[i].xp; tpoint.y = obj.entities[i].yp;
-						setcol(obj.entities[i].colour, help);
+						setcol(obj.entities[i].colour);
 						//flipsprites[obj.entities[i].drawframe].colorTransform(sprites_rect, ct);
 						//bigbuffer.copyPixels(flipsprites[obj.entities[i].drawframe], sprites_rect, new Point(0, 0));
 						SDL_Rect drawRect = {Sint16(obj.entities[i].xp ), Sint16(obj.entities[i].yp), Sint16(sprites_rect.x * 6), Sint16(sprites_rect.y * 6 ) };
@@ -2448,7 +2449,7 @@ void Graphics::drawtowermap_nobackground( MapClass& map )
     }
 }
 
-void Graphics::drawtowerentities( MapClass& map, EntityClass& obj, UtilityClass& help )
+void Graphics::drawtowerentities( MapClass& map, EntityClass& obj)
 {
     //Update line colours!
     if (linedelay <= 0)
@@ -2473,7 +2474,7 @@ void Graphics::drawtowerentities( MapClass& map, EntityClass& obj, UtilityClass&
 				trinketcolset = false;
                 tpoint.x = obj.entities[i].xp;
                 tpoint.y = obj.entities[i].yp-map.ypos;
-                setcol(obj.entities[i].colour, help);
+                setcol(obj.entities[i].colour);
                 setRect(trect, tpoint.x, tpoint.y, sprites_rect.w, sprites_rect.h);
                 BlitSurfaceColoured(sprites[obj.entities[i].drawframe], NULL, backBuffer, &trect, ct);
                 //screenwrapping!
@@ -2533,7 +2534,7 @@ void Graphics::drawtowerentities( MapClass& map, EntityClass& obj, UtilityClass&
                 }
                 else if (obj.entities[i].colour == 2)
                 {
-                    FillRect(backBuffer, prect, getRGB(160- help.glow/2 - (fRandom()*20), 200- help.glow/2, 220 - help.glow));
+                    FillRect(backBuffer, prect, getRGB(160- Utility::glow/2 - (fRandom()*20), 200- Utility::glow/2, 220 - Utility::glow));
                 }
             }
             else if (obj.entities[i].size == 4)    // Small pickups
@@ -2649,7 +2650,7 @@ void Graphics::drawtowerbackground( MapClass& map )
     }
 }
 
-void Graphics::setcol( int t, UtilityClass& help )
+void Graphics::setcol(int t)
 {
 	int temp;
 
@@ -2658,7 +2659,7 @@ void Graphics::setcol( int t, UtilityClass& help )
 	{
 		//Player Normal
 	case 0:
-		ct.colour = getRGB(160- help.glow/2 - (fRandom()*20), 200- help.glow/2, 220 - help.glow);
+		ct.colour = getRGB(160- Utility::glow/2 - (fRandom()*20), 200- Utility::glow/2, 220 - Utility::glow);
 		break;
 		//Player Hurt
 	case 1:
@@ -2666,7 +2667,7 @@ void Graphics::setcol( int t, UtilityClass& help )
 		break;
 		//Enemies and stuff
 	case 2:
-		ct.colour = getRGB(225-(help.glow/2), 75, 30);
+		ct.colour = getRGB(225-(Utility::glow/2), 75, 30);
 		break;
 	case 3: //Trinket
 		if (!trinketcolset)
@@ -2679,74 +2680,74 @@ void Graphics::setcol( int t, UtilityClass& help )
 		ct.colour = getRGB(trinketr, trinketg, trinketb);
 		break;
 	case 4: //Inactive savepoint
-		temp = (help.glow/2) + (fRandom() * 8);
+		temp = (Utility::glow/2) + (fRandom() * 8);
 		ct.colour = getRGB(80 + temp, 80 + temp, 80 + temp);
 		break;
 	case 5: //Active savepoint
 		ct.colour = getRGB(164+(fRandom()*64),164+(fRandom()*64), 255-(fRandom()*64));
 		break;
 	case 6: //Enemy : Red
-		ct.colour = getRGB(250 - help.glow/2, 60- help.glow/2, 60 - help.glow/2);
+		ct.colour = getRGB(250 - Utility::glow/2, 60- Utility::glow/2, 60 - Utility::glow/2);
 		break;
 	case 7: //Enemy : Green
-		ct.colour = getRGB(100 - help.glow/2 - (fRandom()*30), 250 - help.glow/2, 100 - help.glow/2 - (fRandom()*30));
+		ct.colour = getRGB(100 - Utility::glow/2 - (fRandom()*30), 250 - Utility::glow/2, 100 - Utility::glow/2 - (fRandom()*30));
 		break;
 	case 8: //Enemy : Purple
-		ct.colour = getRGB(250 - help.glow/2, 20, 128 - help.glow/2 + (fRandom()*30));
+		ct.colour = getRGB(250 - Utility::glow/2, 20, 128 - Utility::glow/2 + (fRandom()*30));
 		break;
 	case 9: //Enemy : Yellow
-		ct.colour = getRGB(250 - help.glow/2, 250 - help.glow/2, 20);
+		ct.colour = getRGB(250 - Utility::glow/2, 250 - Utility::glow/2, 20);
 		break;
 	case 10: //Warp point (white)
 		ct.colour = getRGB(255 - (fRandom() * 64), 255 - (fRandom() * 64), 255 - (fRandom() * 64));
 		break;
 	case 11: //Enemy : Cyan
-		ct.colour = getRGB(20, 250 - help.glow/2, 250 - help.glow/2);
+		ct.colour = getRGB(20, 250 - Utility::glow/2, 250 - Utility::glow/2);
 		break;
 	case 12: //Enemy : Blue
-		ct.colour = getRGB(90- help.glow/2, 90 - help.glow/2, 250 - help.glow/2);
+		ct.colour = getRGB(90- Utility::glow/2, 90 - Utility::glow/2, 250 - Utility::glow/2);
 		break;
 		//Crew Members
 		//green
 	case 13:
-		ct.colour = getRGB(120- help.glow/4 - (fRandom()*20), 220 - help.glow/4, 120- help.glow/4);
+		ct.colour = getRGB(120- Utility::glow/4 - (fRandom()*20), 220 - Utility::glow/4, 120- Utility::glow/4);
 		break;
 		//Yellow
 	case 14:
-		ct.colour = getRGB(220- help.glow/4 - (fRandom()*20), 210 - help.glow/4, 120- help.glow/4);
+		ct.colour = getRGB(220- Utility::glow/4 - (fRandom()*20), 210 - Utility::glow/4, 120- Utility::glow/4);
 		break;
 		//pink
 	case 15:
-		ct.colour = getRGB(255 - help.glow/8, 70 - help.glow/4, 70 - help.glow / 4);
+		ct.colour = getRGB(255 - Utility::glow/8, 70 - Utility::glow/4, 70 - Utility::glow / 4);
 		break;
 		//Blue
 	case 16:
-		ct.colour = getRGB(75, 75, 255- help.glow/4 - (fRandom()*20));
+		ct.colour = getRGB(75, 75, 255- Utility::glow/4 - (fRandom()*20));
 		break;
 
 
 	case 17: //Enemy : Orange
-		ct.colour = getRGB(250 - help.glow/2, 130 - help.glow/2, 20);
+		ct.colour = getRGB(250 - Utility::glow/2, 130 - Utility::glow/2, 20);
 		break;
 	case 18: //Enemy : Gray
-		ct.colour = getRGB(130- help.glow/2, 130 - help.glow/2, 130 - help.glow/2);
+		ct.colour = getRGB(130- Utility::glow/2, 130 - Utility::glow/2, 130 - Utility::glow/2);
 		break;
 	case 19: //Enemy : Dark gray
-		ct.colour = getRGB(60- help.glow/8, 60 - help.glow/8, 60 - help.glow/8);
+		ct.colour = getRGB(60- Utility::glow/8, 60 - Utility::glow/8, 60 - Utility::glow/8);
 		break;
 		//Purple
 	case 20:
-		ct.colour = getRGB(220 - help.glow / 4 - (fRandom() * 20), 120 - help.glow / 4, 210 - help.glow / 4);
+		ct.colour = getRGB(220 - Utility::glow / 4 - (fRandom() * 20), 120 - Utility::glow / 4, 210 - Utility::glow / 4);
 		break;
 
 	case 21: //Enemy : Light Gray
-		ct.colour = getRGB(180- help.glow/2, 180 - help.glow/2, 180 - help.glow/2);
+		ct.colour = getRGB(180- Utility::glow/2, 180 - Utility::glow/2, 180 - Utility::glow/2);
 		break;
 	case 22: //Enemy : Indicator Gray
-		ct.colour = getRGB(230- help.glow/2, 230- help.glow/2, 230- help.glow/2);
+		ct.colour = getRGB(230- Utility::glow/2, 230- Utility::glow/2, 230- Utility::glow/2);
 		break;
 	case 23: //Enemy : Indicator Gray
-		ct.colour = getRGB(255- help.glow/2 - (fRandom() * 40) , 255- help.glow/2 - (fRandom() * 40), 255- help.glow/2 - (fRandom() * 40));
+		ct.colour = getRGB(255- Utility::glow/2 - (fRandom() * 40) , 255- Utility::glow/2 - (fRandom() * 40), 255- Utility::glow/2 - (fRandom() * 40));
 		break;
 
 		//Trophies
@@ -2818,7 +2819,7 @@ void Graphics::setcol( int t, UtilityClass& help )
 		break;
 
 	case 100: //Inactive Teleporter
-		temp = (help.glow/2) + (fRandom() * 8);
+		temp = (Utility::glow/2) + (fRandom() * 8);
 		ct.colour = getRGB(42 + temp, 42 + temp, 42 + temp);
 		break;
 	case 101: //Active Teleporter
@@ -3124,7 +3125,7 @@ void Graphics::bigrprint(int x, int y, std::string& t, int r, int g, int b, bool
 	}
 }
 
-void Graphics::drawtele(int x, int y, int t, int c, UtilityClass& help)
+void Graphics::drawtele(int x, int y, int t, int c)
 {
 	setcolreal(getRGB(16,16,16));
 
@@ -3132,7 +3133,7 @@ void Graphics::drawtele(int x, int y, int t, int c, UtilityClass& help)
 	setRect(telerect, x , y, tele_rect.w, tele_rect.h );
 	BlitSurfaceColoured(tele[0], NULL, backBuffer, &telerect, ct);
 
-	setcol(c, help);
+	setcol(c);
 	if (t > 9) t = 8;
 	if (t < 0) t = 0;
 

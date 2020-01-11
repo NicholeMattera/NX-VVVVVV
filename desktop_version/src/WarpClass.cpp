@@ -1,8 +1,9 @@
 #include "WarpClass.h"
 
 #include "MakeAndPlay.h"
+#include "Utility.h"
 
-std::vector<std::string> WarpClass::loadlevel(int rX, int rY , Game& game, EntityClass& obj)
+std::vector<std::string> WarpClass::loadLevel(int rX, int rY , Game& game, EntityClass& obj)
 {
 	int t;
 
@@ -17,7 +18,7 @@ std::vector<std::string> WarpClass::loadlevel(int rX, int rY , Game& game, Entit
 	warpX = false;
 	warpY = false;
 
-	roomName = "Untitled room ["+UtilityClass::String(rX) + "," + UtilityClass::String(rY)+"]";
+	roomName = "Untitled room ["+Utility::toString(rX) + "," + Utility::toString(rY)+"]";
 
 	switch (t)
 	{

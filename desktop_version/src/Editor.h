@@ -4,8 +4,7 @@
 #include <string>
 #include "Script.h"
 
-class KeyPoll; class Graphics; class Game; class MapClass; class EntityClass; class UtilityClass;
-
+class KeyPoll; class Graphics; class Game; class MapClass; class EntityClass;
 
 class edentities{
 public:
@@ -251,9 +250,9 @@ void fillbox(Graphics& dwgfx, int x, int y, int x2, int y2, int c);
 
 void fillboxabs(Graphics& dwgfx, int x, int y, int x2, int y2, int c);
 
-void editorrender(KeyPoll& key, Graphics& dwgfx, Game& game,  MapClass& map, EntityClass& obj, UtilityClass& help);
+void editorrender(KeyPoll& key, Graphics& dwgfx, Game& game,  MapClass& map, EntityClass& obj);
 
-void editorlogic(KeyPoll& key, Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music, MapClass& map, UtilityClass& help);
+void editorlogic(KeyPoll& key, Graphics& dwgfx, Game& game, EntityClass& obj,  MusicClass& music, MapClass& map);
 
 void editorinput(KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
-                 EntityClass& obj, UtilityClass& help, MusicClass& music);
+                 EntityClass& obj, MusicClass& music);

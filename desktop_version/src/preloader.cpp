@@ -1,6 +1,7 @@
 #include "preloader.h"
 
 #include "Enums.h"
+#include "Utility.h"
 
 int pre_fakepercent=0, pre_transition=30;
 bool pre_startgame=false;
@@ -9,7 +10,7 @@ int pre_darkcol=0, pre_lightcol=0, pre_curcol=0, pre_coltimer=0, pre_offset=0;
 int pre_frontrectx=30, pre_frontrecty=20, pre_frontrectw=260, pre_frontrecth=200;
 int pre_temprectx=0, pre_temprecty=0, pre_temprectw=320, pre_temprecth=240;
 
-void preloaderrender(Graphics& dwgfx, Game& game, UtilityClass& help)
+void preloaderrender(Graphics& dwgfx, Game& game)
 {
 	//TODO
 	//dwgfx.backbuffer.lock();
@@ -78,9 +79,9 @@ void preloaderrender(Graphics& dwgfx, Game& game, UtilityClass& help)
     FillRect(dwgfx.backBuffer, pre_frontrectx, pre_frontrecty, pre_frontrectw,pre_frontrecth, dwgfx.getBGR(0x3E,0x31,0xA2));
 
     if(pre_fakepercent==100){
-      dwgfx.Print(282-(15*8), 204, "LOADING... " + help.String(int(pre_fakepercent))+"%", 124, 112, 218, false);
+      dwgfx.Print(282-(15*8), 204, "LOADING... " + Utility::toString(int(pre_fakepercent))+"%", 124, 112, 218, false);
     }else{
-      dwgfx.Print(282-(14*8), 204, "LOADING... " + help.String(int(pre_fakepercent))+"%", 124, 112, 218, false);
+      dwgfx.Print(282-(14*8), 204, "LOADING... " + Utility::toString(int(pre_fakepercent))+"%", 124, 112, 218, false);
     }
 
     //Render
@@ -102,7 +103,7 @@ void preloaderrender(Graphics& dwgfx, Game& game, UtilityClass& help)
 
 	if (game.test)
 	{
-		dwgfx.Print(5, 5, game.teststring, 196, 196, 255 - help.glow, false);
+		dwgfx.Print(5, 5, game.teststring, 196, 196, 255 - Utility::glow, false);
 	}
 
 	dwgfx.drawfade();
