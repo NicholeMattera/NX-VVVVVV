@@ -843,7 +843,7 @@ void titlerender(Graphics& dwgfx, MapClass& map, Game& game, EntityClass& obj, U
         {
             dwgfx.bigprint( -1, 30, "Unlock Time Trials", tr, tg, tb, true);
             dwgfx.Print( -1, 65, "You can unlock each time", tr, tg, tb, true);
-            dwgfx.Print( -1, 75, "trial seperately.", tr, tg, tb, true);
+            dwgfx.Print( -1, 75, "trial separately.", tr, tg, tb, true);
         }
         else if (game.currentmenuname == "timetrials")
         {

@@ -210,8 +210,14 @@ MusicClass::MusicClass()
 	FadeVolAmountPerFrame = 0;
 
 	custompd = false;
-	// currentsong = -1;
-	// nicefade = 0;
+
+	currentsong = 0;
+	musicfade = 0;
+	musicfadein = 0;
+	nicechange = 0;
+	nicefade = 0;
+	resumesong = 0;
+	volume = 0.0f;
 }
 
 void MusicClass::play(int t)
