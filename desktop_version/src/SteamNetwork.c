@@ -17,7 +17,7 @@
 	#define NETWORK_LIBRARY "steam_api.dll"
 	#elif defined(__APPLE__)
 	#define NETWORK_LIBRARY "libsteam_api.dylib"
-	#elif defined(__linux__) || defined(__FreeBSD__)
+	#elif defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__)
 	#define NETWORK_LIBRARY "libsteam_api.so"
 	#error NETWORK_LIBRARY: Unrecognized platform!
 	#endif
@@ -99,7 +99,7 @@
 
 int NETWORK_init()
 {
-	#if defined(__FreeBSD__) || defined(__SWITCH__)
+	#if defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__SWITCH__)
 		return 1;
 	#else
 		intptr_t steamClient;
