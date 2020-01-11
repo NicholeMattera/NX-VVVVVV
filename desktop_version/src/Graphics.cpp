@@ -105,25 +105,25 @@ Graphics::Graphics()
     fademode = 0;
 
     // initialize everything else to zero
-    backBuffer = nullptr;
+    backBuffer = NULL;
     backboxrect.x = 0, backboxrect.y = 0, backboxrect.w = 0, backboxrect.h = 0; 
     bcol = 0;
     bcol2 = 0;
     ct.colour = 0;
     foot_rect.x = 0, foot_rect.y = 0, foot_rect.w = 0, foot_rect.h = 0;
     foregrounddrawn = false;
-    foregroundBuffer = nullptr;
+    foregroundBuffer = NULL;
     backgrounddrawn = false;
     images_rect.x = 0, images_rect.y = 0, images_rect.w = 0, images_rect.h = 0;
     j = 0;
     k = 0;
     m = 0;
     linedelay = 0;
-    menubuffer = nullptr;
-    screenbuffer = nullptr;
-    tempBuffer = nullptr;
+    menubuffer = NULL;
+    screenbuffer = NULL;
+    tempBuffer = NULL;
     tl.x = 0, tl.y = 0;
-    towerbuffer = nullptr;
+    towerbuffer = NULL;
     trinketr = 0;
     trinketg = 0;
     trinketb = 0;
@@ -3080,13 +3080,12 @@ void Graphics::bigrprint(int x, int y, std::string& t, int r, int g, int b, bool
 	x -= (len(t));
 
 	if (r < -1) r = -1;
-    if (g < 0) g = 0;
-    if (b < 0) b = 0;
-	
-    if (r > 255) r = 255;
-    if (g > 255) g = 255;
-    if (b > 255) b = 255;
-    
+	if (g < 0) g = 0;
+	if (b < 0) b = 0;
+	if (r > 255) r = 255;
+	if (g > 255) g = 255;
+	if (b > 255) b = 255;
+
 	ct.colour = getRGB(r, g, b);
 
 	if (cen)
