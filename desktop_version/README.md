@@ -5,12 +5,14 @@ VVVVVV's official desktop versions are built with the following environments:
 - Windows: Visual Studio 2010
 - macOS: Xcode CLT, currently targeting 10.9 SDK
 - GNU/Linux: CentOS 7
+- Switch: devkitPro
 
 The engine depends solely on [SDL2](https://libsdl.org/) and
 [SDL2_mixer](https://www.libsdl.org/projects/SDL_mixer/). All other dependencies
 are statically linked into the engine. The development libraries for Windows can
 be downloaded from their respective websites, Linux and macOS developers should
-compile and install from source.
+compile and install from source, and Switch developers should get the them from
+pacman.
 
 Steamworks support is included and the DLL is loaded dynamically, you do not
 need the SDK headers and there is no special Steam or non-Steam version. The
@@ -22,6 +24,11 @@ To generate the projects on Windows:
 mkdir flibitBuild
 cd flibitBuild
 cmake -G "Visual Studio 10 2010" .. -DSDL2_INCLUDE_DIRS="C:\SDL2-2.0.10\include;C:\SDL2_mixer-2.0.4\include" -DSDL2_LIBRARIES="C:\SDL2-2.0.10\lib\x86\SDL2;C:\SDL2-2.0.10\lib\x86\SDL2main;C:\SDL2_mixer-2.0.4\lib\x86\SDL2_mixer"
+```
+
+To generate the projects on Switch:
+```
+make -f Makefile.switch
 ```
 
 To generate everywhere else:
