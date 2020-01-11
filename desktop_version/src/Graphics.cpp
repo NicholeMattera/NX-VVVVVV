@@ -3207,7 +3207,14 @@ void Graphics::drawrect(int x, int y, int w, int h, int r, int g, int b)
 	FillRect(backBuffer, madrect, getRGB(b,g,r));
 }
 
-bool Graphics::onscreen(int t)
+int Graphics::onscreen(int t)
 {
-	return (t >= -40 && t <= 280);
+    if (t < -40) {
+        return -1;
+    }
+    else if (t > 280) {
+        return 1;
+    }
+    
+    return 0;
 }

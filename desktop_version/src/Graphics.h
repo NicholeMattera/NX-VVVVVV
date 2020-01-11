@@ -176,7 +176,7 @@ public:
 
 	void drawtowerentities(mapclass& map, entityclass& obj, UtilityClass& help);
 
-	bool onscreen(int t);
+	int onscreen(int t);
 
 	void drawtowerbackgroundsolo(mapclass& map);
 

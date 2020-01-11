@@ -1295,112 +1295,93 @@ void titlerender(Graphics& dwgfx, mapclass& map, Game& game, entityclass& obj, U
 
 void gamecompleterender(Graphics& dwgfx, Game& game, entityclass& obj, UtilityClass& help, mapclass& map)
 {
-    //dwgfx.backbuffer.lock();
     FillRect(dwgfx.backBuffer, 0x000000);
 
-    if(!game.colourblindmode) dwgfx.drawtowerbackgroundsolo(map);
-    //dwgfx.drawtowermap(map);
-
-    for (int i = 0; i < 6; i++)
-    {
-        //dwgfx.drawsprite((160-96)+ i * 32, 10, 23, 96+(i*10)+(random()*16), 196-(help.glow)-(random()*16), 255 - (help.glow*2));
+    if (!game.colourblindmode) {
+        dwgfx.drawtowerbackgroundsolo(map);
     }
 
     tr = map.r - (help.glow / 4) - fRandom() * 4;
-    tg = map.g - (help.glow / 4) - fRandom() * 4;
-    tb = map.b - (help.glow / 4) - fRandom() * 4;
     if (tr < 0) tr = 0;
-    if(tr>255) tr=255;
-    if (tg < 0) tg = 0;
-    if(tg>255) tg=255;
-    if (tb < 0) tb = 0;
-    if(tb>255) tb=255;
+    else if (tr > 255) tr = 255;
 
+    tg = map.g - (help.glow / 4) - fRandom() * 4;
+    if (tg < 0) tg = 0;
+    else if (tg > 255) tg = 255;
+
+    tb = map.b - (help.glow / 4) - fRandom() * 4;
+    if (tb < 0) tb = 0;
+    else if (tb > 255) tb = 255;
 
     //rendering starts... here!
     int y = 220;
-    if (dwgfx.onscreen(y + game.creditposition))
+    if (dwgfx.onscreen(y + game.creditposition) == 0)
     {
-        temp = 220 + game.creditposition;
-        dwgfx.drawsprite((160 - 96) + 0 * 32, temp, 23, tr, tg, tb);
-        dwgfx.drawsprite((160 - 96) + 1 * 32, temp, 23, tr, tg, tb);
-        dwgfx.drawsprite((160 - 96) + 2 * 32, temp, 23, tr, tg, tb);
-        dwgfx.drawsprite((160 - 96) + 3 * 32, temp, 23, tr, tg, tb);
-        dwgfx.drawsprite((160 - 96) + 4 * 32, temp, 23, tr, tg, tb);
-        dwgfx.drawsprite((160 - 96) + 5 * 32, temp, 23, tr, tg, tb);
+        for (int i = 0; i < 6; i++)
+        {
+            dwgfx.drawsprite((160 - 96) + i * 32, y + game.creditposition, 23, tr, tg, tb);
+        }
     }
 
     y += 70;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.bigprint( -1, y + game.creditposition, "Starring", tr, tg, tb, true, 2);
-
-    y += 30;
-    if (dwgfx.onscreen(y + game.creditposition))
-    {
-        dwgfx.drawcrewman(70, y + game.creditposition, 0, true, help);
-        dwgfx.Print(100, y + 10 + game.creditposition, "Captain Viridian", tr, tg, tb);
+    if (dwgfx.onscreen(y + game.creditposition) == 0) {
+        dwgfx.bigprint( -1, y + game.creditposition, "Starring", tr, tg, tb, true, 2);
     }
 
     y += 30;
-    if (dwgfx.onscreen(y + game.creditposition))
+    static const char* starring[] = {
+        "Captain Viridian",
+        "Doctor Violet",
+        "Professor Vitellary",
+        "Officer Vermilion",
+        "Chief Verdigris",
+        "Doctor Victoria"
+    };
+    for (int i = 0; i < 6; i++)
     {
-        dwgfx.drawcrewman(70, y + game.creditposition, 1, true, help);
-        dwgfx.Print(100, y + 10 + game.creditposition, "Doctor Violet", tr, tg, tb);
-    }
-    
-    y += 30;
-    if (dwgfx.onscreen(y + game.creditposition))
-    {
-        dwgfx.drawcrewman(70, y + game.creditposition, 2, true, help);
-        dwgfx.Print(100, y + 10 + game.creditposition, "Professor Vitellary", tr, tg, tb);
-    }
-    
-    y += 30;
-    if (dwgfx.onscreen(410 + game.creditposition))
-    {
-        dwgfx.drawcrewman(70, y + game.creditposition, 3, true, help);
-        dwgfx.Print(100, y + 10 + game.creditposition, "Officer Vermilion", tr, tg, tb);
-    }
-    
-    y += 30;
-    if (dwgfx.onscreen(y + game.creditposition))
-    {
-        dwgfx.drawcrewman(70, y + game.creditposition, 4, true, help);
-        dwgfx.Print(100, y + 10 + game.creditposition, "Chief Verdigris", tr, tg, tb);
-    }
-    
-    y += 30;
-    if (dwgfx.onscreen(y + game.creditposition))
-    {
-        dwgfx.drawcrewman(70, y + game.creditposition, 5, true, help);
-        dwgfx.Print(100, y + 10 + game.creditposition, "Doctor Victoria", tr, tg, tb);
+        int pos = dwgfx.onscreen(y + (i * 30) + game.creditposition);
+        if (pos == -1)
+        {
+            continue;
+        }
+        else if (pos == 1)
+        {
+            break;
+        }
+
+        dwgfx.drawcrewman(70, y + (i * 30) + game.creditposition, i, true, help);
+        dwgfx.Print(100, y + (i * 30) + 10 + game.creditposition, starring[i], tr, tg, tb);
     }
 
-    y += 50;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.bigprint( -1, y + game.creditposition, "Credits", tr, tg, tb, true, 3);
+    y += 200;
+    if (dwgfx.onscreen(y + game.creditposition) == 0) 
+    {
+        dwgfx.bigprint( -1, y + game.creditposition, "Credits", tr, tg, tb, true, 3);
+    }
 
     y += 40;
-    if (dwgfx.onscreen(y + game.creditposition))
+    if (dwgfx.onscreen(y + game.creditposition) == 0)
     {
         dwgfx.Print(40, y + game.creditposition, "Created by", tr, tg, tb);
         dwgfx.bigprint(60, y + 10 + game.creditposition, "Terry Cavanagh", tr, tg, tb);
     }
 
     y += 40;
-    if (dwgfx.onscreen(y + game.creditposition))
+    if (dwgfx.onscreen(y + game.creditposition) == 0)
     {
         dwgfx.Print(40, y + game.creditposition, "With Music by", tr, tg, tb);
         dwgfx.bigprint(60, y + 10 + game.creditposition, "Magnus P~lsson", tr, tg, tb);
     }
 
     y += 40;
-    if (dwgfx.onscreen(y + game.creditposition))
+    if (dwgfx.onscreen(y + game.creditposition) == 0)
     {
         dwgfx.Print(40, y + game.creditposition, "Rooms Named by", tr, tg, tb);
         dwgfx.bigprint(60, y + 10 + game.creditposition, "Bennett Foddy", tr, tg, tb);
     }
 
     y += 40;
-    if (dwgfx.onscreen(y + game.creditposition))
+    if (dwgfx.onscreen(y + game.creditposition) == 0)
     {
         dwgfx.Print(40, y + game.creditposition, "C++ Port by", tr, tg, tb);
         dwgfx.bigprint(60, y + 10 + game.creditposition, "Simon Roth", tr, tg, tb);
@@ -1408,7 +1389,7 @@ void gamecompleterender(Graphics& dwgfx, Game& game, entityclass& obj, UtilityCl
 
     #if defined(__SWITCH__)
         y += 40;
-        if (dwgfx.onscreen(y + game.creditposition))
+        if (dwgfx.onscreen(y + game.creditposition) == 0)
         {
             dwgfx.Print(40, y + game.creditposition, "Switch Port by", tr, tg, tb);
             dwgfx.bigprint(60, y + 10 + game.creditposition, "Nichole Mattera", tr, tg, tb);
@@ -1416,7 +1397,7 @@ void gamecompleterender(Graphics& dwgfx, Game& game, entityclass& obj, UtilityCl
     #endif
 
     y += 40;
-    if (dwgfx.onscreen(y + game.creditposition))
+    if (dwgfx.onscreen(y + game.creditposition) == 0)
     {
         dwgfx.Print(40, y + game.creditposition, "Beta Testing by", tr, tg, tb);
         dwgfx.bigprint(60, y + 10 + game.creditposition, "Sam Kaplan", tr, tg, tb);
@@ -1424,160 +1405,134 @@ void gamecompleterender(Graphics& dwgfx, Game& game, entityclass& obj, UtilityCl
     }
 
     y += 60;
-    if (dwgfx.onscreen(y + game.creditposition))
+    if (dwgfx.onscreen(y + game.creditposition) == 0)
     {
         dwgfx.Print(40, y + game.creditposition, "Ending Picture by", tr, tg, tb);
         dwgfx.bigprint(60, y + 10 + game.creditposition, "Pauli Kohberger", tr, tg, tb);
     }
 
     y += 90;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.bigprint( -1, y + game.creditposition, "Patrons", tr, tg, tb, true, 3);
+    if (dwgfx.onscreen(y + game.creditposition) == 0)
+    {
+        dwgfx.bigprint( -1, y + game.creditposition, "Patrons", tr, tg, tb, true, 3);
+    }
 
     y += 30;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Anders Ekermo", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Andreas K|mper", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Anthony Burch", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Bennett Foddy", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Brendan O'Sullivan", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Christopher Armstrong", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Daniel Benmergui", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"David Pittman", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Ian Bogost", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Jaz McDougall", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"John Faulkenbury", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Jonathan Whiting", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Kyle Pulver", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Markus Persson", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Nathan Ostgard", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Nick Easler", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Stephen Lavelle", tr, tg, tb, true);
+    static const char* patrons_1[] = {
+        "Anders Ekermo",
+        "Andreas K|mper",
+        "Anthony Burch",
+        "Bennett Foddy",
+        "Brendan O'Sullivan",
+        "Christopher Armstrong",
+        "Daniel Benmergui",
+        "David Pittman",
+        "Ian Bogost",
+        "Jaz McDougall",
+        "John Faulkenbury",
+        "Jonathan Whiting",
+        "Kyle Pulver",
+        "Markus Persson",
+        "Nathan Ostgard",
+        "Nick Easler",
+        "Stephen Lavelle"
+    };
+    for (int i = 0; i < 17; i++)
+    {
+        int pos = dwgfx.onscreen(y + (i * 10) + game.creditposition);
+        if (pos == -1)
+        {
+            continue;
+        }
+        else if (pos == 1)
+        {
+            break;
+        }
+
+        dwgfx.Print(-1, y + (i * 10) + game.creditposition, patrons_1[i], tr, tg, tb, true);
+    }
+    
+    y += 180;
+    if (dwgfx.onscreen(y + game.creditposition) == 0)
+    {
+        dwgfx.Print(-1, y + game.creditposition, "and", tr, tg, tb, true);
+    }
 
     y += 20;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print( -1, y + game.creditposition, "and", tr, tg, tb, true);
+    static const char* patrons_2[] = {
+        "Adam Wendt",
+        "Andreas J{rgensen",
+        "}ngel Louzao Penalva",
+        "Ashley Burton",
+        "Aubrey Hesselgren",
+        "Bradley Rose",
+        "Brendan Urquhart",
+        "Chris Ayotte",
+        "Christopher Zamanillo",
+        "Daniel Schuller",
+        "Hybrid Mind Studios",
+        "Emilie McGinley",
+        "Francisco Solares",
+        "Hal Helms",
+        "Hayden Scott-Baron",
+        "Hermit Games",
+        "Ido Yehieli",
+        "Jade Vault Games",
+        "James Andrews",
+        "James Riley",
+        "James Hsieh",
+        "Jasper Byrne",
+        "Jedediah Baker",
+        "Jens Bergensten",
+        "Jeremy J. Penner",
+        "Jeremy Peterson",
+        "Jim McGinley",
+        "Jonathan Cartwright",
+        "John Nesky",
+        "Jos Yule",
+        "Jose Flores",
+        "Josh Bizeau",
+        "Joshua Buergel",
+        "Joshua Hochner",
+        "Kurt Ostfeld",
+        "Magnus P~lsson",
+        "Mark Neschadimenko",
+        "Matt Antonellis",
+        "Matthew Reppert",
+        "Michael Falkensteiner",
+        "Michael Vendittelli",
+        "Mike Kasprzak",
+        "Mitchel Stein",
+        "Sean Murray",
+        "Simon Michael",
+        "Simon Schmid",
+        "Stephen Maxwell",
+        "Swing Swing Submarine",
+        "Tam Toucan",
+        "Terry Dooher",
+        "Tim W.",
+        "Timothy Bragan"
+    };
+    for (int i = 0; i < 52; i++)
+    {
+        int pos = dwgfx.onscreen(y + (i * 10) + game.creditposition);
+        if (pos == -1)
+        {
+            continue;
+        }
+        else if (pos == 1)
+        {
+            break;
+        }
 
-    y += 20;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Adam Wendt", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Andreas J{rgensen", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"}ngel Louzao Penalva", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Ashley Burton", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Aubrey Hesselgren", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Bradley Rose", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Brendan Urquhart", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Chris Ayotte", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Christopher Zamanillo", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Daniel Schuller", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Hybrid Mind Studios", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Emilie McGinley", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Francisco Solares", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Hal Helms", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Hayden Scott-Baron", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Hermit Games", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Ido Yehieli", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Jade Vault Games", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"James Andrews", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"James Riley", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"James Hsieh", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Jasper Byrne", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Jedediah Baker", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Jens Bergensten", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Jeremy J. Penner", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Jeremy Peterson", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Jim McGinley", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Jonathan Cartwright", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"John Nesky", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Jos Yule", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Jose Flores", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Josh Bizeau", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Joshua Buergel", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Joshua Hochner", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Kurt Ostfeld", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition, "Magnus P~lsson", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Mark Neschadimenko", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Matt Antonellis", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Matthew Reppert", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Michael Falkensteiner", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Michael Vendittelli", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Mike Kasprzak", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Mitchel Stein", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Sean Murray", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Simon Michael", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Simon Schmid", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Stephen Maxwell", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Swing Swing Submarine", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Tam Toucan", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Terry Dooher", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print(-1, y + game.creditposition,"Tim W.", tr, tg, tb, true);
-    y += 10;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.Print( -1, y + game.creditposition, "Timothy Bragan", tr, tg, tb, true);
+        dwgfx.Print(-1, y + (i * 10) + game.creditposition, patrons_2[i], tr, tg, tb, true);
+    }
 
-    y += 150;
-    if (dwgfx.onscreen(y + game.creditposition)) dwgfx.bigprint( -1, y + game.creditposition, "Thanks for playing!", tr, tg, tb, true, 2);
+    y += 660;
+    if (dwgfx.onscreen(y + game.creditposition) == 0)
+    {
+        dwgfx.bigprint( -1, y + game.creditposition, "Thanks for playing!", tr, tg, tb, true, 2);
+    }
 
     if (game.test)
     {
@@ -1601,12 +1556,10 @@ void gamecompleterender(Graphics& dwgfx, Game& game, entityclass& obj, UtilityCl
     {
         dwgfx.render();
     }
-    //dwgfx.backbuffer.unlock();
 }
 
 void gamecompleterender2(Graphics& dwgfx, Game& game, entityclass& obj, UtilityClass& help)
 {
-    //dwgfx.backbuffer.lock();
     FillRect(dwgfx.backBuffer, 0x000000);
 
     dwgfx.drawimage(10, 0, 0);
@@ -1652,7 +1605,6 @@ void gamecompleterender2(Graphics& dwgfx, Game& game, entityclass& obj, UtilityC
     {
         dwgfx.render();
     }
-    //dwgfx.backbuffer.unlock();
 }
 
 void gamerender(Graphics& dwgfx, mapclass& map, Game& game, entityclass& obj, UtilityClass& help)
