@@ -397,11 +397,18 @@ void titleinput(KeyPoll& key, Graphics& dwgfx, MapClass& map, Game& game, Entity
                     game.createmenu("levellist");
                     map.nexttowercolour();
                   }else if(game.currentmenuoption==1){
-                    //LEVEL EDITOR HOOK
-                    music.playef(11, 10);
-                    game.mainmenu = 20;
-                    dwgfx.fademode = 2;
-                    ed.filename="";
+                    #if defined(__SWITCH__)
+                        //back
+                        music.playef(11, 10);
+                        game.createmenu("mainmenu");
+                        map.nexttowercolour();
+                    #else
+                        //LEVEL EDITOR HOOK
+                        music.playef(11, 10);
+                        game.mainmenu = 20;
+                        dwgfx.fademode = 2;
+                        ed.filename="";
+                    #endif
                   }/*else if(game.currentmenuoption==2){
                     music.playef(11, 10);
                     //"OPENFOLDERHOOK"

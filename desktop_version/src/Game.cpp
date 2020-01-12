@@ -6662,15 +6662,21 @@ void Game::createmenu( std::string t )
     }
     else if (t == "playerworlds")
     {
-        menuoptions[0] = "play a level";
-        menuoptionsactive[0] = true;
-        menuoptions[1] = "level editor";
-        menuoptionsactive[1] = true;
-        //menuoptions[2] = "open level folder";
-        //menuoptionsactive[2] = true;
-        menuoptions[2] = "back to menu";
-        menuoptionsactive[2] = true;
-        nummenuoptions = 3;
+        #if defined(__SWITCH__)
+            menuoptions[0] = "play a level";
+            menuoptionsactive[0] = true;
+            menuoptions[1] = "back to menu";
+            menuoptionsactive[1] = true;
+            nummenuoptions = 2;
+        #else
+            menuoptions[0] = "play a level";
+            menuoptionsactive[0] = true;
+            menuoptions[1] = "level editor";
+            menuoptionsactive[1] = true;
+            menuoptions[2] = "back to menu";
+            menuoptionsactive[2] = true;
+            nummenuoptions = 3;
+        #endif
         menuxoff = -30;
         menuyoff = -40;
     }
