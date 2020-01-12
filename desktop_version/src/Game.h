@@ -172,6 +172,7 @@ public:
 
     int mainmenu;
     bool menustart;
+    bool shouldQuit;
 
     //Teleporting
     bool teleport_to_new_area;

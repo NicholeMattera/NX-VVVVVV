@@ -60,10 +60,6 @@ static inline PHYSFS_ErrorCode errcodeFromErrno(void)
 
 static char *getUserDirByUID(void)
 {
-    #if defined(__SWITCH__)
-        return "sdmc:/";
-    #endif
-
     uid_t uid = getuid();
     struct passwd *pw;
     char *retval = NULL;
@@ -92,6 +88,11 @@ static char *getUserDirByUID(void)
 char *__PHYSFS_platformCalcUserDir(void)
 {
     char *retval = NULL;
+    #if defined(__SWITCH__)
+        retval = (char *) allocator.Malloc(7);
+        strcpy(retval, "sdmc:/");
+        return retval;
+    #endif
     char *envr = getenv("HOME");
 
     /* if the environment variable was set, make sure it's really a dir. */

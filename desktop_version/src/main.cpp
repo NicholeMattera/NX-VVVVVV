@@ -148,6 +148,7 @@ int main(int argc, char * argv[])
 
     game.menustart = false;
     game.mainmenu = 0;
+    game.shouldQuit = false;
 
     KeyPoll key;
     MapClass map;
@@ -223,7 +224,7 @@ int main(int argc, char * argv[])
     key.isActive = true;
     
     #if defined(__SWITCH__)
-        while(appletMainLoop())
+        while(appletMainLoop() && !game.shouldQuit)
     #else
         while(!key.quitProgram)
     #endif
