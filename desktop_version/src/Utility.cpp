@@ -157,160 +157,21 @@ namespace vvvvvv {
 
 	std::string Utility::toWord(int number)
 	{
-		switch (number)
-		{
-			case 0:
-				return "Zero";
-				
-			case 1:
-				return "One";
-				
-			case 2:
-				return "Two";
-				
-			case 3:
-				return "Three";
-				
-			case 4:
-				return "Four";
-				
-			case 5:
-				return "Five";
-				
-			case 6:
-				return "Six";
-				
-			case 7:
-				return "Seven";
-				
-			case 8:
-				return "Eight";
-				
-			case 9:
-				return "Nine";
-				
-			case 10:
-				return "Ten";
-				
-			case 11:
-				return "Eleven";
-				
-			case 12:
-				return "Twelve";
-				
-			case 13:
-				return "Thirteen";
-				
-			case 14:
-				return "Fourteen";
-				
-			case 15:
-				return "Fifteen";
-				
-			case 16:
-				return "Sixteen";
-				
-			case 17:
-				return "Seventeen";
-				
-			case 18:
-				return "Eighteen";
-				
-			case 19:
-				return "Nineteen";
-				
-			case 20:
-				return "Twenty";
-				
-			case 21:
-				return "Twenty One";
-				
-			case 22:
-				return "Twenty Two";
-				
-			case 23:
-				return "Twenty Three";
-				
-			case 24:
-				return "Twenty Four";
-				
-			case 25:
-				return "Twenty Five";
-				
-			case 26:
-				return "Twenty Six";
-				
-			case 27:
-				return "Twenty Seven";
-				
-			case 28:
-				return "Twenty Eight";
-				
-			case 29:
-				return "Twenty Nine";
-				
-			case 30:
-				return "Thirty";
-				
-			case 31:
-				return "Thirty One";
-				
-			case 32:
-				return "Thirty Two";
-				
-			case 33:
-				return "Thirty Three";
-				
-			case 34:
-				return "Thirty Four";
-				
-			case 35:
-				return "Thirty Five";
-				
-			case 36:
-				return "Thirty Six";
-				
-			case 37:
-				return "Thirty Seven";
-				
-			case 38:
-				return "Thirty Eight";
-				
-			case 39:
-				return "Thirty Nine";
-				
-			case 40:
-				return "Forty";
-				
-			case 41:
-				return "Forty One";
-				
-			case 42:
-				return "Forty Two";
-				
-			case 43:
-				return "Forty Three";
-				
-			case 44:
-				return "Forty Four";
-				
-			case 45:
-				return "Forty Five";
-				
-			case 46:
-				return "Forty Six";
-				
-			case 47:
-				return "Forty Seven";
-				
-			case 48:
-				return "Forty Eight";
-				
-			case 49:
-				return "Forty Nine";
+		const int MAX_NUMBER = 50;
+		const char* words[] = {
+			"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", 
+			"Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",
+			"Seventeen", "Eighteen", "Nineteen", "Twenty", "Twenty One", "Twenty Two",
+			"Twenty Three", "Twenty Four", "Twenty Five", "Twenty Six", "Twenty Seven",
+			"Twenty Eight", "Twenty Nine", "Thirty", "Thirty One", "Thirty Two",
+			"Thirty Three", "Thirty Four", "Thirty Five", "Thirty Six", "Thirty Seven",
+			"Thirty Eight", "Thirty Nine", "Forty Zero", "Forty One", "Forty Two",
+			"Forty Three", "Forty Four", "Forty Five", "Forty Six", "Forty Seven",
+			"Forty Eight", "Forty Nine", "Fifty"
+		};
 
-			case 50:
-				return "Fifty";
+		if (number <= MAX_NUMBER) {
+			return words[number];
 		}
 
 		return "Lots";

@@ -41,6 +41,9 @@ int FILESYSTEM_init(char *argvZero)
 	char output[MAX_PATH];
 	int mkdirResult;
 
+	#if !defined(__SWITCH__)
+	    PHYSFS_permitSymbolicLinks(1);
+	#endif
 	PHYSFS_init(argvZero);
 
 	/* Determine the OS user directory */
