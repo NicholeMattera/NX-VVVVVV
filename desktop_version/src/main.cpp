@@ -318,6 +318,7 @@ int main(int argc, char * argv[])
         switch (game.gamestate)
         {
             case PRELOADER:
+                vvvvvv::states::Preloader::input(key, game);
                 vvvvvv::states::Preloader::render(graphics, game);
                 break;
 

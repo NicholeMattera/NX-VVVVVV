@@ -23,6 +23,12 @@
 #define LOADING_TEXT_COLOR_B 218
 
 namespace vvvvvv::states {
+	void Preloader::input(KeyPoll& key, Game& game) {
+		if (key.isDown(game.controllerButton_flip)) {
+			game.gamestate = TITLEMODE;
+		}
+	}
+
 	void Preloader::render(Graphics& dwgfx, Game& game)
 	{
 		if (fakePercentage < 100) {

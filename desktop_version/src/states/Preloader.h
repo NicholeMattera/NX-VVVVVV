@@ -4,11 +4,13 @@
 
 #include "../Graphics.h"
 #include "../Game.h"
+#include "../KeyPoll.h"
 
 namespace vvvvvv::states {
 	class Preloader
 	{
         public:
+            static void input(KeyPoll& key, Game& game);
             static void render(Graphics& dwgfx, Game& game);
 
         private:
