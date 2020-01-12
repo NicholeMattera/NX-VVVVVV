@@ -43,9 +43,9 @@ SOURCES		:=	src src/levels src/states tinyxml physfs lodepng
 DATA		:=	data
 INCLUDES	:=	tinyxml physfs lodepng
 
-APP_TITLE	:= VVVVVV
-APP_AUTHOR	:= Terry Cavanagh (Ported By Nichole Mattera)
-APP_VERSION	:= 2.2 (1.0.0)
+APP_TITLE	:= NX-VVVVVV
+APP_AUTHOR	:= Nichole Mattera (Based off work by Terry Cavanagh)
+APP_VERSION	:= 1.1.0 (2.2)
 
 #---------------------------------------------------------------------------------
 # options for code generation
