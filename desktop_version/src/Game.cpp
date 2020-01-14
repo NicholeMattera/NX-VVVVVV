@@ -394,8 +394,6 @@ Game::Game(void):
     state = 1;
     statedelay = 0;
     //updatestate(dwgfx, map, obj, help, music);
-
-    skipfakeload = false;
 }
 
 Game::~Game(void)
@@ -4339,11 +4337,6 @@ void Game::loadstats( MapClass& map, Graphics& dwgfx )
 					}
         }
 
-        if (pKey == "skipfakeload")
-        {
-            skipfakeload = atoi(pText);
-        }
-
 		if (pKey == "flipButton")
 		{
 			SDL_GameControllerButton newButton;
@@ -4555,10 +4548,6 @@ void Game::savestats( MapClass& _map, Graphics& _dwgfx )
     msg = new TiXmlElement( "usingmmmmmm" );
     msg->LinkEndChild( new TiXmlText( vvvvvv::Utility::toString(usingmmmmmm).c_str()));
     dataNode->LinkEndChild( msg );
-
-    msg = new TiXmlElement("skipfakeload");
-    msg->LinkEndChild(new TiXmlText(tu.String((int) skipfakeload).c_str()));
-    dataNode->LinkEndChild(msg);
 
     for (size_t i = 0; i < controllerButton_flip.size(); i += 1)
     {
@@ -6957,11 +6946,9 @@ void Game::createmenu( std::string t )
         menuoptionsactive[2] = true;
         menuoptions[3] = "slowdown";
         menuoptionsactive[3] = true;
-        menuoptions[4] = "load screen";
+        menuoptions[4] = "return";
         menuoptionsactive[4] = true;
-        menuoptions[5] = "return";
-        menuoptionsactive[5] = true;
-        nummenuoptions = 6;
+        nummenuoptions = 5;
         menuxoff = -40;
         menuyoff = 16;
     }
