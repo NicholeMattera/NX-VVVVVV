@@ -12,15 +12,10 @@ ScriptClass::ScriptClass()
     	//Start SDL
 
 	//Init
-	for (int i = 0; i < 500; i++)
-	{
-		commands.push_back(std::string());
-	}
-	for (int i = 0; i < 40; i++)
-	{
-		words.push_back(std::string());
-		txt.push_back(std::string());
-	}
+	commands.resize(500);
+	words.resize(40);
+	txt.resize(40);
+
 	position = 0;
 	scriptlength = 0;
 	scriptdelay = 0;
@@ -254,6 +249,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
       if (words[0] == "musicfadeout")
 			{
 				music.fadeout();
+				music.dontquickfade = true;
 			}
 			if (words[0] == "musicfadein")
 			{
@@ -1916,7 +1912,7 @@ void ScriptClass::run( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map,
 			{
 				dwgfx.textboxremovefast();
 
-				dwgfx.createtextbox("The secret lab is seperate from", 50, 85, 174, 174, 174);
+				dwgfx.createtextbox("The secret lab is separate from", 50, 85, 174, 174, 174);
 				dwgfx.addline("the rest of the game. You can");
 				dwgfx.addline("now come back here at any time");
 				dwgfx.addline("by selecting the new SECRET LAB");

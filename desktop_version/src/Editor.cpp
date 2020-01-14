@@ -2107,7 +2107,7 @@ void EditorClass::save(std::string& _path)
     msg->LinkEndChild( new TiXmlText( scriptString.c_str() ));
     data->LinkEndChild( msg );
 
-    doc.SaveFile((std::string(FILESYSTEM_getUserLevelDirectory()) + _path).c_str() );
+    FILESYSTEM_saveTiXmlDocument(("levels/" + _path).c_str(), &doc);
 }
 
 
@@ -3642,6 +3642,13 @@ void editorinput( KeyPoll& key, Graphics& dwgfx, Game& game, MapClass& map, Enti
     game.my = (float) key.my;
     ed.tilex=(game.mx - (game.mx%8))/8;
     ed.tiley=(game.my - (game.my%8))/8;
+    if (game.stretchMode == 1) {
+        // In this mode specifically, we have to fix the mouse coordinates
+        int winwidth, winheight;
+        dwgfx.screenbuffer->GetWindowSize(&winwidth, &winheight);
+        ed.tilex = ed.tilex * 320 / winwidth;
+        ed.tiley = ed.tiley * 240 / winheight;
+    }
 
     game.press_left = false;
     game.press_right = false;

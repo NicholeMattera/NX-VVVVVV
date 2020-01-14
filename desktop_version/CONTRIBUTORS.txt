@@ -6,6 +6,8 @@ Contributors
 * Christoph Böhmwalder (@chrboe)
 * Charlie Bruce (@charliebruce)
 * Brian Callahan (@ibara)
+* Dav999 (Dav999-v)
+* Allison Fleischer (AllisonFleischer)
 * Daniel Lee (@ddm999)
 * Nichole Mattera (@NicholeMattera)
 * Elliott Saltar (@eboyblue3)

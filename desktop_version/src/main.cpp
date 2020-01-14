@@ -158,8 +158,10 @@ int main(int argc, char * argv[])
 
     game.loadstats(map, graphics);
 
-    if (game.usingmmmmmm == 0) music.usingmmmmmm = false;
-    if (game.usingmmmmmm == 1) music.usingmmmmmm = true;
+    if (game.skipfakeload)
+        game.gamestate = TITLEMODE;
+    if(game.usingmmmmmm == 0) music.usingmmmmmm = false;
+    if(game.usingmmmmmm == 1) music.usingmmmmmm = true;
     if (game.slowdown == 0) game.slowdown = 30;
 
     switch (game.slowdown){
@@ -413,7 +415,7 @@ int main(int argc, char * argv[])
         // Switch doesn't have a keyboard or a way to mute in game, or have the window reset.
         #if !defined(__SWITCH__)
             //Mute button
-            if (key.isDown(KEYBOARD_m) && game.mutebutton <= 0 && !ed.textentry)
+            if (key.isDown(KEYBOARD_m) && game.mutebutton <= 0 && !ed.textentry && !key.textentrymode)
             {
                 game.mutebutton = 8;
                 if (game.muted)

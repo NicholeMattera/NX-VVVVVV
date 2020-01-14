@@ -5,6 +5,8 @@
 
 #include "tinyxml.h"
 
+#include "FileSystemUtils.h"
+
 // Found in titlerender.cpp
 void updategraphicsmode(Game& game, Graphics& dwgfx);
 
@@ -359,9 +361,9 @@ void titleinput(KeyPoll& key, Graphics& dwgfx, MapClass& map, Game& game, Entity
                     game.customleveltitle=ed.ListOfMetaData[game.playcustomlevel].title;
                     game.customlevelfilename=ed.ListOfMetaData[game.playcustomlevel].filename;
 
-                    std::string name = game.saveFilePath + ed.ListOfMetaData[game.playcustomlevel].filename.substr(7) + ".vvv";
-                    TiXmlDocument doc(name.c_str());
-	                  if (!doc.LoadFile()){
+                    std::string name = "saves/" + ed.ListOfMetaData[game.playcustomlevel].filename.substr(7) + ".vvv";
+                    TiXmlDocument doc;
+	                  if (!FILESYSTEM_loadTiXmlDocument(name.c_str(), &doc)){
 	                    game.mainmenu = 22;
                       dwgfx.fademode = 2;
 	                  }else{
@@ -673,6 +675,12 @@ SDL_assert(0 && "Remove open level dir");
                         music.playef(11, 10);
                     }
                     else if (game.currentmenuoption == 4)
+                    {
+                        // toggle fake load screen
+                        game.skipfakeload = !game.skipfakeload;
+                        music.playef(11, 10);
+                    }
+                    else if (game.currentmenuoption == 5)
                     {
                         //back
                         music.playef(11, 10);

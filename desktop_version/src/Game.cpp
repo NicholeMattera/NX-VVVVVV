@@ -208,18 +208,14 @@ Game::Game(void):
     }
     customcol=0;
 
-    for (int i = 0; i < 6; i++)
-    {
-        bool cstats;
-        cstats = false;
-        crewstats.push_back(cstats);
-        tele_crewstats.push_back(false);
-        quick_crewstats.push_back(false);
-        besttimes.push_back( -1);
-        besttrinkets.push_back( -1);
-        bestlives.push_back( -1);
-        bestrank.push_back( -1);
-    }
+    crewstats.resize(6);
+    tele_crewstats.resize(6);
+    quick_crewstats.resize(6);
+    besttimes.resize(6, -1);
+    besttrinkets.resize(6, -1);
+    bestlives.resize(6, -1);
+    bestrank.resize(6, -1);
+
     crewstats[0] = true;
     lastsaved = 0;
 
@@ -231,23 +227,10 @@ Game::Game(void):
     quick_currentarea = "Error! Error!";
 
     //Menu stuff initiliased here:
-    for (int mi = 0; mi < 25; mi++)
-    {
-        menuoptions.push_back(std::string());
-        menuoptionsactive.push_back(bool());
-
-        bool nb1, nb2;
-        nb1 = false;
-        nb2 = false;
-        unlock.push_back(nb1);
-        unlocknotify.push_back(nb2);
-    }
-
-    for (int ui = 0; ui < 25; ui++)
-    {
-        unlock[ui] = false;
-        unlocknotify[ui] = false;
-    }
+    menuoptions.resize(25);
+    menuoptionsactive.resize(25);
+    unlock.resize(25);
+    unlocknotify.resize(25);
 
     nummenuoptions = 0;
     currentmenuoption = 0;
@@ -311,8 +294,8 @@ Game::Game(void):
 
     saveFilePath = FILESYSTEM_getUserSaveDirectory();
 
-    TiXmlDocument doc((saveFilePath + "qsave.vvv").c_str());
-    if (!doc.LoadFile())
+    TiXmlDocument doc;
+    if (!FILESYSTEM_loadTiXmlDocument("saves/qsave.vvv", &doc))
     {
         quickcookieexists = false;
         quicksummary = "";
@@ -349,8 +332,8 @@ Game::Game(void):
     }
 
 
-    TiXmlDocument docTele((saveFilePath+"tsave.vvv").c_str());
-    if (!docTele.LoadFile())
+    TiXmlDocument docTele;
+    if (!FILESYSTEM_loadTiXmlDocument("saves/tsave.vvv", &docTele))
     {
         telecookieexists = false;
         telesummary = "";
@@ -411,6 +394,8 @@ Game::Game(void):
     state = 1;
     statedelay = 0;
     //updatestate(dwgfx, map, obj, help, music);
+
+    skipfakeload = false;
 }
 
 Game::~Game(void)
@@ -488,8 +473,8 @@ void Game::loadcustomlevelstats()
     //testing
     if(!customlevelstatsloaded)
     {
-        TiXmlDocument doc((saveFilePath+"levelstats.vvv").c_str());
-        if (!doc.LoadFile())
+        TiXmlDocument doc;
+        if (!FILESYSTEM_loadTiXmlDocument("saves/levelstats.vvv", &doc))
         {
             //No levelstats file exists; start new
             numcustomlevelstats=0;
@@ -599,7 +584,7 @@ void Game::savecustomlevelstats()
     msg->LinkEndChild( new TiXmlText( customlevelstatsstr.c_str() ));
     msgs->LinkEndChild( msg );
 
-    if(doc.SaveFile( (saveFilePath+"levelstats.vvv").c_str() ))
+    if(FILESYSTEM_saveTiXmlDocument("saves/levelstats.vvv", &doc))
     {
         printf("Level stats saved\n");
     }
@@ -4123,8 +4108,8 @@ void Game::unlocknum( int t, MapClass& map, Graphics& dwgfx )
 void Game::loadstats( MapClass& map, Graphics& dwgfx )
 {
     // TODO loadstats
-    TiXmlDocument doc((saveFilePath+"unlock.vvv").c_str());
-    if (!doc.LoadFile())
+    TiXmlDocument doc;
+    if (!FILESYSTEM_loadTiXmlDocument("saves/unlock.vvv", &doc))
     {
         savestats(map, dwgfx);
         printf("No Stats found. Assuming a new player\n");
@@ -4354,6 +4339,11 @@ void Game::loadstats( MapClass& map, Graphics& dwgfx )
 					}
         }
 
+        if (pKey == "skipfakeload")
+        {
+            skipfakeload = atoi(pText);
+        }
+
 		if (pKey == "flipButton")
 		{
 			SDL_GameControllerButton newButton;
@@ -4566,6 +4556,10 @@ void Game::savestats( MapClass& _map, Graphics& _dwgfx )
     msg->LinkEndChild( new TiXmlText( vvvvvv::Utility::toString(usingmmmmmm).c_str()));
     dataNode->LinkEndChild( msg );
 
+    msg = new TiXmlElement("skipfakeload");
+    msg->LinkEndChild(new TiXmlText(tu.String((int) skipfakeload).c_str()));
+    dataNode->LinkEndChild(msg);
+
     for (size_t i = 0; i < controllerButton_flip.size(); i += 1)
     {
         msg = new TiXmlElement("flipButton");
@@ -4589,7 +4583,7 @@ void Game::savestats( MapClass& _map, Graphics& _dwgfx )
 	msg->LinkEndChild( new TiXmlText( vvvvvv::Utility::toString(controllerSensitivity).c_str()));
 	dataNode->LinkEndChild( msg );
 
-    doc.SaveFile( (saveFilePath+"unlock.vvv").c_str() );
+    FILESYSTEM_saveTiXmlDocument("saves/unlock.vvv", &doc);
 }
 
 void Game::customstart( EntityClass& obj, MusicClass& music )
@@ -4817,8 +4811,8 @@ void Game::starttrial( int t, EntityClass& obj, MusicClass& music )
 
 void Game::loadquick( MapClass& map, EntityClass& obj, MusicClass& music )
 {
-    TiXmlDocument doc((saveFilePath+"qsave.vvv").c_str());
-    if (!doc.LoadFile()) return; ;
+    TiXmlDocument doc;
+    if (!FILESYSTEM_loadTiXmlDocument("saves/qsave.vvv", &doc)) return;
 
     TiXmlHandle hDoc(&doc);
     TiXmlElement* pElem;
@@ -5039,8 +5033,8 @@ void Game::loadquick( MapClass& map, EntityClass& obj, MusicClass& music )
 void Game::customloadquick(std::string savfile, MapClass& map, EntityClass& obj, MusicClass& music )
 {
     std::string levelfile = savfile.substr(7);
-    TiXmlDocument doc((saveFilePath+levelfile+".vvv").c_str());
-    if (!doc.LoadFile()) return; ;
+    TiXmlDocument doc;
+    if (!FILESYSTEM_loadTiXmlDocument(("saves/"+levelfile+".vvv").c_str(), &doc)) return;
 
     TiXmlHandle hDoc(&doc);
     TiXmlElement* pElem;
@@ -5323,8 +5317,8 @@ void Game::loadsummary( MapClass& map )
     //	quick_crewstats = summary_crewstats.slice();
     //}
 
-    TiXmlDocument docTele((saveFilePath+"tsave.vvv").c_str());
-    if (!docTele.LoadFile())
+    TiXmlDocument docTele;
+    if (!FILESYSTEM_loadTiXmlDocument("saves/tsave.vvv", &docTele))
     {
         telecookieexists = false;
         telesummary = "";
@@ -5414,8 +5408,8 @@ void Game::loadsummary( MapClass& map )
         tele_currentarea = map.currentarea(map.area(l_saveX, l_saveY));
     }
 
-    TiXmlDocument doc((saveFilePath+"qsave.vvv").c_str());
-    if (!doc.LoadFile())
+    TiXmlDocument doc;
+    if (!FILESYSTEM_loadTiXmlDocument("saves/qsave.vvv", &doc))
     {
         quickcookieexists = false;
         quicksummary = "";
@@ -5758,7 +5752,7 @@ void Game::savetele( MapClass& map, EntityClass& obj, MusicClass& music )
     //telecookie.flush();
     //telecookie.close();
 
-    if(doc.SaveFile( (saveFilePath+"tsave.vvv").c_str() ))
+    if(FILESYSTEM_saveTiXmlDocument("saves/tsave.vvv", &doc))
     {
         printf("Game saved\n");
     }
@@ -6001,7 +5995,7 @@ void Game::savequick( MapClass& map, EntityClass& obj, MusicClass& music )
     //telecookie.flush();
     //telecookie.close();
 
-    if(doc.SaveFile( (saveFilePath+ "qsave.vvv").c_str() ))
+    if(FILESYSTEM_saveTiXmlDocument("saves/qsave.vvv", &doc))
     {
         printf("Game saved\n");
     }
@@ -6261,7 +6255,7 @@ void Game::customsavequick(std::string savfile, MapClass& map, EntityClass& obj,
     //telecookie.close();
 
     std::string levelfile = savfile.substr(7);
-    if(doc.SaveFile( (saveFilePath+ levelfile+".vvv").c_str() ))
+    if(FILESYSTEM_saveTiXmlDocument(("saves/"+levelfile+".vvv").c_str(), &doc))
     {
         printf("Game saved\n");
     }
@@ -6275,8 +6269,8 @@ void Game::customsavequick(std::string savfile, MapClass& map, EntityClass& obj,
 
 void Game::loadtele( MapClass& map, EntityClass& obj, MusicClass& music )
 {
-    TiXmlDocument doc((saveFilePath+"tsave.vvv").c_str());
-    if (!doc.LoadFile()) return; ;
+    TiXmlDocument doc;
+    if (!FILESYSTEM_loadTiXmlDocument("saves/tsave.vvv", &doc)) return;
 
     TiXmlHandle hDoc(&doc);
     TiXmlElement* pElem;
@@ -6963,9 +6957,11 @@ void Game::createmenu( std::string t )
         menuoptionsactive[2] = true;
         menuoptions[3] = "slowdown";
         menuoptionsactive[3] = true;
-        menuoptions[4] = "return";
+        menuoptions[4] = "load screen";
         menuoptionsactive[4] = true;
-        nummenuoptions = 5;
+        menuoptions[5] = "return";
+        menuoptionsactive[5] = true;
+        nummenuoptions = 6;
         menuxoff = -40;
         menuyoff = 16;
     }
