@@ -39,9 +39,9 @@ include $(DEVKITPRO)/libnx/switch_rules
 #---------------------------------------------------------------------------------
 TARGET		:=	VVVVVV
 BUILD		:=	build
-SOURCES		:=	src src/levels src/states tinyxml physfs lodepng
+SOURCES		:=	src src/levels src/states ../third_party/tinyxml ../third_party/physfs ../third_party/lodepng
 DATA		:=	data
-INCLUDES	:=	tinyxml physfs lodepng
+INCLUDES	:=	../third_party/tinyxml ../third_party/physfs ../third_party/lodepng
 
 APP_TITLE	:= NX-VVVVVV
 APP_AUTHOR	:= Nichole Mattera (Based off work by Terry Cavanagh)
