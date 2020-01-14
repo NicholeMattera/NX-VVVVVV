@@ -179,19 +179,7 @@ namespace vvvvvv {
 
 	bool Utility::intersects(SDL_Rect rect1, SDL_Rect rect2)
 	{
-		//Calculate the sides of rect 1
-		int left1 = rect1.x;
-		int right1 = rect1.x + rect1.w;
-		int top1 = rect1.y;
-		int bottom1 = rect1.y + rect1.h;
-
-		//Calculate the sides of rect B
-		int left2 = rect2.x;
-		int right2 = rect2.x + rect2.w;
-		int top2 = rect2.y;
-		int bottom2 = rect2.y + rect2.h;
-
-		return (bottom1 > top2 && top1 < bottom2 && right1 > left2 && left1 < right2);
+		return (SDL_HasIntersection(&rect1, &rect2) == SDL_TRUE);
 	}
 
 	void Utility::updateGlow()
