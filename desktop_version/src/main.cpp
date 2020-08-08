@@ -2,6 +2,10 @@
 #include <stdio.h>
 #include <string.h>
 
+#if defined(__SWITCH__)
+#include <switch.h>
+#endif
+
 #include "editor.h"
 #include "Enums.h"
 #include "Entity.h"
@@ -362,7 +366,11 @@ int main(int argc, char *argv[])
     key.isActive = true;
     game.gametimer = 0;
 
+#if defined(__SWITCH__)
+    while(appletMainLoop() && !key.quitProgram)
+#else
     while(!key.quitProgram)
+#endif
     {
         f_time = SDL_GetTicks();
 
@@ -426,7 +434,7 @@ void inline deltaloop()
         case PRELOADER:
             preloaderrender();
             break;
-#if !defined(NO_CUSTOM_LEVELS) && !defined(NO_EDITOR)
+#if !defined(NO_CUSTOM_LEVELS) && !defined(NO_EDITOR) && !defined(__SWITCH__)
         case EDITORMODE:
             graphics.flipmode = false;
             editorrender();
@@ -464,6 +472,9 @@ void inline fixedloop()
     NETWORK_update();
 
     key.Poll();
+
+// Switch stays in fullscreen mode.
+#if !defined(__SWITCH__)
     if(key.toggleFullscreen)
     {
         gameScreen.toggleFullScreen();
@@ -479,6 +490,7 @@ void inline fixedloop()
             game.press_map = false;
         }
     }
+#endif
 
     if(!key.isActive)
     {
@@ -510,7 +522,7 @@ void inline fixedloop()
         case PRELOADER:
             preloaderlogic();
             break;
-#if !defined(NO_CUSTOM_LEVELS) && !defined(NO_EDITOR)
+#if !defined(NO_CUSTOM_LEVELS) && !defined(NO_EDITOR) && !defined(__SWITCH__)
         case EDITORMODE:
             //Input
             editorinput();
@@ -616,11 +628,16 @@ void inline fixedloop()
     }
 
     //Mute button
-#if !defined(NO_CUSTOM_LEVELS) && !defined(NO_EDITOR)
+#if !defined(__SWITCH__)
+ #if !defined(NO_CUSTOM_LEVELS) && !defined(NO_EDITOR)
     bool inEditor = ed.textentry || ed.scripthelppage == 1;
-#else
+ #else
     bool inEditor = false;
+ #endif
 #endif
+
+// Switch doesn't have a keyboard or a way to mute in game, or have the window reset.
+#if !defined(__SWITCH__)
     if (key.isDown(KEYBOARD_m) && game.mutebutton<=0 && !inEditor)
     {
         game.mutebutton = 8;
@@ -672,6 +689,7 @@ void inline fixedloop()
         key.resetWindow = false;
         gameScreen.ResizeScreen(-1, -1);
     }
+#endif
 
     music.processmusic();
     graphics.processfade();

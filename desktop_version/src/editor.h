@@ -285,7 +285,7 @@ void fillbox(int x, int y, int x2, int y2, int c);
 
 void fillboxabs(int x, int y, int x2, int y2, int c);
 
-#if !defined(NO_EDITOR)
+#if !defined(NO_EDITOR) && !defined(__SWITCH__)
 void editorrender();
 
 void editorlogic();

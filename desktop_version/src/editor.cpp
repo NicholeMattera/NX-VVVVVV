@@ -2344,7 +2344,7 @@ void editorclass::generatecustomminimap()
     }
 }
 
-#if !defined(NO_EDITOR)
+#if !defined(NO_EDITOR) && !defined(__SWITCH__)
 void editormenurender(int tr, int tg, int tb)
 {
     switch (game.currentmenuname)
@@ -5550,7 +5550,7 @@ void editorinput()
         }
     }
 }
-#endif /* NO_EDITOR */
+#endif /* NO_EDITOR && __SWITCH__ */
 
 // Return a graphics-ready color based off of the given tileset and tilecol
 // Much kudos to Dav999 for saving me a lot of work, because I stole these colors from const.lua in Ved! -Info Teddy

@@ -163,6 +163,12 @@ void menurender()
     case Menu::graphicoptions:
         switch (game.currentmenuoption)
         {
+#if defined(__SWITCH__)
+ #define OFFSET -1
+#else
+ #define OFFSET 0
+#endif
+#if !defined(__SWITCH__)
         case 0:
             graphics.bigprint( -1, 30, "Toggle Fullscreen", tr, tg, tb, true);
             graphics.Print( -1, 65, "Change to fullscreen/windowed mode.", tr, tg, tb, true);
@@ -173,8 +179,8 @@ void menurender()
               graphics.Print( -1, 85, "Current mode: WINDOWED", tr, tg, tb, true);
             }
             break;
-
-        case 1:
+#endif
+        case OFFSET+1:
             graphics.bigprint( -1, 30, "Scaling Mode", tr, tg, tb, true);
             graphics.Print( -1, 65, "Choose letterbox/stretch/integer mode.", tr, tg, tb, true);
 
@@ -186,7 +192,7 @@ void menurender()
               graphics.Print( -1, 85, "Current mode: LETTERBOX", tr, tg, tb, true);
             }
             break;
-        case 2:
+        case OFFSET+2:
             graphics.bigprint(-1, 30, "Resize to Nearest", tr, tg, tb, true);
             graphics.Print(-1, 65, "Resize to the nearest window size", tr, tg, tb, true);
             graphics.Print(-1, 75, "that is of an integer multiple.", tr, tg, tb, true);
@@ -196,7 +202,7 @@ void menurender()
                 graphics.Print(-1, 105, "to use this option.", tr, tg, tb, true);
             }
             break;
-        case 3:
+        case OFFSET+3:
             graphics.bigprint( -1, 30, "Toggle Filter", tr, tg, tb, true);
             graphics.Print( -1, 65, "Change to nearest/linear filter.", tr, tg, tb, true);
 
@@ -207,13 +213,13 @@ void menurender()
             }
             break;
 
-        case 4:
+        case OFFSET+4:
             graphics.bigprint( -1, 30, "Analogue Mode", tr, tg, tb, true);
             graphics.Print( -1, 65, "There is nothing wrong with your", tr, tg, tb, true);
             graphics.Print( -1, 75, "television set. Do not attempt to", tr, tg, tb, true);
             graphics.Print( -1, 85, "adjust the picture.", tr, tg, tb, true);
             break;
-        case 5:
+        case OFFSET+5:
             graphics.bigprint(-1, 30, "Toggle 30+ FPS", tr, tg, tb, true);
             graphics.Print(-1, 65, "Change whether the game", tr, tg, tb, true);
             graphics.Print(-1, 75, "runs at 30 or over 30 FPS.", tr, tg, tb, true);
@@ -227,7 +233,7 @@ void menurender()
                 graphics.Print(-1, 95, "Current mode: Over 30 FPS", tr, tg, tb, true);
             }
             break;
-        case 6:
+        case OFFSET+6:
             graphics.bigprint(-1, 30, "Toggle VSync", tr, tg, tb, true);
 #ifdef __HAIKU__ // FIXME: Remove after SDL VSync bug is fixed! -flibit
             graphics.Print(-1, 65, "Edit the config file on Haiku!", tr, tg, tb, true);
@@ -245,6 +251,7 @@ void menurender()
             }
             break;
         }
+#undef OFFSET
         break;
     case Menu::credits:
         graphics.Print( -1, 50, "VVVVVV is a game by", tr, tg, tb, true);
@@ -426,6 +433,12 @@ void menurender()
     case Menu::advancedoptions:
         switch (game.currentmenuoption)
         {
+#if defined(__SWITCH__)
+ #define OFFSET -2
+#else
+ #define OFFSET 0
+#endif
+#if !defined(__SWITCH__)
         case 0:
             graphics.bigprint(-1, 30, "Toggle Mouse Cursor", tr, tg, tb, true);
             graphics.Print(-1, 65, "Show/hide the system mouse cursor.", tr, tg, tb, true);
@@ -450,14 +463,15 @@ void menurender()
                 graphics.Print(-1, 95, "Unfocus pause is ON", tr, tg, tb, true);
             }
             break;
-        case 2:
+#endif
+        case OFFSET+2:
             graphics.bigprint(-1, 30, "Fake Load Screen", tr, tg, tb, true);
             if (game.skipfakeload)
                 graphics.Print(-1, 65, "Fake loading screen is OFF", tr/2, tg/2, tb/2, true);
             else
                 graphics.Print(-1, 65, "Fake loading screen is ON", tr, tg, tb, true);
             break;
-        case 3:
+        case OFFSET+3:
             graphics.bigprint(-1, 30, "Room Name BG", tr, tg, tb, true);
             graphics.Print( -1, 65, "Lets you see through what is behind", tr, tg, tb, true);
             graphics.Print( -1, 75, "the name at the bottom of the screen.", tr, tg, tb, true);
@@ -466,7 +480,7 @@ void menurender()
             else
                 graphics.Print(-1, 95, "Room name background is OPAQUE", tr, tg, tb, true);
             break;
-        case 4:
+        case OFFSET+4:
             graphics.bigprint( -1, 30, "Glitchrunner Mode", tr, tg, tb, true);
             graphics.Print( -1, 65, "Re-enable glitches that existed", tr, tg, tb, true);
             graphics.Print( -1, 75, "in previous versions of the game", tr, tg, tb, true);
@@ -480,6 +494,7 @@ void menurender()
             }
             break;
         }
+#undef OFFSET
         break;
     case Menu::accessibility:
         switch (game.currentmenuoption)
@@ -1176,7 +1191,11 @@ void titlerender()
 #endif
 
         graphics.Print(5, 175, "[ Press ACTION to Start ]", tr, tg, tb, true);
+#if defined(__SWITCH__)
+        graphics.Print(5, 195, "ACTION = A", int(tr*0.5f), int(tg*0.5f), int(tb*0.5f), true);
+#else
         graphics.Print(5, 195, "ACTION = Space, Z, or V", int(tr*0.5f), int(tg*0.5f), int(tb*0.5f), true);
+#endif
     }
     else
     {

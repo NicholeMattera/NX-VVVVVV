@@ -17,7 +17,7 @@
 #include <windows.h>
 #include <shlobj.h>
 #include <shellapi.h>
-#elif defined(__linux__) || defined(__APPLE__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__HAIKU__) || defined(__DragonFly__)
+#elif defined(__linux__) || defined(__APPLE__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__HAIKU__) || defined(__DragonFly__) || defined(__SWITCH__)
 #include <unistd.h>
 #include <dirent.h>
 #include <limits.h>
@@ -42,7 +42,9 @@ int FILESYSTEM_init(char *argvZero, char* baseDir, char *assetsPath)
 	const char* pathSep = PHYSFS_getDirSeparator();
 
 	PHYSFS_init(argvZero);
+#if !defined(__SWITCH__)
 	PHYSFS_permitSymbolicLinks(1);
+#endif
 
 	/* Determine the OS user directory */
 	if (baseDir && baseDir[0] != '\0')
@@ -353,6 +355,8 @@ void PLATFORM_getOSDirectory(char* output)
 	SHGetFolderPathW(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, utf16_path);
 	WideCharToMultiByte(CP_UTF8, 0, utf16_path, -1, output, MAX_PATH, NULL, NULL);
 	SDL_strlcat(output, "\\VVVVVV\\", sizeof(output));
+#elif defined(__SWITCH__)
+	SDL_strlcpy(output, PHYSFS_getBaseDir(), MAX_PATH);
 #else
 	SDL_strlcpy(output, PHYSFS_getPrefDir("distractionware", "VVVVVV"), MAX_PATH);
 #endif
@@ -360,9 +364,12 @@ void PLATFORM_getOSDirectory(char* output)
 
 void PLATFORM_migrateSaveData(char* output)
 {
+#if !defined(__SWITCH__)
 	char oldLocation[MAX_PATH];
 	char newLocation[MAX_PATH];
 	char oldDirectory[MAX_PATH];
+#endif
+
 #if defined(__linux__) || defined(__APPLE__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__HAIKU__) || defined(__DragonFly__)
 	DIR *dir = NULL;
 	struct dirent *de = NULL;
@@ -516,6 +523,8 @@ void PLATFORM_migrateSaveData(char* output)
 			PLATFORM_copyFile(oldLocation, newLocation);
 		}
 	} while (FindNextFile(hFind, &findHandle));
+#elif defined(__SWITCH__)
+	/* No Migration needed. */
 #else
 #error See PLATFORM_migrateSaveData
 #endif

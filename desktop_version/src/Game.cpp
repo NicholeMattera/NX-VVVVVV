@@ -389,7 +389,11 @@ void Game::init(void)
     kludge_ingametemp = Menu::mainmenu;
     shouldreturntopausemenu = false;
 
+#if defined(__SWITCH__)
+    disablepause = true;
+#else
     disablepause = false;
+#endif
 }
 
 void Game::lifesequence()
@@ -4482,10 +4486,14 @@ void Game::loadstats(int *width, int *height, bool *vsync)
             skipfakeload = help.Int(pText);
         }
 
+#if defined(__SWITCH__)
+        disablepause = true;
+#else
         if (pKey == "disablepause")
         {
             disablepause = help.Int(pText);
         }
+#endif
 
         if (pKey == "over30mode")
         {
@@ -4512,10 +4520,14 @@ void Game::loadstats(int *width, int *height, bool *vsync)
             graphics.translucentroomname = help.Int(pText);
         }
 
+#if defined(__SWITCH__)
+        graphics.showmousecursor = false;
+#else
         if (pKey == "showmousecursor")
         {
             graphics.showmousecursor = help.Int(pText);
         }
+#endif
 
         if (pKey == "flipButton")
         {
@@ -4551,6 +4563,9 @@ void Game::loadstats(int *width, int *height, bool *vsync)
 
     }
 
+#if defined(__SWITCH__)
+    SDL_ShowCursor(SDL_DISABLE);
+#else
     if (graphics.showmousecursor == true)
     {
         SDL_ShowCursor(SDL_ENABLE);
@@ -4558,10 +4573,15 @@ void Game::loadstats(int *width, int *height, bool *vsync)
     else {
         SDL_ShowCursor(SDL_DISABLE);
     }
+#endif
 
     if (controllerButton_flip.size() < 1)
     {
+#if defined(__SWITCH__)
+        controllerButton_flip.push_back(SDL_CONTROLLER_BUTTON_B);
+#else
         controllerButton_flip.push_back(SDL_CONTROLLER_BUTTON_A);
+#endif
     }
     if (controllerButton_map.size() < 1)
     {
@@ -4569,7 +4589,11 @@ void Game::loadstats(int *width, int *height, bool *vsync)
     }
     if (controllerButton_esc.size() < 1)
     {
+#if defined(__SWITCH__)
+        controllerButton_esc.push_back(SDL_CONTROLLER_BUTTON_START);
+#else
         controllerButton_esc.push_back(SDL_CONTROLLER_BUTTON_B);
+#endif
     }
 }
 
@@ -6563,10 +6587,12 @@ void Game::createmenu( enum Menu::MenuName t, bool samemenu/*= false*/ )
 #if !defined(NO_CUSTOM_LEVELS)
     case Menu::playerworlds:
         option("play a level");
- #if !defined(NO_EDITOR)
+ #if !defined(__SWITCH__)
+  #if !defined(NO_EDITOR)
         option("level editor");
- #endif
+  #endif
         option("open level folder", FILESYSTEM_openDirectoryEnabled());
+ #endif
         option("back to menu");
         menuyoff = -40;
         maxspacing = 15;
@@ -6677,7 +6703,9 @@ void Game::createmenu( enum Menu::MenuName t, bool samemenu/*= false*/ )
         menuyoff = -20;
         break;
     case Menu::graphicoptions:
+#if !defined(__SWITCH__)
         option("toggle fullscreen");
+#endif
         option("scaling mode");
         option("resize to nearest", graphics.screenbuffer->isWindowed);
         option("toggle filter");
@@ -6745,8 +6773,10 @@ void Game::createmenu( enum Menu::MenuName t, bool samemenu/*= false*/ )
         menuyoff = 0;
         break;
     case Menu::advancedoptions:
+#if !defined(__SWITCH__)
         option("toggle mouse");
         option("unfocus pause");
+#endif
         option("fake load screen");
         option("room name background");
         option("glitchrunner mode");

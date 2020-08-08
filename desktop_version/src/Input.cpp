@@ -268,7 +268,9 @@ void menuactionpress()
         break;
 #if !defined(NO_CUSTOM_LEVELS)
     case Menu::playerworlds:
- #if defined(NO_EDITOR)
+ #if defined(__SWITCH__)
+  #define OFFSET -2
+ #elif defined(NO_EDITOR)
   #define OFFSET -1
  #else
   #define OFFSET 0
@@ -284,7 +286,8 @@ void menuactionpress()
             game.createmenu(Menu::levellist);
             map.nexttowercolour();
             break;
- #if !defined(NO_EDITOR)
+ #if !defined(__SWITCH__)
+  #if !defined(NO_EDITOR)
         case 1:
             //LEVEL EDITOR HOOK
             music.playef(11);
@@ -292,7 +295,7 @@ void menuactionpress()
             graphics.fademode = 2;
             ed.filename="";
             break;
- #endif
+  #endif
         case OFFSET+2:
             //"OPENFOLDERHOOK"
             if (FILESYSTEM_openDirectoryEnabled()
@@ -306,6 +309,7 @@ void menuactionpress()
                 music.playef(2);
             }
             break;
+ #endif
         case OFFSET+3:
             //back
             music.playef(11);
@@ -313,7 +317,7 @@ void menuactionpress()
             map.nexttowercolour();
             break;
         }
-#undef OFFSET
+ #undef OFFSET
         break;
 #endif
     case Menu::errornostart:
@@ -322,8 +326,14 @@ void menuactionpress()
         map.nexttowercolour();
         break;
     case Menu::graphicoptions:
+#if defined(__SWITCH__)
+ #define OFFSET -1
+#else
+ #define OFFSET 0
+#endif
         switch (game.currentmenuoption)
         {
+#if !defined(__SWITCH__)
         case 0:
             music.playef(11);
             graphics.screenbuffer->toggleFullScreen();
@@ -334,13 +344,14 @@ void menuactionpress()
             game.createmenu(game.currentmenuname, true);
             game.currentmenuoption = 0;
             break;
-        case 1:
+#endif
+        case OFFSET+1:
             music.playef(11);
             graphics.screenbuffer->toggleStretchMode();
             game.stretchMode = (game.stretchMode + 1) % 3;
             game.savestats();
             break;
-        case 2:
+        case OFFSET+2:
             // resize to nearest multiple
             if (graphics.screenbuffer->isWindowed)
             {
@@ -353,26 +364,26 @@ void menuactionpress()
                 music.playef(2);
             }
             break;
-        case 3:
+        case OFFSET+3:
             music.playef(11);
             graphics.screenbuffer->toggleLinearFilter();
             game.useLinearFilter = !game.useLinearFilter;
             game.savestats();
             break;
-        case 4:
+        case OFFSET+4:
             //change smoothing
             music.playef(11);
             game.fullScreenEffect_badSignal = !game.fullScreenEffect_badSignal;
             graphics.screenbuffer->badSignalEffect= !graphics.screenbuffer->badSignalEffect;
             game.savestats();
             break;
-        case 5:
+        case OFFSET+5:
             //toggle 30+ fps
             music.playef(11);
             game.over30mode = !game.over30mode;
             game.savestats();
             break;
-        case 6:
+        case OFFSET+6:
             //toggle vsync
             music.playef(11);
 #ifndef __HAIKU__ // FIXME: Remove after SDL VSync bug is fixed! -flibit
@@ -395,6 +406,8 @@ void menuactionpress()
             }
             break;
         }
+        
+#undef OFFSET
         break;
     case Menu::youwannaquit:
         switch (game.currentmenuoption)
@@ -474,6 +487,12 @@ void menuactionpress()
     case Menu::advancedoptions:
         switch (game.currentmenuoption)
         {
+#if defined(__SWITCH__)
+ #define OFFSET -2
+#else
+ #define OFFSET 0
+#endif
+#if !defined(__SWITCH__)
         case 0:
             //toggle mouse cursor
             music.playef(11);
@@ -491,28 +510,30 @@ void menuactionpress()
             game.disablepause = !game.disablepause;
             music.playef(11);
             break;
-        case 2:
+#endif
+        case OFFSET+2:
             // toggle fake load screen
             game.skipfakeload = !game.skipfakeload;
             music.playef(11);
             break;
-        case 3:
+        case OFFSET+3:
             // toggle translucent roomname BG
             graphics.translucentroomname = !graphics.translucentroomname;
             music.playef(11);
             break;
-        case 4:
+        case OFFSET+4:
             // Glitchrunner mode
             music.playef(11);
             game.glitchrunnermode = !game.glitchrunnermode;
             break;
-        case 5:
+        case OFFSET+5:
             //back
             music.playef(11);
             game.returnmenu();
             map.nexttowercolour();
             break;
         }
+#undef OFFSET
         break;
     case Menu::accessibility:
         switch (game.currentmenuoption)
@@ -2082,16 +2103,16 @@ void mapinput()
     {
         if (graphics.flipmode)
         {
-            if (key.isDown(KEYBOARD_LEFT) || key.isDown(KEYBOARD_DOWN) || key.isDown(KEYBOARD_a) ||  key.isDown(KEYBOARD_s) || key.controllerWantsLeft(false) ) game.press_left = true;
-            if (key.isDown(KEYBOARD_RIGHT) || key.isDown(KEYBOARD_UP) || key.isDown(KEYBOARD_d) ||  key.isDown(KEYBOARD_w) || key.controllerWantsRight(false)) game.press_right = true;
+            if (key.isDown(KEYBOARD_LEFT) || key.isDown(KEYBOARD_DOWN) || key.isDown(KEYBOARD_a) ||  key.isDown(KEYBOARD_s) || key.controllerWantsLeft(true) ) game.press_left = true;
+            if (key.isDown(KEYBOARD_RIGHT) || key.isDown(KEYBOARD_UP) || key.isDown(KEYBOARD_d) ||  key.isDown(KEYBOARD_w) || key.controllerWantsRight(true)) game.press_right = true;
         }
         else
         {
-            if (key.isDown(KEYBOARD_LEFT) || key.isDown(KEYBOARD_UP) || key.isDown(KEYBOARD_a) ||  key.isDown(KEYBOARD_w)|| key.controllerWantsLeft(false))
+            if (key.isDown(KEYBOARD_LEFT) || key.isDown(KEYBOARD_UP) || key.isDown(KEYBOARD_a) ||  key.isDown(KEYBOARD_w)|| key.controllerWantsLeft(true))
             {
                 game.press_left = true;
             }
-            if (key.isDown(KEYBOARD_RIGHT) || key.isDown(KEYBOARD_DOWN) || key.isDown(KEYBOARD_d) ||  key.isDown(KEYBOARD_s)|| key.controllerWantsRight(false))
+            if (key.isDown(KEYBOARD_RIGHT) || key.isDown(KEYBOARD_DOWN) || key.isDown(KEYBOARD_d) ||  key.isDown(KEYBOARD_s)|| key.controllerWantsRight(true))
             {
                 game.press_right = true;
             }

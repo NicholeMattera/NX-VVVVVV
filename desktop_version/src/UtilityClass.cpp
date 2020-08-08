@@ -9,23 +9,43 @@ const char *GCChar(SDL_GameControllerButton button)
 {
 	if (button == SDL_CONTROLLER_BUTTON_A)
 	{
+#if defined(__SWITCH__)
+		return "B";
+#else
 		return "A";
+#endif
 	}
 	else if (button == SDL_CONTROLLER_BUTTON_B)
 	{
+#if defined(__SWITCH__)
+		return "A";
+#else
 		return "B";
+#endif
 	}
 	else if (button == SDL_CONTROLLER_BUTTON_X)
 	{
+#if defined(__SWITCH__)
+		return "Y";
+#else
 		return "X";
+#endif
 	}
 	else if (button == SDL_CONTROLLER_BUTTON_Y)
 	{
+#if defined(__SWITCH__)
+		return "X";
+#else
 		return "Y";
+#endif
 	}
 	else if (button == SDL_CONTROLLER_BUTTON_BACK)
 	{
+#if defined(__SWITCH__)
+		return "-";
+#else
 		return "BACK";
+#endif
 	}
 	else if (button == SDL_CONTROLLER_BUTTON_GUIDE)
 	{
@@ -33,23 +53,43 @@ const char *GCChar(SDL_GameControllerButton button)
 	}
 	else if (button == SDL_CONTROLLER_BUTTON_START)
 	{
+#if defined(__SWITCH__)
+		return "+";
+#else
 		return "START";
+#endif
 	}
 	else if (button == SDL_CONTROLLER_BUTTON_LEFTSTICK)
 	{
+#if defined(__SWITCH__)
+		return "LS";
+#else
 		return "L3";
+#endif
 	}
 	else if (button == SDL_CONTROLLER_BUTTON_RIGHTSTICK)
 	{
+#if defined(__SWITCH__)
 		return "R3";
+#else
+		return "R3";
+#endif
 	}
 	else if (button == SDL_CONTROLLER_BUTTON_LEFTSHOULDER)
 	{
+#if defined(__SWITCH__)
+		return "L";
+#else
 		return "LB";
+#endif
 	}
 	else if (button == SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)
 	{
+#if defined(__SWITCH__)
+		return "R";
+#else
 		return "RB";
+#endif
 	}
 	SDL_assert(0 && "Unhandled button!");
 	return NULL;

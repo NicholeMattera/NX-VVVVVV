@@ -9,6 +9,9 @@ VVVVVV.exe
 VVVVVV
 *.a
 *.gch
+*.elf
+*.nacp
+*.nro
 
 # Game data
 data.zip

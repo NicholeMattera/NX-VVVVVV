@@ -238,6 +238,7 @@ void KeyPoll::Poll()
 			break;
 		}
 
+#if !defined(__SWITCH__)
 		/* Window Events */
 		case SDL_WINDOWEVENT:
 			switch (evt.window.event)
@@ -301,6 +302,7 @@ void KeyPoll::Poll()
 				break;
 			}
 			break;
+#endif
 
 		/* Quit Event */
 		case SDL_QUIT:

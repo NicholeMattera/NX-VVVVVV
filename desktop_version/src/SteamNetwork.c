@@ -1,6 +1,6 @@
 #include "MakeAndPlay.h"
 
-#ifndef MAKEANDPLAY
+#ifndef MAKEANDPLAY 
 
 #include <stdio.h>
 #include <stdint.h>
@@ -19,6 +19,8 @@
 #define STEAM_LIBRARY "libsteam_api.dylib"
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__HAIKU__) || defined(__DragonFly__)
 #define STEAM_LIBRARY "libsteam_api.so"
+#elif defined(__SWITCH__)
+ #define STEAM_LIBRARY ""
 #else
 #error STEAM_LIBRARY: Unrecognized platform!
 #endif
@@ -99,7 +101,7 @@ static void ClearPointers()
 
 int32_t STEAM_init()
 {
-#if defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__HAIKU__) || defined(__DragonFly__)
+#if defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__HAIKU__) || defined(__DragonFly__) || defined(__SWITCH__)
 	return 0;
 #endif
 	intptr_t steamClient;

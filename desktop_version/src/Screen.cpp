@@ -53,6 +53,15 @@ void Screen::init(
 	// Uncomment this next line when you need to debug -flibit
 	// SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, "software", SDL_HINT_OVERRIDE);
 	// FIXME: m_renderer is also created in Graphics::processVsync()!
+#if defined(__SWITCH__)
+	SDL_CreateWindowAndRenderer(
+		1920,
+		1080,
+		SDL_WINDOW_FULLSCREEN,
+		&m_window,
+		&m_renderer
+	);
+#else
 	SDL_CreateWindowAndRenderer(
 		640,
 		480,
@@ -83,6 +92,7 @@ void Screen::init(
 	SDL_SetWindowIcon(m_window, icon);
 	SDL_FreeSurface(icon);
 	free(data);
+#endif
 
 	// FIXME: This surface should be the actual backbuffer! -flibit
 	m_screen = SDL_CreateRGBSurface(
@@ -111,6 +121,9 @@ void Screen::init(
 
 void Screen::ResizeScreen(int x, int y)
 {
+#if defined(__SWITCH__)
+	SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+#else
 	static int resX = 320;
 	static int resY = 240;
 	if (x != -1 && y != -1)
@@ -143,6 +156,8 @@ void Screen::ResizeScreen(int x, int y)
 			SDL_SetWindowPosition(m_window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 		}
 	}
+#endif
+
 	if (stretchMode == 1)
 	{
 		int winX, winY;
