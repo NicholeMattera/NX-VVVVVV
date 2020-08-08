@@ -1990,7 +1990,7 @@ void gameinput()
                     }
                 }
 
-                if ((key.isDown(SDLK_r) || key.isDown(game.controllerButton_restart)) && game.deathseq<=0)// && map.custommode) //Have fun glitchrunners!
+                if ((key.isDown(SDLK_r) || key.isDown(game.controllerButton_restart)) && !game.nodeathmode)// && map.custommode) //Have fun glitchrunners!
                 {
                     game.deathseq = 30;
                 }
