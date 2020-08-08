@@ -168,6 +168,7 @@ void menurender()
 #else
  #define OFFSET 0
 #endif
+
 #if !defined(__SWITCH__)
         case 0:
             graphics.bigprint( -1, 30, "Toggle Fullscreen", tr, tg, tb, true);
@@ -180,6 +181,7 @@ void menurender()
             }
             break;
 #endif
+
         case OFFSET+1:
             graphics.bigprint( -1, 30, "Scaling Mode", tr, tg, tb, true);
             graphics.Print( -1, 65, "Choose letterbox/stretch/integer mode.", tr, tg, tb, true);
@@ -192,6 +194,16 @@ void menurender()
               graphics.Print( -1, 85, "Current mode: LETTERBOX", tr, tg, tb, true);
             }
             break;
+
+#undef OFFSET
+
+#if defined(__SWITCH__)
+ #define OFFSET -2
+#else
+ #define OFFSET 0
+#endif
+
+#if !defined(__SWITCH__)
         case OFFSET+2:
             graphics.bigprint(-1, 30, "Resize to Nearest", tr, tg, tb, true);
             graphics.Print(-1, 65, "Resize to the nearest window size", tr, tg, tb, true);
@@ -202,6 +214,8 @@ void menurender()
                 graphics.Print(-1, 105, "to use this option.", tr, tg, tb, true);
             }
             break;
+#endif
+
         case OFFSET+3:
             graphics.bigprint( -1, 30, "Toggle Filter", tr, tg, tb, true);
             graphics.Print( -1, 65, "Change to nearest/linear filter.", tr, tg, tb, true);

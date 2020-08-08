@@ -6707,7 +6707,9 @@ void Game::createmenu( enum Menu::MenuName t, bool samemenu/*= false*/ )
         option("toggle fullscreen");
 #endif
         option("scaling mode");
+#if !defined(__SWITCH__)
         option("resize to nearest", graphics.screenbuffer->isWindowed);
+#endif
         option("toggle filter");
         option("toggle analogue");
         option("toggle fps");

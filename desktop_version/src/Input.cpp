@@ -326,13 +326,14 @@ void menuactionpress()
         map.nexttowercolour();
         break;
     case Menu::graphicoptions:
+        switch (game.currentmenuoption)
+        {
 #if defined(__SWITCH__)
  #define OFFSET -1
 #else
  #define OFFSET 0
 #endif
-        switch (game.currentmenuoption)
-        {
+
 #if !defined(__SWITCH__)
         case 0:
             music.playef(11);
@@ -345,12 +346,23 @@ void menuactionpress()
             game.currentmenuoption = 0;
             break;
 #endif
+
         case OFFSET+1:
             music.playef(11);
             graphics.screenbuffer->toggleStretchMode();
             game.stretchMode = (game.stretchMode + 1) % 3;
             game.savestats();
             break;
+        
+#undef OFFSET
+
+#if defined(__SWITCH__)
+ #define OFFSET -2
+#else
+ #define OFFSET 0
+#endif
+
+#if !defined(__SWITCH__)
         case OFFSET+2:
             // resize to nearest multiple
             if (graphics.screenbuffer->isWindowed)
@@ -364,6 +376,7 @@ void menuactionpress()
                 music.playef(2);
             }
             break;
+#endif
         case OFFSET+3:
             music.playef(11);
             graphics.screenbuffer->toggleLinearFilter();
