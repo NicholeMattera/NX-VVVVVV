@@ -4556,6 +4556,15 @@ void Game::loadstats(int *width, int *height, bool *vsync)
             }
         }
 
+        if (pKey == "restartButton")
+        {
+            SDL_GameControllerButton newButton;
+            if (GetButtonFromString(pText, &newButton))
+            {
+                controllerButton_restart.push_back(newButton);
+            }
+        }
+
         if (pKey == "controllerSensitivity")
         {
             controllerSensitivity = help.Int(pText);
@@ -4594,6 +4603,10 @@ void Game::loadstats(int *width, int *height, bool *vsync)
 #else
         controllerButton_esc.push_back(SDL_CONTROLLER_BUTTON_B);
 #endif
+    }
+    if (controllerButton_restart.size() < 1)
+    {
+        controllerButton_restart.push_back(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
     }
 }
 
@@ -4811,6 +4824,12 @@ void Game::savestats()
     {
         msg = doc.NewElement("escButton");
         msg->LinkEndChild(doc.NewText(help.String((int) controllerButton_esc[i]).c_str()));
+        dataNode->LinkEndChild(msg);
+    }
+    for (size_t i = 0; i < controllerButton_restart.size(); i += 1)
+    {
+        msg = doc.NewElement("restartButton");
+        msg->LinkEndChild(doc.NewText(help.String((int) controllerButton_restart[i]).c_str()));
         dataNode->LinkEndChild(msg);
     }
 
@@ -6799,6 +6818,7 @@ void Game::createmenu( enum Menu::MenuName t, bool samemenu/*= false*/ )
         option("bind flip");
         option("bind enter");
         option("bind menu");
+        option("bind restart");
         option("return");
         menuyoff = 10;
         break;
