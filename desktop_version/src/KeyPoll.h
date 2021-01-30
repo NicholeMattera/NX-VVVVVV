@@ -42,7 +42,7 @@ public:
 
 	int sensitivity;
 
-	void setSensitivity(int _value);
+	int inline getThreshold();
 
 	KeyPoll();
 
@@ -54,8 +54,6 @@ public:
 
 	bool isDown(SDL_Keycode key);
 
-	bool isUp(SDL_Keycode key);
-
 	bool isDown(std::vector<SDL_GameControllerButton> buttons);
 	bool isDown(SDL_GameControllerButton button);
 	bool controllerButtonDown();
@@ -65,7 +63,7 @@ public:
 	int leftbutton, rightbutton, middlebutton;
 	int mx, my;
 
-	bool textentrymode;
+	bool textentry();
 	bool pressedbackspace;
 	std::string keybuffer;
 
@@ -81,6 +79,8 @@ private:
 	Uint32 wasFullscreen;
 };
 
+#ifndef KEY_DEFINITION
 extern KeyPoll key;
+#endif
 
 #endif /* KEYPOLL_H */

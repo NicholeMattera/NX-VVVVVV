@@ -11,6 +11,7 @@
 class musicclass
 {
 public:
+	musicclass();
 	void init();
 
 	void play(int t, const double position_sec = 0.0, const int fadein_ms = 3000);
@@ -18,7 +19,7 @@ public:
 	void haltdasmusik();
 	void silencedasmusik();
 	void fadeMusicVolumeIn(int ms);
-	void fadeout();
+	void fadeout(const bool quick_fade_ = true);
 	void fadein();
 	void processmusicfadein();
 	void processmusic();
@@ -36,15 +37,14 @@ public:
 	SoundSystem soundSystem;
 	bool safeToProcessMusic;
 
-	int nicechange;
-	int nicefade;
+	int nicechange; // -1 if no song queued
+	bool nicefade;
 
 	bool m_doFadeInVol;
 	int FadeVolAmountPerFrame;
 	int musicVolume;
 
-	int fadeoutqueuesong; // -1 if no song queued
-	bool dontquickfade;
+	bool quick_fade;
 
 	// MMMMMM mod settings
 	bool mmmmmm;
@@ -58,6 +58,8 @@ public:
 	Uint64 songEnd;
 };
 
+#ifndef MUSIC_DEFINITION
 extern musicclass music;
+#endif
 
 #endif /* MUSIC_H */

@@ -1,3 +1,4 @@
+#define MAP_DEFINITION
 #include "Map.h"
 
 #include "editor.h"
@@ -12,10 +13,6 @@
 mapclass::mapclass()
 {
 	//Start here!
-	r = 196;
-	g = 196;
-	b = 196;
-	colstate = 0;
 	colstatedelay = 0;
 	colsuperstate = 0;
 	spikeleveltop = 0;
@@ -32,8 +29,6 @@ mapclass::mapclass()
 
 	finalmode = false;
 	finalstretch = false;
-	finalx = 50;
-	finaly = 50;
 
 	cursorstate = 0;
 	cursordelay = 0;
@@ -51,7 +46,6 @@ mapclass::mapclass()
 
 	custommode=false;
 	custommodeforreal=false;
-	customx=0; customy=0;
 	customwidth=20; customheight=20;
 	custommmxoff=0; custommmyoff=0; custommmxsize=0; custommmysize=0;
 	customzoom=0;
@@ -81,22 +75,12 @@ mapclass::mapclass()
 
 	ypos = 0;
 	oldypos = 0;
-	bypos = 0;
 
 	background = 0;
 	cameramode = 0;
 	cameraseek = 0;
 	minitowermode = false;
-	scrolldir = 0;
-	check = 0;
-	cmode = 0;
-	towercol = 0;
-	tdrawback = false;
-	bscroll = 0;
 	roomtexton = false;
-	kludge_bypos = 0;
-	kludge_colstate = 0;
-	kludge_scrolldir = 0;
 }
 
 //Areamap starts at 100,100 and extends 20x20
@@ -122,11 +106,6 @@ const int mapclass::areamap[] = {
 	2,2,2,2,2,0,0,2,0,3,0,0,0,0,0,0,0,0,0,0,
 	2,2,2,2,2,0,0,2,0,3,0,0,0,0,0,0,0,0,0,0,
 };
-
-int mapclass::RGB(int red,int green,int blue)
-{
-	return (blue | (green << 8) | (red << 16));
-}
 
 int mapclass::intpol(int a, int b, float c)
 {
@@ -493,8 +472,7 @@ int mapclass::finalat(int x, int y)
 		//Special case: animated tiles
 		if (final_mapcol == 1)
 		{
-			// Windows hits fRandom() == 1 frequently! For fuck sake! -flibit
-			return 737 + (std::min(int(fRandom() * 12), 11) * 40);
+			return 737 + (int(fRandom() * 11) * 40);
 		}
 		else
 		{
@@ -581,44 +559,53 @@ void mapclass::changefinalcol(int t)
 	}
 }
 
-void mapclass::setcol(const int r1, const int g1, const int b1 , const int r2, const int g2, const int b2, const int c)
+void mapclass::setcol(TowerBG& bg_obj, const int r1, const int g1, const int b1 , const int r2, const int g2, const int b2, const int c)
 {
-	r = intpol(r1, r2, c / 5);
-	g = intpol(g1, g2, c / 5);
-	b = intpol(b1, b2, c / 5);
+	bg_obj.r = intpol(r1, r2, c / 5);
+	bg_obj.g = intpol(g1, g2, c / 5);
+	bg_obj.b = intpol(b1, b2, c / 5);
 }
 
-void mapclass::updatetowerglow()
+void mapclass::updatebgobj(TowerBG& bg_obj)
+{
+	const int check = bg_obj.colstate % 5; //current state of phase
+	const int cmode = (bg_obj.colstate - check) / 5; // current colour transition;
+
+	switch(cmode)
+	{
+	case 0:
+		setcol(bg_obj, 255, 93, 107, 255, 255, 93, check);
+		break;
+	case 1:
+		setcol(bg_obj, 255, 255, 93, 159, 255, 93, check);
+		break;
+	case 2:
+		setcol(bg_obj, 159, 255, 93, 93, 245, 255, check);
+		break;
+	case 3:
+		setcol(bg_obj, 93, 245, 255, 177, 93, 255, check);
+		break;
+	case 4:
+		setcol(bg_obj, 177, 93, 255, 255, 93, 255, check);
+		break;
+	case 5:
+		setcol(bg_obj, 255, 93, 255, 255, 93, 107, check);
+		break;
+	}
+
+	bg_obj.tdrawback = true;
+}
+
+void mapclass::updatetowerglow(TowerBG& bg_obj)
 {
 	if (colstatedelay <= 0 || colsuperstate > 0)
 	{
-		if (colsuperstate > 0) colstate--;
-		colstate++;
-		if (colstate >= 30) colstate = 0;
-		check = colstate % 5; //current state of phase
-		cmode = (colstate - check) / 5; // current colour transition
+		if (colsuperstate > 0) bg_obj.colstate--;
+		bg_obj.colstate++;
+		if (bg_obj.colstate >= 30) bg_obj.colstate = 0;
 
-		switch(cmode)
-		{
-		case 0:
-			setcol(255, 93, 107, 255, 255, 93, check);
-			break;
-		case 1:
-			setcol(255, 255, 93, 159, 255, 93, check);
-			break;
-		case 2:
-			setcol(159, 255, 93, 93, 245, 255, check);
-			break;
-		case 3:
-			setcol(93, 245, 255, 177, 93, 255, check);
-			break;
-		case 4:
-			setcol(177, 93, 255, 255, 93, 255, check);
-			break;
-		case 5:
-			setcol(255, 93, 255, 255, 93, 107, check);
-			break;
-		}
+		const int check = bg_obj.colstate % 5;
+		updatebgobj(bg_obj);
 
 		if (check == 0)
 		{
@@ -629,9 +616,6 @@ void mapclass::updatetowerglow()
 			colstatedelay = 0;
 		}
 		if (colsuperstate > 0) colstatedelay = 0;
-
-		tdrawback = true;
-		towercol = RGB(r*0.04f, g*0.04f, b*0.04f);
 	}
 	else
 	{
@@ -641,68 +625,18 @@ void mapclass::updatetowerglow()
 
 void mapclass::nexttowercolour()
 {
-	colstate+=5;
-	if (colstate >= 30) colstate = 0;
-	check = colstate % 5; //current state of phase
-	cmode = (colstate - check) / 5; // current colour transition
+	graphics.titlebg.colstate+=5;
+	if (graphics.titlebg.colstate >= 30) graphics.titlebg.colstate = 0;
 
-	switch(cmode)
-	{
-	case 0:
-		setcol(255, 93, 107, 255, 255, 93, check);
-		break;
-	case 1:
-		setcol(255, 255, 93, 159, 255, 93, check);
-		break;
-	case 2:
-		setcol(159, 255, 93, 93, 245, 255, check);
-		break;
-	case 3:
-		setcol(93, 245, 255, 177, 93, 255, check);
-		break;
-	case 4:
-		setcol(177, 93, 255, 255, 93, 255, check);
-		break;
-	case 5:
-		setcol(255, 93, 255, 255, 93, 107, check);
-		break;
-	}
-
-	tdrawback = true;
-	towercol = RGB(r*0.04, g*0.04, b*0.04);
+	updatebgobj(graphics.titlebg);
 }
 
 void mapclass::settowercolour(int t)
 {
-	colstate=t*5;
-	if (colstate >= 30) colstate = 0;
-	check = colstate % 5; //current state of phase
-	cmode = (colstate - check) / 5; // current colour transition
+	graphics.titlebg.colstate=t*5;
+	if (graphics.titlebg.colstate >= 30) graphics.titlebg.colstate = 0;
 
-	switch(cmode)
-	{
-	case 0:
-		setcol(255, 93, 107, 255, 255, 93, check);
-		break;
-	case 1:
-		setcol(255, 255, 93, 159, 255, 93, check);
-		break;
-	case 2:
-		setcol(159, 255, 93, 93, 245, 255, check);
-		break;
-	case 3:
-		setcol(93, 245, 255, 177, 93, 255, check);
-		break;
-	case 4:
-		setcol(177, 93, 255, 255, 93, 255, check);
-		break;
-	case 5:
-		setcol(255, 93, 255, 255, 93, 107, check);
-		break;
-	}
-
-	tdrawback = true;
-	towercol = RGB(r*0.04, g*0.04, b*0.04);
+	updatebgobj(graphics.titlebg);
 }
 
 bool mapclass::spikecollide(int x, int y)
@@ -778,7 +712,6 @@ int mapclass::area(int _rx, int _ry)
 	else
 	{
 		int lookup = (_rx - 100) + ((_ry - 100) * 20);
-		//lookup = std::max(0,lookup);
 		if(_rx-100>=0 && _rx-100<20 && _ry-100>=0 && _ry-100<20){
 			return areamap[lookup];
 		}
@@ -821,6 +754,11 @@ void mapclass::showship()
 
 void mapclass::resetplayer()
 {
+	resetplayer(false);
+}
+
+void mapclass::resetplayer(const bool player_died)
+{
 	bool was_in_tower = towermode;
 	if (game.roomx != game.saverx || game.roomy != game.savery)
 	{
@@ -829,7 +767,7 @@ void mapclass::resetplayer()
 
 	game.deathseq = -1;
 	int i = obj.getplayer();
-	if(i>-1)
+	if(INBOUNDS_VEC(i, obj.entities))
 	{
 		obj.entities[i].vx = 0;
 		obj.entities[i].vy = 0;
@@ -839,8 +777,15 @@ void mapclass::resetplayer()
 		obj.entities[i].yp = game.savey;
 		obj.entities[i].dir = game.savedir;
 		obj.entities[i].colour = 0;
-		game.lifeseq = 10;
-		obj.entities[i].invis = true;
+		if (player_died)
+		{
+			game.lifeseq = 10;
+			obj.entities[i].invis = true;
+		}
+		else
+		{
+			obj.entities[i].invis = false;
+		}
 		if (!game.glitchrunnermode)
 		{
 			obj.entities[i].size = 0;
@@ -859,7 +804,7 @@ void mapclass::resetplayer()
 				ypos = 0;
 			}
 			oldypos = ypos;
-			bypos = ypos / 2;
+			graphics.towerbg.bypos = ypos / 2;
 		}
 	}
 
@@ -889,12 +834,12 @@ void mapclass::warpto(int rx, int ry , int t, int tx, int ty)
 {
 	gotoroom(rx, ry);
 	game.teleport = false;
-	if (INBOUNDS(t, obj.entities))
+	if (INBOUNDS_VEC(t, obj.entities))
 	{
 		obj.entities[t].xp = tx * 8;
 		obj.entities[t].yp = (ty * 8) - obj.entities[t].h;
-		obj.entities[t].oldxp = obj.entities[t].xp;
-		obj.entities[t].oldyp = obj.entities[t].yp;
+		obj.entities[t].lerpoldxp = obj.entities[t].xp;
+		obj.entities[t].lerpoldyp = obj.entities[t].yp;
 	}
 	game.gravitycontrol = 0;
 }
@@ -905,6 +850,7 @@ void mapclass::gotoroom(int rx, int ry)
 	obj.removeallblocks();
 	game.activetele = false;
 	game.readytotele = 0;
+	game.oldreadytotele = 0;
 
 	//Ok, let's save the position of all lines on the screen
 	obj.linecrosskludge.clear();
@@ -946,18 +892,13 @@ void mapclass::gotoroom(int rx, int ry)
 	if (finalmode)
 	{
 		//Ok, what way are we moving?
-		finalx = rx;
-		finaly = ry;
-		game.roomx = finalx;
-		game.roomy = finaly;
+		game.roomx = rx;
+		game.roomy = ry;
 		game.roomchange = true;
-		rx = finalx;
-		ry = finaly;
 
 		if (game.roomy < 10)
 		{
 			game.roomy = 11;
-			finaly = 11;
 		}
 
 		if(game.roomx>=41 && game.roomy>=48 && game.roomx<61 && game.roomy<68 )
@@ -1097,10 +1038,12 @@ void mapclass::gotoroom(int rx, int ry)
 	//continuations!
 
 	temp = obj.getplayer();
-	if(temp>-1)
+	if(INBOUNDS_VEC(temp, obj.entities))
 	{
-		obj.entities[temp].oldxp = obj.entities[temp].xp - int(obj.entities[temp].vx);
-		obj.entities[temp].oldyp = obj.entities[temp].yp - int(obj.entities[temp].vy);
+		obj.entities[temp].oldxp = obj.entities[temp].xp;
+		obj.entities[temp].oldyp = obj.entities[temp].yp;
+		obj.entities[temp].lerpoldxp = obj.entities[temp].xp - int(obj.entities[temp].vx);
+		obj.entities[temp].lerpoldyp = obj.entities[temp].yp - int(obj.entities[temp].vy);
 	}
 
 	for (size_t i = 0; i < obj.entities.size(); i++)
@@ -1262,16 +1205,16 @@ void mapclass::loadlevel(int rx, int ry)
 			{
 				//entered from ground floor
 				int player = obj.getplayer();
-				if (player > -1)
+				if (INBOUNDS_VEC(player, obj.entities))
 				{
 					obj.entities[player].yp += (671 * 8);
 				}
 
 				ypos = (700-29) * 8;
 				oldypos = ypos;
-				bypos = ypos / 2;
+				graphics.towerbg.bypos = ypos / 2;
 				cameramode = 0;
-				colstate = 0;
+				graphics.towerbg.colstate = 0;
 				colsuperstate = 0;
 			}
 			else if (ry == 104)
@@ -1279,9 +1222,9 @@ void mapclass::loadlevel(int rx, int ry)
 				//you've entered from the top floor
 				ypos = 0;
 				oldypos = ypos;
-				bypos = 0;
+				graphics.towerbg.bypos = 0;
 				cameramode = 0;
-				colstate = 0;
+				graphics.towerbg.colstate = 0;
 				colsuperstate = 0;
 			}
 		}
@@ -1359,17 +1302,17 @@ void mapclass::loadlevel(int rx, int ry)
 		break;
 	}
 	case 3: //The Tower
-		tdrawback = true;
+		graphics.towerbg.tdrawback = true;
 		minitowermode = false;
 		tower.minitowermode = false;
-		bscroll = 0;
-		scrolldir = 0;
+		graphics.towerbg.bscroll = 0;
+		graphics.towerbg.scrolldir = 0;
 
 		roomname = "The Tower";
 		tileset = 1;
 		background = 3;
 		towermode = true;
-		//bypos = 0; ypos = 0; cameramode = 0;
+		//graphics.towerbg.bypos = 0; ypos = 0; cameramode = 0;
 
 		//All the entities for here are just loaded here; it's essentially one room after all
 
@@ -1424,7 +1367,7 @@ void mapclass::loadlevel(int rx, int ry)
 	}
 	case 6: //final level
 	{
-		const short* tmap = finallevel.loadlevel(finalx, finaly);
+		const short* tmap = finallevel.loadlevel(rx, ry);
 		SDL_memcpy(contents, tmap, sizeof(contents));
 		roomname = finallevel.roomname;
 		tileset = 1;
@@ -1458,11 +1401,11 @@ void mapclass::loadlevel(int rx, int ry)
 		break;
 	}
 	case 7: //Final Level, Tower 1
-		tdrawback = true;
+		graphics.towerbg.tdrawback = true;
 		minitowermode = true;
 		tower.minitowermode = true;
-		bscroll = 0;
-		scrolldir = 1;
+		graphics.towerbg.bscroll = 0;
+		graphics.towerbg.scrolldir = 1;
 
 		roomname = "Panic Room";
 		tileset = 1;
@@ -1473,18 +1416,18 @@ void mapclass::loadlevel(int rx, int ry)
 
 		ypos = 0;
 		oldypos = 0;
-		bypos = 0;
+		graphics.towerbg.bypos = 0;
 		cameramode = 0;
-		colstate = 0;
+		graphics.towerbg.colstate = 0;
 		colsuperstate = 0;
 		break;
 	case 8: //Final Level, Tower 1 (reentered from below)
 	{
-		tdrawback = true;
+		graphics.towerbg.tdrawback = true;
 		minitowermode = true;
 		tower.minitowermode = true;
-		bscroll = 0;
-		scrolldir = 1;
+		graphics.towerbg.bscroll = 0;
+		graphics.towerbg.scrolldir = 1;
 
 		roomname = "Panic Room";
 		tileset = 1;
@@ -1494,27 +1437,26 @@ void mapclass::loadlevel(int rx, int ry)
 		tower.loadminitower1();
 
 		int i = obj.getplayer();
-		if (i > -1)
+		if (INBOUNDS_VEC(i, obj.entities))
 		{
 			obj.entities[i].yp += (71 * 8);
 		}
 		game.roomy--;
-		finaly--;
 
 		ypos = (100-29) * 8;
 		oldypos = ypos;
-		bypos = ypos/2;
+		graphics.towerbg.bypos = ypos/2;
 		cameramode = 0;
-		colstate = 0;
+		graphics.towerbg.colstate = 0;
 		colsuperstate = 0;}
 		break;
 	case 9: //Final Level, Tower 2
 	{
-		tdrawback = true;
+		graphics.towerbg.tdrawback = true;
 		minitowermode = true;
 		tower.minitowermode = true;
-		bscroll = 0;
-		scrolldir = 0;
+		graphics.towerbg.bscroll = 0;
+		graphics.towerbg.scrolldir = 0;
 		final_colorframe = 2;
 
 		roomname = "The Final Challenge";
@@ -1539,29 +1481,28 @@ void mapclass::loadlevel(int rx, int ry)
 		obj.createentity(72, 156, 11, 200); // (horizontal gravity line)
 
 		int i = obj.getplayer();
-		if (i > -1)
+		if (INBOUNDS_VEC(i, obj.entities))
 		{
 			obj.entities[i].yp += (71 * 8);
 		}
 		game.roomy--;
-		finaly--;
 
 		ypos = (100-29) * 8;
 		oldypos = ypos;
-		bypos = ypos/2;
+		graphics.towerbg.bypos = ypos/2;
 		cameramode = 0;
-		colstate = 0;
+		graphics.towerbg.colstate = 0;
 		colsuperstate = 0;
 		break;
 	}
 	case 10: //Final Level, Tower 2
 	{
 
-		tdrawback = true;
+		graphics.towerbg.tdrawback = true;
 		minitowermode = true;
 		tower.minitowermode = true;
-		bscroll = 0;
-		scrolldir = 0;
+		graphics.towerbg.bscroll = 0;
+		graphics.towerbg.scrolldir = 0;
 		final_colorframe = 2;
 
 		roomname = "The Final Challenge";
@@ -1587,9 +1528,9 @@ void mapclass::loadlevel(int rx, int ry)
 
 		ypos = 0;
 		oldypos = 0;
-		bypos = 0;
+		graphics.towerbg.bypos = 0;
 		cameramode = 0;
-		colstate = 0;
+		graphics.towerbg.colstate = 0;
 		colsuperstate = 0;
 		break;
 	}
@@ -2077,42 +2018,14 @@ void mapclass::loadlevel(int rx, int ry)
 				//A slight varation - she's upside down
 				obj.createentity(249, 62, 18, 16, 0, 18);
 				int j = obj.getcrewman(5);
-				obj.entities[j].rule = 7;
-				obj.entities[j].tile +=6;
+				if (INBOUNDS_VEC(j, obj.entities))
+				{
+					obj.entities[j].rule = 7;
+					obj.entities[j].tile +=6;
+				}
 				//What script do we use?
 				obj.createblock(5, 249-32, 0, 32+32+32, 240, 5);
 			}
-		}
-	}
-
-	//Make sure our crewmates are facing the player if appliciable
-	//Also make sure they're flipped if they're flipped
-	for (size_t i = 0; i < obj.entities.size(); i++)
-	{
-		if (obj.entities[i].rule == 6 || obj.entities[i].rule == 7)
-		{
-			if (obj.entities[i].tile == 144 || obj.entities[i].tile == 144+6)
-			{
-				obj.entities[i].drawframe = 144;
-			}
-			if (obj.entities[i].state == 18)
-			{
-				//face the player
-				int j = obj.getplayer();
-				if (j > -1 && obj.entities[j].xp > obj.entities[i].xp + 5)
-				{
-					obj.entities[i].dir = 1;
-				}
-				else if (j > -1 && obj.entities[j].xp < obj.entities[i].xp - 5)
-				{
-					obj.entities[i].dir = 0;
-					obj.entities[i].drawframe += 3;
-				}
-			}
-		}
-		if (obj.entities[i].rule == 7)
-		{
-			obj.entities[i].drawframe += 6;
 		}
 	}
 }
@@ -2124,25 +2037,26 @@ void mapclass::twoframedelayfix()
 	// and when the script gets loaded script.run() has already ran for that frame, too.
 	// A bit kludge-y, but it's the least we can do without changing the frame ordering.
 
-	int block_idx = -1;
 	if (game.glitchrunnermode
-	|| game.deathseq != -1
-	// obj.checktrigger() sets obj.activetrigger and block_idx
-	|| obj.checktrigger(&block_idx) <= -1
-	|| block_idx <= -1
-	|| obj.activetrigger < 300)
+	|| !custommode
+	|| game.deathseq != -1)
+		return;
+
+	int block_idx = -1;
+	// obj.checktrigger() sets block_idx
+	int activetrigger = obj.checktrigger(&block_idx);
+	if (activetrigger <= -1
+	|| !INBOUNDS_VEC(block_idx, obj.blocks)
+	|| activetrigger < 300)
 	{
 		return;
 	}
 
 	game.newscript = obj.blocks[block_idx].script;
-	obj.removetrigger(obj.activetrigger);
+	obj.removetrigger(activetrigger);
 	game.state = 0;
 	game.statedelay = 0;
 	script.load(game.newscript);
-	if (script.running)
-	{
-		script.run();
-		script.dontrunnextframe = true;
-	}
+	script.run();
+	script.dontrunnextframe = true;
 }

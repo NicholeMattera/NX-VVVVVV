@@ -1,6 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include <SDL.h>
 #include <string>
 #include <vector>
 
@@ -9,8 +10,22 @@
 #include "BlockV.h"
 #include "Game.h"
 
-#define removeentity_iter(index) { if (obj.removeentity(index)) index--; }
-#define removeblock_iter(index) { obj.removeblock(index); index--; }
+#define removeentity_iter(index) \
+    do \
+    { \
+        extern entityclass obj; \
+        if (obj.removeentity(index)) \
+        { \
+            index--; \
+        } \
+    } while (false)
+#define removeblock_iter(index) \
+    do \
+    { \
+        extern entityclass obj; \
+        obj.removeblock(index); \
+        index--; \
+    } while (false)
 
 enum
 {
@@ -64,6 +79,10 @@ public:
 
     void removeblockat(int x, int y);
 
+    void moveblockto(int x1, int y1, int x2, int y2, int w, int h);
+
+    void nocollisionat(int x, int y);
+
     void removetrigger(int t);
 
     void copylinecross(int t);
@@ -94,17 +113,9 @@ public:
 
     int getteleporter();
 
-    void rectset(int xi, int yi, int wi, int hi);
-
-    void rect2set(int xi, int yi, int wi, int hi);
-
     bool entitycollide(int a, int b);
 
-    bool checkdamage();
-
-    bool scmcheckdamage();
-
-    void settemprect(int t);
+    bool checkdamage(bool scm = false);
 
     int checktrigger(int* block_idx);
 
@@ -112,15 +123,16 @@ public:
 
     int getgridpoint(int t);
 
-    bool checkplatform();
+    bool checkplatform(const SDL_Rect& temprect, int* px, int* py);
 
-    bool checkblocks();
+    bool checkblocks(const SDL_Rect& temprect, const float dx, const float dy, const float dr, const bool skipdirblocks);
 
     bool checktowerspikes(int t);
 
-    bool checkwall();
+    bool checkwall(const SDL_Rect& temprect, const float dx, const float dy, const float dr, const bool skipblocks, const bool skipdirblocks);
+    bool checkwall(const SDL_Rect& temprect);
 
-    float hplatformat();
+    float hplatformat(const int px, const int py);
 
     int yline(int a, int b);
 
@@ -141,11 +153,9 @@ public:
 
     bool entitycollideroof(int t);
 
-    bool testwallsx(int t, int tx, int ty);
+    bool testwallsx(int t, int tx, int ty, const bool skipdirblocks);
 
     bool testwallsy(int t, float tx, float ty);
-
-    void fixfriction(int t, float xfix, float xrate, float yrate);
 
     void applyfriction(int t, float xrate, float yrate);
 
@@ -154,40 +164,26 @@ public:
 
     void entitymapcollision(int t);
 
-    void movingplatformfix(int t);
-
-    void scmmovingplatformfix(int t);
-
-    void hormovingplatformfix(int t);
+    void movingplatformfix(int t, int j);
 
     void entitycollisioncheck();
+
+    void collisioncheck(int i, int j, bool scm = false);
+
+    void stuckprevention(int t);
 
 
     std::vector<entclass> entities;
 
     std::vector<entclass> linecrosskludge;
 
-    point colpoint1, colpoint2;
-
-    int tempx, tempy, tempw, temph, temp, temp2;
-    //public var tempx:int, tempy:int, tempw:int, temph:int, temp:int, temp2:int;
-    int tpx1, tpy1, tpx2, tpy2;
-
-    SDL_Rect temprect, temprect2;
-
-    int x, k;
-    float dx, dy, dr;
-
-    int px, py, linetemp;
-    int activetrigger;
+    int k;
 
 
     std::vector<blockclass> blocks;
     bool flags[100];
     bool collect[100];
     bool customcollect[100];
-
-    bool skipblocks, skipdirblocks;
 
     int platformtile;
     bool vertplatforms, horplatforms;
@@ -211,6 +207,8 @@ public:
     bool customcrewmoods[Game::numcrew];
 };
 
+#ifndef OBJ_DEFINITION
 extern entityclass obj;
+#endif
 
 #endif /* ENTITY_H */

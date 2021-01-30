@@ -1,3 +1,4 @@
+#define HELP_DEFINITION
 #include "UtilityClass.h"
 
 #include <cctype>
@@ -5,7 +6,7 @@
 #include <sstream>
 
 /* Used by UtilityClass::GCString to generate a button list */
-const char *GCChar(SDL_GameControllerButton button)
+static const char *GCChar(SDL_GameControllerButton button)
 {
 	if (button == SDL_CONTROLLER_BUTTON_A)
 	{
@@ -146,7 +147,7 @@ int UtilityClass::Int(const char* str, int fallback /*= 0*/)
 		return fallback;
 	}
 
-	return SDL_atoi(str);
+	return (int) SDL_strtol(str, NULL, 0);
 }
 
 std::string UtilityClass::GCString(std::vector<SDL_GameControllerButton> buttons)
@@ -267,13 +268,20 @@ bool is_number(const char* str)
 	return true;
 }
 
+static bool VVV_isxdigit(const unsigned char digit)
+{
+	return (digit >= 'a' && digit <= 'z')
+	|| (digit >= 'A' && digit <= 'Z')
+	|| SDL_isdigit(digit);
+}
+
 bool is_positive_num(const std::string& str, bool hex)
 {
 	for (size_t i = 0; i < str.length(); i++)
 	{
 		if (hex)
 		{
-			if (!isxdigit(static_cast<unsigned char>(str[i])))
+			if (!VVV_isxdigit(static_cast<unsigned char>(str[i])))
 			{
 				return false;
 			}

@@ -11,11 +11,7 @@ struct colourTransform
 
 void setRect(SDL_Rect& _r, int x, int y, int w, int h);
 
-unsigned int endian_swap(unsigned int x);
-
 SDL_Surface* GetSubSurface( SDL_Surface* metaSurface, int x, int y, int width, int height );
-
-void DrawPixel( SDL_Surface *surface, int x, int y, Uint32 pixel );
 
 Uint32 ReadPixel( SDL_Surface *surface, int x, int y );
 
@@ -41,7 +37,6 @@ void FillRect( SDL_Surface* surface, SDL_Rect rect, int rgba );
 
 void ScrollSurface(SDL_Surface* _src, int pX, int py);
 
-SDL_Surface * FlipSurfaceHorizontal(SDL_Surface* _src);
 SDL_Surface * FlipSurfaceVerticle(SDL_Surface* _src);
 void UpdateFilter();
 SDL_Surface* ApplyFilter( SDL_Surface* _src );

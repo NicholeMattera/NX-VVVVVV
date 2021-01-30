@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "UtilityClass.h"
+
 binaryBlob::binaryBlob()
 {
 	numberofHeaders = 0;
@@ -25,7 +27,7 @@ void binaryBlob::AddFileToBinaryBlob(const char* _path)
 		size = ftell(file);
 		fseek(file, 0, SEEK_SET);
 
-		memblock = (char*) malloc(size);
+		memblock = (char*) SDL_malloc(size);
 		fread(memblock, 1, size, file);
 
 		fclose(file);
@@ -98,15 +100,17 @@ bool binaryBlob::unPackBinary(const char* name)
 		}
 		if (m_headers[i].size < 1)
 		{
+			m_headers[i].valid = false;
 			continue; /* Must be nonzero and positive */
 		}
 		if ((offset + m_headers[i].size) > size)
 		{
+			m_headers[i].valid = false;
 			continue; /* Bogus size value */
 		}
 
 		PHYSFS_seek(handle, offset);
-		m_memblocks[i] = (char*) malloc(m_headers[i].size);
+		m_memblocks[i] = (char*) SDL_malloc(m_headers[i].size);
 		if (m_memblocks[i] == NULL)
 		{
 			exit(1); /* Oh god we're out of memory, just bail */
@@ -137,7 +141,7 @@ void binaryBlob::clear()
 	{
 		if (m_headers[i].valid)
 		{
-			free(m_memblocks[i]);
+			SDL_free(m_memblocks[i]);
 			m_headers[i].valid = false;
 		}
 	}
@@ -147,7 +151,7 @@ int binaryBlob::getIndex(const char* _name)
 {
 	for (size_t i = 0; i < SDL_arraysize(m_headers); i += 1)
 	{
-		if (strcmp(_name, m_headers[i].name) == 0)
+		if (SDL_strcmp(_name, m_headers[i].name) == 0 && m_headers[i].valid)
 		{
 			return i;
 		}
@@ -157,11 +161,21 @@ int binaryBlob::getIndex(const char* _name)
 
 int binaryBlob::getSize(int _index)
 {
+	if (!INBOUNDS_ARR(_index, m_headers))
+	{
+		puts("getSize() out-of-bounds!");
+		return 0;
+	}
 	return m_headers[_index].size;
 }
 
 char* binaryBlob::getAddress(int _index)
 {
+	if (!INBOUNDS_ARR(_index, m_memblocks))
+	{
+		puts("getAddress() out-of-bounds!");
+		return NULL;
+	}
 	return m_memblocks[_index];
 }
 
@@ -171,7 +185,7 @@ std::vector<int> binaryBlob::getExtra()
 	for (size_t i = 0; i < SDL_arraysize(m_headers); i += 1)
 	{
 		if (m_headers[i].valid
-#define FOREACH_TRACK(track_name) && strcmp(m_headers[i].name, track_name) != 0
+#define FOREACH_TRACK(track_name) && SDL_strcmp(m_headers[i].name, track_name) != 0
 		TRACK_NAMES
 #undef FOREACH_TRACK
 		) {

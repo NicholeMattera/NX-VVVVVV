@@ -38,11 +38,9 @@ entclass::entclass()
 	x2 = 320;
 	y2 = 240;
 
-	jumping = false;
 	gravity = false;
 	onground = 0;
 	onroof = 0;
-	jumpframe = 0;
 
 	onentity = 0;
 	harmful = false;
@@ -58,6 +56,8 @@ entclass::entclass()
 	actionframe = 0;
 
 	realcol = 0;
+	lerpoldxp = 0;
+	lerpoldyp = 0;
 }
 
 bool entclass::outside()
@@ -106,7 +106,7 @@ void entclass::setenemy( int t )
 			break;
 		case 1:
 			yp += 10;
-			oldyp += 10;
+			lerpoldyp += 10;
 			tile = 63;
 			animate = 100; //LIES
 			colour = 6;
@@ -146,9 +146,9 @@ void entclass::setenemy( int t )
 			break;
 		case 1:
 			xp += 4;
-			oldxp += 4;
+			lerpoldxp += 4;
 			yp -= 4;
-			oldyp -= 4;
+			lerpoldyp -= 4;
 			tile = 76;
 			animate = 100; // Clouds
 			colour = 6;
@@ -226,9 +226,9 @@ void entclass::setenemyroom( int rx, int ry )
 			w = 16;
 			h = 16;
 			xp -= 24;
-			oldxp -= 24;
+			lerpoldxp -= 24;
 			yp -= 16;
-			oldyp -= 16;
+			lerpoldyp -= 16;
 		}
 		else
 		{
@@ -241,9 +241,9 @@ void entclass::setenemyroom( int rx, int ry )
 			cx = 4;
 			size = 9;
 			xp -= 4;
-			oldxp -= 4;
+			lerpoldxp -= 4;
 			yp -= 32;
-			oldyp -= 32;
+			lerpoldyp -= 32;
 		}
 
 		break;
@@ -344,7 +344,7 @@ void entclass::setenemyroom( int rx, int ry )
 		w = 32;
 		h = 14;
 		yp += 1;
-		oldyp += 1;
+		lerpoldyp += 1;
 		break;
 	case rn(16, 2): // (Manequins)
 		tile = 52;
@@ -353,7 +353,7 @@ void entclass::setenemyroom( int rx, int ry )
 		w = 16;
 		h = 25;
 		yp -= 4;
-		oldyp -= 4;
+		lerpoldyp -= 4;
 		break;
 	case rn(18, 0): // (Obey)
 		tile = 51;
@@ -643,4 +643,12 @@ void entclass::updatecolour()
 	default:
 		break;
 	}
+}
+
+bool entclass::ishumanoid()
+{
+	return type == 0
+		|| type == 12
+		|| type == 14
+		|| type == 55;
 }

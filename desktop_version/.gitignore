@@ -12,6 +12,10 @@ VVVVVV
 *.elf
 *.nacp
 *.nro
+src/Version.h.out
 
 # Game data
 data.zip
+
+# macOS files
+.DS_Store

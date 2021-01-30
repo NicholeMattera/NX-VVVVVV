@@ -11,6 +11,7 @@
 #include "Maths.h"
 #include "Screen.h"
 #include "Textbox.h"
+#include "TowerBG.h"
 
 class Graphics
 {
@@ -48,13 +49,9 @@ public:
 
 	void createtextbox(std::string t, int xp, int yp, int r= 255, int g= 255, int b = 255);
 
-	void textboxcenter();
-
 	void textboxcenterx();
 
 	int textboxwidth();
-
-	void textboxmove(int xo, int yo);
 
 	void textboxmoveto(int xo);
 
@@ -110,10 +107,6 @@ public:
 
 	void PrintAlpha(int _x, int _y, std::string _s, int r, int g, int b, int a, bool cen = false);
 
-	void RPrint(int _x, int _y, std::string _s, int r, int g, int b, bool cen = false);
-
-	void PrintOff(int _x, int _y, std::string _s, int r, int g, int b, bool cen = false);
-
 	void PrintOffAlpha(int _x, int _y, std::string _s, int r, int g, int b, int a, bool cen = false);
 
 	void bprint(int x, int y, std::string t, int r, int g, int b, bool cen = false);
@@ -138,6 +131,8 @@ public:
 	bool Hitest(SDL_Surface* surface1, point p1, SDL_Surface* surface2, point p2);
 
 	void drawentities();
+
+	void drawentity(const int i, const int yoff);
 
 	void drawtrophytext();
 
@@ -164,11 +159,10 @@ public:
 	void drawbackground(int t);
 	void updatebackground(int t);
 	void drawtile3( int x, int y, int t, int off, int height_subtract = 0 );
-	void drawentcolours( int x, int y, int t);
 	void drawtile2( int x, int y, int t );
 	void drawtile( int x, int y, int t );
 	void drawtowertile( int x, int y, int t );
-	void drawtowertile3( int x, int y, int t, int off );
+	void drawtowertile3( int x, int y, int t, TowerBG& bg_obj );
 
 	void drawmap();
 
@@ -192,15 +186,15 @@ public:
 
 	void menuoffrender();
 
-	void drawtowerbackground();
-	void updatetowerbackground();
+	void drawtowerbackground(const TowerBG& bg_obj);
+	void updatetowerbackground(TowerBG& bg_obj);
 
 	void setcol(int t);
 	void drawfinalmap();
 
 	colourTransform ct;
 
-	int bcol, bcol2, rcol;
+	int rcol;
 
 
 
@@ -221,15 +215,17 @@ public:
 	bool flipmode;
 	bool setflipmode;
 	bool notextoutline;
-	point tl;
 	//buffer objects. //TODO refactor buffer objects
 	SDL_Surface* backBuffer;
 	Screen* screenbuffer;
 	SDL_Surface* menubuffer;
-	SDL_Surface* towerbuffer;
-	SDL_Surface* towerbuffer_lerp;
 	SDL_Surface* foregroundBuffer;
 	SDL_Surface* tempBuffer;
+	SDL_Surface* warpbuffer;
+	SDL_Surface* warpbuffer_lerp;
+
+	TowerBG towerbg;
+	TowerBG titlebg;
 
 	SDL_Rect bfont_rect;
 	SDL_Rect tiles_rect;
@@ -238,6 +234,7 @@ public:
 	SDL_Rect bg_rect;
 	SDL_Rect line_rect;
 	SDL_Rect tele_rect;
+	SDL_Rect towerbuffer_rect;
 
 	SDL_Rect foot_rect;
 	SDL_Rect prect;
@@ -317,6 +314,8 @@ public:
 	Uint32 crewcolourreal(int t);
 };
 
+#ifndef GRAPHICS_DEFINITION
 extern Graphics graphics;
+#endif
 
 #endif /* GRAPHICS_H */

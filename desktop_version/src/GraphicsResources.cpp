@@ -24,7 +24,7 @@ extern "C"
 	);
 }
 
-SDL_Surface* LoadImage(const char *filename, bool noBlend = true, bool noAlpha = false)
+static SDL_Surface* LoadImage(const char *filename, bool noBlend = true, bool noAlpha = false)
 {
 	//Temporary storage for the image that's loaded
 	SDL_Surface* loadedImage = NULL;
@@ -67,7 +67,7 @@ SDL_Surface* LoadImage(const char *filename, bool noBlend = true, bool noAlpha =
 			0
 		);
 		SDL_FreeSurface( loadedImage );
-		free(data);
+		SDL_free(data);
 		if (noBlend)
 		{
 			SDL_SetSurfaceBlendMode(optimizedImage, SDL_BLENDMODE_BLEND);
@@ -76,6 +76,7 @@ SDL_Surface* LoadImage(const char *filename, bool noBlend = true, bool noAlpha =
 	}
 	else
 	{
+		SDL_free(data);
 		fprintf(stderr,"Image not found: %s\n", filename);
 		SDL_assert(0 && "Image not found! See stderr.");
 		return NULL;

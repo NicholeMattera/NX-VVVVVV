@@ -20,6 +20,8 @@ public:
 
     void updatecolour();
 
+    bool ishumanoid();
+
 public:
     //Fundamentals
     bool invis;
@@ -42,15 +44,14 @@ public:
     int onwall, onxwall, onywall;
 
     //Platforming specific
-    bool jumping;
     bool gravity;
     int onground, onroof;
-    int jumpframe;
     //Animation
     int framedelay, drawframe, walkingframe, dir, actionframe;
     int yp;int xp;
 
     Uint32 realcol;
+    int lerpoldxp, lerpoldyp;
 };
 
 #endif /* ENT_H */

@@ -9,6 +9,7 @@
 #include "Otherlevel.h"
 #include "Spacestation2.h"
 #include "Tower.h"
+#include "TowerBG.h"
 #include "WarpClass.h"
 
 struct Roomtext
@@ -21,8 +22,6 @@ class mapclass
 {
 public:
     mapclass();
-
-    int RGB(int red,int green,int blue);
 
     int intpol(int a, int b, float c);
 
@@ -47,9 +46,11 @@ public:
 
     void changefinalcol(int t);
 
-    void setcol(const int r1, const int g1, const int b1 , const int r2, const  int g2, const int b2, const int c);
+    void setcol(TowerBG& bg_obj, const int r1, const int g1, const int b1 , const int r2, const  int g2, const int b2, const int c);
 
-    void updatetowerglow();
+    void updatebgobj(TowerBG& bg_obj);
+
+    void updatetowerglow(TowerBG& bg_obj);
 
     void nexttowercolour();
 
@@ -70,6 +71,7 @@ public:
 
     void showship();
 
+    void resetplayer(const bool player_died);
     void resetplayer();
 
     void warpto(int rx, int ry , int t, int tx, int ty);
@@ -104,33 +106,22 @@ public:
     bool towermode;
     float ypos;
     float oldypos;
-    int bypos;
     int cameramode;
     int cameraseek, cameraseekframe;
     int resumedelay;
     bool minitowermode;
-    int scrolldir;
 
-    //This is the old colour cycle
-    int r, g,b;
-    int check, cmode;
-    int towercol;
-    int colstate, colstatedelay;
+    int colstatedelay;
     int colsuperstate;
     int spikeleveltop, spikelevelbottom;
     int oldspikeleveltop, oldspikelevelbottom;
-    bool tdrawback;
-    int bscroll;
     //final level navigation
-    int finalx;
-    int finaly;
     bool finalmode;
     bool finalstretch;
 
     //Variables for playing custom levels
     bool custommode;
     bool custommodeforreal;
-    int customx, customy;
     int customwidth, customheight;
     int custommmxoff, custommmyoff, custommmxsize, custommmysize;
     int customzoom;
@@ -172,24 +163,10 @@ public:
 
     //Map cursor
     int cursorstate, cursordelay;
-
-    int kludge_bypos;
-    int kludge_colstate;
-    int kludge_scrolldir;
-    void inline bg_to_kludge()
-    {
-        kludge_bypos = bypos;
-        kludge_colstate = colstate;
-        kludge_scrolldir = scrolldir;
-    }
-    void inline kludge_to_bg()
-    {
-        bypos = kludge_bypos;
-        colstate = kludge_colstate;
-        scrolldir = kludge_scrolldir;
-    }
 };
 
+#ifndef MAP_DEFINITION
 extern mapclass map;
+#endif
 
 #endif /* MAPGAME_H */

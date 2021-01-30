@@ -1,3 +1,4 @@
+#define KEY_DEFINITION
 #include "KeyPoll.h"
 
 #include <stdio.h>
@@ -8,26 +9,23 @@
 #include "Graphics.h"
 #include "Music.h"
 
-void KeyPoll::setSensitivity(int _value)
+int inline KeyPoll::getThreshold()
 {
-	switch (_value)
+	switch (sensitivity)
 	{
-		case 0:
-			sensitivity = 28000;
-			break;
-		case 1:
-			sensitivity = 16000;
-			break;
-		case 2:
-			sensitivity = 8000;
-			break;
-		case 3:
-			sensitivity = 4000;
-			break;
-		case 4:
-			sensitivity = 2000;
-			break;
+	case 0:
+		return 28000;
+	case 1:
+		return 16000;
+	case 2:
+		return 8000;
+	case 3:
+		return 4000;
+	case 4:
+		return 2000;
 	}
+
+	return 8000;
 
 }
 
@@ -35,10 +33,10 @@ KeyPoll::KeyPoll()
 {
 	xVel = 0;
 	yVel = 0;
-	setSensitivity(2);
+	// 0..5
+	sensitivity = 2;
 
 	quitProgram = 0;
-	textentrymode=true;
 	keybuffer="";
 	leftbutton=0; rightbutton=0; middlebutton=0;
 	mx=0; my=0;
@@ -47,13 +45,13 @@ KeyPoll::KeyPoll()
 	pressedbackspace=false;
 
 	useFullscreenSpaces = false;
-	if (strcmp(SDL_GetPlatform(), "Mac OS X") == 0)
+	if (SDL_strcmp(SDL_GetPlatform(), "Mac OS X") == 0)
 	{
 		useFullscreenSpaces = true;
 		const char *hint = SDL_GetHint(SDL_HINT_VIDEO_MAC_FULLSCREEN_SPACES);
 		if (hint != NULL)
 		{
-			useFullscreenSpaces = (strcmp(hint, "1") == 0);
+			useFullscreenSpaces = (SDL_strcmp(hint, "1") == 0);
 		}
 	}
 
@@ -67,18 +65,22 @@ KeyPoll::KeyPoll()
 void KeyPoll::enabletextentry()
 {
 	keybuffer="";
-	textentrymode = true;
 	SDL_StartTextInput();
 }
 
 void KeyPoll::disabletextentry()
 {
-	textentrymode = false;
 	SDL_StopTextInput();
+}
+
+bool KeyPoll::textentry()
+{
+	return SDL_IsTextInputActive() == SDL_TRUE;
 }
 
 void KeyPoll::Poll()
 {
+	bool altpressed = false;
 	SDL_Event evt;
 	while (SDL_PollEvent(&evt))
 	{
@@ -95,9 +97,9 @@ void KeyPoll::Poll()
 			}
 
 #ifdef __APPLE__ /* OSX prefers the command keys over the alt keys. -flibit */
-			bool altpressed = keymap[SDLK_LGUI] || keymap[SDLK_RGUI];
+			altpressed = keymap[SDLK_LGUI] || keymap[SDLK_RGUI];
 #else
-			bool altpressed = keymap[SDLK_LALT] || keymap[SDLK_RALT];
+			altpressed = keymap[SDLK_LALT] || keymap[SDLK_RALT];
 #endif
 			bool returnpressed = evt.key.keysym.sym == SDLK_RETURN;
 			bool fpressed = evt.key.keysym.sym == SDLK_f;
@@ -107,7 +109,7 @@ void KeyPoll::Poll()
 				toggleFullscreen = true;
 			}
 
-			if (textentrymode)
+			if (textentry())
 			{
 				if (evt.key.keysym.sym == SDLK_BACKSPACE && !keybuffer.empty())
 				{
@@ -135,7 +137,10 @@ void KeyPoll::Poll()
 			}
 			break;
 		case SDL_TEXTINPUT:
-			keybuffer += evt.text.text;
+			if (!altpressed)
+			{
+				keybuffer += evt.text.text;
+			}
 			break;
 
 		/* Mouse Input */
@@ -192,11 +197,13 @@ void KeyPoll::Poll()
 			buttonmap[(SDL_GameControllerButton) evt.cbutton.button] = false;
 			break;
 		case SDL_CONTROLLERAXISMOTION:
+		{
+			const int threshold = getThreshold();
 			switch (evt.caxis.axis)
 			{
 			case SDL_CONTROLLER_AXIS_LEFTX:
-				if (	evt.caxis.value > -sensitivity &&
-					evt.caxis.value < sensitivity	)
+				if (	evt.caxis.value > -threshold &&
+					evt.caxis.value < threshold	)
 				{
 					xVel = 0;
 				}
@@ -206,8 +213,8 @@ void KeyPoll::Poll()
 				}
 				break;
 			case SDL_CONTROLLER_AXIS_LEFTY:
-				if (	evt.caxis.value > -sensitivity &&
-					evt.caxis.value < sensitivity	)
+				if (	evt.caxis.value > -threshold &&
+					evt.caxis.value < threshold	)
 				{
 					yVel = 0;
 				}
@@ -218,6 +225,7 @@ void KeyPoll::Poll()
 				break;
 			}
 			break;
+		}
 		case SDL_CONTROLLERDEVICEADDED:
 		{
 			SDL_GameController *toOpen = SDL_GameControllerOpen(evt.cdevice.which);
@@ -315,11 +323,6 @@ void KeyPoll::Poll()
 bool KeyPoll::isDown(SDL_Keycode key)
 {
 	return keymap[key];
-}
-
-bool KeyPoll::isUp(SDL_Keycode key)
-{
-	return !keymap[key];
 }
 
 bool KeyPoll::isDown(std::vector<SDL_GameControllerButton> buttons)

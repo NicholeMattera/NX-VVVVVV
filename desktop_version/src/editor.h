@@ -121,8 +121,6 @@ class editorclass{
   void getlin(const enum textmode mode, const std::string& prompt, std::string* ptr);
   const short* loadlevel(int rxi, int ryi);
 
-  void placetile(int x, int y, int t);
-
   void placetilelocal(int x, int y, int t);
 
   int getenemyframe(int t);
@@ -143,7 +141,6 @@ class editorclass{
   int absfree(int x, int y);
 
   int match(int x, int y);
-  int warpzonematch(int x, int y);
   int outsidematch(int x, int y);
 
   int backmatch(int x, int y);
@@ -157,7 +154,6 @@ class editorclass{
   bool save(std::string& _path);
   void generatecustomminimap();
   int edgetile(int x, int y);
-  int warpzoneedgetile(int x, int y);
   int outsideedgetile(int x, int y);
 
   int backedgetile(int x, int y);
@@ -191,6 +187,7 @@ class editorclass{
   std::string note;
   std::string keybuffer;
   std::string filename;
+  std::string loaded_filepath;
 
   int drawmode;
   int tilex, tiley;
@@ -209,7 +206,7 @@ class editorclass{
     int desc; // Which description row we're changing
     int textent; // Entity ID for text prompt
   };
-  bool xmod, zmod, cmod, vmod, bmod, hmod, spacemod, warpmod, textentry;
+  bool xmod, zmod, cmod, vmod, bmod, hmod, spacemod, warpmod;
   bool titlemod, creatormod, desc1mod, desc2mod, desc3mod, websitemod;
 
   int roomnamehide;
@@ -240,10 +237,6 @@ class editorclass{
   int sbx, sby;
   int pagey;
 
-  std::string author;
-  std::string description;
-  std::string title;
-
   //Functions for interfacing with the script:
   void addhook(std::string t);
   void removehook(std::string t);
@@ -272,28 +265,19 @@ class editorclass{
   int currentghosts;
 };
 
-void addedentity(int xp, int yp, int tp, int p1=0, int p2=0, int p3=0, int p4=0, int p5=320, int p6=240);
-
-void removeedentity(int t);
-
-int edentat(int xp, int yp);
-
-
-bool edentclear(int xp, int yp);
-
-void fillbox(int x, int y, int x2, int y2, int c);
-
-void fillboxabs(int x, int y, int x2, int y2, int c);
-
 #if !defined(NO_EDITOR) && !defined(__SWITCH__)
 void editorrender();
+
+void editorrenderfixed();
 
 void editorlogic();
 
 void editorinput();
 #endif
 
+#ifndef ED_DEFINITION
 extern editorclass ed;
+#endif
 
 #endif /* EDITOR_H */
 
