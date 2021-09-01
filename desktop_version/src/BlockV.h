@@ -7,7 +7,8 @@
 class blockclass
 {
 public:
-    blockclass();
+    blockclass(void);
+    void clear(void);
 
     void rectset(const int xi, const int yi, const int wi, const int hi);
 
@@ -20,11 +21,6 @@ public:
     int xp, yp, wp, hp;
     std::string script, prompt;
     int r, g, b;
-
-    //These would come from the sprite in the flash
-    float x;
-    float y;
-
 };
 
 #endif /* BLOCKV_H */

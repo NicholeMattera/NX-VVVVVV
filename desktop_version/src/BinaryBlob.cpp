@@ -1,17 +1,17 @@
 #include "BinaryBlob.h"
 
-#include <physfs.h> /* FIXME: Abstract to FileSystemUtils! */
 #include <SDL.h>
 #include <stdio.h>
-#include <stdlib.h>
 
+#include "Exit.h"
+#include "FileSystemUtils.h"
 #include "UtilityClass.h"
 
-binaryBlob::binaryBlob()
+binaryBlob::binaryBlob(void)
 {
 	numberofHeaders = 0;
-	SDL_memset(m_headers, 0, sizeof(m_headers));
-	SDL_memset(m_memblocks, 0, sizeof(m_memblocks));
+	SDL_zeroa(m_headers);
+	SDL_zeroa(m_memblocks);
 }
 
 #ifdef VVV_COMPILEMUSIC
@@ -28,6 +28,10 @@ void binaryBlob::AddFileToBinaryBlob(const char* _path)
 		fseek(file, 0, SEEK_SET);
 
 		memblock = (char*) SDL_malloc(size);
+		if (memblock == NULL)
+		{
+			VVV_exit(1);
+		}
 		fread(memblock, 1, size, file);
 
 		fclose(file);
@@ -73,78 +77,17 @@ void binaryBlob::writeBinaryBlob(const char* _name)
 
 bool binaryBlob::unPackBinary(const char* name)
 {
-	PHYSFS_sint64 size;
-
-	PHYSFS_File *handle = PHYSFS_openRead(name);
-	if (handle == NULL)
-	{
-		printf("Unable to open file %s\n", name);
-		return false;
-	}
-
-	size = PHYSFS_fileLength(handle);
-
-	PHYSFS_readBytes(handle, &m_headers, sizeof(m_headers));
-
-	int offset = 0 + (sizeof(m_headers));
-
-	for (size_t i = 0; i < SDL_arraysize(m_headers); i += 1)
-	{
-		/* Name can be stupid, just needs to be terminated */
-		m_headers[i].name[47] = '\0';
-
-		if (m_headers[i].valid & ~0x1 || !m_headers[i].valid)
-		{
-			m_headers[i].valid = false;
-			continue; /* Must be EXACTLY 1 or 0 */
-		}
-		if (m_headers[i].size < 1)
-		{
-			m_headers[i].valid = false;
-			continue; /* Must be nonzero and positive */
-		}
-		if ((offset + m_headers[i].size) > size)
-		{
-			m_headers[i].valid = false;
-			continue; /* Bogus size value */
-		}
-
-		PHYSFS_seek(handle, offset);
-		m_memblocks[i] = (char*) SDL_malloc(m_headers[i].size);
-		if (m_memblocks[i] == NULL)
-		{
-			exit(1); /* Oh god we're out of memory, just bail */
-		}
-		PHYSFS_readBytes(handle, m_memblocks[i], m_headers[i].size);
-		offset += m_headers[i].size;
-	}
-	PHYSFS_close(handle);
-
-	printf("The complete reloaded file size: %lli\n", size);
-
-	for (size_t i = 0; i < SDL_arraysize(m_headers); i += 1)
-	{
-		if (m_headers[i].valid == false)
-		{
-			break;
-		}
-
-		printf("%s unpacked\n", m_headers[i].name);
-	}
-
-	return true;
+	return FILESYSTEM_loadBinaryBlob(this, name);
 }
 
-void binaryBlob::clear()
+void binaryBlob::clear(void)
 {
 	for (size_t i = 0; i < SDL_arraysize(m_headers); i += 1)
 	{
-		if (m_headers[i].valid)
-		{
-			SDL_free(m_memblocks[i]);
-			m_headers[i].valid = false;
-		}
+		SDL_free(m_memblocks[i]);
 	}
+	SDL_zeroa(m_memblocks);
+	SDL_zeroa(m_headers);
 }
 
 int binaryBlob::getIndex(const char* _name)
@@ -179,18 +122,24 @@ char* binaryBlob::getAddress(int _index)
 	return m_memblocks[_index];
 }
 
-std::vector<int> binaryBlob::getExtra()
+bool binaryBlob::nextExtra(size_t* start)
 {
-	std::vector<int> result;
-	for (size_t i = 0; i < SDL_arraysize(m_headers); i += 1)
+	size_t* idx;
+
+	if (start == NULL)
 	{
-		if (m_headers[i].valid
-#define FOREACH_TRACK(track_name) && SDL_strcmp(m_headers[i].name, track_name) != 0
-		TRACK_NAMES
+		return false;
+	}
+
+	for (idx = start; *idx < SDL_arraysize(m_headers); *idx += 1)
+	{
+		if (m_headers[*idx].valid
+#define FOREACH_TRACK(_, track_name) && SDL_strcmp(m_headers[*idx].name, track_name) != 0
+		TRACK_NAMES(_)
 #undef FOREACH_TRACK
 		) {
-			result.push_back(i);
+			return true;
 		}
 	}
-	return result;
+	return false;
 }

@@ -7,7 +7,7 @@
 #include "Script.h"
 #include "UtilityClass.h"
 
-void titleupdatetextcol()
+static inline void titleupdatetextcol(void)
 {
     graphics.col_tr = graphics.titlebg.r - (help.glow / 4) - int(fRandom() * 4);
     graphics.col_tg = graphics.titlebg.g - (help.glow / 4) - int(fRandom() * 4);
@@ -20,29 +20,28 @@ void titleupdatetextcol()
     if(graphics.col_tb>255) graphics.col_tb=255;
 }
 
-void gamerenderfixed()
+void gamerenderfixed(void)
 {
     if (!game.blackout && !game.completestop)
     {
         for (size_t i = 0; i < obj.entities.size(); i++)
         {
-            //Is this entity on the ground? (needed for jumping)
             if (obj.entitycollidefloor(i))
             {
-                obj.entities[i].onground = 2;
+                obj.entities[i].visualonground = 2;
             }
             else
             {
-                obj.entities[i].onground--;
+                --obj.entities[i].visualonground;
             }
 
             if (obj.entitycollideroof(i))
             {
-                obj.entities[i].onroof = 2;
+                obj.entities[i].visualonroof = 2;
             }
             else
             {
-                obj.entities[i].onroof--;
+                --obj.entities[i].visualonroof;
             }
 
             //Animate the entities
@@ -71,6 +70,8 @@ void gamerenderfixed()
     {
         obj.trophytext--;
     }
+
+    graphics.cutscenebarstimer();
 
     graphics.updatetextboxes();
 
@@ -129,7 +130,7 @@ void gamerenderfixed()
     {
         if (map.custommode && !map.custommodeforreal)
         {
-            if (game.gametimer % 3 == 0)
+            if (game.frames % 3 == 0)
             {
                 int i = obj.getplayer();
                 GhostInfo ghost;
@@ -154,7 +155,7 @@ void gamerenderfixed()
 #endif
 }
 
-void titlerenderfixed()
+void titlerenderfixed(void)
 {
     if (!game.colourblindmode)
     {
@@ -182,7 +183,7 @@ void titlerenderfixed()
     }
 }
 
-void maprenderfixed()
+void maprenderfixed(void)
 {
     graphics.updatetextboxes();
     graphics.updatetitlecolours();
@@ -248,7 +249,14 @@ void maprenderfixed()
     }
 }
 
-void gamecompleterenderfixed()
+void teleporterrenderfixed(void)
+{
+    maprenderfixed();
+
+    graphics.cutscenebarstimer();
+}
+
+void gamecompleterenderfixed(void)
 {
     graphics.updatetitlecolours();
 

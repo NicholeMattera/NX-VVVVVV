@@ -3,7 +3,12 @@
 #include "Game.h"
 #include "Graphics.h"
 
-entclass::entclass()
+entclass::entclass(void)
+{
+	clear();
+}
+
+void entclass::clear(void)
 {
 	invis = false;
 	type = 0;
@@ -41,6 +46,11 @@ entclass::entclass()
 	gravity = false;
 	onground = 0;
 	onroof = 0;
+	collisionframedelay = 0;
+	collisiondrawframe = 0;
+	collisionwalkingframe = 0;
+	visualonground = 0;
+	visualonroof = 0;
 
 	onentity = 0;
 	harmful = false;
@@ -60,7 +70,7 @@ entclass::entclass()
 	lerpoldyp = 0;
 }
 
-bool entclass::outside()
+bool entclass::outside(void)
 {
 	// Returns true if any point of the entity is outside the map.
 	// Adjusts velocity for a clean collision.
@@ -598,7 +608,7 @@ void entclass::settreadmillcolour( int rx, int ry )
 	}
 }
 
-void entclass::updatecolour()
+void entclass::updatecolour(void)
 {
 	switch (size)
 	{
@@ -645,7 +655,7 @@ void entclass::updatecolour()
 	}
 }
 
-bool entclass::ishumanoid()
+bool entclass::ishumanoid(void)
 {
 	return type == 0
 		|| type == 12

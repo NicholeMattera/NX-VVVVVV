@@ -8,35 +8,33 @@
 class textboxclass
 {
 public:
-    textboxclass();
+    textboxclass(void);
 
-    void centerx();
+    void centerx(void);
 
-    void centery();
+    void centery(void);
 
-    void adjust();
+    void adjust(void);
 
     void initcol(int rr, int gg, int bb);
 
     void setcol(int rr, int gg, int bb);
 
-    void update();
+    void update(void);
 
-    void remove();
+    void remove(void);
 
-    void removefast();
+    void removefast(void);
 
-    void resize();
+    void resize(void);
 
     void addline(std::string t);
 public:
     //Fundamentals
     std::vector<std::string> line;
     int xp, yp, lw, w, h;
-    int x,y;
     int r,g,b;
     int tr,tg,tb;
-    SDL_Rect textrect;
     int timer;
 
     float tl;
@@ -45,6 +43,10 @@ public:
 
     int max;
 
+    /* Whether to flip text box y-position in Flip Mode. */
+    bool flipme;
+
+    int rand;
 };
 
 #endif /* TEXTBOX_H */

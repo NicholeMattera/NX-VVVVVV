@@ -82,40 +82,48 @@ static const char* patrons[] = {
     "Timothy Bragan",
 };
 
-/* CONTRIBUTORS.txt, again listed alphabetically (according to `sort`) by last name */
+/* CONTRIBUTORS.txt, again listed alphabetically (according to `sort`) by first name */
 static const char* githubfriends[] = {
-    "Matt \"Fussmatte\" Aaldenberg", // TODO: Change to "Fußmatte" if/when UTF-8 support is added
+    "Misa \"Info Teddy\" Kai",
+    "",
+    "and",
+    "",
     "AlexApps99",
-    "AllyTally",
-    "Christoph B{hmwalder",
-    "Charlie Bruce",
-    "Brian Callahan",
-    "Dav999",
     "Allison Fleischer",
+    "AllyTally",
+    "Brian Callahan",
+    "Charlie Bruce",
+    "Christoph B{hmwalder",
     "Daniel Lee",
-    "Fredrik Ljungdahl",
-    "MAO3J1m0Op",
-    "Nichole Mattera",
-    "Matt Penny",
-    "Tynan Richards",
-    "Elliott Saltar",
-    "Marvin Scholz",
-    "Keith Stellyes",
+    "Dav999",
     "Elijah Stone",
-    "Thomas S|nger",
-    "Info Teddy",
-    "leo60228",
+    "Elliott Saltar",
     "Emmanuel Vadot",
+    "Fredrik Ljungdahl",
+    "Keith Stellyes",
+    "KyoZM",
+    "leo60228",
+    "MAO3J1m0Op",
+    "Malte Grimm",
+    "Marvin Scholz",
+    "Matt Penny",
+    "mothbeanie",
+    "Nichole Mattera",
+    "Pierre-Alain TORET",
+    "Reese Rivers",
     "Remi Verschelde", // TODO: Change to "Rémi" if/when UTF-8 support is added
-    "viri",
+    "Thomas S|nger",
+    "Tynan Richards",
     "Wouter",
+    "viri",
+    "Vittorio Romeo",
 };
 
 /* Calculate credits length, finally. */
-static const int creditmaxposition = 1050 + (10 * (
+static const int creditmaxposition = 1040 + (10 * (
     SDL_arraysize(superpatrons) + SDL_arraysize(patrons) + SDL_arraysize(githubfriends)
 ));
 
-}; /* namespace Credits */
+} /* namespace Credits */
 
 #endif /* CREDITS_H */

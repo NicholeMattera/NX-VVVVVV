@@ -4,13 +4,14 @@
 #include "editor.h"
 #include "Entity.h"
 #include "Game.h"
+#include "GlitchrunnerMode.h"
 #include "Graphics.h"
 #include "MakeAndPlay.h"
 #include "Music.h"
 #include "Script.h"
 #include "UtilityClass.h"
 
-mapclass::mapclass()
+mapclass::mapclass(void)
 {
 	//Start here!
 	colstatedelay = 0;
@@ -81,6 +82,8 @@ mapclass::mapclass()
 	cameraseek = 0;
 	minitowermode = false;
 	roomtexton = false;
+
+	nexttowercolour_set = false;
 }
 
 //Areamap starts at 100,100 and extends 20x20
@@ -128,13 +131,13 @@ void mapclass::settrinket(int x, int y)
 	shinytrinkets.push_back(temp);
 }
 
-void mapclass::resetmap()
+void mapclass::resetmap(void)
 {
 	//clear the explored area of the map
 	SDL_memset(explored, 0, sizeof(explored));
 }
 
-void mapclass::resetnames()
+void mapclass::resetnames(void)
 {
 	//Reset all the special names
 	specialnames[0] = "Rear Window";
@@ -393,7 +396,7 @@ std::string mapclass::getglitchname(int x, int y)
 	return roomname;
 }
 
-void mapclass::initmapdata()
+void mapclass::initmapdata(void)
 {
 	if (custommode)
 	{
@@ -443,7 +446,7 @@ void mapclass::initmapdata()
 	settrinket(10, 8);
 }
 
-void mapclass::initcustommapdata()
+void mapclass::initcustommapdata(void)
 {
 	shinytrinkets.clear();
 
@@ -472,11 +475,29 @@ int mapclass::finalat(int x, int y)
 		//Special case: animated tiles
 		if (final_mapcol == 1)
 		{
-			return 737 + (int(fRandom() * 11) * 40);
+			int offset;
+			if (game.noflashingmode)
+			{
+				offset = 0;
+			}
+			else
+			{
+				offset = int(fRandom() * 11) * 40;
+			}
+			return 737 + offset;
 		}
 		else
 		{
-			return contents[x + vmult[y]] - (final_mapcol * 3) + (final_aniframe * 40);
+			int offset;
+			if (game.noflashingmode)
+			{
+				offset = 0;
+			}
+			else
+			{
+				offset = final_aniframe * 40;
+			}
+			return contents[x + vmult[y]] - (final_mapcol * 3) + offset;
 		}
 	}
 	else if (contents[x + vmult[y]] >= 80)
@@ -487,7 +508,6 @@ int mapclass::finalat(int x, int y)
 	{
 		return contents[x + vmult[y]];
 	}
-	return 0;
 }
 
 int mapclass::maptiletoenemycol(int t)
@@ -596,6 +616,12 @@ void mapclass::updatebgobj(TowerBG& bg_obj)
 	bg_obj.tdrawback = true;
 }
 
+void mapclass::setbgobjlerp(TowerBG& bg_obj)
+{
+	bg_obj.bypos = ypos / 2;
+	bg_obj.bscroll = (ypos - oldypos) / 2;
+}
+
 void mapclass::updatetowerglow(TowerBG& bg_obj)
 {
 	if (colstatedelay <= 0 || colsuperstate > 0)
@@ -623,8 +649,15 @@ void mapclass::updatetowerglow(TowerBG& bg_obj)
 	}
 }
 
-void mapclass::nexttowercolour()
+void mapclass::nexttowercolour(void)
 {
+	/* Prevent cycling title BG more than once per frame. */
+	if (nexttowercolour_set)
+	{
+		return;
+	}
+	nexttowercolour_set = true;
+
 	graphics.titlebg.colstate+=5;
 	if (graphics.titlebg.colstate >= 30) graphics.titlebg.colstate = 0;
 
@@ -722,37 +755,56 @@ int mapclass::area(int _rx, int _ry)
 	}
 }
 
-void mapclass::exploretower()
+bool mapclass::isexplored(const int rx, const int ry)
 {
-	for (int i = 0; i < 20; i++)
+	const int roomnum = rx + ry*20;
+	if (INBOUNDS_ARR(roomnum, explored))
 	{
-		explored[9 + (i * 20)] = 1;
+		return explored[roomnum];
+	}
+	return false;
+}
+
+void mapclass::setexplored(const int rx, const int ry, const bool status)
+{
+	const int roomnum = rx + ry*20;
+	if (INBOUNDS_ARR(roomnum, explored))
+	{
+		explored[roomnum] = status;
 	}
 }
 
-void mapclass::hideship()
+void mapclass::exploretower(void)
 {
-	//remove the ship from the explored areas
-	explored[2 + (10 * 20)] = 0;
-	explored[3 + (10 * 20)] = 0;
-	explored[4 + (10 * 20)] = 0;
-	explored[2 + (11 * 20)] = 0;
-	explored[3 + (11 * 20)] = 0;
-	explored[4 + (11 * 20)] = 0;
+	for (int i = 0; i < 20; i++)
+	{
+		setexplored(9, i, true);
+	}
 }
 
-void mapclass::showship()
+void mapclass::hideship(void)
 {
 	//remove the ship from the explored areas
-	explored[2 + (10 * 20)] = 1;
-	explored[3 + (10 * 20)] = 1;
-	explored[4 + (10 * 20)] = 1;
-	explored[2 + (11 * 20)] = 1;
-	explored[3 + (11 * 20)] = 1;
-	explored[4 + (11 * 20)] = 1;
+	setexplored(2, 10, false);
+	setexplored(3, 10, false);
+	setexplored(4, 10, false);
+	setexplored(2, 11, false);
+	setexplored(3, 11, false);
+	setexplored(4, 11, false);
 }
 
-void mapclass::resetplayer()
+void mapclass::showship(void)
+{
+	//show the ship in the explored areas
+	setexplored(2, 10, true);
+	setexplored(3, 10, true);
+	setexplored(4, 10, true);
+	setexplored(2, 11, true);
+	setexplored(3, 11, true);
+	setexplored(4, 11, true);
+}
+
+void mapclass::resetplayer(void)
 {
 	resetplayer(false);
 }
@@ -775,6 +827,11 @@ void mapclass::resetplayer(const bool player_died)
 		obj.entities[i].ay = 0;
 		obj.entities[i].xp = game.savex;
 		obj.entities[i].yp = game.savey;
+
+		//Fix conveyor death loop glitch
+		obj.entities[i].newxp = obj.entities[i].xp;
+		obj.entities[i].newyp = obj.entities[i].yp;
+
 		obj.entities[i].dir = game.savedir;
 		obj.entities[i].colour = 0;
 		if (player_died)
@@ -786,7 +843,7 @@ void mapclass::resetplayer(const bool player_died)
 		{
 			obj.entities[i].invis = false;
 		}
-		if (!game.glitchrunnermode)
+		if (!GlitchrunnerMode_less_than_or_equal(Glitchrunner2_2))
 		{
 			obj.entities[i].size = 0;
 			obj.entities[i].cx = 6;
@@ -804,7 +861,7 @@ void mapclass::resetplayer(const bool player_died)
 				ypos = 0;
 			}
 			oldypos = ypos;
-			graphics.towerbg.bypos = ypos / 2;
+			setbgobjlerp(graphics.towerbg);
 		}
 	}
 
@@ -867,11 +924,25 @@ void mapclass::gotoroom(int rx, int ry)
 		}
 	}
 
-	for (size_t i = 0; i < obj.entities.size(); i++)
+	/* Disable all entities in the room, and deallocate any unnecessary entity slots. */
+	/* However don't disable player entities, but do preserve holes between them (if any). */
+	bool player_found = false;
+	for (int i = obj.entities.size() - 1; i >= 0; --i)
 	{
-		if (obj.entities[i].rule != 0)
+		/* Iterate in reverse order to prevent unnecessary indice shifting */
+		if (obj.entities[i].rule == 0)
 		{
-			removeentity_iter(i);
+			player_found = true;
+			continue;
+		}
+
+		if (!player_found)
+		{
+			obj.entities.erase(obj.entities.begin() + i);
+		}
+		else
+		{
+			obj.disableentity(i);
 		}
 	}
 
@@ -941,65 +1012,7 @@ void mapclass::gotoroom(int rx, int ry)
 		game.currentroomdeaths = roomdeaths[game.roomx - 100 + (20 * (game.roomy - 100))];
 
 		//Alright, change music depending on where we are:
-		//Tower
-		if (game.roomx == 107 && game.roomy == 106) music.niceplay(4);
-		if (game.roomx == 107 && game.roomy == 107) music.niceplay(4);
-		if (game.roomx == 107 && game.roomy == 108) music.niceplay(4);
-		if (game.roomx == 107 && game.roomy == 109) music.niceplay(4);
-		if (game.roomx == 108 && game.roomy == 109)
-		{
-			if (graphics.setflipmode)
-			{
-				music.niceplay(9);
-			}
-			else
-			{
-				music.niceplay(2);
-			}
-		}
-		if (game.roomx == 109)
-		{
-			if (graphics.setflipmode)
-			{
-				music.niceplay(9);
-			}
-			else
-			{
-				music.niceplay(2);
-			}
-		}
-		//Warp Zone
-		if (game.roomx == 112 && game.roomy == 101) music.niceplay(4);
-		if (game.roomx == 113 && game.roomy == 101) music.niceplay(4);
-		if (game.roomx == 113 && game.roomy == 102) music.niceplay(4);
-		if (game.roomx == 114 && game.roomy == 101) music.niceplay(12);
-		if (game.roomx == 115 && game.roomy == 101) music.niceplay(12);
-		if (game.roomx == 115 && game.roomy == 102) music.niceplay(12);
-		//Lab
-		if (game.roomx == 101 && game.roomy == 115) music.niceplay(4);
-		if (game.roomx == 100 && game.roomy == 115) music.niceplay(4);
-		if (game.roomx == 101 && game.roomy == 116) music.niceplay(4);
-		if (game.roomx == 100 && game.roomy == 116) music.niceplay(4);
-		if (game.roomx == 102 && game.roomy == 116) music.niceplay(3);
-		if (game.roomx == 102 && game.roomy == 117) music.niceplay(3);
-		if (game.roomx == 101 && game.roomy == 117) music.niceplay(3);
-		//Space Station
-		if (game.intimetrial)
-		{
-			if (game.roomx == 111 && game.roomy == 112) music.niceplay(1);
-			if (game.roomx == 111 && game.roomy == 113) music.niceplay(1);
-			if (game.roomx == 112 && game.roomy == 114) music.niceplay(1);
-			if (game.roomx == 112 && game.roomy == 115) music.niceplay(1);
-		}
-		else
-		{
-			if (game.roomx == 111 && game.roomy == 112) music.niceplay(1);
-			if (game.roomx == 111 && game.roomy == 113) music.niceplay(1);
-			if (game.roomx == 112 && game.roomy == 114) music.niceplay(4);
-			if (game.roomx == 112 && game.roomy == 115) music.niceplay(4);
-		}
-		//Leaving the Ship
-		if (game.roomx == 104 && game.roomy == 112) music.niceplay(4);
+		music.changemusicarea(game.roomx - 100, game.roomy - 100);
 	}
 	int temp = rx + (ry * 100);
 	loadlevel(game.roomx, game.roomy);
@@ -1125,12 +1138,21 @@ std::string mapclass::currentarea(int t)
 	return "???";
 }
 
+static void copy_short_to_int(int* dest, const short* src, const size_t size)
+{
+	size_t i;
+	for (i = 0; i < size; ++i)
+	{
+		dest[i] = src[i];
+	}
+}
+
 void mapclass::loadlevel(int rx, int ry)
 {
 	int t;
 	if (!finalmode)
 	{
-		explored[rx - 100 + ((ry - 100) * 20)] = true;
+		setexplored(rx - 100, ry - 100, true);
 		if (rx == 109 && !custommode)
 		{
 			exploretower();
@@ -1212,7 +1234,7 @@ void mapclass::loadlevel(int rx, int ry)
 
 				ypos = (700-29) * 8;
 				oldypos = ypos;
-				graphics.towerbg.bypos = ypos / 2;
+				setbgobjlerp(graphics.towerbg);
 				cameramode = 0;
 				graphics.towerbg.colstate = 0;
 				colsuperstate = 0;
@@ -1222,7 +1244,7 @@ void mapclass::loadlevel(int rx, int ry)
 				//you've entered from the top floor
 				ypos = 0;
 				oldypos = ypos;
-				graphics.towerbg.bypos = 0;
+				setbgobjlerp(graphics.towerbg);
 				cameramode = 0;
 				graphics.towerbg.colstate = 0;
 				colsuperstate = 0;
@@ -1276,25 +1298,16 @@ void mapclass::loadlevel(int rx, int ry)
 		tileset = 1;
 		extrarow = 1;
 		const short* tmap = otherlevel.loadlevel(rx, ry);
-		SDL_memcpy(contents, tmap, sizeof(contents));
+		copy_short_to_int(contents, tmap, SDL_arraysize(contents));
 		roomname = otherlevel.roomname;
+		hiddenname = otherlevel.hiddenname;
 		tileset = otherlevel.roomtileset;
-		//do the appear/remove roomname here
-
-		if (game.roomx >= 102 && game.roomx <= 104 && game.roomy >= 110 && game.roomy <= 111)
-		{
-			hiddenname = "The Ship";
-		}
-		else
-		{
-			hiddenname = "Dimension VVVVVV";
-		}
 		break;
 	}
 	case 2: //The Lab
 	{
 		const short* tmap = lablevel.loadlevel(rx, ry);
-		SDL_memcpy(contents, tmap, sizeof(contents));
+		copy_short_to_int(contents, tmap, SDL_arraysize(contents));
 		roomname = lablevel.roomname;
 		tileset = 1;
 		background = 2;
@@ -1305,14 +1318,13 @@ void mapclass::loadlevel(int rx, int ry)
 		graphics.towerbg.tdrawback = true;
 		minitowermode = false;
 		tower.minitowermode = false;
-		graphics.towerbg.bscroll = 0;
 		graphics.towerbg.scrolldir = 0;
+		setbgobjlerp(graphics.towerbg);
 
 		roomname = "The Tower";
 		tileset = 1;
 		background = 3;
 		towermode = true;
-		//graphics.towerbg.bypos = 0; ypos = 0; cameramode = 0;
 
 		//All the entities for here are just loaded here; it's essentially one room after all
 
@@ -1342,7 +1354,7 @@ void mapclass::loadlevel(int rx, int ry)
 	case 4: //The Warpzone
 	{
 		const short* tmap = warplevel.loadlevel(rx, ry);
-		SDL_memcpy(contents, tmap, sizeof(contents));
+		copy_short_to_int(contents, tmap, SDL_arraysize(contents));
 		roomname = warplevel.roomname;
 		tileset = 1;
 		background = 3;
@@ -1360,7 +1372,7 @@ void mapclass::loadlevel(int rx, int ry)
 	case 5: //Space station
 	{
 		const short* tmap = spacestation2.loadlevel(rx, ry);
-		SDL_memcpy(contents, tmap, sizeof(contents));
+		copy_short_to_int(contents, tmap, SDL_arraysize(contents));
 		roomname = spacestation2.roomname;
 		tileset = 0;
 		break;
@@ -1368,7 +1380,7 @@ void mapclass::loadlevel(int rx, int ry)
 	case 6: //final level
 	{
 		const short* tmap = finallevel.loadlevel(rx, ry);
-		SDL_memcpy(contents, tmap, sizeof(contents));
+		copy_short_to_int(contents, tmap, SDL_arraysize(contents));
 		roomname = finallevel.roomname;
 		tileset = 1;
 		background = 3;
@@ -1390,22 +1402,14 @@ void mapclass::loadlevel(int rx, int ry)
 
 		graphics.rcol = 6;
 		changefinalcol(final_mapcol);
-		for (size_t i = 0; i < obj.entities.size(); i++)
-		{
-			if (obj.entities[i].type == 1 || obj.entities[i].type == 2)
-			{
-				//Fix 1-frame glitch
-				obj.entities[i].drawframe = obj.entities[i].tile;
-			}
-		}
 		break;
 	}
 	case 7: //Final Level, Tower 1
 		graphics.towerbg.tdrawback = true;
 		minitowermode = true;
 		tower.minitowermode = true;
-		graphics.towerbg.bscroll = 0;
 		graphics.towerbg.scrolldir = 1;
+		setbgobjlerp(graphics.towerbg);
 
 		roomname = "Panic Room";
 		tileset = 1;
@@ -1416,7 +1420,7 @@ void mapclass::loadlevel(int rx, int ry)
 
 		ypos = 0;
 		oldypos = 0;
-		graphics.towerbg.bypos = 0;
+		setbgobjlerp(graphics.towerbg);
 		cameramode = 0;
 		graphics.towerbg.colstate = 0;
 		colsuperstate = 0;
@@ -1426,8 +1430,8 @@ void mapclass::loadlevel(int rx, int ry)
 		graphics.towerbg.tdrawback = true;
 		minitowermode = true;
 		tower.minitowermode = true;
-		graphics.towerbg.bscroll = 0;
 		graphics.towerbg.scrolldir = 1;
+		setbgobjlerp(graphics.towerbg);
 
 		roomname = "Panic Room";
 		tileset = 1;
@@ -1445,7 +1449,7 @@ void mapclass::loadlevel(int rx, int ry)
 
 		ypos = (100-29) * 8;
 		oldypos = ypos;
-		graphics.towerbg.bypos = ypos/2;
+		setbgobjlerp(graphics.towerbg);
 		cameramode = 0;
 		graphics.towerbg.colstate = 0;
 		colsuperstate = 0;}
@@ -1455,9 +1459,8 @@ void mapclass::loadlevel(int rx, int ry)
 		graphics.towerbg.tdrawback = true;
 		minitowermode = true;
 		tower.minitowermode = true;
-		graphics.towerbg.bscroll = 0;
 		graphics.towerbg.scrolldir = 0;
-		final_colorframe = 2;
+		setbgobjlerp(graphics.towerbg);
 
 		roomname = "The Final Challenge";
 		tileset = 1;
@@ -1489,7 +1492,7 @@ void mapclass::loadlevel(int rx, int ry)
 
 		ypos = (100-29) * 8;
 		oldypos = ypos;
-		graphics.towerbg.bypos = ypos/2;
+		setbgobjlerp(graphics.towerbg);
 		cameramode = 0;
 		graphics.towerbg.colstate = 0;
 		colsuperstate = 0;
@@ -1501,9 +1504,8 @@ void mapclass::loadlevel(int rx, int ry)
 		graphics.towerbg.tdrawback = true;
 		minitowermode = true;
 		tower.minitowermode = true;
-		graphics.towerbg.bscroll = 0;
 		graphics.towerbg.scrolldir = 0;
-		final_colorframe = 2;
+		setbgobjlerp(graphics.towerbg);
 
 		roomname = "The Final Challenge";
 		tileset = 1;
@@ -1528,7 +1530,7 @@ void mapclass::loadlevel(int rx, int ry)
 
 		ypos = 0;
 		oldypos = 0;
-		graphics.towerbg.bypos = 0;
+		setbgobjlerp(graphics.towerbg);
 		cameramode = 0;
 		graphics.towerbg.colstate = 0;
 		colsuperstate = 0;
@@ -1537,7 +1539,7 @@ void mapclass::loadlevel(int rx, int ry)
 	case 11: //Tower Hallways //Content is held in final level routine
 	{
 		const short* tmap = finallevel.loadlevel(rx, ry);
-		SDL_memcpy(contents, tmap, sizeof(contents));
+		copy_short_to_int(contents, tmap, SDL_arraysize(contents));
 		roomname = finallevel.roomname;
 		tileset = 2;
 		if (rx == 108)
@@ -1561,24 +1563,11 @@ void mapclass::loadlevel(int rx, int ry)
 #if !defined(NO_CUSTOM_LEVELS)
 	case 12: //Custom level
 	{
-		const int curlevel = rx-100 + (ry-100) * ed.maxwidth;
-		const edlevelclass* room_ptr = NULL;
-		if (!INBOUNDS_ARR(curlevel, ed.level))
-		{
-			static edlevelclass blank;
-			blank.tileset = 1;
-			room_ptr = &blank;
-		}
-		else
-		{
-			room_ptr = &ed.level[curlevel];
-		}
-		const edlevelclass& room = *room_ptr;
-
-		game.customcol = ed.getlevelcol(curlevel) + 1;
+		const edlevelclass* const room = ed.getroomprop(rx - 100, ry - 100);
+		game.customcol = ed.getlevelcol(room->tileset, room->tilecol) + 1;
 		obj.customplatformtile = game.customcol * 12;
 
-		switch (room.tileset)
+		switch (room->tileset)
 		{
 		case 0: // Space Station
 			tileset = 0;
@@ -1591,7 +1580,7 @@ void mapclass::loadlevel(int rx, int ry)
 		case 2: // Lab
 			tileset = 1;
 			background = 2;
-			graphics.rcol = room.tilecol;
+			graphics.rcol = room->tilecol;
 			break;
 		case 3: // Warp Zone/intermission
 			tileset = 1;
@@ -1614,7 +1603,7 @@ void mapclass::loadlevel(int rx, int ry)
 			graphics.backgrounddrawn = false;
 		}
 
-		switch (room.warpdir)
+		switch (room->warpdir)
 		{
 		case 1:
 			warpx = true;
@@ -1634,9 +1623,9 @@ void mapclass::loadlevel(int rx, int ry)
 			break;
 		}
 
-		roomname = room.roomname;
+		roomname = room->roomname;
 		extrarow = 1;
-		const short* tmap = ed.loadlevel(rx, ry);
+		const int* tmap = ed.loadlevel(rx, ry);
 		SDL_memcpy(contents, tmap, sizeof(contents));
 
 
@@ -1670,17 +1659,17 @@ void mapclass::loadlevel(int rx, int ry)
 			{
 				if (enemy)
 				{
-					bx1 = room.enemyx1;
-					by1 = room.enemyy1;
-					bx2 = room.enemyx2;
-					by2 = room.enemyy2;
+					bx1 = room->enemyx1;
+					by1 = room->enemyy1;
+					bx2 = room->enemyx2;
+					by2 = room->enemyy2;
 				}
 				else if (moving_plat)
 				{
-					bx1 = room.platx1;
-					by1 = room.platy1;
-					bx2 = room.platx2;
-					by2 = room.platy2;
+					bx1 = room->platx1;
+					by1 = room->platy1;
+					bx2 = room->platx2;
+					by2 = room->platy2;
 				}
 
 				// Enlarge bounding boxes to fix warping entities
@@ -1699,13 +1688,13 @@ void mapclass::loadlevel(int rx, int ry)
 			switch (ent.t)
 			{
 			case 1: // Enemies
-				obj.customenemy = room.enemytype;
+				obj.customenemy = room->enemytype;
 				obj.createentity(ex, ey, 56, ent.p1, 4, bx1, by1, bx2, by2);
 				break;
 			case 2: // Platforms and conveyors
 				if (ent.p1 <= 4)
 				{
-					obj.createentity(ex, ey, 2, ent.p1, room.platv, bx1, by1, bx2, by2);
+					obj.createentity(ex, ey, 2, ent.p1, room->platv, bx1, by1, bx2, by2);
 				}
 				else if (ent.p1 >= 5 && ent.p1 <= 8) // Conveyor
 				{
@@ -2030,14 +2019,14 @@ void mapclass::loadlevel(int rx, int ry)
 	}
 }
 
-void mapclass::twoframedelayfix()
+void mapclass::twoframedelayfix(void)
 {
 	// Fixes the two-frame delay in custom levels that use scripts to spawn an entity upon room load.
 	// Because when the room loads and newscript is set to run, newscript has already ran for that frame,
 	// and when the script gets loaded script.run() has already ran for that frame, too.
 	// A bit kludge-y, but it's the least we can do without changing the frame ordering.
 
-	if (game.glitchrunnermode
+	if (GlitchrunnerMode_less_than_or_equal(Glitchrunner2_2)
 	|| !custommode
 	|| game.deathseq != -1)
 		return;
@@ -2057,6 +2046,4 @@ void mapclass::twoframedelayfix()
 	game.state = 0;
 	game.statedelay = 0;
 	script.load(game.newscript);
-	script.run();
-	script.dontrunnextframe = true;
 }

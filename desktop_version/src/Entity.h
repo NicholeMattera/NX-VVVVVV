@@ -10,23 +10,6 @@
 #include "BlockV.h"
 #include "Game.h"
 
-#define removeentity_iter(index) \
-    do \
-    { \
-        extern entityclass obj; \
-        if (obj.removeentity(index)) \
-        { \
-            index--; \
-        } \
-    } while (false)
-#define removeblock_iter(index) \
-    do \
-    { \
-        extern entityclass obj; \
-        obj.removeblock(index); \
-        index--; \
-    } while (false)
-
 enum
 {
     BLOCK = 0,
@@ -40,23 +23,23 @@ enum
 class entityclass
 {
 public:
-    void init();
+    void init(void);
 
-    void resetallflags();
+    void resetallflags(void);
 
-    void fatal_top()
+    void fatal_top(void)
     {
         createblock(DAMAGE, -8, -8, 384, 16);
     }
-    void fatal_bottom()
+    void fatal_bottom(void)
     {
         createblock(DAMAGE, -8, 224, 384, 16);
     }
-    void fatal_left()
+    void fatal_left(void)
     {
         createblock(DAMAGE, -8, -8, 16, 260);
     }
-    void fatal_right()
+    void fatal_right(void)
     {
         createblock(DAMAGE, 312, -8, 16, 260);
     }
@@ -71,17 +54,15 @@ public:
 
     void createblock(int t, int xp, int yp, int w, int h, int trig = 0, const std::string& script = "");
 
-    bool removeentity(int t);
+    bool disableentity(int t);
 
-    void removeallblocks();
+    void removeallblocks(void);
 
-    void removeblock(int t);
+    void disableblock(int t);
 
-    void removeblockat(int x, int y);
+    void disableblockat(int x, int y);
 
     void moveblockto(int x1, int y1, int x2, int y2, int w, int h);
-
-    void nocollisionat(int x, int y);
 
     void removetrigger(int t);
 
@@ -93,25 +74,34 @@ public:
 
     int crewcolour(int t);
 
-    void createentity(float xp, float yp, int t, float vx = 0, float vy = 0,
-                      int p1 = 0, int p2 = 0, int p3 = 320, int p4 = 240 );
+    void createentity(int xp, int yp, int t, int meta1, int meta2,
+                      int p1, int p2, int p3, int p4);
+    void createentity(int xp, int yp, int t, int meta1, int meta2,
+                      int p1, int p2);
+    void createentity(int xp, int yp, int t, int meta1, int meta2,
+                      int p1);
+    void createentity(int xp, int yp, int t, int meta1, int meta2);
+    void createentity(int xp, int yp, int t, int meta1);
+    void createentity(int xp, int yp, int t);
 
     bool updateentities(int i);
 
     void animateentities(int i);
 
-    int getcompanion();
+    void animatehumanoidcollision(const int i);
 
-    int getplayer();
+    int getcompanion(void);
 
-    int getscm();
+    int getplayer(void);
+
+    int getscm(void);
 
     int getlineat(int t);
 
     int getcrewman(int t);
     int getcustomcrewman(int t);
 
-    int getteleporter();
+    int getteleporter(void);
 
     bool entitycollide(int a, int b);
 
@@ -119,7 +109,7 @@ public:
 
     int checktrigger(int* block_idx);
 
-    int checkactivity();
+    int checkactivity(void);
 
     int getgridpoint(int t);
 
@@ -166,7 +156,7 @@ public:
 
     void movingplatformfix(int t, int j);
 
-    void entitycollisioncheck();
+    void entitycollisioncheck(void);
 
     void collisioncheck(int i, int j, bool scm = false);
 

@@ -1,26 +1,26 @@
 #define SCRIPT_DEFINITION
 #include "Script.h"
 
+#include <limits.h>
+#include <SDL_timer.h>
+
 #include "editor.h"
 #include "Entity.h"
 #include "Enums.h"
+#include "Exit.h"
+#include "GlitchrunnerMode.h"
 #include "Graphics.h"
 #include "KeyPoll.h"
 #include "Map.h"
 #include "Music.h"
 #include "UtilityClass.h"
+#include "Xoshiro.h"
 
-#include <limits.h>
-
-scriptclass::scriptclass()
+scriptclass::scriptclass(void)
 {
-	//Start SDL
-
-	//Init
 	position = 0;
 	scriptdelay = 0;
 	running = false;
-	dontrunnextframe = false;
 
 	b = 0;
 	g = 0;
@@ -32,11 +32,15 @@ scriptclass::scriptclass()
 	r = 0;
 	textx = 0;
 	texty = 0;
+	textflipme = false;
 }
 
-void scriptclass::clearcustom(){
+void scriptclass::clearcustom(void)
+{
 	customscripts.clear();
 }
+
+static bool argexists[NUM_SCRIPT_ARGS];
 
 void scriptclass::tokenize( const std::string& t )
 {
@@ -44,12 +48,15 @@ void scriptclass::tokenize( const std::string& t )
 	std::string tempword;
 	char currentletter;
 
+	SDL_zeroa(argexists);
+
 	for (size_t i = 0; i < t.length(); i++)
 	{
 		currentletter = t[i];
 		if (currentletter == '(' || currentletter == ')' || currentletter == ',')
 		{
 			words[j] = tempword;
+			argexists[j] = words[j] != "";
 			for (size_t ii = 0; ii < words[j].length(); ii++)
 			{
 				words[j][ii] = SDL_tolower(words[j][ii]);
@@ -71,13 +78,18 @@ void scriptclass::tokenize( const std::string& t )
 		}
 	}
 
-	if (tempword != "" && j < (int) SDL_arraysize(words))
+	if (j < (int) SDL_arraysize(words))
 	{
-		words[j] = tempword;
+		const bool lastargexists = tempword != "";
+		if (lastargexists)
+		{
+			words[j] = tempword;
+		}
+		argexists[j] = lastargexists;
 	}
 }
 
-void scriptclass::run()
+void scriptclass::run(void)
 {
 	if (!running)
 	{
@@ -108,6 +120,8 @@ void scriptclass::run()
 				{
 					obj.entities[player].xp += ss_toi(words[1]);
 					obj.entities[player].yp += ss_toi(words[2]);
+					obj.entities[player].lerpoldxp = obj.entities[player].xp;
+					obj.entities[player].lerpoldyp = obj.entities[player].yp;
 				}
 				scriptdelay = 1;
 			}
@@ -116,38 +130,36 @@ void scriptclass::run()
 			{
 				int temprx=ss_toi(words[1])-1;
 				int tempry=ss_toi(words[2])-1;
-				int curlevel=temprx+(ed.maxwidth*(tempry));
-				bool inbounds = INBOUNDS_ARR(curlevel, ed.level);
-				if (inbounds)
-				{
-					ed.level[curlevel].warpdir=ss_toi(words[3]);
-				}
+				const edlevelclass* room;
+				ed.setroomwarpdir(temprx, tempry, ss_toi(words[3]));
+
+				room = ed.getroomprop(temprx, tempry);
 
 				//Do we update our own room?
-				if(inbounds && game.roomx-100==temprx && game.roomy-100==tempry){
+				if(game.roomx-100==temprx && game.roomy-100==tempry){
 					//If screen warping, then override all that:
 					graphics.backgrounddrawn = false;
 					map.warpx=false; map.warpy=false;
-					if(ed.level[curlevel].warpdir==0){
+					if(room->warpdir==0){
 						map.background = 1;
 						//Be careful, we could be in a Lab or Warp Zone room...
-						if(ed.level[curlevel].tileset==2){
+						if(room->tileset==2){
 							//Lab
 							map.background = 2;
-							graphics.rcol = ed.level[curlevel].tilecol;
-						}else if(ed.level[curlevel].tileset==3){
+							graphics.rcol = room->tilecol;
+						}else if(room->tileset==3){
 							//Warp Zone
 							map.background = 6;
 						}
-					}else if(ed.level[curlevel].warpdir==1){
+					}else if(room->warpdir==1){
 						map.warpx=true;
 						map.background=3;
 						graphics.rcol = ed.getwarpbackground(temprx,tempry);
-					}else if(ed.level[curlevel].warpdir==2){
+					}else if(room->warpdir==2){
 						map.warpy=true;
 						map.background=4;
 						graphics.rcol = ed.getwarpbackground(temprx,tempry);
-					}else if(ed.level[curlevel].warpdir==3){
+					}else if(room->warpdir==3){
 						map.warpx=true; map.warpy=true;
 						map.background = 5;
 						graphics.rcol = ed.getwarpbackground(temprx,tempry);
@@ -156,8 +168,8 @@ void scriptclass::run()
 			}
 			if (words[0] == "ifwarp")
 			{
-				int room = ss_toi(words[1])-1+(ed.maxwidth*(ss_toi(words[2])-1));
-				if (INBOUNDS_ARR(room, ed.level) && ed.level[room].warpdir == ss_toi(words[3]))
+				const edlevelclass* const room = ed.getroomprop(ss_toi(words[1])-1, ss_toi(words[2])-1);
+				if (room->warpdir == ss_toi(words[3]))
 				{
 					load("custom_"+words[4]);
 					position--;
@@ -168,16 +180,16 @@ void scriptclass::run()
 			{
 				if(words[1]=="gravitylines"){
 					for(size_t edi=0; edi<obj.entities.size(); edi++){
-						if(obj.entities[edi].type==9) removeentity_iter(edi);
-						if(obj.entities[edi].type==10) removeentity_iter(edi);
+						if(obj.entities[edi].type==9) obj.disableentity(edi);
+						if(obj.entities[edi].type==10) obj.disableentity(edi);
 					}
 				}else if(words[1]=="warptokens"){
 					for(size_t edi=0; edi<obj.entities.size(); edi++){
-						if(obj.entities[edi].type==11) removeentity_iter(edi);
+						if(obj.entities[edi].type==11) obj.disableentity(edi);
 					}
 				}else if(words[1]=="platforms"){
 					for(size_t edi=0; edi<obj.entities.size(); edi++){
-						if(obj.entities[edi].rule==2 && obj.entities[edi].animate==100) removeentity_iter(edi);
+						if(obj.entities[edi].rule==2 && obj.entities[edi].animate==100) obj.disableentity(edi);
 					}
 				}
 			}
@@ -285,7 +297,7 @@ void scriptclass::run()
 			}
 			if (words[0] == "resumemusic")
 			{
-				music.resume();
+				music.resumefade(0);
 			}
 			if (words[0] == "musicfadeout")
 			{
@@ -307,6 +319,8 @@ void scriptclass::run()
 				{
 					obj.entities[player].xp = ss_toi(words[1]);
 					obj.entities[player].yp = ss_toi(words[2]);
+					obj.entities[player].lerpoldxp = obj.entities[player].xp;
+					obj.entities[player].lerpoldyp = obj.entities[player].yp;
 				}
 				game.gravitycontrol = ss_toi(words[3]);
 
@@ -323,6 +337,17 @@ void scriptclass::run()
 			if (words[0] == "endcutscene")
 			{
 				graphics.showcutscenebars = false;
+			}
+			if (words[0] == "audiopause")
+			{
+				if (words[1] == "on")
+				{
+					game.disabletemporaryaudiopause = false;
+				}
+				else if (words[1] == "off")
+				{
+					game.disabletemporaryaudiopause = true;
+				}
 			}
 			if (words[0] == "untilbars")
 			{
@@ -625,7 +650,7 @@ void scriptclass::run()
 			}
 			else if (words[0] == "flipme")
 			{
-				if(graphics.flipmode) texty += 2*(120 - texty) - 8*(txt.size()+2);
+				textflipme = !textflipme;
 			}
 			else if (words[0] == "speak_active" || words[0] == "speak")
 			{
@@ -635,7 +660,8 @@ void scriptclass::run()
 				{
 					txt.resize(1);
 				}
-				graphics.createtextbox(txt[0], textx, texty, r, g, b);
+				graphics.createtextboxreal(txt[0], textx, texty, r, g, b, textflipme);
+				textflipme = false;
 				if ((int) txt.size() > 1)
 				{
 					for (i = 1; i < (int) txt.size(); i++)
@@ -742,10 +768,10 @@ void scriptclass::run()
 				std::string word7 = words[7];
 				std::string word8 = words[8];
 				std::string word9 = words[9];
-				if (words[6] == "") words[6] = "0";
-				if (words[7] == "") words[7] = "0";
-				if (words[8] == "") words[8] = "320";
-				if (words[9] == "") words[9] = "240";
+				if (!argexists[6]) words[6] = "0";
+				if (!argexists[7]) words[7] = "0";
+				if (!argexists[8]) words[8] = "320";
+				if (!argexists[9]) words[9] = "240";
 				obj.createentity(
 					ss_toi(words[1]),
 					ss_toi(words[2]),
@@ -983,6 +1009,7 @@ void scriptclass::run()
 				if (words[1] == "player")
 				{
 					game.gravitycontrol = !game.gravitycontrol;
+					++game.totalflips;
 				}
 				else
 				{
@@ -1334,8 +1361,7 @@ void scriptclass::run()
 			}
 			else if (words[0] == "ifexplored")
 			{
-				int room = ss_toi(words[1]) + (20 * ss_toi(words[2]));
-				if (INBOUNDS_ARR(room, map.explored) && map.explored[room] == 1)
+				if (map.isexplored(ss_toi(words[1]), ss_toi(words[2])))
 				{
 					load(words[3]);
 					position--;
@@ -1393,19 +1419,11 @@ void scriptclass::run()
 			}
 			else if (words[0] == "hidecoordinates")
 			{
-				int room = ss_toi(words[1]) + (20 * ss_toi(words[2]));
-				if (INBOUNDS_ARR(room, map.explored))
-				{
-					map.explored[room] = false;
-				}
+				map.setexplored(ss_toi(words[1]), ss_toi(words[2]), false);
 			}
 			else if (words[0] == "showcoordinates")
 			{
-				int room = ss_toi(words[1]) + (20 * ss_toi(words[2]));
-				if (INBOUNDS_ARR(room, map.explored))
-				{
-					map.explored[room] = true;
-				}
+				map.setexplored(ss_toi(words[1]), ss_toi(words[2]), true);
 			}
 			else if (words[0] == "hideship")
 			{
@@ -1417,25 +1435,25 @@ void scriptclass::run()
 			}
 			else if (words[0] == "showsecretlab")
 			{
-				map.explored[16 + (20 * 5)] = 1;
-				map.explored[17 + (20 * 5)] = 1;
-				map.explored[18 + (20 * 5)] = 1;
-				map.explored[17 + (20 * 6)] = 1;
-				map.explored[18 + (20 * 6)] = 1;
-				map.explored[19 + (20 * 6)] = 1;
-				map.explored[19 + (20 * 7)] = 1;
-				map.explored[19 + (20 * 8)] = 1;
+				map.setexplored(16, 5, true);
+				map.setexplored(17, 5, true);
+				map.setexplored(18, 5, true);
+				map.setexplored(17, 6, true);
+				map.setexplored(18, 6, true);
+				map.setexplored(19, 6, true);
+				map.setexplored(19, 7, true);
+				map.setexplored(19, 8, true);
 			}
 			else if (words[0] == "hidesecretlab")
 			{
-				map.explored[16 + (20 * 5)] = 0;
-				map.explored[17 + (20 * 5)] = 0;
-				map.explored[18 + (20 * 5)] = 0;
-				map.explored[17 + (20 * 6)] = 0;
-				map.explored[18 + (20 * 6)] = 0;
-				map.explored[19 + (20 * 6)] = 0;
-				map.explored[19 + (20 * 7)] = 0;
-				map.explored[19 + (20 * 8)] = 0;
+				map.setexplored(16, 5, false);
+				map.setexplored(17, 5, false);
+				map.setexplored(18, 5, false);
+				map.setexplored(17, 6, false);
+				map.setexplored(18, 6, false);
+				map.setexplored(19, 6, false);
+				map.setexplored(19, 7, false);
+				map.setexplored(19, 8, false);
 			}
 			else if (words[0] == "showteleporters")
 			{
@@ -1499,7 +1517,7 @@ void scriptclass::run()
 			}
 			else if (words[0] == "befadein")
 			{
-				graphics.fadeamount = 0;
+				graphics.setfade(0);
 				graphics.fademode= 0;
 			}
 			else if (words[0] == "fadein")
@@ -1522,6 +1540,7 @@ void scriptclass::run()
 			{
 				game.unlocknum(8);
 				game.insecretlab = true;
+				SDL_memset(map.explored, true, sizeof(map.explored));
 			}
 			else if (words[0] == "leavesecretlab")
 			{
@@ -1549,10 +1568,7 @@ void scriptclass::run()
 				game.deathcounts = 0;
 				game.advancetext = false;
 				game.hascontrol = true;
-				game.frames = 0;
-				game.seconds = 0;
-				game.minutes = 0;
-				game.hours = 0;
+				game.resetgameclock();
 				game.gravitycontrol = 0;
 				game.teleport = false;
 				game.companion = 0;
@@ -1577,9 +1593,20 @@ void scriptclass::run()
 			}
 			else if (words[0] == "rollcredits")
 			{
-				game.gamestate = GAMECOMPLETE;
-				graphics.fademode = 4;
-				game.creditposition = 0;
+#if !defined(NO_CUSTOM_LEVELS) && !defined(NO_EDITOR)
+				if (map.custommode && !map.custommodeforreal)
+				{
+					game.returntoeditor();
+					ed.note = "Rolled credits";
+					ed.notedelay = 45;
+				}
+				else
+#endif
+				{
+					game.gamestate = GAMECOMPLETE;
+					graphics.fademode = 4;
+					game.creditposition = 0;
+				}
 			}
 			else if (words[0] == "finalmode")
 			{
@@ -1954,8 +1981,7 @@ void scriptclass::run()
 			}
 			else if (words[0] == "foundtrinket")
 			{
-				//music.silencedasmusik();
-				music.haltdasmusik();
+				music.silencedasmusik();
 				music.playef(3);
 
 				size_t trinket = ss_toi(words[1]);
@@ -1966,7 +1992,7 @@ void scriptclass::run()
 
 				graphics.textboxremovefast();
 
-				graphics.createtextbox("        Congratulations!       ", 50, 85, 174, 174, 174);
+				graphics.createtextboxflipme("        Congratulations!       ", 50, 85, 174, 174, 174);
 				graphics.addline("");
 				graphics.addline("You have found a shiny trinket!");
 				graphics.textboxcenterx();
@@ -1982,7 +2008,7 @@ void scriptclass::run()
 				{
 					usethisnum = "Twenty";
 				}
-				graphics.createtextbox(" " + help.number(game.trinkets()) + " out of " + usethisnum + " ", 50, 135, 174, 174, 174);
+				graphics.createtextboxflipme(" " + help.number(game.trinkets()) + " out of " + usethisnum + " ", 50, 135, 174, 174, 174);
 				graphics.textboxcenterx();
 
 				if (!game.backgroundtext)
@@ -2625,11 +2651,20 @@ void scriptclass::run()
 	}
 }
 
-void scriptclass::resetgametomenu()
+void scriptclass::resetgametomenu(void)
 {
 	obj.entities.clear();
 	game.quittomenu();
 	game.createmenu(Menu::gameover);
+}
+
+static void gotoerrorloadinglevel(void)
+{
+	game.createmenu(Menu::errorloadinglevel);
+	map.nexttowercolour();
+	graphics.fademode = 4; /* start fade in */
+	music.currentsong = -1; /* otherwise music.play won't work */
+	music.play(6); /* title screen music */
 }
 
 void scriptclass::startgamemode( int t )
@@ -2642,8 +2677,7 @@ void scriptclass::startgamemode( int t )
 		game.start();
 		game.jumpheld = true;
 		graphics.showcutscenebars = true;
-		graphics.cutscenebarspos = 320;
-		graphics.oldcutscenebarspos = 320;
+		graphics.setbars(320);
 
 		//set flipmode
 		if (graphics.setflipmode) graphics.flipmode = true;
@@ -2653,10 +2687,7 @@ void scriptclass::startgamemode( int t )
 		{
 			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
 		}
-		else
-		{
-			map.resetplayer();
-		}
+		map.resetplayer();
 		map.gotoroom(game.saverx, game.savery);
 		map.initmapdata();
 
@@ -2678,10 +2709,7 @@ void scriptclass::startgamemode( int t )
 		{
 			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
 		}
-		else
-		{
-			map.resetplayer();
-		}
+		map.resetplayer();
 		map.gotoroom(game.saverx, game.savery);
 		map.initmapdata();
 		graphics.fademode = 4;
@@ -2702,10 +2730,7 @@ void scriptclass::startgamemode( int t )
 		{
 			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
 		}
-		else
-		{
-			map.resetplayer();
-		}
+		map.resetplayer();
 		map.gotoroom(game.saverx, game.savery);
 		map.initmapdata();
 		//a very special case for here needs to ensure that the tower is set correctly
@@ -2717,187 +2742,72 @@ void scriptclass::startgamemode( int t )
 			if (INBOUNDS_VEC(i, obj.entities))
 			{
 				map.ypos = obj.entities[i].yp - 120;
+				map.oldypos = map.ypos;
 			}
-			graphics.towerbg.bypos = map.ypos / 2;
+			map.setbgobjlerp(graphics.towerbg);
 			map.cameramode = 0;
 			map.colsuperstate = 0;
 		}
 		graphics.fademode = 4;
 		break;
 	case 3:
-		//Start Time Trial 1
-		hardreset();
-		game.nocutscenes = true;
-		game.intimetrial = true;
-		game.timetrialcountdown = 150;
-		game.timetrialparlost = false;
-		game.timetriallevel = 0;
-		game.timetrialpar = 75;
-		game.timetrialshinytarget = 2;
-
-		music.fadeout();
-		game.gamestate = GAMEMODE;
-		game.starttrial(game.timetriallevel);
-		game.jumpheld = true;
-
-		if (graphics.setflipmode) graphics.flipmode = true;//set flipmode
-		if(obj.entities.empty())
-		{
-			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
-		}
-		else
-		{
-			map.resetplayer();
-		}
-		map.gotoroom(game.saverx, game.savery);
-		map.initmapdata();
-		graphics.fademode = 4;
-		break;
 	case 4:
-		//Start Time Trial 2
-		hardreset();
-		game.nocutscenes = true;
-		game.intimetrial = true;
-		game.timetrialcountdown = 150;
-		game.timetrialparlost = false;
-		game.timetriallevel = 1;
-		game.timetrialpar = 165;
-		game.timetrialshinytarget = 4;
-
-		music.fadeout();
-		game.gamestate = GAMEMODE;
-		game.starttrial(game.timetriallevel);
-		game.jumpheld = true;
-
-		if (graphics.setflipmode) graphics.flipmode = true;//set flipmode
-		if(obj.entities.empty())
-		{
-			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
-		}
-		else
-		{
-			map.resetplayer();
-		}
-		map.gotoroom(game.saverx, game.savery);
-		map.initmapdata();
-		graphics.fademode = 4;
-		break;
 	case 5:
-		//Start Time Trial 3 tow
-		hardreset();
-		game.nocutscenes = true;
-		game.intimetrial = true;
-		game.timetrialcountdown = 150;
-		game.timetrialparlost = false;
-		game.timetriallevel = 2;
-		game.timetrialpar = 105;
-		game.timetrialshinytarget = 2;
-
-		music.fadeout();
-		game.gamestate = GAMEMODE;
-		game.starttrial(game.timetriallevel);
-		game.jumpheld = true;
-
-		if (graphics.setflipmode) graphics.flipmode = true;//set flipmode
-		if(obj.entities.empty())
-		{
-			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
-		}
-		else
-		{
-			map.resetplayer();
-		}
-		map.gotoroom(game.saverx, game.savery);
-		map.initmapdata();
-		graphics.fademode = 4;
-		break;
 	case 6:
-		//Start Time Trial 4 station
-		hardreset();
-		game.nocutscenes = true;
-		game.intimetrial = true;
-		game.timetrialcountdown = 150;
-		game.timetrialparlost = false;
-		game.timetriallevel = 3;
-		game.timetrialpar = 200;
-		game.timetrialshinytarget = 5;
-
-		music.fadeout();
-		game.gamestate = GAMEMODE;
-		game.starttrial(game.timetriallevel);
-		game.jumpheld = true;
-
-		if (graphics.setflipmode) graphics.flipmode = true;//set flipmode
-		if(obj.entities.empty())
-		{
-			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
-		}
-		else
-		{
-			map.resetplayer();
-		}
-		map.gotoroom(game.saverx, game.savery);
-		map.initmapdata();
-		graphics.fademode = 4;
-		break;
 	case 7:
-		//Start Time Trial 5 warp
-		hardreset();
-		game.nocutscenes = true;
-		game.intimetrial = true;
-		game.timetrialcountdown = 150;
-		game.timetrialparlost = false;
-		game.timetriallevel = 4;
-		game.timetrialpar = 120;
-		game.timetrialshinytarget = 1;
-
-		music.fadeout();
-		game.gamestate = GAMEMODE;
-		game.starttrial(game.timetriallevel);
-		game.jumpheld = true;
-
-		if (graphics.setflipmode) graphics.flipmode = true;//set flipmode
-		if(obj.entities.empty())
-		{
-			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
-		}
-		else
-		{
-			map.resetplayer();
-		}
-		map.gotoroom(game.saverx, game.savery);
-		map.initmapdata();
-		graphics.fademode = 4;
-		break;
 	case 8:
-		//Start Time Trial 6// final level!
+		//Start Time Trial
+		music.fadeout();
+
 		hardreset();
 		game.nocutscenes = true;
 		game.intimetrial = true;
 		game.timetrialcountdown = 150;
 		game.timetrialparlost = false;
-		game.timetriallevel = 5;
-		game.timetrialpar = 135;
-		game.timetrialshinytarget = 1;
+		game.timetriallevel = t - 3;
 
-		music.fadeout();
-		map.finalmode = true; //Enable final level mode
-		map.final_colormode = false;
-		map.final_mapcol = 0;
-		map.final_colorframe = 0;
+		switch (t)
+		{
+		case 3:
+			game.timetrialpar = 75;
+			game.timetrialshinytarget = 2;
+			break;
+		case 4:
+			game.timetrialpar = 165;
+			game.timetrialshinytarget = 4;
+			break;
+		case 5:
+			game.timetrialpar = 105;
+			game.timetrialshinytarget = 2;
+			break;
+		case 6:
+			game.timetrialpar = 200;
+			game.timetrialshinytarget = 5;
+			break;
+		case 7:
+			game.timetrialpar = 120;
+			game.timetrialshinytarget = 1;
+			break;
+		case 8:
+			game.timetrialpar = 135;
+			game.timetrialshinytarget = 1;
+			map.finalmode = true; //Enable final level mode
+			map.final_colormode = false;
+			map.final_mapcol = 0;
+			map.final_colorframe = 0;
+			break;
+		}
+
 		game.gamestate = GAMEMODE;
 		game.starttrial(game.timetriallevel);
 		game.jumpheld = true;
 
 		if (graphics.setflipmode) graphics.flipmode = true;//set flipmode
-		if(obj.entities.empty())
+		if (obj.entities.empty())
 		{
 			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
 		}
-		else
-		{
-			map.resetplayer();
-		}
+		map.resetplayer();
 		map.gotoroom(game.saverx, game.savery);
 		map.initmapdata();
 		graphics.fademode = 4;
@@ -2909,8 +2819,7 @@ void scriptclass::startgamemode( int t )
 		game.start();
 		game.jumpheld = true;
 		graphics.showcutscenebars = true;
-		graphics.cutscenebarspos = 320;
-		graphics.oldcutscenebarspos = 320;
+		graphics.setbars(320);
 
 		//set flipmode
 		if (graphics.setflipmode) graphics.flipmode = true;
@@ -2919,10 +2828,7 @@ void scriptclass::startgamemode( int t )
 		{
 			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
 		}
-		else
-		{
-			map.resetplayer();
-		}
+		map.resetplayer();
 		map.gotoroom(game.saverx, game.savery);
 		map.initmapdata();
 
@@ -2938,8 +2844,7 @@ void scriptclass::startgamemode( int t )
 		game.start();
 		game.jumpheld = true;
 		graphics.showcutscenebars = true;
-		graphics.cutscenebarspos = 320;
-		graphics.oldcutscenebarspos = 320;
+		graphics.setbars(320);
 
 		//set flipmode
 		if (graphics.setflipmode) graphics.flipmode = true;
@@ -2948,10 +2853,7 @@ void scriptclass::startgamemode( int t )
 		{
 			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
 		}
-		else
-		{
-			map.resetplayer();
-		}
+		map.resetplayer();
 		map.gotoroom(game.saverx, game.savery);
 		map.initmapdata();
 
@@ -2966,14 +2868,9 @@ void scriptclass::startgamemode( int t )
 		game.jumpheld = true;
 
 		//Secret lab, so reveal the map, give them all 20 trinkets
-		for (int j = 0; j < 20; j++)
-		{
-			obj.collect[j] = true;
-			for (i = 0; i < 20; i++)
-			{
-				map.explored[i + (j * 20)] = 1;
-			}
-		}
+		SDL_memset(obj.collect, true, sizeof(obj.collect[0]) * 20);
+		SDL_memset(map.explored, true, sizeof(map.explored));
+		i = 400; /* previously a nested for-loop set this */
 		game.insecretlab = true;
 		map.showteleporters = true;
 
@@ -2984,10 +2881,7 @@ void scriptclass::startgamemode( int t )
 		{
 			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
 		}
-		else
-		{
-			map.resetplayer();
-		}
+		map.resetplayer();
 		map.gotoroom(game.saverx, game.savery);
 		map.initmapdata();
 		music.play(11);
@@ -3018,10 +2912,7 @@ void scriptclass::startgamemode( int t )
 		{
 			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
 		}
-		else
-		{
-			map.resetplayer();
-		}
+		map.resetplayer();
 		map.gotoroom(game.saverx, game.savery);
 		map.initmapdata();
 
@@ -3052,10 +2943,7 @@ void scriptclass::startgamemode( int t )
 		{
 			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
 		}
-		else
-		{
-			map.resetplayer();
-		}
+		map.resetplayer();
 		map.gotoroom(game.saverx, game.savery);
 		map.initmapdata();
 
@@ -3086,10 +2974,7 @@ void scriptclass::startgamemode( int t )
 		{
 			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
 		}
-		else
-		{
-			map.resetplayer();
-		}
+		map.resetplayer();
 		map.gotoroom(game.saverx, game.savery);
 		map.initmapdata();
 
@@ -3120,10 +3005,7 @@ void scriptclass::startgamemode( int t )
 		{
 			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
 		}
-		else
-		{
-			map.resetplayer();
-		}
+		map.resetplayer();
 		map.gotoroom(game.saverx, game.savery);
 		map.initmapdata();
 
@@ -3151,10 +3033,7 @@ void scriptclass::startgamemode( int t )
 		{
 			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
 		}
-		else
-		{
-			map.resetplayer();
-		}
+		map.resetplayer();
 		map.gotoroom(game.saverx, game.savery);
 		map.initmapdata();
 
@@ -3182,10 +3061,7 @@ void scriptclass::startgamemode( int t )
 		{
 			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
 		}
-		else
-		{
-			map.resetplayer();
-		}
+		map.resetplayer();
 		map.gotoroom(game.saverx, game.savery);
 		map.initmapdata();
 
@@ -3213,10 +3089,7 @@ void scriptclass::startgamemode( int t )
 		{
 			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
 		}
-		else
-		{
-			map.resetplayer();
-		}
+		map.resetplayer();
 		map.gotoroom(game.saverx, game.savery);
 		map.initmapdata();
 
@@ -3244,10 +3117,7 @@ void scriptclass::startgamemode( int t )
 		{
 			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
 		}
-		else
-		{
-			map.resetplayer();
-		}
+		map.resetplayer();
 		map.gotoroom(game.saverx, game.savery);
 		map.initmapdata();
 
@@ -3270,10 +3140,7 @@ void scriptclass::startgamemode( int t )
 		{
 			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
 		}
-		else
-		{
-			map.resetplayer();
-		}
+		map.resetplayer();
 		map.gotoroom(game.saverx, game.savery);
 		map.initmapdata();
 		graphics.fademode = 4;
@@ -3304,10 +3171,7 @@ void scriptclass::startgamemode( int t )
 		{
 			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
 		}
-		else
-		{
-			map.resetplayer();
-		}
+		map.resetplayer();
 		map.gotoroom(game.saverx, game.savery);
 		map.initmapdata();
 		if(ed.levmusic>0){
@@ -3321,7 +3185,11 @@ void scriptclass::startgamemode( int t )
 		//Initilise the level
 		//First up, find the start point
 		std::string filename = std::string(ed.ListOfMetaData[game.playcustomlevel].filename);
-		ed.load(filename);
+		if (!ed.load(filename))
+		{
+			gotoerrorloadinglevel();
+			break;
+		}
 		ed.findstartpoint();
 
 		game.gamestate = GAMEMODE;
@@ -3340,10 +3208,7 @@ void scriptclass::startgamemode( int t )
 		{
 			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
 		}
-		else
-		{
-			map.resetplayer();
-		}
+		map.resetplayer();
 		map.gotoroom(game.saverx, game.savery);
 		map.initmapdata();
 
@@ -3362,7 +3227,11 @@ void scriptclass::startgamemode( int t )
 		//Initilise the level
 		//First up, find the start point
 		std::string filename = std::string(ed.ListOfMetaData[game.playcustomlevel].filename);
-		ed.load(filename);
+		if (!ed.load(filename))
+		{
+			gotoerrorloadinglevel();
+			break;
+		}
 		ed.findstartpoint();
 
 		game.gamestate = GAMEMODE;
@@ -3384,10 +3253,7 @@ void scriptclass::startgamemode( int t )
 		{
 			obj.createentity(game.savex, game.savey, 0, 0); //In this game, constant, never destroyed
 		}
-		else
-		{
-			map.resetplayer();
-		}
+		map.resetplayer();
 		map.gotoroom(game.saverx, game.savery);
 		map.initmapdata();
 		ed.generatecustomminimap();
@@ -3396,15 +3262,12 @@ void scriptclass::startgamemode( int t )
 	}
 #endif
 	case 100:
-		game.savestatsandsettings();
-
-		SDL_Quit();
-		exit(0);
+		VVV_exit(0);
 		break;
 	}
 }
 
-void scriptclass::teleport()
+void scriptclass::teleport(void)
 {
 	//er, ok! Teleport to a new area, so!
 	//A general rule of thumb: if you teleport with a companion, get rid of them!
@@ -3498,47 +3361,33 @@ void scriptclass::teleport()
 		game.state = 0;
 		load(game.teleportscript);
 		game.teleportscript = "";
-
-		// FIXME: Remove this once game loop order is fixed in 2.4!
-		run();
-		dontrunnextframe = true;
 	}
 	else
 	{
 		//change music based on location
-		if (graphics.setflipmode && game.teleport_to_x == 11 && game.teleport_to_y == 4)
+		if (game.teleport_to_x == 2 && game.teleport_to_y == 11)
 		{
-			music.niceplay(9);
+			/* Special case: Ship music needs to be set here;
+			 * ship teleporter on music map is -1 for jukebox. */
+			music.niceplay(4);
 		}
-		else
-		{
-			music.changemusicarea(game.teleport_to_x, game.teleport_to_y);
-		}
-		if (!game.intimetrial && !game.nodeathmode && !game.inintermission)
-		{
-			if (game.savetele())
-			{
-				graphics.createtextbox("    Game Saved    ", -1, graphics.flipmode ? 202 : 12, 174, 174, 174);
-				graphics.textboxtimer(25);
-			}
-			else
-			{
-				graphics.createtextbox("  ERROR: Could not save game!  ", -1, graphics.flipmode ? 202 : 12, 255, 60, 60);
-				graphics.textboxtimer(50);
-			}
-		}
+		game.savetele_textbox();
 	}
 }
 
-void scriptclass::hardreset()
+void scriptclass::hardreset(void)
 {
+	const bool version2_2 = GlitchrunnerMode_less_than_or_equal(Glitchrunner2_2);
+
+	xoshiro_seed(SDL_GetTicks());
+
 	//Game:
 	game.hascontrol = true;
 	game.gravitycontrol = 0;
 	game.teleport = false;
 	game.companion = 0;
 	game.roomchange = false;
-	if (!game.glitchrunnermode)
+	if (!version2_2)
 	{
 		// Ironically, resetting more variables makes the janky fadeout system in glitchrunnermode even more glitchy
 		game.roomx = 0;
@@ -3573,16 +3422,13 @@ void scriptclass::hardreset()
 
 	game.deathcounts = 0;
 	game.gameoverdelay = 0;
-	game.frames = 0;
-	game.seconds = 0;
-	game.minutes = 0;
-	game.hours = 0;
+	game.resetgameclock();
 	game.gamesaved = false;
 	game.gamesavefailed = false;
 	game.savetime = "00:00";
 	game.savearea = "nowhere";
 	game.savetrinkets = 0;
-	if (!game.glitchrunnermode)
+	if (!version2_2)
 	{
 		// Ironically, resetting more variables makes the janky fadeout system in glitchrunnermode even more glitchy
 		game.saverx = 0;
@@ -3628,7 +3474,7 @@ void scriptclass::hardreset()
 	game.statedelay = 0;
 
 	game.hascontrol = true;
-	if (!game.glitchrunnermode)
+	if (!GlitchrunnerMode_less_than_or_equal(Glitchrunner2_0))
 	{
 		// Keep the "- Press ACTION to advance text -" prompt around,
 		// apparently the speedrunners call it the "text storage" glitch
@@ -3636,6 +3482,7 @@ void scriptclass::hardreset()
 	}
 
 	game.pausescript = false;
+	game.completestop = false;
 
 	game.flashlight = 0;
 	game.screenshake = 0;
@@ -3643,12 +3490,14 @@ void scriptclass::hardreset()
 	game.activeactivity = -1;
 	game.act_fade = 5;
 
+	game.disabletemporaryaudiopause = true;
+
 	//dwgraphicsclass
 	graphics.backgrounddrawn = false;
 	graphics.textbox.clear();
 	graphics.flipmode = false; //This will be reset if needs be elsewhere
 	graphics.showcutscenebars = false;
-	graphics.cutscenebarspos = 0;
+	graphics.setbars(0);
 
 	//mapclass
 	map.warpx = false;
@@ -3668,7 +3517,7 @@ void scriptclass::hardreset()
 	map.resetnames();
 	map.custommode=false;
 	map.custommodeforreal=false;
-	if (!game.glitchrunnermode)
+	if (!version2_2)
 	{
 		// Ironically, resetting more variables makes the janky fadeout system even more glitchy
 		map.towermode=false;
@@ -3705,15 +3554,16 @@ void scriptclass::hardreset()
 		obj.entities[theplayer].tile = 0;
 	}
 
-	// Remove duplicate player entities
+	/* Disable duplicate player entities */
 	for (int i = 0; i < (int) obj.entities.size(); i++)
 	{
 		if (obj.entities[i].rule == 0 && i != theplayer)
 		{
-			removeentity_iter(i);
-			theplayer--; // just in case indice of player is not 0
+			obj.disableentity(i);
 		}
 	}
+
+	obj.customscript = "";
 
 	//Script Stuff
 	position = 0;
@@ -3721,6 +3571,10 @@ void scriptclass::hardreset()
 	scriptdelay = 0;
 	scriptname = "null";
 	running = false;
+	for (size_t ii = 0; ii < SDL_arraysize(words); ++ii)
+	{
+		words[ii] = "";
+	}
 }
 
 void scriptclass::loadcustom(const std::string& t)

@@ -1,7 +1,6 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 
-#include <algorithm>
 #include <map>
 #include <string>
 #include <vector>
@@ -16,14 +15,18 @@
 class Graphics
 {
 public:
-	void init();
+	void init(void);
+	void destroy(void);
+
+	void create_buffers(const SDL_PixelFormat* fmt);
+	void destroy_buffers(void);
 
 	GraphicsResources grphx;
 
 	int bfontlen(uint32_t ch);
 	int font_idx(uint32_t ch);
 
-	void Makebfont();
+	bool Makebfont(void);
 
 	void drawhuetile(int x, int y, int t);
 	void huetilesetcol(int t);
@@ -31,43 +34,68 @@ public:
 
 	void drawgravityline(int t);
 
-	void MakeTileArray();
+	bool MakeTileArray(void);
 
-	void MakeSpriteArray();
+	bool MakeSpriteArray(void);
 
-	void maketelearray();
+	bool maketelearray(void);
 
 	void drawcoloredtile(int x, int y, int t, int r, int g, int b);
 
 	void drawmenu(int cr, int cg, int cb, bool levelmenu = false);
 
-	void processfade();
+	void processfade(void);
+	void setfade(const int amount);
 
-	void drawfade();
+	void drawfade(void);
 
 	void setwarprect(int a, int b, int c, int d);
 
-	void createtextbox(std::string t, int xp, int yp, int r= 255, int g= 255, int b = 255);
+	void createtextboxreal(
+		std::string t,
+		int xp,
+		int yp,
+		int r,
+		int g,
+		int b,
+		bool flipme
+	);
+	void createtextbox(
+		std::string t,
+		int xp,
+		int yp,
+		int r,
+		int g,
+		int b
+	);
+	void createtextboxflipme(
+		std::string t,
+		int xp,
+		int yp,
+		int r,
+		int g,
+		int b
+	);
 
-	void textboxcenterx();
+	void textboxcenterx(void);
 
-	int textboxwidth();
+	int textboxwidth(void);
 
 	void textboxmoveto(int xo);
 
-	void textboxcentery();
+	void textboxcentery(void);
 
-	void textboxadjust();
+	void textboxadjust(void);
 
 	void addline(std::string t);
 
 	void textboxtimer(int t);
 
-	void textboxremove();
+	void textboxremove(void);
 
-	void textboxremovefast();
+	void textboxremovefast(void);
 
-	void textboxactive();
+	void textboxactive(void);
 
 	void drawtextbox(int x, int y, int w, int h, int r, int g, int b);
 
@@ -78,8 +106,9 @@ public:
 
 	int crewcolour(const int t);
 
-	void cutscenebars();
-	void cutscenebarstimer();
+	void cutscenebars(void);
+	void cutscenebarstimer(void);
+	void setbars(const int position);
 
 	void drawpartimage(int t, int xp, int yp, int wp, int hp);
 
@@ -87,8 +116,8 @@ public:
 
 	void drawimagecol(int t, int xp, int yp, int r, int g, int b, bool cent= false);
 
-	void updatetextboxes();
-	void drawgui();
+	void updatetextboxes(void);
+	void drawgui(void);
 
 	void drawsprite(int x, int y, int t, int r, int g, int b);
 	void drawsprite(int x, int y, int t, Uint32 c);
@@ -107,6 +136,12 @@ public:
 
 	void PrintAlpha(int _x, int _y, std::string _s, int r, int g, int b, int a, bool cen = false);
 
+	bool next_wrap(size_t* start, size_t* len, const char* str, int maxwidth);
+
+	bool next_wrap_s(char buffer[], size_t buffer_size, size_t* start, const char* str, int maxwidth);
+
+	void PrintWrap(int x, int y, const char* str, int r, int g, int b, bool cen, int linespacing, int maxwidth);
+
 	void PrintOffAlpha(int _x, int _y, std::string _s, int r, int g, int b, int a, bool cen = false);
 
 	void bprint(int x, int y, std::string t, int r, int g, int b, bool cen = false);
@@ -115,28 +150,32 @@ public:
 
 	int len(std::string t);
 	void bigprint( int _x, int _y, std::string _s, int r, int g, int b, bool cen = false, int sc = 2 );
+	void bigbprint(int x, int y, std::string s, int r, int g, int b, bool cen = false, int sc = 2);
 	void drawspritesetcol(int x, int y, int t, int c);
 
 
-	void flashlight();
-	void screenshake();
-	void updatescreenshake();
+	void flashlight(void);
+	void screenshake(void);
+	void updatescreenshake(void);
 
 	int screenshake_x;
 	int screenshake_y;
 
-	void render();
-	void renderwithscreeneffects();
+	void render(void);
+	void renderwithscreeneffects(void);
+	void renderfixedpre(void);
+	void renderfixedpost(void);
 
 	bool Hitest(SDL_Surface* surface1, point p1, SDL_Surface* surface2, point p2);
 
-	void drawentities();
+	void drawentities(void);
 
 	void drawentity(const int i, const int yoff);
 
-	void drawtrophytext();
+	void drawtrophytext(void);
 
 	void bigrprint(int x, int y, std::string& t, int r, int g, int b, bool cen = false, float sc = 2);
+	void bigbrprint(int x, int y, std::string& t, int r, int g, int b, bool cen = false, float sc = 2);
 
 
 	void drawtele(int x, int y, int t, Uint32 c);
@@ -158,13 +197,16 @@ public:
 
 	void drawbackground(int t);
 	void updatebackground(int t);
+#ifndef NO_CUSTOM_LEVELS
+	bool shouldrecoloroneway(const int tilenum, const bool mounted);
+#endif
 	void drawtile3( int x, int y, int t, int off, int height_subtract = 0 );
 	void drawtile2( int x, int y, int t );
 	void drawtile( int x, int y, int t );
 	void drawtowertile( int x, int y, int t );
 	void drawtowertile3( int x, int y, int t, TowerBG& bg_obj );
 
-	void drawmap();
+	void drawmap(void);
 
 	void drawforetile(int x, int y, int t);
 
@@ -174,23 +216,27 @@ public:
 
 	void drawrect(int x, int y, int w, int h, int r, int g, int b);
 
-	void drawtowermap();
+	void drawtowermap(void);
 
-	void drawtowerspikes();
+	void drawtowerspikes(void);
 
 	bool onscreen(int t);
 
-	void reloadresources();
-	std::string assetdir;
+	bool reloadresources(void);
+#ifndef NO_CUSTOM_LEVELS
+	bool tiles1_mounted;
+	bool tiles2_mounted;
+	bool minimap_mounted;
+#endif
 
 
-	void menuoffrender();
+	void menuoffrender(void);
 
 	void drawtowerbackground(const TowerBG& bg_obj);
 	void updatetowerbackground(TowerBG& bg_obj);
 
 	void setcol(int t);
-	void drawfinalmap();
+	void drawfinalmap(void);
 
 	colourTransform ct;
 
@@ -258,6 +304,7 @@ public:
 	int fadeamount;
 	int oldfadeamount;
 	int fadebars[15];
+	int ingame_fademode;
 
 	bool trinketcolset;
 	int trinketr, trinketg, trinketb;
@@ -283,8 +330,6 @@ public:
 
 	bool translucentroomname;
 
-	bool showmousecursor;
-
 	std::map<int, int> font_positions;
 
 	SDL_Surface* ghostbuffer;
@@ -307,11 +352,14 @@ public:
 	int col_tr;
 	int col_tg;
 	int col_tb;
-	void updatetitlecolours();
+	void updatetitlecolours(void);
 
 	bool kludgeswnlinewidth;
 
 	Uint32 crewcolourreal(int t);
+
+	char error[128];
+	char error_title[128]; /* for SDL_ShowSimpleMessageBox */
 };
 
 #ifndef GRAPHICS_DEFINITION

@@ -15,12 +15,14 @@ struct Script
     std::vector<std::string> contents;
 };
 
+#define NUM_SCRIPT_ARGS 40
+
 class scriptclass
 {
 public:
 
 
-    scriptclass();
+    scriptclass(void);
 
     void load(const std::string& name);
     void loadother(const char* t);
@@ -31,35 +33,36 @@ public:
         commands.push_back(t);
     }
 
-    void clearcustom();
+    void clearcustom(void);
 
     void tokenize(const std::string& t);
 
-    void run();
+    void run(void);
 
-    void resetgametomenu();
+    void resetgametomenu(void);
 
     void startgamemode(int t);
 
-    void teleport();
+    void teleport(void);
 
-    void hardreset();
+    void hardreset(void);
 
     //Script contents
     std::vector<std::string> commands;
-    std::string words[40];
+    std::string words[NUM_SCRIPT_ARGS];
     std::vector<std::string> txt;
     std::string scriptname;
     int position;
     int looppoint, loopcount;
 
     int scriptdelay;
-    bool running, dontrunnextframe;
+    bool running;
 
     //Textbox stuff
     int textx;
     int texty;
     int r,g,b;
+    bool textflipme;
 
     //Misc
     int i, j, k;

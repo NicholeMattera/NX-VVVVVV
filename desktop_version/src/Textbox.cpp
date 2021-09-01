@@ -2,10 +2,8 @@
 
 #include <utf8/unchecked.h>
 
-textboxclass::textboxclass()
+textboxclass::textboxclass(void)
 {
-    x = 0;
-    y = 0;
     w = 0;
     h = 0;
     lw = 0;
@@ -23,26 +21,26 @@ textboxclass::textboxclass()
     tg = 0;
     tb = 0;
     max = 0;
-    textrect.x = 0;
-    textrect.y = 0;
-    textrect.w = 0;
-    textrect.h = 0;
+
+    flipme = false;
+
+    rand = 0;
 }
 
-void textboxclass::centerx()
+void textboxclass::centerx(void)
 {
     resize();
     xp = 160 - (w / 2);
     resize();
 }
-void textboxclass::centery()
+void textboxclass::centery(void)
 {
     resize();
     yp = 120 - (h / 2);
     resize();
 }
 
-void textboxclass::adjust()
+void textboxclass::adjust(void)
 {
     resize();
     if (xp < 10) xp = 10;
@@ -70,7 +68,7 @@ void textboxclass::setcol(int rr, int gg, int bb)
     b = bb;
 }
 
-void textboxclass::update()
+void textboxclass::update(void)
 {
     prev_tl = tl;
     if (tm == 0)
@@ -98,19 +96,19 @@ void textboxclass::update()
     }
 }
 
-void textboxclass::remove()
+void textboxclass::remove(void)
 {
     tm = 2;
     tl = 1.0f; //Remove mode
 }
 
-void textboxclass::removefast()
+void textboxclass::removefast(void)
 {
     tm = 2;
     tl = 0.4f; //Remove mode
 }
 
-void textboxclass::resize()
+void textboxclass::resize(void)
 {
     //Set the width and height to the correct sizes
     max = 0;
@@ -123,10 +121,6 @@ void textboxclass::resize()
     lw = max;
     w = (max +2) * 8;
     h = (line.size() + 2) * 8;
-    textrect.x = xp;
-    textrect.y = yp;
-    textrect.w = w;
-    textrect.h = h;
 }
 
 void textboxclass::addline(std::string t)

@@ -6,12 +6,12 @@
 #include "Enums.h"
 #include "FileSystemUtils.h"
 #include "Game.h"
+#include "GlitchrunnerMode.h"
 #include "Graphics.h"
 #include "KeyPoll.h"
 #include "MakeAndPlay.h"
 #include "Map.h"
 #include "Music.h"
-#include "RenderFixed.h"
 #include "Script.h"
 #include "UtilityClass.h"
 
@@ -25,9 +25,12 @@ static void updatebuttonmappings(int bind)
         if (key.isDown(i))
         {
             bool dupe = false;
-            if (bind == 1)
+            switch (bind)
             {
-                for (size_t j = 0; j < game.controllerButton_flip.size(); j += 1)
+            case 1:
+            {
+                size_t j;
+                for (j = 0; j < game.controllerButton_flip.size(); j += 1)
                 {
                     if (i == game.controllerButton_flip[j])
                     {
@@ -39,31 +42,40 @@ static void updatebuttonmappings(int bind)
                     game.controllerButton_flip.push_back(i);
                     music.playef(11);
                 }
-                for (size_t j = 0; j < game.controllerButton_map.size(); j += 1)
+                for (j = 0; j < game.controllerButton_map.size(); j += 1)
                 {
                     if (i == game.controllerButton_map[j])
                     {
                         game.controllerButton_map.erase(game.controllerButton_map.begin() + j);
                     }
                 }
-                for (size_t j = 0; j < game.controllerButton_esc.size(); j += 1)
+                for (j = 0; j < game.controllerButton_esc.size(); j += 1)
                 {
                     if (i == game.controllerButton_esc[j])
                     {
                         game.controllerButton_esc.erase(game.controllerButton_esc.begin() + j);
                     }
                 }
-                for (size_t j = 0; j < game.controllerButton_restart.size(); j += 1)
+                for (j = 0; j < game.controllerButton_restart.size(); j += 1)
                 {
                     if (i == game.controllerButton_restart[j])
                     {
                         game.controllerButton_restart.erase(game.controllerButton_restart.begin() + j);
                     }
                 }
+                for (j = 0; j < game.controllerButton_interact.size(); j += 1)
+                {
+                    if (i == game.controllerButton_interact[j])
+                    {
+                        game.controllerButton_interact.erase(game.controllerButton_interact.begin() + j);
+                    }
+                }
+                break;
             }
-            if (bind == 2)
+            case 2:
             {
-                for (size_t j = 0; j < game.controllerButton_map.size(); j += 1)
+                size_t j;
+                for (j = 0; j < game.controllerButton_map.size(); j += 1)
                 {
                     if (i == game.controllerButton_map[j])
                     {
@@ -75,31 +87,40 @@ static void updatebuttonmappings(int bind)
                     game.controllerButton_map.push_back(i);
                     music.playef(11);
                 }
-                for (size_t j = 0; j < game.controllerButton_flip.size(); j += 1)
+                for (j = 0; j < game.controllerButton_flip.size(); j += 1)
                 {
                     if (i == game.controllerButton_flip[j])
                     {
                         game.controllerButton_flip.erase(game.controllerButton_flip.begin() + j);
                     }
                 }
-                for (size_t j = 0; j < game.controllerButton_esc.size(); j += 1)
+                for (j = 0; j < game.controllerButton_esc.size(); j += 1)
                 {
                     if (i == game.controllerButton_esc[j])
                     {
                         game.controllerButton_esc.erase(game.controllerButton_esc.begin() + j);
                     }
                 }
-                for (size_t j = 0; j < game.controllerButton_restart.size(); j += 1)
+                for (j = 0; j < game.controllerButton_restart.size(); j += 1)
                 {
                     if (i == game.controllerButton_restart[j])
                     {
                         game.controllerButton_restart.erase(game.controllerButton_restart.begin() + j);
                     }
                 }
+                for (j = 0; j < game.controllerButton_interact.size(); j += 1)
+                {
+                    if (i == game.controllerButton_interact[j])
+                    {
+                        game.controllerButton_interact.erase(game.controllerButton_interact.begin() + j);
+                    }
+                }
+                break;
             }
-            if (bind == 3)
+            case 3:
             {
-                for (size_t j = 0; j < game.controllerButton_esc.size(); j += 1)
+                size_t j;
+                for (j = 0; j < game.controllerButton_esc.size(); j += 1)
                 {
                     if (i == game.controllerButton_esc[j])
                     {
@@ -111,31 +132,40 @@ static void updatebuttonmappings(int bind)
                     game.controllerButton_esc.push_back(i);
                     music.playef(11);
                 }
-                for (size_t j = 0; j < game.controllerButton_flip.size(); j += 1)
+                for (j = 0; j < game.controllerButton_flip.size(); j += 1)
                 {
                     if (i == game.controllerButton_flip[j])
                     {
                         game.controllerButton_flip.erase(game.controllerButton_flip.begin() + j);
                     }
                 }
-                for (size_t j = 0; j < game.controllerButton_map.size(); j += 1)
+                for (j = 0; j < game.controllerButton_map.size(); j += 1)
                 {
                     if (i == game.controllerButton_map[j])
                     {
                         game.controllerButton_map.erase(game.controllerButton_map.begin() + j);
                     }
                 }
-                for (size_t j = 0; j < game.controllerButton_restart.size(); j += 1)
+                for (j = 0; j < game.controllerButton_restart.size(); j += 1)
                 {
                     if (i == game.controllerButton_restart[j])
                     {
                         game.controllerButton_restart.erase(game.controllerButton_restart.begin() + j);
                     }
                 }
+                for (j = 0; j < game.controllerButton_interact.size(); j += 1)
+                {
+                    if (i == game.controllerButton_interact[j])
+                    {
+                        game.controllerButton_interact.erase(game.controllerButton_interact.begin() + j);
+                    }
+                }
+                break;
             }
-            if (bind == 4)
+            case 4:
             {
-                for (size_t j = 0; j < game.controllerButton_restart.size(); j += 1)
+                size_t j;
+                for (j = 0; j < game.controllerButton_restart.size(); j += 1)
                 {
                     if (i == game.controllerButton_restart[j])
                     {
@@ -147,33 +177,166 @@ static void updatebuttonmappings(int bind)
                     game.controllerButton_restart.push_back(i);
                     music.playef(11);
                 }
-                for (size_t j = 0; j < game.controllerButton_flip.size(); j += 1)
+                for (j = 0; j < game.controllerButton_flip.size(); j += 1)
                 {
                     if (i == game.controllerButton_flip[j])
                     {
                         game.controllerButton_flip.erase(game.controllerButton_flip.begin() + j);
                     }
                 }
-                for (size_t j = 0; j < game.controllerButton_map.size(); j += 1)
+                for (j = 0; j < game.controllerButton_map.size(); j += 1)
                 {
                     if (i == game.controllerButton_map[j])
                     {
                         game.controllerButton_map.erase(game.controllerButton_map.begin() + j);
                     }
                 }
-                for (size_t j = 0; j < game.controllerButton_esc.size(); j += 1)
+                for (j = 0; j < game.controllerButton_esc.size(); j += 1)
                 {
                     if (i == game.controllerButton_esc[j])
                     {
                         game.controllerButton_esc.erase(game.controllerButton_esc.begin() + j);
                     }
                 }
+                for (j = 0; j < game.controllerButton_interact.size(); j += 1)
+                {
+                    if (i == game.controllerButton_interact[j])
+                    {
+                        game.controllerButton_interact.erase(game.controllerButton_interact.begin() + j);
+                    }
+                }
+                break;
+            }
+            case 5:
+            {
+                size_t j;
+                for (j = 0; j < game.controllerButton_interact.size(); j += 1)
+                {
+                    if (i == game.controllerButton_interact[j])
+                    {
+                        dupe = true;
+                    }
+                }
+                if (!dupe)
+                {
+                    game.controllerButton_interact.push_back(i);
+                    music.playef(11);
+                }
+                for (j = 0; j < game.controllerButton_flip.size(); j += 1)
+                {
+                    if (i == game.controllerButton_flip[j])
+                    {
+                        game.controllerButton_flip.erase(game.controllerButton_flip.begin() + j);
+                    }
+                }
+                for (j = 0; j < game.controllerButton_map.size(); j += 1)
+                {
+                    if (i == game.controllerButton_map[j])
+                    {
+                        game.controllerButton_map.erase(game.controllerButton_map.begin() + j);
+                    }
+                }
+                for (j = 0; j < game.controllerButton_esc.size(); j += 1)
+                {
+                    if (i == game.controllerButton_esc[j])
+                    {
+                        game.controllerButton_esc.erase(game.controllerButton_esc.begin() + j);
+                    }
+                }
+                for (j = 0; j < game.controllerButton_restart.size(); j += 1)
+                {
+                    if (i == game.controllerButton_restart[j])
+                    {
+                        game.controllerButton_restart.erase(game.controllerButton_restart.begin() + j);
+                    }
+                }
+                break;
+            }
+
             }
         }
     }
 }
 
-static void menuactionpress()
+static void toggleflipmode(void)
+{
+    graphics.setflipmode = !graphics.setflipmode;
+    game.savestatsandsettings_menu();
+    if (graphics.setflipmode)
+    {
+        music.playef(18);
+        game.screenshake = 10;
+        game.flashlight = 5;
+    }
+    else
+    {
+        music.playef(11);
+    }
+}
+
+static bool fadetomode = false;
+static int fadetomodedelay = 0;
+static int gotomode = 0;
+
+static void startmode(const int mode)
+{
+    gotomode = mode;
+    graphics.fademode = 2; /* fading out */
+    fadetomode = true;
+    fadetomodedelay = 19;
+}
+
+static int* user_changing_volume = NULL;
+static int previous_volume = 0;
+
+static void initvolumeslider(const int menuoption)
+{
+    switch (menuoption)
+    {
+    case 0:
+        game.slidermode = SLIDER_MUSICVOLUME;
+        user_changing_volume = &music.user_music_volume;
+        break;
+    case 1:
+        game.slidermode = SLIDER_SOUNDVOLUME;
+        user_changing_volume = &music.user_sound_volume;
+        break;
+    default:
+        SDL_assert(0 && "Unhandled volume slider option!");
+        game.slidermode = SLIDER_NONE;
+        user_changing_volume = NULL;
+        return;
+    }
+    previous_volume = *user_changing_volume;
+}
+
+static void deinitvolumeslider(void)
+{
+    user_changing_volume = NULL;
+    game.savestatsandsettings_menu();
+    game.slidermode = SLIDER_NONE;
+}
+
+static void slidermodeinput(void)
+{
+    if (user_changing_volume == NULL)
+    {
+        SDL_assert(0 && "user_changing_volume is NULL!");
+        return;
+    }
+
+    if (game.press_left)
+    {
+        *user_changing_volume -= USER_VOLUME_STEP;
+    }
+    else if (game.press_right)
+    {
+        *user_changing_volume += USER_VOLUME_STEP;
+    }
+    *user_changing_volume = clamp(*user_changing_volume, 0, USER_VOLUME_MAX);
+}
+
+static void menuactionpress(void)
 {
     switch (game.currentmenuname)
     {
@@ -201,8 +364,7 @@ static void menuactionpress()
             {
                 //No saves exist, just start a new game
                 music.playef(11);
-                game.mainmenu = 0;
-                graphics.fademode = 2;
+                startmode(0);
             }
             else
             {
@@ -224,17 +386,11 @@ static void menuactionpress()
         case OFFSET+2:
             //Options
             music.playef(11);
-            game.createmenu(Menu::graphicoptions);
-            map.nexttowercolour();
-            break;
-        case OFFSET+3:
-            //Options
-            music.playef(11);
             game.createmenu(Menu::options);
             map.nexttowercolour();
             break;
 #if !defined(MAKEANDPLAY)
-        case OFFSET+4:
+        case OFFSET+3:
             //Credits
             music.playef(11);
             game.createmenu(Menu::credits);
@@ -244,11 +400,10 @@ static void menuactionpress()
  #undef MPOFFSET
  #define MPOFFSET -2
 #endif
-        case OFFSET+5:
-            //bye!
-            music.playef(2);
-            game.mainmenu = 100;
-            graphics.fademode = 2;
+        case OFFSET+4:
+            music.playef(11);
+            game.createmenu(Menu::youwannaquit);
+            map.nexttowercolour();
             break;
 #undef OFFSET
 #undef NOCUSTOMSOFFSET
@@ -257,12 +412,14 @@ static void menuactionpress()
         break;
 #if !defined(NO_CUSTOM_LEVELS)
     case Menu::levellist:
+    {
+        const bool nextlastoptions = ed.ListOfMetaData.size() > 8;
         if(game.currentmenuoption==(int)game.menuoptions.size()-1){
             //go back to menu
             music.playef(11);
             game.returnmenu();
             map.nexttowercolour();
-        }else if(game.currentmenuoption==(int)game.menuoptions.size()-2){
+        }else if(nextlastoptions && game.currentmenuoption==(int)game.menuoptions.size()-2){
             //previous page
             music.playef(11);
             if(game.levelpage==0){
@@ -273,7 +430,7 @@ static void menuactionpress()
             game.createmenu(Menu::levellist, true);
             game.currentmenuoption=game.menuoptions.size()-2;
             map.nexttowercolour();
-        }else if(game.currentmenuoption==(int)game.menuoptions.size()-3){
+        }else if(nextlastoptions && game.currentmenuoption==(int)game.menuoptions.size()-3){
             //next page
             music.playef(11);
             if((size_t) ((game.levelpage*8)+8) >= ed.ListOfMetaData.size()){
@@ -295,29 +452,32 @@ static void menuactionpress()
             std::string name = "saves/" + ed.ListOfMetaData[game.playcustomlevel].filename.substr(7) + ".vvv";
             tinyxml2::XMLDocument doc;
             if (!FILESYSTEM_loadTiXml2Document(name.c_str(), doc)){
-                game.mainmenu = 22;
-                graphics.fademode = 2;
+                startmode(22);
             }else{
                 game.createmenu(Menu::quickloadlevel);
                 map.nexttowercolour();
             }
         }
         break;
+    }
 #endif
     case Menu::quickloadlevel:
         switch (game.currentmenuoption)
         {
         case 0: //continue save
             music.playef(11);
-            game.mainmenu = 23;
-            graphics.fademode = 2;
+            startmode(23);
             break;
         case 1:
             music.playef(11);
-            game.mainmenu = 22;
-            graphics.fademode = 2;
+            startmode(22);
             break;
         case 2:
+            music.playef(11);
+            game.createmenu(Menu::deletequicklevel);
+            map.nexttowercolour();
+            break;
+        default:
             music.playef(11);
             game.returnmenu();
             map.nexttowercolour();
@@ -325,6 +485,23 @@ static void menuactionpress()
         }
         break;
 #if !defined(NO_CUSTOM_LEVELS)
+    case Menu::deletequicklevel:
+        switch (game.currentmenuoption)
+        {
+        default:
+            music.playef(11);
+            game.returnmenu();
+            break;
+        case 1:
+            game.customdeletequick(ed.ListOfMetaData[game.playcustomlevel].filename);
+            game.returntomenu(Menu::levellist);
+            game.flashlight = 5;
+            game.screenshake = 15;
+            music.playef(23);
+            break;
+        }
+        map.nexttowercolour();
+        break;
     case Menu::playerworlds:
  #if defined(__SWITCH__)
   #define OFFSET -2
@@ -342,6 +519,10 @@ static void menuactionpress()
             ed.getDirectoryData();
             game.loadcustomlevelstats(); //Should only load a file if it's needed
             game.createmenu(Menu::levellist);
+            if (FILESYSTEM_levelDirHasError())
+            {
+                game.createmenu(Menu::warninglevellist);
+            }
             map.nexttowercolour();
             break;
  #if !defined(__SWITCH__)
@@ -349,8 +530,7 @@ static void menuactionpress()
         case 1:
             //LEVEL EDITOR HOOK
             music.playef(11);
-            game.mainmenu = 20;
-            graphics.fademode = 2;
+            startmode(20);
             ed.filename="";
             break;
   #endif
@@ -384,6 +564,12 @@ static void menuactionpress()
         map.nexttowercolour();
         break;
     case Menu::graphicoptions:
+        if (graphics.screenbuffer == NULL)
+        {
+            SDL_assert(0 && "Screenbuffer is NULL!");
+            break;
+        }
+
         switch (game.currentmenuoption)
         {
 #if defined(__SWITCH__)
@@ -396,11 +582,6 @@ static void menuactionpress()
         case 0:
             music.playef(11);
             graphics.screenbuffer->toggleFullScreen();
-
-            // Recreate menu to update "resize to nearest"
-            game.createmenu(game.currentmenuname, true);
-            game.currentmenuoption = 0;
-
             game.savestatsandsettings_menu();
             break;
 #endif
@@ -446,12 +627,6 @@ static void menuactionpress()
             game.savestatsandsettings_menu();
             break;
         case OFFSET+5:
-            //toggle 30+ fps
-            music.playef(11);
-            game.over30mode = !game.over30mode;
-            game.savestatsandsettings_menu();
-            break;
-        case OFFSET+6:
             //toggle vsync
             music.playef(11);
 #ifndef __HAIKU__ // FIXME: Remove after SDL VSync bug is fixed! -flibit
@@ -463,15 +638,8 @@ static void menuactionpress()
         default:
             //back
             music.playef(11);
-            if (game.ingame_titlemode)
-            {
-                game.returntopausemenu();
-            }
-            else
-            {
-                game.returnmenu();
-                map.nexttowercolour();
-            }
+            game.returnmenu();
+            map.nexttowercolour();
             break;
         }
         
@@ -483,13 +651,12 @@ static void menuactionpress()
         case 0:
             //bye!
             music.playef(2);
-            game.mainmenu = 100;
-            graphics.fademode = 2;
+            startmode(100);
             break;
         default:
             music.playef(11);
-            map.nexttowercolour(); //This goes first, otherwise mismatching continuemenu color is possible
             game.returnmenu();
+            map.nexttowercolour();
         }
         break;
     case Menu::setinvincibility:
@@ -518,7 +685,6 @@ static void menuactionpress()
             game.slowdown = 30;
             music.playef(11);
             game.returnmenu();
-            game.currentmenuoption = 4;
             map.nexttowercolour();
             game.savestatsandsettings_menu();
             break;
@@ -526,7 +692,6 @@ static void menuactionpress()
             game.slowdown = 24;
             music.playef(11);
             game.returnmenu();
-            game.currentmenuoption = 4;
             map.nexttowercolour();
             game.savestatsandsettings_menu();
             break;
@@ -534,7 +699,6 @@ static void menuactionpress()
             game.slowdown = 18;
             music.playef(11);
             game.returnmenu();
-            game.currentmenuoption = 4;
             map.nexttowercolour();
             game.savestatsandsettings_menu();
             break;
@@ -542,60 +706,47 @@ static void menuactionpress()
             game.slowdown = 12;
             music.playef(11);
             game.returnmenu();
-            game.currentmenuoption = 4;
             map.nexttowercolour();
             game.savestatsandsettings_menu();
             break;
         }
         break;
-    case Menu::advancedoptions:
+    case Menu::speedrunneroptions:
         switch (game.currentmenuoption)
         {
-#if defined(__SWITCH__)
- #define OFFSET -2
-#else
- #define OFFSET 0
-#endif
-#if !defined(__SWITCH__)
         case 0:
-            //toggle mouse cursor
+            // Glitchrunner mode
             music.playef(11);
-            if (graphics.showmousecursor == true) {
-                SDL_ShowCursor(SDL_DISABLE);
-                graphics.showmousecursor = false;
-            }
-            else {
-                SDL_ShowCursor(SDL_ENABLE);
-                graphics.showmousecursor = true;
-            }
-            game.savestatsandsettings_menu();
+            game.createmenu(Menu::setglitchrunner);
+            game.currentmenuoption = GlitchrunnerMode_get();
+            map.nexttowercolour();
             break;
         case 1:
-            // toggle unfocus pause
-            game.disablepause = !game.disablepause;
-            game.savestatsandsettings_menu();
+            /* Input delay */
             music.playef(11);
+            game.inputdelay = !game.inputdelay;
+            game.savestatsandsettings_menu();
             break;
-#endif
-        case OFFSET+2:
+        case 2:
+            /* Interact button toggle */
+            music.playef(11);
+            game.separate_interact = !game.separate_interact;
+            game.savestatsandsettings_menu();
+            break;
+
+        case 3:
             // toggle fake load screen
             game.skipfakeload = !game.skipfakeload;
             game.savestatsandsettings_menu();
             music.playef(11);
             break;
-        case OFFSET+3:
-            // toggle translucent roomname BG
-            graphics.translucentroomname = !graphics.translucentroomname;
+        case 4:
+            // toggle in game timer
+            game.showingametimer = !game.showingametimer;
             game.savestatsandsettings_menu();
             music.playef(11);
             break;
-        case OFFSET+4:
-            // Glitchrunner mode
-            music.playef(11);
-            game.glitchrunnermode = !game.glitchrunnermode;
-            game.savestatsandsettings_menu();
-            break;
-        case OFFSET+5:
+        default:
             //back
             music.playef(11);
             game.returnmenu();
@@ -604,39 +755,68 @@ static void menuactionpress()
         }
 #undef OFFSET
         break;
-    case Menu::accessibility:
+    case Menu::setglitchrunner:
+        GlitchrunnerMode_set((enum GlitchrunnerMode) game.currentmenuoption);
+        music.playef(11);
+        game.returnmenu();
+        game.savestatsandsettings_menu();
+        map.nexttowercolour();
+        break;
+    case Menu::advancedoptions:
         switch (game.currentmenuoption)
         {
+#undef OFFSET
+
+#if defined(__SWITCH__)
+ #define OFFSET -2
+#else
+ #define OFFSET 0
+#endif
+#if !defined(__SWITCH__)
         case 0:
-            //disable animated backgrounds
-            game.colourblindmode = !game.colourblindmode;
+            // toggle unfocus pause
+            game.disablepause = !game.disablepause;
             game.savestatsandsettings_menu();
-            graphics.towerbg.tdrawback = true;
-            graphics.titlebg.tdrawback = true;
             music.playef(11);
             break;
         case 1:
-            //disable screeneffects
-            game.noflashingmode = !game.noflashingmode;
-            game.savestatsandsettings_menu();
-            if (!game.noflashingmode)
-            {
-                music.playef(18);
-                game.screenshake = 10;
-                game.flashlight = 5;
-            }else{
-                music.playef(11);
-            }
-            break;
-        case 2:
-            //disable text outline
-            graphics.notextoutline = !graphics.notextoutline;
+            /* toggle unfocus music pause */
+            game.disableaudiopause = !game.disableaudiopause;
             game.savestatsandsettings_menu();
             music.playef(11);
             break;
-        case 3:
+#endif
+        case OFFSET + 2:
+            // toggle translucent roomname BG
+            graphics.translucentroomname = !graphics.translucentroomname;
+            game.savestatsandsettings_menu();
+            music.playef(11);
+            break;
+        default:
+            //back
+            music.playef(11);
+            game.returnmenu();
+            map.nexttowercolour();
+            break;
+        }
+#undef OFFSET
+
+        break;
+    case Menu::accessibility:
+    {
+        int accessibilityoffset = 0;
+#if !defined(MAKEANDPLAY)
+        accessibilityoffset = 1;
+        if (game.currentmenuoption == 0) {
+            //unlock play options
+            music.playef(11);
+            game.createmenu(Menu::unlockmenu);
+            map.nexttowercolour();
+        }
+#endif
+        if (game.currentmenuoption == accessibilityoffset + 0) {
             //invincibility
-            if (!game.ingame_titlemode || (!game.insecretlab && !game.intimetrial && !game.nodeathmode))
+            if (!game.ingame_titlemode || !game.incompetitive())
             {
                 if (!map.invincibility)
                 {
@@ -655,10 +835,10 @@ static void menuactionpress()
                 music.playef(2);
                 map.invincibility = false;
             }
-            break;
-        case 4:
+        }
+        else if (game.currentmenuoption == accessibilityoffset + 1) {
             //change game speed
-            if (!game.ingame_titlemode || (!game.insecretlab && !game.intimetrial && !game.nodeathmode))
+            if (!game.ingame_titlemode || !game.incompetitive())
             {
                 game.createmenu(Menu::setslowdown);
                 map.nexttowercolour();
@@ -669,146 +849,204 @@ static void menuactionpress()
                 music.playef(2);
                 game.slowdown = 30;
             }
-            break;
-        case 5:
-            //back
-            music.playef(11);
-            game.returnmenu();
-            map.nexttowercolour();
-            break;
-        default:
-            //Can't do yet! play sad sound
-            music.playef(2);
-            break;
         }
-        break;
-    case Menu::options:
-    {
-#if defined(MAKEANDPLAY)
-        int flipmode_offset = 0;
-#else
-        int flipmode_offset = game.ingame_titlemode && game.unlock[18] ? 0 : -1;
-#endif
-
-#if defined(MAKEANDPLAY)
-        int unlockmode_offset = -1;
-#else
-        int unlockmode_offset = 0;
-#endif
-
-        int mmmmmm_offset = music.mmmmmm ? 0 : -1;
-
-        int offset = 0;
-
-        switch (game.currentmenuoption)
-        {
-        case 0:
-            //accessibility options
+        else if (game.currentmenuoption == accessibilityoffset + 2) {
+            //disable animated backgrounds
+            game.colourblindmode = !game.colourblindmode;
+            game.savestatsandsettings_menu();
+            graphics.towerbg.tdrawback = true;
+            graphics.titlebg.tdrawback = true;
             music.playef(11);
-            game.createmenu(Menu::accessibility);
-            map.nexttowercolour();
-            break;
-        case 1:
-            //advanced options
-            music.playef(11);
-            game.createmenu(Menu::advancedoptions);
-            map.nexttowercolour();
-            break;
-        case 2:
-#if !defined(MAKEANDPLAY)
-        if (game.ingame_titlemode && game.unlock[18])
-#endif
-        {
-            // toggle Flip Mode
-            graphics.setflipmode = !graphics.setflipmode;
-            game.savestatsandsettings();
-            if (graphics.setflipmode)
+        }
+        else if (game.currentmenuoption == accessibilityoffset + 3) {
+            //disable screeneffects
+            game.noflashingmode = !game.noflashingmode;
+            game.savestatsandsettings_menu();
+            if (!game.noflashingmode)
             {
                 music.playef(18);
                 game.screenshake = 10;
                 game.flashlight = 5;
             }
-            else
-            {
+            else {
                 music.playef(11);
             }
-            // Fix wrong area music in Tower (Positive Force vs. ecroF evitisoP)
-            if (map.custommode)
-            {
-                break;
-            }
-            int area = map.area(game.roomx, game.roomy);
-            if (area == 3 || area == 11)
-            {
-                if (graphics.setflipmode)
-                {
-                    music.play(9); // ecroF evitisoP
-                }
-                else
-                {
-                    music.play(2); // Positive Force
-                }
-            }
         }
-            break;
+        else if (game.currentmenuoption == accessibilityoffset + 4) {
+            //disable text outline
+            graphics.notextoutline = !graphics.notextoutline;
+            game.savestatsandsettings_menu();
+            music.playef(11);
         }
-
-        offset += flipmode_offset;
-
+        else if (game.currentmenuoption == accessibilityoffset + 5) {
+            //back
+            music.playef(11);
+            game.returnmenu();
+            map.nexttowercolour();
+        }
+        break;
+    }
+    case Menu::gameplayoptions:
+    {
+        int gameplayoptionsoffset = 0;
 #if !defined(MAKEANDPLAY)
-        if (game.currentmenuoption == 3+offset)
-        {
-            //unlock play options
-            music.playef(11);
-            game.createmenu(Menu::unlockmenu);
-            map.nexttowercolour();
-        }
+        if (game.ingame_titlemode && game.unlock[18])
 #endif
-
-        offset += unlockmode_offset;
-
-        if (game.currentmenuoption == 4+offset)
         {
-            //clear data menu
-            music.playef(11);
-            game.createmenu(Menu::controller);
-            map.nexttowercolour();
-            break;
+            gameplayoptionsoffset = 1;
+            if (game.currentmenuoption == 0) {
+                toggleflipmode();
+                // Fix wrong area music in Tower (Positive Force vs. ecroF evitisoP)
+                if (map.custommode)
+                {
+                    break;
+                }
+                int area = map.area(game.roomx, game.roomy);
+                if (area == 3 || area == 11)
+                {
+                    if (graphics.setflipmode)
+                    {
+                        music.play(9); // ecroF evitisoP
+                    }
+                    else
+                    {
+                        music.play(2); // Positive Force
+                    }
+                }
+            }
         }
-        else if (game.currentmenuoption == 5+offset)
+
+        if (game.currentmenuoption == gameplayoptionsoffset + 0)
         {
-            //clear data menu
+            //Toggle 30+ FPS
+            music.playef(11);
+            game.over30mode = !game.over30mode;
+            game.savestatsandsettings_menu();
+        }
+        else if (game.currentmenuoption == gameplayoptionsoffset + 1)
+        {
+            //Speedrunner options
+            music.playef(11);
+            game.createmenu(Menu::speedrunneroptions);
+            map.nexttowercolour();
+        }
+        else if (game.currentmenuoption == gameplayoptionsoffset + 2)
+        {
+            //Advanced options
+            music.playef(11);
+            game.createmenu(Menu::advancedoptions);
+            map.nexttowercolour();
+        }
+        else if (game.currentmenuoption == gameplayoptionsoffset + 3)
+        {
+            //Clear Data
             music.playef(11);
             game.createmenu(Menu::cleardatamenu);
             map.nexttowercolour();
         }
-        else if (game.currentmenuoption == 6+offset && music.mmmmmm)
+        else if (game.currentmenuoption == gameplayoptionsoffset + 4)
         {
-            //**** TOGGLE MMMMMM
-            music.usingmmmmmm = !music.usingmmmmmm;
             music.playef(11);
-            music.play(music.currentsong);
-            game.savestatsandsettings();
+            game.createmenu(Menu::clearcustomdatamenu);
+            map.nexttowercolour();
+        }
+        else if (game.currentmenuoption == gameplayoptionsoffset + 5) {
+            //return to previous menu
+            music.playef(11);
+            game.returnmenu();
+            map.nexttowercolour();
         }
 
-        offset += mmmmmm_offset;
-
-        if (game.currentmenuoption == 7+offset)
+        break;
+    }
+    case Menu::options:
+        switch (game.currentmenuoption)
         {
-            //back
+        case 0:
+            //gameplay options
+            music.playef(11);
+            game.createmenu(Menu::gameplayoptions);
+            map.nexttowercolour();
+            break;
+        case 1:
+            //graphic options
+            music.playef(11);
+            game.createmenu(Menu::graphicoptions);
+            map.nexttowercolour();
+            break;
+        case 2:
+            /* Audio options */
+            music.playef(11);
+            game.createmenu(Menu::audiooptions);
+            map.nexttowercolour();
+            break;
+        case 3:
+            //gamepad options
+            music.playef(11);
+            game.createmenu(Menu::controller);
+            map.nexttowercolour();
+            break;
+        case 4:
+            //accessibility options
+            music.playef(11);
+            game.createmenu(Menu::accessibility);
+            map.nexttowercolour();
+            break;
+        default:
+            /* Return */
             music.playef(11);
             if (game.ingame_titlemode)
             {
-                game.returntopausemenu();
+                game.returntoingame();
             }
             else
             {
                 game.returnmenu();
                 map.nexttowercolour();
             }
+            break;
         }
         break;
-    }
+    case Menu::audiooptions:
+        switch (game.currentmenuoption)
+        {
+        case 0:
+        case 1:
+            music.playef(11);
+            if (game.slidermode == SLIDER_NONE)
+            {
+                initvolumeslider(game.currentmenuoption);
+            }
+            else
+            {
+                deinitvolumeslider();
+            }
+            break;
+        case 2:
+            if (!music.mmmmmm)
+            {
+                break;
+            }
+
+            /* Toggle MMMMMM */
+            music.usingmmmmmm = !music.usingmmmmmm;
+            music.playef(11);
+            if (music.currentsong > -1)
+            {
+                music.play(music.currentsong);
+            }
+            game.savestatsandsettings_menu();
+            break;
+        }
+
+        if (game.currentmenuoption == 2 + (int) music.mmmmmm)
+        {
+            /* Return */
+            game.returnmenu();
+            map.nexttowercolour();
+            music.playef(11);
+        }
+        break;
     case Menu::unlockmenutrials:
         switch (game.currentmenuoption)
         {
@@ -817,7 +1055,6 @@ static void menuactionpress()
             game.unlocknotify[9] = true;
             music.playef(11);
             game.createmenu(Menu::unlockmenutrials, true);
-            game.currentmenuoption = 0;
             game.savestatsandsettings_menu();
             break;
         case 1:   	//unlock 2
@@ -825,7 +1062,6 @@ static void menuactionpress()
             game.unlocknotify[10] = true;
             music.playef(11);
             game.createmenu(Menu::unlockmenutrials, true);
-            game.currentmenuoption = 1;
             game.savestatsandsettings_menu();
             break;
         case 2:   	//unlock 3
@@ -833,7 +1069,6 @@ static void menuactionpress()
             game.unlocknotify[11] = true;
             music.playef(11);
             game.createmenu(Menu::unlockmenutrials, true);
-            game.currentmenuoption = 2;
             game.savestatsandsettings_menu();
             break;
         case 3:   	//unlock 4
@@ -841,7 +1076,6 @@ static void menuactionpress()
             game.unlocknotify[12] = true;
             music.playef(11);
             game.createmenu(Menu::unlockmenutrials, true);
-            game.currentmenuoption = 3;
             game.savestatsandsettings_menu();
             break;
         case 4:   	//unlock 5
@@ -849,7 +1083,6 @@ static void menuactionpress()
             game.unlocknotify[13] = true;
             music.playef(11);
             game.createmenu(Menu::unlockmenutrials, true);
-            game.currentmenuoption = 4;
             game.savestatsandsettings_menu();
             break;
         case 5:   	//unlock 6
@@ -857,7 +1090,6 @@ static void menuactionpress()
             game.unlocknotify[14] = true;
             music.playef(11);
             game.createmenu(Menu::unlockmenutrials, true);
-            game.currentmenuoption = 5;
             game.savestatsandsettings_menu();
             break;
         case 6:   	//back
@@ -885,7 +1117,6 @@ static void menuactionpress()
             game.unlock[6] = true;
             game.unlock[7] = true;
             game.createmenu(Menu::unlockmenu, true);
-            game.currentmenuoption = 1;
             game.savestatsandsettings_menu();
             break;
         case 2:
@@ -894,7 +1125,6 @@ static void menuactionpress()
             game.unlock[17] = true;
             game.unlocknotify[17] = true;
             game.createmenu(Menu::unlockmenu, true);
-            game.currentmenuoption = 2;
             game.savestatsandsettings_menu();
             break;
         case 3:
@@ -903,7 +1133,6 @@ static void menuactionpress()
             game.unlock[18] = true;
             game.unlocknotify[18] = true;
             game.createmenu(Menu::unlockmenu, true);
-            game.currentmenuoption = 3;
             game.savestatsandsettings_menu();
             break;
         case 4:
@@ -911,7 +1140,6 @@ static void menuactionpress()
             music.playef(11);
             game.stat_trinkets = 20;
             game.createmenu(Menu::unlockmenu, true);
-            game.currentmenuoption = 4;
             game.savestatsandsettings_menu();
             break;
         case 5:
@@ -920,7 +1148,6 @@ static void menuactionpress()
             game.unlock[8] = true;
             game.unlocknotify[8] = true;
             game.createmenu(Menu::unlockmenu, true);
-            game.currentmenuoption = 5;
             game.savestatsandsettings_menu();
             break;
         default:
@@ -944,7 +1171,6 @@ static void menuactionpress()
             //last page
             music.playef(11);
             game.createmenu(Menu::credits6, true);
-            game.currentmenuoption = 1;
             map.nexttowercolour();
             break;
         default:
@@ -968,7 +1194,6 @@ static void menuactionpress()
             //previous page
             music.playef(11);
             game.createmenu(Menu::credits, true);
-            game.currentmenuoption = 1;
             map.nexttowercolour();
             break;
         case 2:
@@ -992,7 +1217,6 @@ static void menuactionpress()
             //previous page
             music.playef(11);
             game.createmenu(Menu::credits2, true);
-            game.currentmenuoption = 1;
             map.nexttowercolour();
             break;
         default:
@@ -1041,7 +1265,6 @@ static void menuactionpress()
                 //There are more super patrons. Refresh the menu with the next ones
                 game.createmenu(Menu::credits3, true);
             }
-            game.currentmenuoption = 1;
 
             map.nexttowercolour();
             break;
@@ -1092,7 +1315,6 @@ static void menuactionpress()
                 //There are more patrons. Refresh the menu with the next ones
                 game.createmenu(Menu::credits4, true);
             }
-            game.currentmenuoption = 1;
 
             map.nexttowercolour();
             break;
@@ -1143,7 +1365,6 @@ static void menuactionpress()
                 //There are more GitHub contributors. Refresh the menu with the next ones
                 game.createmenu(Menu::credits5, true);
             }
-            game.currentmenuoption = 1;
 
             map.nexttowercolour();
             break;
@@ -1170,7 +1391,6 @@ static void menuactionpress()
             music.playef(11);
             game.current_credits_list_index = SDL_arraysize(Credits::githubfriends) - 1 - (SDL_arraysize(Credits::githubfriends)-1)%9;
             game.createmenu(Menu::credits5, true);
-            game.currentmenuoption = 1;
             map.nexttowercolour();
             break;
         default:
@@ -1178,7 +1398,6 @@ static void menuactionpress()
             music.playef(11);
             game.returnmenu();
             map.nexttowercolour();
-            music.niceplay(6);
             break;
         }
         break;
@@ -1196,22 +1415,19 @@ static void menuactionpress()
             {
                 //You have no saves but have something unlocked, or you couldn't have gotten here
                 music.playef(11);
-                game.mainmenu = 0;
-                graphics.fademode = 2;
+                startmode(0);
             }
             else if (game.telesummary == "")
             {
                 //You at least have a quicksave, or you couldn't have gotten here
                 music.playef(11);
-                game.mainmenu = 2;
-                graphics.fademode = 2;
+                startmode(2);
             }
             else if (game.quicksummary == "")
             {
                 //You at least have a telesave, or you couldn't have gotten here
                 music.playef(11);
-                game.mainmenu = 1;
-                graphics.fademode = 2;
+                startmode(1);
             }
             else
             {
@@ -1223,14 +1439,8 @@ static void menuactionpress()
         }
         else if (game.currentmenuoption == 1 && game.unlock[8])
         {
-            if(!map.invincibility && game.slowdown == 30){
-                music.playef(11);
-                game.mainmenu = 11;
-                graphics.fademode = 2;
-            }else{
-                //Can't do yet! play sad sound
-                music.playef(2);
-            }
+            music.playef(11);
+            startmode(11);
         }
         else if (game.currentmenuoption == sloffset+2)
         {
@@ -1261,8 +1471,7 @@ static void menuactionpress()
         case 0:
             //yep
             music.playef(11);
-            game.mainmenu = 0;
-            graphics.fademode = 2;
+            startmode(0);
             game.deletequick();
             game.deletetele();
             break;
@@ -1288,9 +1497,10 @@ static void menuactionpress()
             game.savestatsandsettings_menu();
             break;
 
-        case 5:
+        case 6:
             music.playef(11);
             game.returnmenu();
+            map.nexttowercolour();
             break;
         }
         break;
@@ -1317,8 +1527,25 @@ static void menuactionpress()
             break;
         }
         break;
+    case Menu::clearcustomdatamenu:
+        switch (game.currentmenuoption)
+        {
+        default:
+            music.playef(11);
+            break;
+        case 1:
+            game.deletecustomlevelstats();
+            FILESYSTEM_deleteLevelSaves();
+            music.playef(23);
+            game.flashlight = 5;
+            game.screenshake = 15;
+            break;
+        }
+        game.returnmenu();
+        map.nexttowercolour();
+        break;
     case Menu::playmodes:
-        if (game.currentmenuoption == 0 && game.slowdown == 30 && !map.invincibility)   //go to the time trial menu
+        if (game.currentmenuoption == 0 && !game.nocompetitive())   //go to the time trial menu
         {
             music.playef(11);
             game.createmenu(Menu::timetrials);
@@ -1331,7 +1558,7 @@ static void menuactionpress()
             game.createmenu(Menu::intermissionmenu);
             map.nexttowercolour();
         }
-        else if (game.currentmenuoption == 2 && game.unlock[17] && game.slowdown == 30 && !map.invincibility)    //start a game in no death mode
+        else if (game.currentmenuoption == 2 && game.unlock[17] && !game.nocompetitive())    //start a game in no death mode
         {
             music.playef(11);
             game.createmenu(Menu::startnodeathmode);
@@ -1339,19 +1566,7 @@ static void menuactionpress()
         }
         else if (game.currentmenuoption == 3 && game.unlock[18])    //enable/disable flip mode
         {
-            // WARNING: Partially duplicated in Menu::options
-            graphics.setflipmode = !graphics.setflipmode;
-            game.savestatsandsettings();
-            if (graphics.setflipmode)
-            {
-                music.playef(18);
-                game.screenshake = 10;
-                game.flashlight = 5;
-            }
-            else
-            {
-                music.playef(11);
-            }
+            toggleflipmode();
         }
         else if (game.currentmenuoption == 4)
         {
@@ -1371,13 +1586,11 @@ static void menuactionpress()
         {
         case 0:   //start no death mode, disabling cutscenes
             music.playef(11);
-            game.mainmenu = 10;
-            graphics.fademode = 2;
+            startmode(10);
             break;
         case 1:
             music.playef(11);
-            game.mainmenu = 9;
-            graphics.fademode = 2;
+            startmode(9);
             break;
         case 2:
             //back
@@ -1392,13 +1605,11 @@ static void menuactionpress()
         {
         case 0:
             music.playef(11);
-            game.mainmenu = 1;
-            graphics.fademode = 2;
+            startmode(1);
             break;
         case 1:
             music.playef(11);
-            game.mainmenu = 2;
-            graphics.fademode = 2;
+            startmode(2);
             break;
         case 2:
             //back
@@ -1436,23 +1647,19 @@ static void menuactionpress()
         {
         case 0:
             music.playef(11);
-            game.mainmenu = 12;
-            graphics.fademode = 2;
+            startmode(12);
             break;
         case 1:
             music.playef(11);
-            game.mainmenu = 13;
-            graphics.fademode = 2;
+            startmode(13);
             break;
         case 2:
             music.playef(11);
-            game.mainmenu = 14;
-            graphics.fademode = 2;
+            startmode(14);
             break;
         case 3:
             music.playef(11);
-            game.mainmenu = 15;
-            graphics.fademode = 2;
+            startmode(15);
             break;
         case 4:
             //back
@@ -1467,23 +1674,19 @@ static void menuactionpress()
         {
         case 0:
             music.playef(11);
-            game.mainmenu = 16;
-            graphics.fademode = 2;
+            startmode(16);
             break;
         case 1:
             music.playef(11);
-            game.mainmenu = 17;
-            graphics.fademode = 2;
+            startmode(17);
             break;
         case 2:
             music.playef(11);
-            game.mainmenu = 18;
-            graphics.fademode = 2;
+            startmode(18);
             break;
         case 3:
             music.playef(11);
-            game.mainmenu = 19;
-            graphics.fademode = 2;
+            startmode(19);
             break;
         case 4:
             //back
@@ -1514,38 +1717,32 @@ static void menuactionpress()
         if (game.currentmenuoption == 0 && game.unlock[9])   //space station 1
         {
             music.playef(11);
-            game.mainmenu = 3;
-            graphics.fademode = 2;
+            startmode(3);
         }
         else if (game.currentmenuoption == 1 && game.unlock[10])    //lab
         {
             music.playef(11);
-            game.mainmenu = 4;
-            graphics.fademode = 2;
+            startmode(4);
         }
         else if (game.currentmenuoption == 2 && game.unlock[11])    //tower
         {
             music.playef(11);
-            game.mainmenu = 5;
-            graphics.fademode = 2;
+            startmode(5);
         }
         else if (game.currentmenuoption == 3 && game.unlock[12])    //station 2
         {
             music.playef(11);
-            game.mainmenu = 6;
-            graphics.fademode = 2;
+            startmode(6);
         }
         else if (game.currentmenuoption == 4 && game.unlock[13])    //warp
         {
             music.playef(11);
-            game.mainmenu = 7;
-            graphics.fademode = 2;
+            startmode(7);
         }
         else if (game.currentmenuoption == 5 && game.unlock[14])    //final
         {
             music.playef(11);
-            game.mainmenu = 8;
-            graphics.fademode = 2;
+            startmode(8);
         }
         else if (game.currentmenuoption == 6)    //go to the time trial menu
         {
@@ -1571,51 +1768,36 @@ static void menuactionpress()
             map.nexttowercolour();
             break;
         case 1:
-            //Ok but first quickly remove the last stack frame to prevent piling up timetrialcomplete stack frames
-            if (game.menustack.empty())
-            {
-                puts("Error: menu stack is empty!");
-            }
-            else
-            {
-                game.menustack.pop_back();
-            }
             //duplicate the above based on given time trial level!
             if (game.timetriallevel == 0)   //space station 1
             {
                 music.playef(11);
-                game.mainmenu = 3;
-                graphics.fademode = 2;
+                startmode(3);
             }
             else if (game.timetriallevel == 1)    //lab
             {
                 music.playef(11);
-                game.mainmenu = 4;
-                graphics.fademode = 2;
+                startmode(4);
             }
             else if (game.timetriallevel == 2)    //tower
             {
                 music.playef(11);
-                game.mainmenu = 5;
-                graphics.fademode = 2;
+                startmode(5);
             }
             else if (game.timetriallevel == 3)    //station 2
             {
                 music.playef(11);
-                game.mainmenu = 6;
-                graphics.fademode = 2;
+                startmode(6);
             }
             else if (game.timetriallevel == 4)    //warp
             {
                 music.playef(11);
-                game.mainmenu = 7;
-                graphics.fademode = 2;
+                startmode(7);
             }
             else if (game.timetriallevel == 5)    //final
             {
                 music.playef(11);
-                game.mainmenu = 8;
-                graphics.fademode = 2;
+                startmode(8);
             }
             break;
         }
@@ -1636,12 +1818,18 @@ static void menuactionpress()
         game.returnmenu();
         map.nexttowercolour();
         break;
+    case Menu::errorloadinglevel:
+    case Menu::warninglevellist:
+        music.playef(11);
+        game.returnmenu();
+        map.nexttowercolour();
+        break;
     default:
         break;
     }
 }
 
-void titleinput()
+void titleinput(void)
 {
     //game.mx = (mouseX / 4);
     //game.my = (mouseY / 4);
@@ -1650,6 +1838,7 @@ void titleinput()
     game.press_right = false;
     game.press_action = false;
     game.press_map = false;
+    game.press_interact = false;
 
     if (graphics.flipmode)
     {
@@ -1672,39 +1861,77 @@ void titleinput()
     if (key.isDown(KEYBOARD_ENTER)) game.press_map = true;
 
     //In the menu system, all keypresses are single taps rather than holds. Therefore this test has to be done for all presses
-    if (!game.press_action && !game.press_left && !game.press_right) game.jumpheld = false;
+    if (!game.press_action && !game.press_left && !game.press_right && !key.isDown(27) && !key.isDown(game.controllerButton_esc)) game.jumpheld = false;
     if (!game.press_map) game.mapheld = false;
 
     if (!game.jumpheld && graphics.fademode==0)
     {
-        if (game.press_action || game.press_left || game.press_right || game.press_map)
+        if (game.press_action || game.press_left || game.press_right || game.press_map || key.isDown(27) || key.isDown(game.controllerButton_esc))
         {
             game.jumpheld = true;
         }
 
-        if (key.isDown(27) && game.currentmenuname != Menu::youwannaquit && game.menustart)
+        if (game.menustart
+        && game.menucountdown <= 0
+        && (key.isDown(27) || key.isDown(game.controllerButton_esc)))
         {
             music.playef(11);
-            if (game.ingame_titlemode)
-            {
-                game.returntopausemenu();
-            }
-            else
+            if (game.currentmenuname == Menu::mainmenu)
             {
                 game.createmenu(Menu::youwannaquit);
                 map.nexttowercolour();
+            }
+            else
+            {
+                if (game.slidermode != SLIDER_NONE)
+                {
+                    switch (game.slidermode)
+                    {
+                    /* Cancel volume change. */
+                    case SLIDER_MUSICVOLUME:
+                    case SLIDER_SOUNDVOLUME:
+                        if (user_changing_volume == NULL)
+                        {
+                            SDL_assert(0 && "user_changing_volume is NULL!");
+                            break;
+                        }
+                        *user_changing_volume = previous_volume;
+                        deinitvolumeslider();
+                        break;
+                    default:
+                        SDL_assert(0 && "Unhandled slider mode!");
+                        break;
+                    }
+                }
+                else if (game.ingame_titlemode
+                && game.currentmenuname == Menu::options)
+                {
+                    game.returntoingame();
+                }
+                else
+                {
+                    game.returnmenu();
+                    map.nexttowercolour();
+                }
             }
         }
 
         if(game.menustart)
         {
-            if (game.press_left)
+            if (game.slidermode == SLIDER_NONE)
             {
-                game.currentmenuoption--;
+                if (game.press_left)
+                {
+                    game.currentmenuoption--;
+                }
+                else if (game.press_right)
+                {
+                    game.currentmenuoption++;
+                }
             }
-            else if (game.press_right)
+            else
             {
-                game.currentmenuoption++;
+                slidermodeinput();
             }
         }
 
@@ -1728,19 +1955,31 @@ void titleinput()
         }
         if (    game.currentmenuname == Menu::controller &&
                 game.currentmenuoption > 0 &&
-                game.currentmenuoption < 5 &&
+                game.currentmenuoption < 6 &&
                 key.controllerButtonDown()      )
         {
             updatebuttonmappings(game.currentmenuoption);
+            music.playef(11);
+            game.savestatsandsettings_menu();
         }
 
     }
 
-    if (graphics.fademode == 1)
-        script.startgamemode(game.mainmenu);
+    if (fadetomode)
+    {
+        if (fadetomodedelay > 0)
+        {
+            --fadetomodedelay;
+        }
+        else
+        {
+            fadetomode = false;
+            script.startgamemode(gotomode);
+        }
+    }
 }
 
-void gameinput()
+void gameinput(void)
 {
     //TODO mouse input
     //game.mx = (mouseX / 2);
@@ -1751,6 +1990,7 @@ void gameinput()
         game.press_left = false;
         game.press_right = false;
         game.press_action = false;
+        game.press_interact = false;
 
         if (key.isDown(KEYBOARD_LEFT) || key.isDown(KEYBOARD_a) || key.controllerWantsLeft(false))
         {
@@ -1764,7 +2004,12 @@ void gameinput()
                 || key.isDown(KEYBOARD_UP) || key.isDown(KEYBOARD_DOWN) || key.isDown(KEYBOARD_w) || key.isDown(KEYBOARD_s)|| key.isDown(game.controllerButton_flip))
         {
             game.press_action = true;
-        };
+        }
+
+        if (key.isDown(KEYBOARD_e) || key.isDown(game.controllerButton_interact))
+        {
+            game.press_interact = true;
+        }
     }
 
     game.press_map = false;
@@ -1792,7 +2037,11 @@ void gameinput()
             }
             else
             {
-                if(game.glitchrunnermode || !game.glitchrunkludge) game.state++;
+                if (GlitchrunnerMode_less_than_or_equal(Glitchrunner2_0)
+                || !game.glitchrunkludge)
+                {
+                    game.state++;
+                }
                     game.jumpheld = true;
                     game.glitchrunkludge=true;
                     //Bug fix! You should only be able to do this ONCE.
@@ -1812,6 +2061,11 @@ void gameinput()
         game.mapheld = false;
     }
 
+    if (!game.press_interact)
+    {
+        game.interactheld = false;
+    }
+
     if (game.intimetrial && graphics.fademode == 1 && game.quickrestartkludge)
     {
         //restart the time trial
@@ -1819,19 +2073,25 @@ void gameinput()
         script.startgamemode(game.timetriallevel + 3);
         game.deathseq = -1;
         game.completestop = false;
+        game.hascontrol = false;
     }
 
     //Returning to editor mode must always be possible
 #if !defined(NO_CUSTOM_LEVELS)
-    if(map.custommode && !map.custommodeforreal){
-        if ((game.press_map || key.isDown(27)) && !game.mapheld){
-            //Return to level editor
-            if (INBOUNDS_VEC(game.activeactivity, obj.blocks) && game.press_map){
-                //pass, let code block below handle it
-            }else if(game.activetele && game.readytotele > 20 && game.press_map){
-                //pass, let code block below handle it
-            }else{
-                game.shouldreturntoeditor = true;
+    if (map.custommode && !map.custommodeforreal)
+    {
+        if ((game.press_map || key.isDown(27)) && !game.mapheld)
+        {
+            if (!game.separate_interact
+            && game.press_map
+            && (INBOUNDS_VEC(game.activeactivity, obj.blocks)
+            || (game.activetele && game.readytotele > 20)))
+            {
+                /* Pass, let code block below handle it */
+            }
+            else
+            {
+                game.returntoeditor();
                 game.mapheld = true;
             }
         }
@@ -1842,6 +2102,15 @@ void gameinput()
     bool has_control = false;
     bool enter_pressed = game.press_map && !game.mapheld;
     bool enter_already_processed = false;
+    bool interact_pressed;
+    if (game.separate_interact)
+    {
+        interact_pressed = game.press_interact && !game.interactheld;
+    }
+    else
+    {
+        interact_pressed = enter_pressed;
+    }
     for (size_t ie = 0; ie < obj.entities.size(); ++ie)
     {
         if (obj.entities[ie].rule == 0)
@@ -1849,10 +2118,17 @@ void gameinput()
             if (game.hascontrol && game.deathseq == -1 && game.lifeseq <= 5)
             {
                 has_control = true;
-                if (enter_pressed)
+                if (interact_pressed)
                 {
-                    game.mapheld = true;
+                    game.interactheld = true;
+                    if (!game.separate_interact)
+                    {
+                        game.mapheld = true;
+                    }
+                }
 
+                if (interact_pressed && !script.running)
+                {
                     if (game.activetele && game.readytotele > 20 && !game.intimetrial)
                     {
                         enter_already_processed = true;
@@ -1925,7 +2201,7 @@ void gameinput()
                         if((int(SDL_fabsf(obj.entities[ie].vx))<=1) && (int(obj.entities[ie].vy) == 0) )
                         {
                             script.load(obj.blocks[game.activeactivity].script);
-                            obj.removeblock(game.activeactivity);
+                            obj.disableblock(game.activeactivity);
                             game.activeactivity = -1;
                         }
                     }
@@ -2029,13 +2305,15 @@ void gameinput()
         }
     }
 
-    // Continuation of Enter processing. The rest of the if-tree runs only if
-    // enter_pressed && !enter_already_pressed
-    if (!enter_pressed || enter_already_processed)
+    /* The rest of the if-tree runs only if enter is pressed and it has not
+     * already been processed with 'separate interact' off.
+     */
+    if (!enter_pressed || (enter_already_processed && !game.separate_interact))
     {
         // Do nothing
     }
-    else if (game.swnmode == 1 && game.swngame == 1)
+    else if (game.swnmode == 1
+    && (game.swngame == 1 || game.swngame == 6 || game.swngame == 7))
     {
         //quitting the super gravitron
         game.mapheld = true;
@@ -2093,10 +2371,12 @@ void gameinput()
     }
 }
 
-static void mapmenuactionpress();
+static void mapmenuactionpress(bool version2_2);
 
-void mapinput()
+void mapinput(void)
 {
+    const bool version2_2 = GlitchrunnerMode_less_than_or_equal(Glitchrunner2_2);
+
     //TODO Mouse Input!
     //game.mx = (mouseX / 2);
     //game.my = (mouseY / 2);
@@ -2105,8 +2385,9 @@ void mapinput()
     game.press_right = false;
     game.press_action = false;
     game.press_map = false;
+    game.press_interact = false;
 
-    if (game.glitchrunnermode && graphics.fademode == 1 && graphics.menuoffset == 0)
+    if (version2_2 && graphics.fademode == 1 && graphics.menuoffset == 0)
     {
         // Deliberate re-addition of the glitchy gamestate-based fadeout!
 
@@ -2142,7 +2423,7 @@ void mapinput()
         }
     }
 
-    if (game.fadetomenu && !game.glitchrunnermode)
+    if (game.fadetomenu && !version2_2)
     {
         if (game.fadetomenudelay > 0)
         {
@@ -2156,7 +2437,7 @@ void mapinput()
         }
     }
 
-    if (game.fadetolab && !game.glitchrunnermode)
+    if (game.fadetolab && !version2_2)
     {
         if (game.fadetolabdelay > 0)
         {
@@ -2170,47 +2451,43 @@ void mapinput()
     }
 
     if(graphics.menuoffset==0
-    && ((!game.glitchrunnermode && !game.fadetomenu && game.fadetomenudelay <= 0 && !game.fadetolab && game.fadetolabdelay <= 0)
+    && ((!version2_2 && !game.fadetomenu && game.fadetomenudelay <= 0 && !game.fadetolab && game.fadetolabdelay <= 0)
     || graphics.fademode == 0))
     {
-        if (graphics.flipmode)
+        if (key.isDown(KEYBOARD_LEFT) || key.isDown(KEYBOARD_UP) || key.isDown(KEYBOARD_a) ||  key.isDown(KEYBOARD_w)|| key.controllerWantsLeft(true))
         {
-            if (key.isDown(KEYBOARD_LEFT) || key.isDown(KEYBOARD_DOWN) || key.isDown(KEYBOARD_a) ||  key.isDown(KEYBOARD_s) || key.controllerWantsLeft(true) ) game.press_left = true;
-            if (key.isDown(KEYBOARD_RIGHT) || key.isDown(KEYBOARD_UP) || key.isDown(KEYBOARD_d) ||  key.isDown(KEYBOARD_w) || key.controllerWantsRight(true)) game.press_right = true;
+            game.press_left = true;
         }
-        else
+        if (key.isDown(KEYBOARD_RIGHT) || key.isDown(KEYBOARD_DOWN) || key.isDown(KEYBOARD_d) ||  key.isDown(KEYBOARD_s)|| key.controllerWantsRight(true))
         {
-            if (key.isDown(KEYBOARD_LEFT) || key.isDown(KEYBOARD_UP) || key.isDown(KEYBOARD_a) ||  key.isDown(KEYBOARD_w)|| key.controllerWantsLeft(true))
-            {
-                game.press_left = true;
-            }
-            if (key.isDown(KEYBOARD_RIGHT) || key.isDown(KEYBOARD_DOWN) || key.isDown(KEYBOARD_d) ||  key.isDown(KEYBOARD_s)|| key.controllerWantsRight(true))
-            {
-                game.press_right = true;
-            }
+            game.press_right = true;
         }
         if (key.isDown(KEYBOARD_z) || key.isDown(KEYBOARD_SPACE) || key.isDown(KEYBOARD_v) || key.isDown(game.controllerButton_flip))
         {
             game.press_action = true;
         }
-        if (game.menupage < 12 || (game.menupage >= 30 && game.menupage <= 33))
+        if (game.menupage < 12
+        || (game.menupage >= 20 && game.menupage <= 21)
+        || (game.menupage >= 30 && game.menupage <= 32))
         {
             if (key.isDown(KEYBOARD_ENTER) || key.isDown(game.controllerButton_map) ) game.press_map = true;
             if (key.isDown(27) && !game.mapheld)
             {
                 game.mapheld = true;
-                if (game.menupage < 9)
+                if (game.menupage < 9
+                || (game.menupage >= 20 && game.menupage <= 21))
                 {
                     game.menupage = 30;
                 }
                 else if (game.menupage < 12)
                 {
-                    game.menupage = 31;
+                    game.menupage = 32;
                 }
                 else
                 {
                     graphics.resumegamemode = true;
                 }
+                music.playef(11);
             }
         }
         else
@@ -2265,7 +2542,7 @@ void mapinput()
 
         if (game.press_action)
         {
-            mapmenuactionpress();
+            mapmenuactionpress(version2_2);
         }
 
         if (game.menupage < 0) game.menupage = 3;
@@ -2277,12 +2554,12 @@ void mapinput()
         if (game.menupage == 19) game.menupage = 21;
         if (game.menupage == 22) game.menupage = 20;
 
-        if (game.menupage == 29) game.menupage = 33;
-        if (game.menupage == 34) game.menupage = 30;
+        if (game.menupage == 29) game.menupage = 32;
+        if (game.menupage == 33) game.menupage = 30;
     }
 }
 
-static void mapmenuactionpress()
+static void mapmenuactionpress(const bool version2_2)
 {
     switch (game.menupage)
     {
@@ -2343,78 +2620,70 @@ static void mapmenuactionpress()
     case 10:
         //return to pause menu
         music.playef(11);
-        game.menupage = 31;
+        game.menupage = 32;
         break;
     case 11:
         //quit to menu
 
         //Kill contents of offset render buffer, since we do that for some reason.
         //This fixes an apparent frame flicker.
-        FillRect(graphics.tempBuffer, 0x000000);
+        ClearSurface(graphics.tempBuffer);
         graphics.fademode = 2;
         music.fadeout();
         map.nexttowercolour();
-        if (!game.glitchrunnermode)
+        if (!version2_2)
         {
             game.fadetomenu = true;
-            game.fadetomenudelay = 16;
+            game.fadetomenudelay = 19;
         }
+        music.playef(11);
         break;
 
     case 20:
         //return to game
         graphics.resumegamemode = true;
+        music.playef(11);
         break;
     case 21:
         //quit to menu
         game.swnmode = false;
         graphics.fademode = 2;
         music.fadeout();
-        if (!game.glitchrunnermode)
+        if (!version2_2)
         {
             game.fadetolab = true;
-            game.fadetolabdelay = 16;
+            game.fadetolabdelay = 19;
         }
+        music.playef(11);
         break;
     case 30:
         // Return to game
         graphics.resumegamemode = true;
+        music.playef(11);
         break;
     case 31:
-        // Go to quit prompt
-        music.playef(11);
-        game.menupage = 10;
-        break;
-    case 32:
-    case 33:
         // Graphic options and game options
         music.playef(11);
         game.gamestate = TITLEMODE;
         graphics.flipmode = false;
         game.ingame_titlemode = true;
+        graphics.ingame_fademode = graphics.fademode;
+        graphics.fademode = 0;
 
         // Set this before we create the menu
         game.kludge_ingametemp = game.currentmenuname;
-
-        if (game.menupage == 32)
-        {
-            game.createmenu(Menu::graphicoptions);
-        }
-        else
-        {
-            game.createmenu(Menu::options);
-        }
-
+        game.createmenu(Menu::options);
         map.nexttowercolour();
-
-        // Fix delta rendering glitch
-        graphics.updatetowerbackground(graphics.titlebg);
-        titleupdatetextcol();
+        break;
+    case 32:
+        // Go to quit prompt
+        music.playef(11);
+        game.menupage = 10;
         break;
     }
 }
 
-void teleporterinput()
+void teleporterinput(void)
 {
     //Todo Mouseinput!
     //game.mx = (mouseX / 2);
@@ -2426,6 +2695,7 @@ void teleporterinput()
     game.press_right = false;
     game.press_action = false;
     game.press_map = false;
+    game.press_interact = false;
 
     if(graphics.menuoffset==0)
     {
@@ -2433,10 +2703,17 @@ void teleporterinput()
         if (key.isDown(KEYBOARD_RIGHT) || key.isDown(KEYBOARD_d)|| key.controllerWantsRight(false) ) game.press_right = true;
         if (key.isDown(KEYBOARD_z) || key.isDown(KEYBOARD_SPACE) || key.isDown(KEYBOARD_v)
                 || key.isDown(KEYBOARD_UP) || key.isDown(KEYBOARD_DOWN)||  key.isDown(KEYBOARD_w)||  key.isDown(KEYBOARD_s) || key.isDown(game.controllerButton_flip)) game.press_action = true;
-        if (key.isDown(KEYBOARD_ENTER) || key.isDown(game.controllerButton_map)) game.press_map = true;
+        if (!game.separate_interact && (key.isDown(KEYBOARD_ENTER) || key.isDown(game.controllerButton_map)))
+        {
+            game.press_map = true;
+        }
+        if (key.isDown(KEYBOARD_e) || key.isDown(game.controllerButton_interact))
+        {
+            game.press_interact = true;
+        }
 
         //In the menu system, all keypresses are single taps rather than holds. Therefore this test has to be done for all presses
-        if (!game.press_action && !game.press_left && !game.press_right) game.jumpheld = false;
+        if (!game.press_action && !game.press_left && !game.press_right && !game.press_interact) game.jumpheld = false;
         if (!game.press_map) game.mapheld = false;
 
         if (key.isDown(27))
@@ -2453,6 +2730,7 @@ void teleporterinput()
                 // Close teleporter menu
                 graphics.resumegamemode = true;
             }
+            music.playef(11);
         }
     }
     else
@@ -2463,7 +2741,7 @@ void teleporterinput()
 
     if (!game.jumpheld)
     {
-        if (game.press_action || game.press_left || game.press_right || game.press_map)
+        if (game.press_action || game.press_left || game.press_right || game.press_map || game.press_interact)
         {
             game.jumpheld = true;
         }
@@ -2475,7 +2753,7 @@ void teleporterinput()
             {
                 point& tele = map.teleporters[i];
 
-                if (map.explored[tele.x + tele.y*20])
+                if (map.isexplored(tele.x, tele.y))
                 {
                     any_tele_unlocked = true;
                     break;
@@ -2492,7 +2770,7 @@ void teleporterinput()
                 tempx = map.teleporters[game.teleport_to_teleporter].x;
                 tempy = map.teleporters[game.teleport_to_teleporter].y;
             }
-            while (map.explored[tempx + (20 * tempy)] == 0);
+            while (!map.isexplored(tempx, tempy));
         }
         else if (game.press_right && any_tele_unlocked)
         {
@@ -2503,10 +2781,10 @@ void teleporterinput()
                 tempx = map.teleporters[game.teleport_to_teleporter].x;
                 tempy = map.teleporters[game.teleport_to_teleporter].y;
             }
-            while (map.explored[tempx + (20 * tempy)] == 0);
+            while (!map.isexplored(tempx, tempy));
         }
 
-        if (game.press_map)
+        if ((game.separate_interact && game.press_interact) || game.press_map)
         {
             tempx = map.teleporters[game.teleport_to_teleporter].x;
             tempy = map.teleporters[game.teleport_to_teleporter].y;
@@ -2547,12 +2825,13 @@ void teleporterinput()
     }
 }
 
-void gamecompleteinput()
+void gamecompleteinput(void)
 {
     game.press_left = false;
     game.press_right = false;
     game.press_action = false;
     game.press_map = false;
+    game.press_interact = false;
 
     //Do this before we update map.bypos
     if (!game.colourblindmode)
@@ -2596,12 +2875,13 @@ void gamecompleteinput()
     }
 }
 
-void gamecompleteinput2()
+void gamecompleteinput2(void)
 {
     game.press_left = false;
     game.press_right = false;
     game.press_action = false;
     game.press_map = false;
+    game.press_interact = false;
 
     //Do this here because input comes first
     game.oldcreditposx = game.creditposx;

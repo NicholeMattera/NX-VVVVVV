@@ -8,9 +8,10 @@
 class entclass
 {
 public:
-    entclass();
+    entclass(void);
+    void clear(void);
 
-    bool outside();
+    bool outside(void);
 
     void setenemy(int t);
 
@@ -18,9 +19,9 @@ public:
 
     void settreadmillcolour(int rx, int ry);
 
-    void updatecolour();
+    void updatecolour(void);
 
-    bool ishumanoid();
+    bool ishumanoid(void);
 
 public:
     //Fundamentals
@@ -48,6 +49,8 @@ public:
     int onground, onroof;
     //Animation
     int framedelay, drawframe, walkingframe, dir, actionframe;
+    int collisionframedelay, collisiondrawframe, collisionwalkingframe;
+    int visualonground, visualonroof;
     int yp;int xp;
 
     Uint32 realcol;
