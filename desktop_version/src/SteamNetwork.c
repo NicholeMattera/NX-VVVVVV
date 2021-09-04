@@ -1,6 +1,6 @@
 #include "MakeAndPlay.h"
 
-#ifndef MAKEANDPLAY 
+#ifndef MAKEANDPLAY
 
 #include <stdio.h>
 #include <stdint.h>
@@ -20,7 +20,7 @@
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__HAIKU__) || defined(__DragonFly__)
 #define STEAM_LIBRARY "libsteam_api.so"
 #elif defined(__SWITCH__)
- #define STEAM_LIBRARY ""
+#define STEAM_LIBRARY ""
 #else
 #error STEAM_LIBRARY: Unrecognized platform!
 #endif

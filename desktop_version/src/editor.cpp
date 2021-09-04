@@ -2479,7 +2479,7 @@ void editorclass::generatecustomminimap(void)
     }
 }
 
-#if !defined(NO_EDITOR) && !defined(__SWITCH__)
+#if !defined(NO_EDITOR)
 static void editormenurender(int tr, int tg, int tb)
 {
     extern editorclass ed;
@@ -5851,7 +5851,7 @@ void editorinput(void)
         }
     }
 }
-#endif /* NO_EDITOR && __SWITCH__ */
+#endif /* NO_EDITOR */
 
 // Return a graphics-ready color based off of the given tileset and tilecol
 // Much kudos to Dav999 for saving me a lot of work, because I stole these colors from const.lua in Ved! -Info Teddy

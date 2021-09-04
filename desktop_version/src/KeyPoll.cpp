@@ -82,6 +82,7 @@ void KeyPoll::toggleFullscreen(void)
 	}
 }
 
+#if !defined(__SWITCH__)
 static int changemousestate(
 	int timeout,
 	const bool show,
@@ -130,13 +131,14 @@ static int changemousestate(
 
 	return timeout;
 }
+#endif
 
 void KeyPoll::Poll(void)
 {
+#if !defined(__SWITCH__)
 	static int mousetoggletimeout = 0;
 	bool showmouse = false;
 	bool hidemouse = false;
-#if !defined(__SWITCH__)
 	bool altpressed = false;
 	bool fullscreenkeybind = false;
 #endif
@@ -156,11 +158,11 @@ void KeyPoll::Poll(void)
 			}
 
 #if !defined(__SWITCH__)
-#ifdef __APPLE__ /* OSX prefers the command keys over the alt keys. -flibit */
+ #ifdef __APPLE__ /* OSX prefers the command keys over the alt keys. -flibit */
 			altpressed = keymap[SDLK_LGUI] || keymap[SDLK_RGUI];
-#else
+ #else
 			altpressed = keymap[SDLK_LALT] || keymap[SDLK_RALT];
-#endif
+ #endif
 			bool returnpressed = evt.key.keysym.sym == SDLK_RETURN;
 			bool fpressed = evt.key.keysym.sym == SDLK_f;
 			bool f11pressed = evt.key.keysym.sym == SDLK_F11;
@@ -394,6 +396,7 @@ void KeyPoll::Poll(void)
 			break;
 		}
 
+#if !defined(__SWITCH__)
 		switch (evt.type)
 		{
 		case SDL_KEYDOWN:
@@ -412,15 +415,16 @@ void KeyPoll::Poll(void)
 			showmouse = true;
 			break;
 		}
+#endif
 	}
 
+#if !defined(__SWITCH__)
 	mousetoggletimeout = changemousestate(
 		mousetoggletimeout,
 		showmouse,
 		hidemouse
 	);
 
-#if !defined(__SWITCH__)
 	if (fullscreenkeybind)
 	{
 		toggleFullscreen();

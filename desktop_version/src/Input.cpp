@@ -503,16 +503,20 @@ static void menuactionpress(void)
         map.nexttowercolour();
         break;
     case Menu::playerworlds:
- #if defined(__SWITCH__)
+
+ #undef OFFSET
+
+ #if defined(__SWITCH__) && defined(NO_EDITOR)
   #define OFFSET -2
- #elif defined(NO_EDITOR)
+ #elif defined(NO_EDITOR) || defined(__SWITCH__)
   #define OFFSET -1
  #else
   #define OFFSET 0
  #endif
+
         switch (game.currentmenuoption)
         {
-        case 0:
+        case OFFSET + 0:
 
             music.playef(11);
             game.levelpage=0;
@@ -525,16 +529,17 @@ static void menuactionpress(void)
             }
             map.nexttowercolour();
             break;
- #if !defined(__SWITCH__)
-  #if !defined(NO_EDITOR)
-        case 1:
+ #if !defined(NO_EDITOR)
+        case OFFSET + 1:
             //LEVEL EDITOR HOOK
             music.playef(11);
             startmode(20);
             ed.filename="";
             break;
-  #endif
-        case OFFSET+2:
+ #endif
+
+ #if !defined(__SWITCH__)
+        case OFFSET + 2:
             //"OPENFOLDERHOOK"
             if (FILESYSTEM_openDirectoryEnabled()
             && FILESYSTEM_openDirectory(FILESYSTEM_getUserLevelDirectory()))
@@ -548,14 +553,14 @@ static void menuactionpress(void)
             }
             break;
  #endif
-        case OFFSET+3:
+
+        case OFFSET + 3:
             //back
             music.playef(11);
             game.returnmenu();
             map.nexttowercolour();
             break;
         }
- #undef OFFSET
         break;
 #endif
     case Menu::errornostart:
@@ -572,6 +577,9 @@ static void menuactionpress(void)
 
         switch (game.currentmenuoption)
         {
+
+#undef OFFSET
+
 #if defined(__SWITCH__)
  #define OFFSET -1
 #else
@@ -579,19 +587,20 @@ static void menuactionpress(void)
 #endif
 
 #if !defined(__SWITCH__)
-        case 0:
+        case OFFSET + 0:
             music.playef(11);
             graphics.screenbuffer->toggleFullScreen();
             game.savestatsandsettings_menu();
             break;
 #endif
 
-        case OFFSET+1:
+        case OFFSET + 1:
             music.playef(11);
             graphics.screenbuffer->toggleStretchMode();
             game.savestatsandsettings_menu();
             break;
-        
+
+
 #undef OFFSET
 
 #if defined(__SWITCH__)
@@ -601,7 +610,7 @@ static void menuactionpress(void)
 #endif
 
 #if !defined(__SWITCH__)
-        case OFFSET+2:
+        case OFFSET + 2:
             // resize to nearest multiple
             if (graphics.screenbuffer->isWindowed)
             {
@@ -615,26 +624,32 @@ static void menuactionpress(void)
             }
             break;
 #endif
-        case OFFSET+3:
+
+        case OFFSET + 3:
             music.playef(11);
             graphics.screenbuffer->toggleLinearFilter();
             game.savestatsandsettings_menu();
             break;
-        case OFFSET+4:
+
+        case OFFSET + 4:
             //change smoothing
             music.playef(11);
             graphics.screenbuffer->badSignalEffect= !graphics.screenbuffer->badSignalEffect;
             game.savestatsandsettings_menu();
             break;
-        case OFFSET+5:
+
+#if !defined(__SWITCH__)
+        case OFFSET + 5:
             //toggle vsync
             music.playef(11);
-#ifndef __HAIKU__ // FIXME: Remove after SDL VSync bug is fixed! -flibit
+ #ifndef __HAIKU__ // FIXME: Remove after SDL VSync bug is fixed! -flibit
             graphics.screenbuffer->vsync = !graphics.screenbuffer->vsync;
             graphics.screenbuffer->resetRendererWorkaround();
             game.savestatsandsettings_menu();
-#endif
+ #endif
             break;
+#endif
+
         default:
             //back
             music.playef(11);
@@ -642,8 +657,6 @@ static void menuactionpress(void)
             map.nexttowercolour();
             break;
         }
-        
-#undef OFFSET
         break;
     case Menu::youwannaquit:
         switch (game.currentmenuoption)
@@ -714,6 +727,15 @@ static void menuactionpress(void)
     case Menu::speedrunneroptions:
         switch (game.currentmenuoption)
         {
+        
+#undef OFFSET
+
+#if defined(__SWITCH__)
+ #define OFFSET -1
+#else
+ #define OFFSET 0
+#endif
+
         case 0:
             // Glitchrunner mode
             music.playef(11);
@@ -721,31 +743,37 @@ static void menuactionpress(void)
             game.currentmenuoption = GlitchrunnerMode_get();
             map.nexttowercolour();
             break;
+
         case 1:
             /* Input delay */
             music.playef(11);
             game.inputdelay = !game.inputdelay;
             game.savestatsandsettings_menu();
             break;
+
+#if !defined(__SWITCH__)
         case 2:
             /* Interact button toggle */
             music.playef(11);
             game.separate_interact = !game.separate_interact;
             game.savestatsandsettings_menu();
             break;
+#endif
 
-        case 3:
+        case OFFSET + 3:
             // toggle fake load screen
             game.skipfakeload = !game.skipfakeload;
             game.savestatsandsettings_menu();
             music.playef(11);
             break;
-        case 4:
+
+        case OFFSET + 4:
             // toggle in game timer
             game.showingametimer = !game.showingametimer;
             game.savestatsandsettings_menu();
             music.playef(11);
             break;
+
         default:
             //back
             music.playef(11);
@@ -753,7 +781,6 @@ static void menuactionpress(void)
             map.nexttowercolour();
             break;
         }
-#undef OFFSET
         break;
     case Menu::setglitchrunner:
         GlitchrunnerMode_set((enum GlitchrunnerMode) game.currentmenuoption);
@@ -765,6 +792,7 @@ static void menuactionpress(void)
     case Menu::advancedoptions:
         switch (game.currentmenuoption)
         {
+
 #undef OFFSET
 
 #if defined(__SWITCH__)
@@ -772,26 +800,30 @@ static void menuactionpress(void)
 #else
  #define OFFSET 0
 #endif
+
 #if !defined(__SWITCH__)
-        case 0:
+        case OFFSET + 0:
             // toggle unfocus pause
             game.disablepause = !game.disablepause;
             game.savestatsandsettings_menu();
             music.playef(11);
             break;
-        case 1:
+
+        case OFFSET + 1:
             /* toggle unfocus music pause */
             game.disableaudiopause = !game.disableaudiopause;
             game.savestatsandsettings_menu();
             music.playef(11);
             break;
 #endif
+
         case OFFSET + 2:
             // toggle translucent roomname BG
             graphics.translucentroomname = !graphics.translucentroomname;
             game.savestatsandsettings_menu();
             music.playef(11);
             break;
+
         default:
             //back
             music.playef(11);
@@ -799,8 +831,6 @@ static void menuactionpress(void)
             map.nexttowercolour();
             break;
         }
-#undef OFFSET
-
         break;
     case Menu::accessibility:
     {

@@ -37,14 +37,14 @@ include $(DEVKITPRO)/libnx/switch_rules
 #   of a homebrew executable (.nro). This is intended to be used for sysmodules.
 #   NACP building is skipped as well.
 #---------------------------------------------------------------------------------
-TARGET		:=	nx-vvvvvv
+TARGET		:=	NX-VVVVVV
 BUILD		:=	build
 SOURCES		:=	src ../third_party/lodepng ../third_party/physfs ../third_party/tinyxml2
 INCLUDES	:=	../third_party/lodepng ../third_party/physfs ../third_party/tinyxml2 ../third_party/utfcpp/source
 
 APP_TITLE	:= NX-VVVVVV
 APP_AUTHOR	:= Nichole Mattera (Based off work by Terry Cavanagh)
-APP_VERSION	:= 2.3.1
+APP_VERSION	:= 2.3.2
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -54,7 +54,7 @@ ARCH	:=	-march=armv8-a+crc+crypto -mtune=cortex-a57 -mtp=soft -fPIE
 CFLAGS	:=	-g -Wall -O2 -ffunction-sections \
 			$(ARCH) $(DEFINES)
 
-CFLAGS	+=	$(INCLUDE) -D__SWITCH__ -DPHYSFS_SUPPORTS_DEFAULT=0 -DPHYSFS_SUPPORTS_ZIP=1
+CFLAGS	+=	$(INCLUDE) -D__SWITCH__ -DNO_EDITOR -DPHYSFS_SUPPORTS_DEFAULT=0 -DPHYSFS_SUPPORTS_ZIP=1
 
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions
 

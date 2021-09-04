@@ -93,6 +93,7 @@ static void teleportermodeinput(void)
     }
 }
 
+#if !defined(NO_CUSTOM_LEVELS) && !defined(NO_EDITOR)
 /* Only gets used in EDITORMODE. I assume the compiler will optimize this away
  * if this is a NO_CUSTOM_LEVELS or NO_EDITOR build
  */
@@ -100,6 +101,7 @@ static void flipmodeoff(void)
 {
     graphics.flipmode = false;
 }
+#endif
 
 static void focused_begin(void);
 static void focused_end(void);
@@ -166,7 +168,7 @@ static const inline struct ImplFunc* get_gamestate_funcs(
         {Func_fixed, gamecompletelogic2},
     FUNC_LIST_END
 
-#if !defined(NO_CUSTOM_LEVELS) && !defined(NO_EDITOR) && !defined(__SWITCH__)
+#if !defined(NO_CUSTOM_LEVELS) && !defined(NO_EDITOR)
     FUNC_LIST_BEGIN(EDITORMODE)
         {Func_fixed, flipmodeoff},
         {Func_input, editorinput},
@@ -345,6 +347,11 @@ static void cleanup(void);
 
 int main(int argc, char *argv[])
 {
+#if defined(__SWITCH__) && defined(DEBUG)
+    socketInitializeDefault();
+    nxlinkStdio();
+#endif
+
     char* baseDir = NULL;
     char* assetsPath = NULL;
 
@@ -611,13 +618,13 @@ int main(int argc, char *argv[])
 #endif
 
     key.isActive = true;
+
     gamestate_funcs = get_gamestate_funcs(game.gamestate, &num_gamestate_funcs);
     loop_assign_active_funcs();
-
 #if defined(__SWITCH__)
-    while(appletMainLoop())
+    while( appletMainLoop())
 #else
-    while(true)
+    while (true)
 #endif
     {
         f_time = SDL_GetTicks();
@@ -654,6 +661,9 @@ static void cleanup(void)
     NETWORK_shutdown();
     SDL_Quit();
     FILESYSTEM_deinit();
+#if defined(__SWITCH__) && defined(DEBUG)
+    socketExit();
+#endif
 }
 
 void VVV_exit(const int exit_code)
@@ -758,9 +768,8 @@ static enum LoopCode loop_end(void)
     //We did editorinput, now it's safe to turn this off
     key.linealreadyemptykludge = false;
 
-    //Mute button
-// Switch doesn't have a keyboard or a way to mute in game, or have the window reset.
 #if !defined(__SWITCH__)
+    //Mute button
     if (key.isDown(KEYBOARD_m) && game.mutebutton<=0 && !key.textentry())
     {
         game.mutebutton = 8;
@@ -787,6 +796,7 @@ static enum LoopCode loop_end(void)
     {
         game.musicmutebutton--;
     }
+#endif
 
     if (game.muted)
     {
@@ -807,6 +817,12 @@ static enum LoopCode loop_end(void)
         }
     }
 
+#if defined(__SWITCH__)
+    if (key.resetWindow)
+    {
+        key.resetWindow = false;
+    }
+#else
     if (key.resetWindow)
     {
         key.resetWindow = false;

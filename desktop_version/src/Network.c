@@ -3,7 +3,7 @@
 #include "MakeAndPlay.h"
 #include "Unused.h"
 
-#ifdef MAKEANDPLAY
+#if defined(MAKEANDPLAY) || defined(__SWITCH__)
 	#ifdef STEAM_NETWORK
 		#undef STEAM_NETWORK
 	#endif
@@ -56,28 +56,34 @@ static NetworkBackend backends[NUM_BACKENDS];
 
 int NETWORK_init(void)
 {
-	int32_t i, any = 0;
-	#define ASSIGN_BACKEND(name, index) \
+	int32_t any = 0;
+#define ASSIGN_BACKEND(name, index) \
 		backends[index].Init = name##_init; \
 		backends[index].Shutdown = name##_shutdown; \
 		backends[index].Update = name##_update; \
 		backends[index].UnlockAchievement = name##_unlockAchievement; \
 		backends[index].GetAchievementProgress = name##_getAchievementProgress; \
 		backends[index].SetAchievementProgress = name##_setAchievementProgress;
-	#ifdef STEAM_NETWORK
+
+#ifdef STEAM_NETWORK
 	ASSIGN_BACKEND(STEAM, 0)
-	#endif
-	#ifdef GOG_NETWORK
+#endif
+
+#ifdef GOG_NETWORK
 	ASSIGN_BACKEND(GOG, STEAM_NUM)
-	#endif
-	#undef ASSIGN_BACKEND
-	#if NUM_BACKENDS > 0
+#endif
+
+#undef ASSIGN_BACKEND
+
+#if NUM_BACKENDS > 0
+	int32_t i;
 	for (i = 0; i < NUM_BACKENDS; i += 1)
 	{
 		backends[i].IsInit = backends[i].Init();
 		any |= backends[i].IsInit;
 	}
-	#endif
+#endif
+
 	return any;
 }
 

@@ -41,9 +41,15 @@ static char levelDir[MAX_PATH] = {'\0'};
 static char assetDir[MAX_PATH] = {'\0'};
 static char virtualMountPath[MAX_PATH] = {'\0'};
 
+#if !defined(__SWITCH__)
 static int PLATFORM_getOSDirectory(char* output, const size_t output_size);
+#endif
+
 static void PLATFORM_migrateSaveData(char* output);
+
+#if !defined(__SWITCH__)
 static void PLATFORM_copyFile(const char *oldLocation, const char *newLocation);
+#endif
 
 static void* bridged_malloc(PHYSFS_uint64 size)
 {
@@ -86,6 +92,9 @@ int FILESYSTEM_init(char *argvZero, char* baseDir, char *assetsPath)
 	PHYSFS_permitSymbolicLinks(1);
 #endif
 
+#if defined(__SWITCH__)
+	SDL_snprintf(output, sizeof(output), "./");
+#else
 	/* Determine the OS user directory */
 	if (baseDir && baseDir[0] != '\0')
 	{
@@ -101,6 +110,7 @@ int FILESYSTEM_init(char *argvZero, char* baseDir, char *assetsPath)
 	{
 		return 0;
 	}
+#endif
 
 	/* Mount our base user directory */
 	if (!PHYSFS_mount(output, NULL, 0))
@@ -942,9 +952,10 @@ void FILESYSTEM_enumerateLevelDirFileNames(
 	}
 }
 
+#if !defined(__SWITCH__)
 static int PLATFORM_getOSDirectory(char* output, const size_t output_size)
 {
-#ifdef _WIN32
+ #ifdef _WIN32
 	/* This block is here for compatibility, do not touch it! */
 	WCHAR utf16_path[MAX_PATH];
 	HRESULT retcode = SHGetFolderPathW(
@@ -987,9 +998,7 @@ static int PLATFORM_getOSDirectory(char* output, const size_t output_size)
 	SDL_strlcat(output, "\\VVVVVV\\", MAX_PATH);
 	mkdir(output, 0777);
 	return 1;
-#elif defined(__SWITCH__)
-	SDL_strlcpy(output, PHYSFS_getBaseDir(), MAX_PATH);
-#else
+ #else
 	const char* prefDir = PHYSFS_getPrefDir("distractionware", "VVVVVV");
 	if (prefDir == NULL)
 	{
@@ -1001,8 +1010,9 @@ static int PLATFORM_getOSDirectory(char* output, const size_t output_size)
 	}
 	SDL_strlcpy(output, prefDir, output_size);
 	return 1;
-#endif
+ #endif
 }
+#endif
 
 static void PLATFORM_migrateSaveData(char* output)
 {
@@ -1127,6 +1137,7 @@ static void PLATFORM_migrateSaveData(char* output)
 #endif
 }
 
+#if !defined(__SWITCH__)
 static void PLATFORM_copyFile(const char *oldLocation, const char *newLocation)
 {
 	char *data;
@@ -1175,6 +1186,7 @@ static void PLATFORM_copyFile(const char *oldLocation, const char *newLocation)
 		printf("Warning: an error occurred when writing to %s\n", newLocation);
 	}
 }
+#endif
 
 bool FILESYSTEM_openDirectoryEnabled(void)
 {

@@ -306,6 +306,9 @@ static void menurender(void)
 
         switch (game.currentmenuoption)
         {
+
+#undef OFFSET
+
 #if defined(__SWITCH__)
  #define OFFSET -1
 #else
@@ -313,7 +316,7 @@ static void menurender(void)
 #endif
 
 #if !defined(__SWITCH__)
-        case 0:
+        case OFFSET + 0:
             graphics.bigprint( -1, 30, "Toggle Fullscreen", tr, tg, tb, true);
             graphics.Print( -1, 65, "Change to fullscreen/windowed mode.", tr, tg, tb, true);
 
@@ -328,7 +331,7 @@ static void menurender(void)
             break;
 #endif
 
-        case OFFSET+1:
+        case OFFSET + 1:
             graphics.bigprint( -1, 30, "Scaling Mode", tr, tg, tb, true);
             graphics.Print( -1, 65, "Choose letterbox/stretch/integer mode.", tr, tg, tb, true);
 
@@ -355,7 +358,7 @@ static void menurender(void)
 #endif
 
 #if !defined(__SWITCH__)
-        case OFFSET+2:
+        case OFFSET + 2:
             graphics.bigprint(-1, 30, "Resize to Nearest", tr, tg, tb, true);
             graphics.Print(-1, 65, "Resize to the nearest window size", tr, tg, tb, true);
             graphics.Print(-1, 75, "that is of an integer multiple.", tr, tg, tb, true);
@@ -367,7 +370,7 @@ static void menurender(void)
             break;
 #endif
 
-        case OFFSET+3:
+        case OFFSET + 3:
             graphics.bigprint( -1, 30, "Toggle Filter", tr, tg, tb, true);
             graphics.Print( -1, 65, "Change to nearest/linear filter.", tr, tg, tb, true);
 
@@ -381,19 +384,21 @@ static void menurender(void)
             }
             break;
 
-        case OFFSET+4:
+        case OFFSET + 4:
             graphics.bigprint( -1, 30, "Analogue Mode", tr, tg, tb, true);
             graphics.Print( -1, 65, "There is nothing wrong with your", tr, tg, tb, true);
             graphics.Print( -1, 75, "television set. Do not attempt to", tr, tg, tb, true);
             graphics.Print( -1, 85, "adjust the picture.", tr, tg, tb, true);
             break;
-        case OFFSET+5:
+
+#if !defined(__SWITCH__)
+        case OFFSET + 5:
             graphics.bigprint(-1, 30, "Toggle VSync", tr, tg, tb, true);
-#ifdef __HAIKU__ // FIXME: Remove after SDL VSync bug is fixed! -flibit
+ #ifdef defined(__HAIKU__) // FIXME: Remove after SDL VSync bug is fixed! -flibit
             graphics.Print(-1, 65, "Edit the config file on Haiku!", tr, tg, tb, true);
-#else
+ #else
             graphics.Print(-1, 65, "Turn VSync on or off.", tr, tg, tb, true);
-#endif
+ #endif
 
             if (!graphics.screenbuffer->vsync)
             {
@@ -404,8 +409,8 @@ static void menurender(void)
                 graphics.Print(-1, 85, "Current mode: VSYNC ON", tr, tg, tb, true);
             }
             break;
+#endif
         }
-#undef OFFSET
         break;
     case Menu::audiooptions:
         switch (game.currentmenuoption)
@@ -637,12 +642,22 @@ static void menurender(void)
     case Menu::speedrunneroptions:
         switch (game.currentmenuoption)
         {
+
+#undef OFFSET
+
+#if defined(__SWITCH__)
+ #define OFFSET -1
+#else
+ #define OFFSET 0
+#endif
+
         case 0:
             graphics.bigprint(-1, 30, "Glitchrunner Mode", tr, tg, tb, true);
             graphics.Print(-1, 65, "Re-enable glitches that existed", tr, tg, tb, true);
             graphics.Print(-1, 75, "in previous versions of the game.", tr, tg, tb, true);
             drawglitchrunnertext();
             break;
+
         case 1:
             graphics.bigprint(-1, 30, "Input Delay", tr, tg, tb, true);
             graphics.Print(-1, 65, "Re-enable the 1-frame input delay", tr, tg, tb, true);
@@ -656,6 +671,8 @@ static void menurender(void)
                 graphics.Print(-1, 95, "Input delay is OFF", tr / 2, tg / 2, tb / 2, true);
             }
             break;
+
+#if !defined(__SWITCH__)
         case 2:
         {
             /* Screen width 40 chars, 4 per char */
@@ -679,7 +696,9 @@ static void menurender(void)
             graphics.Print(-1, 95, buffer, tr, tg, tb, true);
             break;
         }
-        case 3:
+#endif
+
+        case OFFSET + 3:
             graphics.bigprint(-1, 30, "Fake Load Screen", tr, tg, tb, true);
             graphics.Print(-1, 65, "Disable the fake loading screen", tr, tg, tb, true);
             graphics.Print(-1, 75, "which appears on game launch.", tr, tg, tb, true);
@@ -688,7 +707,8 @@ static void menurender(void)
             else
                 graphics.Print(-1, 95, "Fake loading screen is ON", tr, tg, tb, true);
             break;
-        case 4:
+
+        case OFFSET + 4:
             graphics.bigprint(-1, 30, "In-Game Timer", tr, tg, tb, true);
             graphics.Print(-1, 65, "Toggle the in-game timer", tr, tg, tb, true);
             graphics.Print(-1, 75, " outside of time trials.", tr, tg, tb, true);
@@ -703,6 +723,7 @@ static void menurender(void)
             break;
         }
         break;
+
     case Menu::setglitchrunner:
         graphics.bigprint(-1, 30, "Glitchrunner Mode", tr, tg, tb, true);
         graphics.Print(-1, 65, "Select a new glitchrunner", tr, tg, tb, true);
@@ -712,6 +733,7 @@ static void menurender(void)
     case Menu::advancedoptions:
         switch (game.currentmenuoption)
         {
+
 #undef OFFSET
 
 #if defined(__SWITCH__)
@@ -721,7 +743,7 @@ static void menurender(void)
 #endif
 
 #if !defined(__SWITCH__)
-        case 0:
+        case OFFSET + 0:
             graphics.bigprint( -1, 30, "Unfocus Pause", tr, tg, tb, true);
             graphics.Print( -1, 65, "Toggle if the game will pause", tr, tg, tb, true);
             graphics.Print( -1, 75, "when the window is unfocused.", tr, tg, tb, true);
@@ -734,7 +756,8 @@ static void menurender(void)
                 graphics.Print(-1, 95, "Unfocus pause is ON", tr, tg, tb, true);
             }
             break;
-        case 1:
+
+        case OFFSET + 1:
             graphics.bigprint(-1, 30, "Unfocus Audio", tr, tg, tb, true);
             graphics.Print(-1, 65, "Toggle if the audio will pause", tr, tg, tb, true);
             graphics.Print(-1, 75, "when the window is unfocused.", tr, tg, tb, true);
@@ -748,7 +771,8 @@ static void menurender(void)
             }
             break;
 #endif
-        case OFFSET+2:
+
+        case OFFSET + 2:
             graphics.bigprint(-1, 30, "Room Name BG", tr, tg, tb, true);
             graphics.Print( -1, 65, "Lets you see through what is behind", tr, tg, tb, true);
             graphics.Print( -1, 75, "the name at the bottom of the screen.", tr, tg, tb, true);
@@ -758,10 +782,12 @@ static void menurender(void)
                 graphics.Print(-1, 95, "Room name background is OPAQUE", tr, tg, tb, true);
             break;
         }
-#undef OFFSET
         break;
     case Menu::accessibility:
     {
+
+#undef OFFSET
+
 #ifdef MAKEANDPLAY
  #define OFFSET 0
 #else
@@ -777,7 +803,7 @@ static void menurender(void)
             graphics.Print(-1, 75, "unlocked as you progress.", tr, tg, tb, true);
             break;
 #endif
-        case OFFSET+0:
+        case OFFSET + 0:
             graphics.bigprint(-1, 30, "Invincibility", tr, tg, tb, true);
             graphics.Print(-1, 65, "Explore the game freely without", tr, tg, tb, true);
             graphics.Print(-1, 75, "dying. (Can cause glitches.)", tr, tg, tb, true);
@@ -790,12 +816,12 @@ static void menurender(void)
                 graphics.Print(-1, 95, "Invincibility is OFF.", tr / 2, tg / 2, tb / 2, true);
             }
             break;
-        case OFFSET+1:
+        case OFFSET + 1:
             graphics.bigprint(-1, 30, "Slowdown", tr, tg, tb, true);
             graphics.Print(-1, 65, "Reduce the game speed.", tr, tg, tb, true);
             drawslowdowntext();
             break;
-        case OFFSET+2:
+        case OFFSET + 2:
             graphics.bigprint(-1, 30, "Backgrounds", tr, tg, tb, true);
             graphics.Print(-1, 65, "Disable animated backgrounds in menus", tr, tg, tb, true);
             graphics.Print(-1, 75, "and during gameplay.", tr, tg, tb, true);
@@ -808,7 +834,7 @@ static void menurender(void)
                 graphics.Print(-1, 95, "Backgrounds are OFF.", tr / 2, tg / 2, tb / 2, true);
             }
             break;
-        case OFFSET+3:
+        case OFFSET + 3:
             graphics.bigprint(-1, 30, "Screen Effects", tr, tg, tb, true);
             graphics.Print(-1, 65, "Disables screen shakes and flashes.", tr, tg, tb, true);
             if (!game.noflashingmode)
@@ -820,7 +846,7 @@ static void menurender(void)
                 graphics.Print(-1, 85, "Screen Effects are OFF.", tr / 2, tg / 2, tb / 2, true);
             }
             break;
-        case OFFSET+4:
+        case OFFSET + 4:
         {
             const char* text;
 

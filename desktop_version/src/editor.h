@@ -307,8 +307,7 @@ class editorclass{
   int currentghosts;
 };
 
-
-#if !defined(NO_EDITOR) && !defined(__SWITCH__)
+#if !defined(NO_EDITOR)
 void editorrender(void);
 
 void editorrenderfixed(void);

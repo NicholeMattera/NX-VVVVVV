@@ -389,11 +389,7 @@ void Game::init(void)
     kludge_ingametemp = Menu::mainmenu;
     slidermode = SLIDER_NONE;
 
-#if defined(__SWITCH__)
-    disablepause = true;
-#else
     disablepause = false;
-#endif
     disableaudiopause = false;
     disabletemporaryaudiopause = true;
     inputdelay = false;
@@ -4213,14 +4209,10 @@ void Game::deserializesettings(tinyxml2::XMLElement* dataNode, ScreenSettings* s
             skipfakeload = help.Int(pText);
         }
 
-#if defined(__SWITCH__)
-        disablepause = true;
-#else
         if (SDL_strcmp(pKey, "disablepause") == 0)
         {
             disablepause = help.Int(pText);
         }
-#endif
 
         if (SDL_strcmp(pKey, "disableaudiopause") == 0)
         {
@@ -4326,6 +4318,7 @@ void Game::deserializesettings(tinyxml2::XMLElement* dataNode, ScreenSettings* s
         {
             key.sensitivity = help.Int(pText);
         }
+
     }
 
     if (controllerButton_flip.size() < 1)
@@ -4336,10 +4329,12 @@ void Game::deserializesettings(tinyxml2::XMLElement* dataNode, ScreenSettings* s
         controllerButton_flip.push_back(SDL_CONTROLLER_BUTTON_A);
 #endif
     }
+
     if (controllerButton_map.size() < 1)
     {
         controllerButton_map.push_back(SDL_CONTROLLER_BUTTON_Y);
     }
+
     if (controllerButton_esc.size() < 1)
     {
 #if defined(__SWITCH__)
@@ -4348,10 +4343,12 @@ void Game::deserializesettings(tinyxml2::XMLElement* dataNode, ScreenSettings* s
         controllerButton_esc.push_back(SDL_CONTROLLER_BUTTON_B);
 #endif
     }
+
     if (controllerButton_restart.size() < 1)
     {
         controllerButton_restart.push_back(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
     }
+
     if (controllerButton_interact.size() < 1)
     {
         controllerButton_interact.push_back(SDL_CONTROLLER_BUTTON_X);
@@ -5958,10 +5955,10 @@ void Game::createmenu( enum Menu::MenuName t, bool samemenu/*= false*/ )
 #if !defined(NO_CUSTOM_LEVELS)
     case Menu::playerworlds:
         option("play a level");
- #if !defined(__SWITCH__)
-  #if !defined(NO_EDITOR)
+ #if !defined(NO_EDITOR)
         option("level editor");
-  #endif
+ #endif
+ #if !defined(__SWITCH__)
         option("open level folder", FILESYSTEM_openDirectoryEnabled());
  #endif
         option("back to menu");
@@ -6099,16 +6096,18 @@ void Game::createmenu( enum Menu::MenuName t, bool samemenu/*= false*/ )
         maxspacing = 15;
         break;
     case Menu::graphicoptions:
-#if !defined(__SWITCH__)
-        option("toggle fullscreen");
-#endif
+#if defined(__SWITCH__)
         option("scaling mode");
-#if !defined(__SWITCH__)
+        option("toggle filter");
+        option("toggle analogue");
+#else
+        option("toggle fullscreen");
+        option("scaling mode");
         option("resize to nearest", graphics.screenbuffer->isWindowed);
-#endif
         option("toggle filter");
         option("toggle analogue");
         option("toggle vsync");
+#endif
         option("return");
         menuyoff = -10;
         maxspacing = 15;
@@ -6163,7 +6162,9 @@ void Game::createmenu( enum Menu::MenuName t, bool samemenu/*= false*/ )
     case Menu::speedrunneroptions:
         option("glitchrunner mode");
         option("input delay");
+#if !defined(__SWITCH__)
         option("interact button");
+#endif
         option("fake load screen");
         option("toggle in-game timer");
         option("return");
