@@ -2163,7 +2163,7 @@ void gameinput(void)
                             else if (game.companion == 0)
                             {
                                 //Alright, normal teleporting
-                                game.mapmenuchange(TELEPORTERMODE);
+                                game.mapmenuchange(TELEPORTERMODE, true);
 
                                 game.useteleporter = true;
                                 game.initteleportermode();
@@ -2318,7 +2318,7 @@ void gameinput(void)
         //quitting the super gravitron
         game.mapheld = true;
         //Quit menu, same conditions as in game menu
-        game.mapmenuchange(MAPMODE);
+        game.mapmenuchange(MAPMODE, true);
         game.gamesaved = false;
         game.gamesavefailed = false;
         game.menupage = 20; // The Map Page
@@ -2338,7 +2338,7 @@ void gameinput(void)
     else
     {
         //Normal map screen, do transition later
-        game.mapmenuchange(MAPMODE);
+        game.mapmenuchange(MAPMODE, true);
         map.cursordelay = 0;
         map.cursorstate = 0;
         game.gamesaved = false;
@@ -2359,7 +2359,7 @@ void gameinput(void)
     {
         game.mapheld = true;
         //Quit menu, same conditions as in game menu
-        game.mapmenuchange(MAPMODE);
+        game.mapmenuchange(MAPMODE, true);
         game.gamesaved = false;
         game.gamesavefailed = false;
         game.menupage = 30; // Pause screen

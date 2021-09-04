@@ -1349,7 +1349,8 @@ void scriptclass::run(void)
 			{
 				if (words[1] == "teleporter")
 				{
-					game.mapmenuchange(TELEPORTERMODE);
+					game.gamestate = GAMEMODE; /* to set prevgamestate */
+					game.mapmenuchange(TELEPORTERMODE, false);
 
 					game.useteleporter = false; //good heavens don't actually use it
 				}
