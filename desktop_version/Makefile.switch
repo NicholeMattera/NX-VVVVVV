@@ -44,7 +44,7 @@ INCLUDES	:=	../third_party/lodepng ../third_party/physfs ../third_party/tinyxml2
 
 APP_TITLE	:= NX-VVVVVV
 APP_AUTHOR	:= Nichole Mattera (Based off work by Terry Cavanagh)
-APP_VERSION	:= 2.3.2
+APP_VERSION	:= 2.3.3
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -54,7 +54,7 @@ ARCH	:=	-march=armv8-a+crc+crypto -mtune=cortex-a57 -mtp=soft -fPIE
 CFLAGS	:=	-g -Wall -O2 -ffunction-sections \
 			$(ARCH) $(DEFINES)
 
-CFLAGS	+=	$(INCLUDE) -D__SWITCH__ -DNO_EDITOR -DPHYSFS_SUPPORTS_DEFAULT=0 -DPHYSFS_SUPPORTS_ZIP=1
+CFLAGS	+=	$(INCLUDE) -DMAKEANDPLAY -D__SWITCH__ -DNO_EDITOR -DPHYSFS_SUPPORTS_DEFAULT=0 -DPHYSFS_SUPPORTS_ZIP=1
 
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions
 
