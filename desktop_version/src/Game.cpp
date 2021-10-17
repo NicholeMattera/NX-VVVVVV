@@ -1888,7 +1888,10 @@ void Game::updatestate(void)
             advancetext = false;
             completestop = false;
             state = 0;
-            if(!muted && music.currentsong>-1) music.fadeMusicVolumeIn(3000);
+            if (music.currentsong > -1)
+            {
+                music.fadeMusicVolumeIn(3000);
+            }
             graphics.showcutscenebars = false;
             break;
 
@@ -1942,20 +1945,19 @@ void Game::updatestate(void)
                 if(map.custommodeforreal)
                 {
                     graphics.fademode = 2;
-                    if(!muted && ed.levmusic>0) music.fadeMusicVolumeIn(3000);
-                    if(ed.levmusic>0) music.fadeout();
                     state=1014;
                 }
                 else
                 {
                     returntoeditor();
-                    if(!muted && ed.levmusic>0) music.fadeMusicVolumeIn(3000);
-                    if(ed.levmusic>0) music.fadeout();
                 }
             }
             else
             {
-                if(!muted && ed.levmusic>0) music.fadeMusicVolumeIn(3000);
+                if (ed.levmusic > 0)
+                {
+                    music.fadeMusicVolumeIn(3000);
+                }
             }
             graphics.showcutscenebars = false;
             break;
@@ -4005,6 +4007,9 @@ void Game::deletestats(void)
             bestlives[i] = -1;
             bestrank[i] = -1;
         }
+        swnrecord = 0;
+        swnbestrank = 0;
+        bestgamedeaths = 0;
 #ifndef MAKEANDPLAY
         graphics.setflipmode = false;
 #endif
@@ -5869,6 +5874,12 @@ void Game::returnmenu(void)
         return;
     }
 
+    /* FIXME: Super bad kludge, don't hardcode this! */
+    if (currentmenuname == Menu::ed_music)
+    {
+        music.fadeout();
+    }
+
     MenuStackFrame& frame = menustack[menustack.size()-1];
 
     //Store this in case createmenu() removes the stack frame
@@ -6918,9 +6929,7 @@ void Game::unlockAchievement(const char *name) {
 
 void Game::mapmenuchange(const int newgamestate, const bool user_initiated)
 {
-    if (user_initiated
-    && graphics.menuoffset > 0
-    && graphics.menuoffset < 240)
+    if (user_initiated && graphics.resumegamemode)
     {
         return;
     }
@@ -6933,10 +6942,6 @@ void Game::mapmenuchange(const int newgamestate, const bool user_initiated)
     if (prevgamestate == GAMEMODE)
     {
         graphics.menuoffset = 240;
-        if (map.extrarow)
-        {
-            graphics.menuoffset -= 10;
-        }
     }
     else
     {
