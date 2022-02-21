@@ -4009,7 +4009,7 @@ void Game::deletestats(void)
         }
         swnrecord = 0;
         swnbestrank = 0;
-        bestgamedeaths = 0;
+        bestgamedeaths = -1;
 #ifndef MAKEANDPLAY
         graphics.setflipmode = false;
 #endif
@@ -5866,6 +5866,21 @@ std::string Game::timetstring( int t )
     return tempstring;
 }
 
+void Game::timestringcenti(char* buffer, const size_t buffer_size)
+{
+    /* 16 chars should be plenty for int32s */
+    char hours_str[16] = {'\0'};
+    if (hours > 0)
+    {
+        SDL_snprintf(hours_str, sizeof(hours_str), "%i:", hours);
+    }
+    SDL_snprintf(
+        buffer, buffer_size,
+        "%s%02i:%02i.%02i",
+        hours_str, minutes, seconds, frames * 100 / 30
+    );
+}
+
 void Game::returnmenu(void)
 {
     if (menustack.empty())
@@ -5949,6 +5964,12 @@ void Game::createmenu( enum Menu::MenuName t, bool samemenu/*= false*/ )
     switch (t)
     {
     case Menu::mainmenu:
+        if (ingame_titlemode)
+        {
+            /* We shouldn't be here! */
+            SDL_assert(0 && "Entering main menu from in-game options!");
+            break;
+        }
 #if !defined(MAKEANDPLAY)
         option("play");
 #endif

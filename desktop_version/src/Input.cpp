@@ -286,6 +286,26 @@ static void startmode(const int mode)
     fadetomodedelay = 19;
 }
 
+static void handlefadetomode(void)
+{
+    if (game.ingame_titlemode)
+    {
+        /* We shouldn't be here! */
+        SDL_assert(0 && "Loading a mode from in-game options!");
+        return;
+    }
+
+    if (fadetomodedelay > 0)
+    {
+        --fadetomodedelay;
+    }
+    else
+    {
+        fadetomode = false;
+        script.startgamemode(gotomode);
+    }
+}
+
 static int* user_changing_volume = NULL;
 static int previous_volume = 0;
 
@@ -1540,8 +1560,6 @@ static void menuactionpress(void)
         case 0:
             //back
             music.playef(11);
-            game.returnmenu();
-            map.nexttowercolour();
             break;
         default:
             //yep
@@ -1552,10 +1570,10 @@ static void menuactionpress(void)
             game.deletesettings();
             game.flashlight = 5;
             game.screenshake = 15;
-            game.createmenu(Menu::mainmenu);
-            map.nexttowercolour();
             break;
         }
+        game.returnmenu();
+        map.nexttowercolour();
         break;
     case Menu::clearcustomdatamenu:
         switch (game.currentmenuoption)
@@ -1997,15 +2015,7 @@ void titleinput(void)
 
     if (fadetomode)
     {
-        if (fadetomodedelay > 0)
-        {
-            --fadetomodedelay;
-        }
-        else
-        {
-            fadetomode = false;
-            script.startgamemode(gotomode);
-        }
+        handlefadetomode();
     }
 }
 

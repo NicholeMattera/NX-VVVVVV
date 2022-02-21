@@ -159,7 +159,7 @@ static void menurender(void)
 #ifdef INTERIM_COMMIT
         graphics.Print( 310 - (SDL_arraysize(INTERIM_COMMIT) - 1) * 8, 220, INTERIM_COMMIT, tr/2, tg/2, tb/2);
 #endif
-        graphics.Print( 310 - (6*8), 230, "v2.3.4", tr/2, tg/2, tb/2);
+        graphics.Print( 310 - (6*8), 230, "v2.3.6", tr/2, tg/2, tb/2);
 
         if(music.mmmmmm){
             graphics.Print( 10, 230, "[MMMMMM Mod Installed]", tr/2, tg/2, tb/2);
@@ -1045,7 +1045,7 @@ static void menurender(void)
         std::string tempstring = "You rescued all the crewmates!";
         graphics.Print(0, 100, tempstring, tr, tg, tb, true);
 
-        tempstring = "And you found " + help.number(game.ndmresulttrinkets) + " trinkets.";
+        tempstring = "And you found " + help.number(game.ndmresulttrinkets) + " trinket" + (game.ndmresulttrinkets == 1 ? "" : "s") + ".";
         graphics.Print(0, 110, tempstring, tr, tg, tb, true);
 
         graphics.Print(0, 160, "A new trophy has been awarded and", tr, tg, tb, true);
@@ -1634,7 +1634,7 @@ void gamecompleterender(void)
     }
 
 
-    if (graphics.onscreen(740 + position))
+    if (graphics.onscreen(750 + position))
     {
         graphics.Print(40, 740 + position, "Beta Testing by", tr, tg, tb);
         graphics.bigprint(60, 750 + position, "Sam Kaplan", tr, tg, tb);
@@ -1803,10 +1803,12 @@ void gamerender(void)
         }
     }
 
-    if (graphics.fademode==0 && !game.intimetrial && !game.isingamecompletescreen() && game.swngame != 1 && game.showingametimer)
+    if (graphics.fademode==0 && !game.intimetrial && !game.isingamecompletescreen() && (!game.swnmode || game.swngame != 1) && game.showingametimer)
     {
+        char buffer[40 + 1]; /* Screen width 40, ASCII only */
         graphics.bprint(6, 6, "TIME:",  255,255,255);
-        graphics.bprint(46, 6, game.timestring(),  196, 196, 196);
+        game.timestringcenti(buffer, sizeof(buffer));
+        graphics.bprint(46, 6, buffer,  196, 196, 196);
     }
 
     if(map.extrarow==0 || (map.custommode && map.roomname!=""))
@@ -1865,7 +1867,7 @@ void gamerender(void)
     {
         /* Screen width 40 chars, 4 per char */
         char buffer[160 + 1];
-        static const char raw[] = "- Press %s to Teleport - ";
+        static const char raw[] = "- Press %s to Teleport -";
         const char* final_string = interact_prompt(
             buffer,
             sizeof(buffer),
@@ -2014,6 +2016,9 @@ void gamerender(void)
         }
         else
         {
+            char buffer[40 + 1]; /* Screen width 40, ASCII only */
+            game.timestringcenti(buffer, sizeof(buffer));
+
             //Draw OSD stuff
             graphics.bprint(6, 18, "TIME :",  255,255,255);
             graphics.bprint(6, 30, "DEATH:",  255, 255, 255);
@@ -2021,11 +2026,11 @@ void gamerender(void)
 
             if(game.timetrialparlost)
             {
-                graphics.bprint(56, 18, game.timestring(),  196, 80, 80);
+                graphics.bprint(56, 18, buffer,  196, 80, 80);
             }
             else
             {
-                graphics.bprint(56, 18, game.timestring(),  196, 196, 196);
+                graphics.bprint(56, 18, buffer,  196, 196, 196);
             }
             if(game.deathcounts>0)
             {
@@ -2174,7 +2179,7 @@ void maprender(void)
                     graphics.drawimage(2, 40 + (i * 12), 21 + (j * 9), false);
                 }
             }
-            graphics.Print(-1, 105, "NO SIGNAL", 245, 245, 245, true);
+            graphics.bprint(-1, 105, "NO SIGNAL", 245, 245, 245, true);
         }
 #ifndef NO_CUSTOM_LEVELS
         else if(map.custommode)
